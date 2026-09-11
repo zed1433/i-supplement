@@ -14,7 +14,223 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      brands: {
+        Row: {
+          country_of_origin: string
+          created_at: string
+          id: string
+          name: string
+          website_url: string
+        }
+        Insert: {
+          country_of_origin?: string
+          created_at?: string
+          id?: string
+          name: string
+          website_url?: string
+        }
+        Update: {
+          country_of_origin?: string
+          created_at?: string
+          id?: string
+          name?: string
+          website_url?: string
+        }
+        Relationships: []
+      }
+      ingredients: {
+        Row: {
+          chemical_form: string
+          contraindications: string[]
+          created_at: string
+          elemental_ratio: number
+          id: string
+          mechanism_of_action: string
+          name: string
+          potential_side_effects: string[]
+          target_benefits: string[]
+          upper_tolerable_limit: string
+        }
+        Insert: {
+          chemical_form: string
+          contraindications?: string[]
+          created_at?: string
+          elemental_ratio?: number
+          id?: string
+          mechanism_of_action?: string
+          name: string
+          potential_side_effects?: string[]
+          target_benefits?: string[]
+          upper_tolerable_limit?: string
+        }
+        Update: {
+          chemical_form?: string
+          contraindications?: string[]
+          created_at?: string
+          elemental_ratio?: number
+          id?: string
+          mechanism_of_action?: string
+          name?: string
+          potential_side_effects?: string[]
+          target_benefits?: string[]
+          upper_tolerable_limit?: string
+        }
+        Relationships: []
+      }
+      merchant_offers: {
+        Row: {
+          affiliate_network: string
+          affiliate_target_url: string
+          country_flag: string
+          currency: string
+          estimated_delivery: string
+          id: string
+          in_stock: boolean
+          merchant_name: string
+          price: number
+          product_id: string
+          shipping_cost: number
+          updated_at: string
+        }
+        Insert: {
+          affiliate_network?: string
+          affiliate_target_url?: string
+          country_flag?: string
+          currency?: string
+          estimated_delivery?: string
+          id?: string
+          in_stock?: boolean
+          merchant_name: string
+          price?: number
+          product_id: string
+          shipping_cost?: number
+          updated_at?: string
+        }
+        Update: {
+          affiliate_network?: string
+          affiliate_target_url?: string
+          country_flag?: string
+          currency?: string
+          estimated_delivery?: string
+          id?: string
+          in_stock?: boolean
+          merchant_name?: string
+          price?: number
+          product_id?: string
+          shipping_cost?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "merchant_offers_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_ingredients: {
+        Row: {
+          bioavailability_score: string
+          elemental_amount_mg: number
+          gross_amount_mg: number
+          id: string
+          ingredient_id: string
+          percent_daily_value: number
+          product_id: string
+        }
+        Insert: {
+          bioavailability_score?: string
+          elemental_amount_mg?: number
+          gross_amount_mg?: number
+          id?: string
+          ingredient_id: string
+          percent_daily_value?: number
+          product_id: string
+        }
+        Update: {
+          bioavailability_score?: string
+          elemental_amount_mg?: number
+          gross_amount_mg?: number
+          id?: string
+          ingredient_id?: string
+          percent_daily_value?: number
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_ingredients_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          brand_id: string
+          category: string
+          created_at: string
+          excipients: string[]
+          form: string
+          id: string
+          name: string
+          primary_benefit: string
+          serving_size: string
+          slug: string
+          third_party_certifications: string[]
+          trade_offs: string[]
+          verified_advantages: string[]
+        }
+        Insert: {
+          brand_id: string
+          category: string
+          created_at?: string
+          excipients?: string[]
+          form: string
+          id?: string
+          name: string
+          primary_benefit?: string
+          serving_size?: string
+          slug: string
+          third_party_certifications?: string[]
+          trade_offs?: string[]
+          verified_advantages?: string[]
+        }
+        Update: {
+          brand_id?: string
+          category?: string
+          created_at?: string
+          excipients?: string[]
+          form?: string
+          id?: string
+          name?: string
+          primary_benefit?: string
+          serving_size?: string
+          slug?: string
+          third_party_certifications?: string[]
+          trade_offs?: string[]
+          verified_advantages?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
