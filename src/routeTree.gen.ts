@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAffiliateRedirectOfferIdRoute =
+  ApiAffiliateRedirectOfferIdRouteImport.update({
+    id: '/api/affiliate/redirect/$offerId',
+    path: '/api/affiliate/redirect/$offerId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/affiliate/redirect/$offerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/affiliate/redirect/$offerId'
+  id: '__root__' | '/' | '/api/affiliate/redirect/$offerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +59,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/affiliate/redirect/$offerId': {
+      id: '/api/affiliate/redirect/$offerId'
+      path: '/api/affiliate/redirect/$offerId'
+      fullPath: '/api/affiliate/redirect/$offerId'
+      preLoaderRoute: typeof ApiAffiliateRedirectOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
