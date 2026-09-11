@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAffiliateRedirectOfferIdRoute =
@@ -26,27 +32,31 @@ const ApiAffiliateRedirectOfferIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/affiliate/redirect/$offerId'
+  fullPaths: '/' | '/compare' | '/api/affiliate/redirect/$offerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/affiliate/redirect/$offerId'
-  id: '__root__' | '/' | '/api/affiliate/redirect/$offerId'
+  to: '/' | '/compare' | '/api/affiliate/redirect/$offerId'
+  id: '__root__' | '/' | '/compare' | '/api/affiliate/redirect/$offerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompareRoute: typeof CompareRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
 }
 
@@ -57,6 +67,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/affiliate/redirect/$offerId': {
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompareRoute: CompareRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
 }
 export const routeTree = rootRouteImport
