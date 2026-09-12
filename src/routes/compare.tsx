@@ -17,9 +17,8 @@ import {
 type CompareSearch = { ids?: string };
 
 export const Route = createFileRoute("/compare")({
-  validateSearch: (search: Record<string, unknown>): CompareSearch => ({
-    ids: typeof search["ids"] === "string" ? (search["ids"] as string) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): CompareSearch =>
+    typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
   head: () => ({
     meta: [
       { title: "Side-by-Side Supplement Comparison — SuppCheck" },
