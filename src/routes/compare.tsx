@@ -17,9 +17,8 @@ import {
 type CompareSearch = { ids?: string };
 
 export const Route = createFileRoute("/compare")({
-  validateSearch: (search: Record<string, unknown>): CompareSearch => ({
-    ids: typeof search["ids"] === "string" ? (search["ids"] as string) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): CompareSearch =>
+    typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
   head: () => ({
     meta: [
       { title: "Side-by-Side Supplement Comparison — SuppCheck" },
@@ -104,7 +103,7 @@ function ComparePage() {
         {chosen.length >= 2 && (
           <div className="mt-8 overflow-x-auto rounded-lg border border-border">
             <table className="w-full min-w-[720px] border-collapse text-sm">
-              <thead className="sticky top-14 z-20">
+              <thead>
                 <tr>
                   <th className="w-52 border-b border-r border-border bg-surface-raised p-3 text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                     Metric
