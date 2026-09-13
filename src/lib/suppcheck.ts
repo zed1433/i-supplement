@@ -38,6 +38,9 @@ export type MerchantOffer = {
   shipping_cost: number;
   estimated_delivery: string;
   affiliate_target_url: string;
+  retailer_product_id: string;
+  link_verified: boolean;
+  link_verified_at: string | null;
   in_stock: boolean;
   updated_at: string;
 };
@@ -47,6 +50,7 @@ export type Product = {
   name: string;
   slug: string;
   category: string;
+  category_path: string[];
   form: string;
   serving_size: string;
   primary_benefit: string;
@@ -60,7 +64,7 @@ export type Product = {
 };
 
 const PRODUCT_SELECT = `
-  id, name, slug, category, form, serving_size, primary_benefit,
+  id, name, slug, category, category_path, form, serving_size, primary_benefit,
   verified_advantages, trade_offs, excipients, third_party_certifications,
   brands ( id, name, country_of_origin, website_url ),
   product_ingredients (
@@ -72,7 +76,8 @@ const PRODUCT_SELECT = `
   ),
   merchant_offers (
     id, merchant_name, country_flag, affiliate_network, price, currency,
-    shipping_cost, estimated_delivery, affiliate_target_url, in_stock, updated_at
+    shipping_cost, estimated_delivery, affiliate_target_url, retailer_product_id,
+    link_verified, link_verified_at, in_stock, updated_at
   )
 `;
 
@@ -153,13 +158,6 @@ export function excipientFlags(p: Product): string[] {
 export function formatPrice(value: number, currency = "EUR"): string {
   return new Intl.NumberFormat("en-IE", { style: "currency", currency }).format(Number(value));
 }
-
-export const CATEGORY_FILTERS = [
-  "Magnesium",
-  "Thiamine/B-Complex",
-  "Omega-3",
-  "Electrolytes",
-];
 
 export const FORM_FILTERS = [
   "Bisglycinate",
