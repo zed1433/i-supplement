@@ -86,9 +86,12 @@ export type Database = {
           estimated_delivery: string
           id: string
           in_stock: boolean
+          link_verified: boolean
+          link_verified_at: string | null
           merchant_name: string
           price: number
           product_id: string
+          retailer_product_id: string
           shipping_cost: number
           updated_at: string
         }
@@ -100,9 +103,12 @@ export type Database = {
           estimated_delivery?: string
           id?: string
           in_stock?: boolean
+          link_verified?: boolean
+          link_verified_at?: string | null
           merchant_name: string
           price?: number
           product_id: string
+          retailer_product_id?: string
           shipping_cost?: number
           updated_at?: string
         }
@@ -114,9 +120,12 @@ export type Database = {
           estimated_delivery?: string
           id?: string
           in_stock?: boolean
+          link_verified?: boolean
+          link_verified_at?: string | null
           merchant_name?: string
           price?: number
           product_id?: string
+          retailer_product_id?: string
           shipping_cost?: number
           updated_at?: string
         }
@@ -179,6 +188,7 @@ export type Database = {
         Row: {
           brand_id: string
           category: string
+          category_path: string[]
           created_at: string
           excipients: string[]
           form: string
@@ -194,6 +204,7 @@ export type Database = {
         Insert: {
           brand_id: string
           category: string
+          category_path?: string[]
           created_at?: string
           excipients?: string[]
           form: string
@@ -209,6 +220,7 @@ export type Database = {
         Update: {
           brand_id?: string
           category?: string
+          category_path?: string[]
           created_at?: string
           excipients?: string[]
           form?: string
