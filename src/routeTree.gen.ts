@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
@@ -17,6 +18,11 @@ import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/af
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BasketRoute = BasketRouteImport.update({
+  id: '/basket',
+  path: '/basket',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -38,12 +44,14 @@ const ApiAffiliateRedirectOfferIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
@@ -51,6 +59,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
@@ -58,12 +67,22 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/compare' | '/products/$slug' | '/api/affiliate/redirect/$offerId'
+    | '/'
+    | '/basket'
+    | '/compare'
+    | '/products/$slug'
+    | '/api/affiliate/redirect/$offerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compare' | '/products/$slug' | '/api/affiliate/redirect/$offerId'
+  to:
+    | '/'
+    | '/basket'
+    | '/compare'
+    | '/products/$slug'
+    | '/api/affiliate/redirect/$offerId'
   id:
     | '__root__'
     | '/'
+    | '/basket'
     | '/compare'
     | '/products/$slug'
     | '/api/affiliate/redirect/$offerId'
@@ -71,6 +90,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
@@ -83,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/basket': {
+      id: '/basket'
+      path: '/basket'
+      fullPath: '/basket'
+      preLoaderRoute: typeof BasketRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -111,6 +138,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
