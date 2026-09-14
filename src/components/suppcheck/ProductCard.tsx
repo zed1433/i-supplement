@@ -8,6 +8,8 @@ import {
   formatPrice,
   type Product,
 } from "@/lib/suppcheck";
+import { RetailerActions } from "@/components/suppcheck/RetailerActions";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   product: Product;
@@ -35,21 +37,27 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
           </p>
           <h3 className="mt-1 text-base font-semibold leading-snug">{product.name}</h3>
         </div>
-        <button
+        <Button
           type="button"
           onClick={() => onToggle(product.id)}
           disabled={!selected && selectionFull}
           aria-pressed={selected}
           aria-label={selected ? "Remove from comparison" : "Add to comparison"}
-          className={`flex size-6 shrink-0 items-center justify-center rounded border transition-colors ${
+          size="icon"
+          variant="outline"
+          className={`size-7 shrink-0 ${
             selected
               ? "border-primary bg-primary text-primary-foreground"
               : "border-border-strong text-transparent hover:border-primary/60 disabled:cursor-not-allowed disabled:opacity-30"
           }`}
         >
           <Check className="size-4" />
-        </button>
+        </Button>
       </div>
+
+      <p className="mt-2 line-clamp-2 text-[11px] leading-relaxed text-muted-foreground">
+        {product.category_path.join(" › ")}
+      </p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         <span className="rounded border border-border bg-secondary px-2 py-0.5 text-[11px] text-secondary-foreground">
@@ -90,6 +98,8 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
         <Beaker className="mt-0.5 size-3.5 shrink-0 text-primary/70" />
         {product.primary_benefit}
       </p>
+
+      <RetailerActions product={product} compact />
 
       <div className="mt-4 flex items-end justify-between border-t border-border pt-3">
         <div>

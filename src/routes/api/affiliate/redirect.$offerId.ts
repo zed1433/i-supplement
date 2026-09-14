@@ -55,11 +55,11 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
 
         const { data, error } = await supabase
           .from("merchant_offers")
-          .select("affiliate_target_url, affiliate_network")
+          .select("affiliate_target_url, affiliate_network, link_verified")
           .eq("id", params.offerId)
           .maybeSingle();
 
-        if (error || !data?.affiliate_target_url) {
+        if (error || !data?.affiliate_target_url || !data.link_verified) {
           return new Response("Offer not found", { status: 404 });
         }
 

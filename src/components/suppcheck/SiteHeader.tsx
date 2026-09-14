@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { FlaskConical, GitCompareArrows } from "lucide-react";
+import { FlaskConical, GitCompareArrows, ShoppingBasket } from "lucide-react";
+import { useBasket } from "@/lib/basket";
 
 export function SiteHeader() {
+  const { totalItems } = useBasket();
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -29,6 +31,15 @@ export function SiteHeader() {
           >
             <GitCompareArrows className="size-3.5" />
             Compare
+          </Link>
+          <Link
+            to="/basket"
+            aria-label={`Basket with ${totalItems} items`}
+            className="relative flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            activeProps={{ className: "text-primary border-primary/50" }}
+          >
+            <ShoppingBasket className="size-4" />
+            {totalItems > 0 && <span className="num absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">{totalItems}</span>}
           </Link>
         </nav>
       </div>
