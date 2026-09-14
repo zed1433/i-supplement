@@ -30,6 +30,8 @@ export const Route = createFileRoute("/")({
         content:
           "Elemental yields, chelation integrity and normalised cost per 100 mg across European and US merchants.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HomePage,
@@ -76,9 +78,9 @@ function HomePage() {
         !q ||
         p.name.toLowerCase().includes(q) ||
         p.brands.name.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
+        p.category_path.join(" ").toLowerCase().includes(q) ||
         form.includes(q);
-      const matchesCategory = !categories.length || categories.includes(p.category);
+      const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
       const matchesForm =
         !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
       const matchesCert =
@@ -89,10 +91,10 @@ function HomePage() {
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(
-    () => Array.from(new Set((products ?? []).map((product) => product.category))).sort(),
+    () => Array.from(new Set((products ?? []).map((product) => product.category_path.join(" › ")))).sort(),
     [products],
   );
-  const countCategory = (value: string) => (products ?? []).filter((product) => product.category === value).length;
+  const countCategory = (value: string) => (products ?? []).filter((product) => product.category_path.join(" › ") === value).length;
   const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
   const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
   const filters = (

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Check, ExternalLink, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import {
   bestOffer,
   chemicalForm,
@@ -32,6 +33,8 @@ export const Route = createFileRoute("/compare")({
         property: "og:description",
         content: "Normalised elemental economics and excipient transparency, product by product.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ComparePage,
@@ -231,6 +234,10 @@ function ComparePage() {
                       </span>
                     );
                   })}
+                />
+                <Row
+                  label="Add by retailer"
+                  cells={chosen.map((p) => <RetailerActions key={p.id} product={p} compact />)}
                 />
               </tbody>
             </table>
