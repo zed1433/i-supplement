@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import { GitCompareArrows, Search, ShieldCheck, X } from "lucide-react";
+import { useMemo, useState, type ReactNode } from "react";
+import { Filter, GitCompareArrows, Search, ShieldCheck, X } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
-  CATEGORY_FILTERS,
   CERT_FILTERS,
   FORM_FILTERS,
   chemicalForm,
@@ -37,27 +39,23 @@ function togglePill(list: string[], value: string) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
-function Pill({
+function FilterOption({
   label,
   active,
   onClick,
+  count,
 }: {
   label: string;
   active: boolean;
   onClick: () => void;
+  count: number;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
-        active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground"
-      }`}
-    >
-      {label}
-    </button>
+    <label className="flex cursor-pointer items-start gap-2.5 py-1.5 text-sm">
+      <Checkbox checked={active} onCheckedChange={onClick} className="mt-0.5" />
+      <span className="min-w-0 flex-1 leading-snug">{label}</span>
+      <span className="num text-xs text-muted-foreground">{count}</span>
+    </label>
   );
 }
 
@@ -90,6 +88,27 @@ function HomePage() {
   }, [products, search, categories, forms, certs]);
 
   const activeFilters = categories.length + forms.length + certs.length;
+  const categoryFilters = useMemo(
+    () => Array.from(new Set((products ?? []).map((product) => product.category))).sort(),
+    [products],
+  );
+  const countCategory = (value: string) => (products ?? []).filter((product) => product.category === value).length;
+  const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
+  const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
+  const filters = (
+    <FilterPanel
+      categories={categories}
+      forms={forms}
+      certs={certs}
+      categoryFilters={categoryFilters}
+      countCategory={countCategory}
+      countForm={countForm}
+      countCert={countCert}
+      setCategories={setCategories}
+      setForms={setForms}
+      setCerts={setCerts}
+    />
+  );
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -132,50 +151,24 @@ function HomePage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <div className="space-y-3">
-          <FilterRow label="Category">
-            <Pill
-              label="All"
-              active={categories.length === 0}
-              onClick={() => setCategories([])}
-            />
-            {CATEGORY_FILTERS.map((c) => (
-              <Pill
-                key={c}
-                label={c}
-                active={categories.includes(c)}
-                onClick={() => setCategories(togglePill(categories, c))}
-              />
-            ))}
-          </FilterRow>
-          <FilterRow label="Chemical form">
-            {FORM_FILTERS.map((f) => (
-              <Pill
-                key={f}
-                label={f}
-                active={forms.includes(f)}
-                onClick={() => setForms(togglePill(forms, f))}
-              />
-            ))}
-          </FilterRow>
-          <FilterRow label="Certification">
-            {CERT_FILTERS.map((c) => (
-              <Pill
-                key={c}
-                label={c}
-                active={certs.includes(c)}
-                onClick={() => setCerts(togglePill(certs, c))}
-              />
-            ))}
-          </FilterRow>
-        </div>
-
-        <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+      <main className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <aside className="hidden lg:block">
+          <div className="sticky top-20">{filters}</div>
+        </aside>
+        <section className="min-w-0">
+        <div className="flex items-center justify-between border-b border-border pb-4">
           <p className="num text-xs text-muted-foreground">
             {filtered.length} product{filtered.length === 1 ? "" : "s"}
             {activeFilters > 0 ? ` · ${activeFilters} filters active` : ""}
           </p>
+          <div className="flex items-center gap-2">
+          <Sheet>
+            <SheetTrigger asChild><Button variant="outline" size="sm" className="lg:hidden"><Filter /> Filters{activeFilters ? ` (${activeFilters})` : ""}</Button></SheetTrigger>
+            <SheetContent side="left" className="overflow-y-auto">
+              <SheetHeader><SheetTitle>Filter products</SheetTitle></SheetHeader>
+              <div className="mt-6">{filters}</div>
+            </SheetContent>
+          </Sheet>
           {activeFilters > 0 && (
             <button
               type="button"
@@ -189,6 +182,7 @@ function HomePage() {
               Reset filters
             </button>
           )}
+          </div>
         </div>
 
         {isLoading && (
@@ -227,6 +221,7 @@ function HomePage() {
             )}
           </div>
         )}
+        </section>
       </main>
 
       {selected.length > 0 && (
@@ -271,13 +266,28 @@ function HomePage() {
   );
 }
 
-function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
+function FilterGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="w-28 shrink-0 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-        {label}
-      </span>
-      {children}
+    <fieldset className="border-t border-border py-4 first:border-t-0 first:pt-0">
+      <legend className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{label}</legend>
+      <div>{children}</div>
+    </fieldset>
+  );
+}
+
+type FilterPanelProps = {
+  categories: string[]; forms: string[]; certs: string[]; categoryFilters: string[];
+  countCategory: (value: string) => number; countForm: (value: string) => number; countCert: (value: string) => number;
+  setCategories: (values: string[]) => void; setForms: (values: string[]) => void; setCerts: (values: string[]) => void;
+};
+
+function FilterPanel(props: FilterPanelProps) {
+  return (
+    <div>
+      <div className="mb-4 flex items-center gap-2"><Filter className="size-4 text-primary" /><h2 className="text-sm font-semibold">Refine catalogue</h2></div>
+      <FilterGroup label="Category">{props.categoryFilters.map((value) => <FilterOption key={value} label={value} count={props.countCategory(value)} active={props.categories.includes(value)} onClick={() => props.setCategories(togglePill(props.categories, value))} />)}</FilterGroup>
+      <FilterGroup label="Chemical form">{FORM_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countForm(value)} active={props.forms.includes(value)} onClick={() => props.setForms(togglePill(props.forms, value))} />)}</FilterGroup>
+      <FilterGroup label="Certification">{CERT_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countCert(value)} active={props.certs.includes(value)} onClick={() => props.setCerts(togglePill(props.certs, value))} />)}</FilterGroup>
     </div>
   );
 }

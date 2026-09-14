@@ -13,6 +13,8 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { RetailerActions } from "@/components/suppcheck/RetailerActions";
+import { Button } from "@/components/ui/button";
 import {
   CERT_EXPLANATIONS,
   chemicalForm,
@@ -99,6 +101,7 @@ function ProductPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary">
             {product.brands.name} · {product.brands.country_of_origin}
           </p>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{product.category_path.join(" › ")}</p>
           <h1 className="mt-2 max-w-3xl text-3xl font-semibold sm:text-4xl">{product.name}</h1>
           <p className="mt-3 text-sm text-muted-foreground">
             {product.form} · {product.serving_size} · {chemicalForm(product)} ·{" "}
@@ -131,6 +134,7 @@ function ProductPage() {
               </span>
             ))}
           </div>
+          <div className="mt-5"><RetailerActions product={product} /></div>
         </div>
       </section>
 
@@ -213,17 +217,11 @@ function ProductPage() {
                       )}
                     </td>
                     <td className="p-3 text-right">
-                      <a
-                        href={`/api/affiliate/redirect/${o.id}`}
-                        rel="nofollow sponsored"
-                        className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-opacity ${
-                          o.in_stock
-                            ? "bg-primary text-primary-foreground hover:opacity-90"
-                            : "pointer-events-none bg-secondary text-muted-foreground"
-                        }`}
-                      >
-                        Go to store <ExternalLink className="size-3.5" />
-                      </a>
+                      <Button asChild size="sm" disabled={!o.in_stock}>
+                        <a href={`/api/affiliate/redirect/${o.id}`} rel="nofollow sponsored">
+                          Exact product <ExternalLink />
+                        </a>
+                      </Button>
                     </td>
                   </tr>
                 ))}
