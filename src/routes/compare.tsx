@@ -214,7 +214,9 @@ function ComparePage() {
                 <Row
                   label="Lowest live merchant price"
                   cells={chosen.map((p) => {
-                    const offer = bestOffer(p);
+                    const offer = p.merchant_offers
+                      .filter((candidate) => candidate.in_stock && candidate.link_verified)
+                      .sort((a, b) => Number(a.price) - Number(b.price))[0];
                     if (!offer) return <span key={p.id}>—</span>;
                     return (
                       <span key={p.id}>

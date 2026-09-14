@@ -5,7 +5,7 @@ import { formatPrice, type Product } from "@/lib/suppcheck";
 
 export function RetailerActions({ product, compact = false }: { product: Product; compact?: boolean }) {
   const { addOffer, hasOffer } = useBasket();
-  const offers = product.merchant_offers.filter((offer) => offer.in_stock);
+  const offers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified);
 
   if (!offers.length) return null;
 

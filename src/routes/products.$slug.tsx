@@ -219,11 +219,15 @@ function ProductPage() {
                       )}
                     </td>
                     <td className="p-3 text-right">
-                      <Button asChild size="sm" disabled={!o.in_stock}>
-                        <a href={`/api/affiliate/redirect/${o.id}`} rel="nofollow sponsored">
-                          Exact product <ExternalLink />
-                        </a>
-                      </Button>
+                      {o.in_stock && o.link_verified ? (
+                        <Button asChild size="sm">
+                          <a href={`/api/affiliate/redirect/${o.id}`} rel="nofollow sponsored">
+                            Exact product <ExternalLink />
+                          </a>
+                        </Button>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">Link unavailable</span>
+                      )}
                     </td>
                   </tr>
                 ))}
