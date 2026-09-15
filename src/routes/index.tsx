@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -125,6 +126,7 @@ function formOf(p: Product) {
 
 function HomePage() {
   const { data: products, isLoading, error } = useQuery(productsQuery);
+  const reduceMotion = useReducedMotion();
   const { region } = useRegion();
   const [search, setSearch] = useState("");
   const [certs, setCerts] = useState<string[]>([]);
@@ -401,19 +403,30 @@ function HomePage() {
 
         {!isLoading && !error && (
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                selected={selected.includes(p.id)}
-                selectionFull={selected.length >= 4}
-                onToggle={(id) =>
-                  setSelected((prev) =>
-                    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-                  )
-                }
-              />
-            ))}
+            <AnimatePresence initial={false} mode="popLayout">
+              {filtered.map((p) => (
+                <motion.div
+                  key={p.id}
+                  layout={reduceMotion ? false : "position"}
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                  className="h-full"
+                >
+                  <ProductCard
+                    product={p}
+                    selected={selected.includes(p.id)}
+                    selectionFull={selected.length >= 4}
+                    onToggle={(id) =>
+                      setSelected((prev) =>
+                        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                      )
+                    }
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {filtered.length === 0 && (
               <p className="col-span-full rounded-lg border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
                 No products match these filters.
@@ -526,6 +539,9 @@ type FilterPanelProps = {
 
 function FilterPanel(props: FilterPanelProps) {
   const { group, nutrient, form } = props;
+  const reduceMotion = useReducedMotion();
+  const level = !group ? 0 : !nutrient ? 1 : 2;
+  const slide = reduceMotion ? 0 : 14;
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
@@ -533,6 +549,14 @@ function FilterPanel(props: FilterPanelProps) {
         <h2 className="text-sm font-semibold">Browse</h2>
       </div>
 
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          key={`${level}-${group ?? ""}-${nutrient ?? ""}`}
+          initial={{ opacity: 0, x: slide }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -slide }}
+          transition={{ duration: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
+        >
       {!group && (
         <FilterGroup label="Category">
           {props.groups.map((value) => (
@@ -596,6 +620,9 @@ function FilterPanel(props: FilterPanelProps) {
           ))}
         </FilterGroup>
       )}
+        </motion.div>
+      </AnimatePresence>
+
 
       <FilterGroup label="Certification">
         {CERT_FILTERS.map((value) => (
