@@ -1,0 +1,1 @@
+REVOKE INSERT, UPDATE, SELECT ON public.cron_config FROM sandbox_exec;
