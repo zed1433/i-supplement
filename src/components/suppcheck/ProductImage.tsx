@@ -21,7 +21,7 @@ export function ProductImage({ src, alt, brand, className = "", eager = false }:
     setFailed(false);
   }, [src]);
 
-  const frame = `flex items-center justify-center overflow-hidden rounded-md border border-border bg-white ${className}`;
+  const frame = `flex items-center justify-center overflow-hidden rounded-lg bg-surface-raised ${className}`;
 
   if (!src || failed) {
     return (

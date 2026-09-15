@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ChevronLeft,
@@ -11,6 +11,7 @@ import {
   Info,
   Search,
   ShieldCheck,
+  Star,
   ShoppingBasket,
   Tag,
   X,
@@ -36,17 +37,17 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
   head: () => ({
     meta: [
-      { title: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
+      { title: "Buy Lab-Tested Supplements | i-Supplement" },
       {
         name: "description",
         content:
-          "Compare elemental magnesium yields, carrier molecules, excipients, third-party assays and live iHerb, Amazon.de and EU pharmacy pricing.",
+          "Find lab-tested supplements at the best available prices from trusted US, UK and European retailers, all in one place.",
       },
-      { property: "og:title", content: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
+      { property: "og:title", content: "Buy Lab-Tested Supplements | i-Supplement" },
       {
         property: "og:description",
         content:
-          "Elemental yields, chelation integrity and normalised cost per 100 mg across European and US merchants.",
+          "Shop verified supplements and compare trusted retailer prices across the US, UK and Europe.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -111,7 +112,7 @@ function FilterOption({
   count: number;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-2.5 py-1.5 text-sm">
+    <label className="flex min-h-11 cursor-pointer items-center gap-2.5 py-1.5 text-sm">
       <Checkbox checked={active} onCheckedChange={onClick} className="mt-0.5" />
       <span className="min-w-0 flex-1 leading-snug">{label}</span>
       <span className="num text-xs text-muted-foreground">{count}</span>
@@ -140,6 +141,17 @@ function HomePage() {
   const [group, setGroup] = useState<string | null>(null);
   const [nutrient, setNutrient] = useState<string | null>(null);
   const [form, setForm] = useState<string | null>(null);
+  const [topRanked, setTopRanked] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [under25, setUnder25] = useState(false);
+
+  useEffect(() => {
+    const initialSearch = new URLSearchParams(window.location.search).get("q");
+    if (initialSearch) setSearch(initialSearch);
+    const handler = (event: Event) => setSearch((event as CustomEvent<string>).detail ?? "");
+    window.addEventListener("catalogue-search", handler);
+    return () => window.removeEventListener("catalogue-search", handler);
+  }, []);
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
@@ -160,14 +172,17 @@ function HomePage() {
         const matchesForm = !form || formOf(p) === form;
         const matchesCert =
           !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-        return matchesSearch && matchesGroup && matchesNutrient && matchesForm && matchesCert;
+        const matchesRank = !topRanked || (p.third_party_certifications.length > 0 && p.verified_advantages.length >= 2);
+        const matchesVerified = !verifiedOnly || p.third_party_certifications.length > 0;
+        const matchesBudget = !under25 || p.merchant_offers.some((offer) => offer.in_stock && offer.link_verified && Number(offer.price) < 25);
+        return matchesSearch && matchesGroup && matchesNutrient && matchesForm && matchesCert && matchesRank && matchesVerified && matchesBudget;
       }),
       sort,
     );
-  }, [regional, search, certs, sort, group, nutrient, form]);
+  }, [regional, search, certs, sort, group, nutrient, form, topRanked, verifiedOnly, under25]);
 
   const activeFilters =
-    certs.length + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0);
+    certs.length + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0) + (topRanked ? 1 : 0) + (verifiedOnly ? 1 : 0) + (under25 ? 1 : 0);
 
   const all = products ?? [];
   const groups = useMemo(
@@ -238,18 +253,18 @@ function HomePage() {
     <div className="min-h-screen bg-background pb-28">
       <SiteHeader />
 
-      <section className="grid-noise border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <section className="grid-noise border-b border-border bg-surface">
+        <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 sm:py-14">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
-            Lab-verified. Every batch, every claim.
+            Clinical transparency, clearer choices.
           </p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
+          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.08] sm:text-6xl">
             Find and buy the best lab-tested supplements.
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
             One place for what actually works, at the best price we can find — real elemental doses,
-            real third-party testing, no marketing claims.
+             published third-party testing, no marketing spin.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
@@ -268,20 +283,20 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="relative mt-8 max-w-2xl">
+          <div className="relative mt-8 max-w-3xl">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search magnesium, vitamin D, omega-3…"
-              className="w-full rounded-xl border border-border bg-surface py-4 pl-11 pr-10 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-1 focus:ring-primary/40"
+              className="h-14 w-full rounded-lg border border-input bg-background pl-11 pr-10 text-base shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
                 aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-1 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
@@ -305,16 +320,16 @@ function HomePage() {
             ))}
           </ul>
 
-          <div
+           <div
             id="catalogue"
-            className="mt-8 flex scroll-mt-24 flex-wrap gap-2"
+             className="mt-8 flex scroll-mt-32 gap-2 overflow-x-auto pb-2"
             role="group"
             aria-label="Browse by category"
           >
             <button
               type="button"
               onClick={() => selectGroup(null)}
-              className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+               className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-medium transition-colors ${
                 group === null
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -327,7 +342,7 @@ function HomePage() {
                 key={cat}
                 type="button"
                 onClick={() => selectGroup(group === cat ? null : cat)}
-                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                 className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-medium transition-colors ${
                   group === cat
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -340,14 +355,14 @@ function HomePage() {
 
           {group && (
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-              <button type="button" onClick={() => selectGroup(null)} className="hover:text-foreground">
+              <button type="button" onClick={() => selectGroup(null)} className="min-h-11 hover:text-foreground">
                 All supplements
               </button>
               <span>›</span>
               <button
                 type="button"
                 onClick={() => selectNutrient(null)}
-                className={nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}
+                className={`min-h-11 ${nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}`}
               >
                 {group}
               </button>
@@ -357,7 +372,7 @@ function HomePage() {
                   <button
                     type="button"
                     onClick={() => setForm(null)}
-                    className={form ? "hover:text-foreground" : "font-semibold text-foreground"}
+                    className={`min-h-11 ${form ? "hover:text-foreground" : "font-semibold text-foreground"}`}
                   >
                     {nutrient}
                   </button>
@@ -372,7 +387,7 @@ function HomePage() {
             </div>
           )}
 
-          <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-surface/60 p-3 text-xs leading-relaxed text-muted-foreground">
+          <p className="mt-6 flex max-w-3xl items-start gap-2 border-l-2 border-primary pl-3 text-xs leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span>
               <strong className="font-semibold text-foreground">How to read this:</strong> "Elemental" is the
@@ -384,9 +399,18 @@ function HomePage() {
         </div>
       </section>
 
-      <main className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+      <div className="sticky top-[129px] z-30 border-b border-border bg-background/95 backdrop-blur sm:top-[105px] lg:top-[105px]">
+        <div className="mx-auto flex max-w-[1600px] gap-2 overflow-x-auto px-4 py-3 sm:px-6" aria-label="Quick filters">
+          <QuickFilter active={topRanked} onClick={() => setTopRanked((value) => !value)} icon={<Star />}>Top Ranked</QuickFilter>
+          <QuickFilter active={verifiedOnly} onClick={() => setVerifiedOnly((value) => !value)} icon={<ShieldCheck />}>Third-Party Verified</QuickFilter>
+          <QuickFilter active={sort === "price"} onClick={() => setSort(sort === "price" ? "featured" : "price")} icon={<Tag />}>Lowest Price</QuickFilter>
+          <QuickFilter active={under25} onClick={() => setUnder25((value) => !value)} icon={<Tag />}>Under {region === "US" ? "$25" : region === "UK" ? "£25" : "€25"}</QuickFilter>
+        </div>
+      </div>
+
+      <main className="mx-auto grid max-w-[1600px] gap-6 px-3 py-6 sm:px-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
-          <div className="sticky top-20">
+           <div className="sticky top-40">
             {isLoading ? (
               <div className="space-y-3">
                 {Array.from({ length: 8 }).map((_, i) => (
@@ -433,8 +457,12 @@ function HomePage() {
               onClick={() => {
                 selectGroup(null);
                 setCerts([]);
+                setTopRanked(false);
+                setVerifiedOnly(false);
+                setUnder25(false);
+                setSort("featured");
               }}
-              className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              className="min-h-11 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             >
               Reset filters
             </button>
@@ -443,7 +471,7 @@ function HomePage() {
         </div>
 
         {isLoading && (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="h-64 animate-pulse rounded-lg border border-border bg-surface" />
             ))}
@@ -460,7 +488,7 @@ function HomePage() {
         )}
 
         {!isLoading && !error && (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+           <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
             <AnimatePresence initial={false} mode="popLayout">
               {filtered.map((p) => (
                 <motion.div
@@ -493,11 +521,11 @@ function HomePage() {
           </div>
         )}
         </section>
-        <NewsletterSignup />
+        <div className="lg:col-start-2"><NewsletterSignup /></div>
       </main>
 
       {selected.length > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 backdrop-blur">
+        <div className="fixed inset-x-0 bottom-16 z-30 hidden border-t border-border bg-surface/95 backdrop-blur md:block">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
             <div className="flex items-center gap-3">
               <span className="num flex size-7 items-center justify-center rounded-md bg-primary/15 text-sm font-semibold text-primary">
@@ -510,7 +538,7 @@ function HomePage() {
                 <button
                   type="button"
                   onClick={() => setSelected([])}
-                  className="ml-3 text-xs underline-offset-4 hover:text-foreground hover:underline"
+                   className="ml-3 min-h-11 text-xs underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Clear
                 </button>
@@ -547,6 +575,14 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
   );
 }
 
+function QuickFilter({ active, onClick, icon, children }: { active: boolean; onClick: () => void; icon: ReactNode; children: ReactNode }) {
+  return (
+    <Button type="button" variant={active ? "default" : "outline"} onClick={onClick} aria-pressed={active} className="shrink-0 rounded-full bg-surface px-4 data-[state=on]:bg-primary">
+      <span className="[&_svg]:size-4">{icon}</span>{children}
+    </Button>
+  );
+}
+
 function BrowseRow({
   label,
   count,
@@ -564,7 +600,7 @@ function BrowseRow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
+      className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
         active
           ? "bg-primary/15 font-semibold text-foreground"
           : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
@@ -635,7 +671,7 @@ function FilterPanel(props: FilterPanelProps) {
           <button
             type="button"
             onClick={() => props.selectGroup(null)}
-            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mb-1 flex min-h-11 items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" /> All categories
           </button>
@@ -657,7 +693,7 @@ function FilterPanel(props: FilterPanelProps) {
           <button
             type="button"
             onClick={() => props.selectNutrient(null)}
-            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mb-1 flex min-h-11 items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" /> Back to {group}
           </button>
