@@ -120,7 +120,7 @@ function ComparePage() {
                       className="border-b border-r border-border bg-surface-raised p-3 text-left align-top last:border-r-0"
                     >
                       <ProductImage
-                        src={p.image_url}
+                        src={productImageUrl(p)}
                         alt={`${p.brands.name} ${p.name}`}
                         brand={p.brands.name}
                         className="mb-2 aspect-square w-16"

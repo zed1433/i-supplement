@@ -9,6 +9,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 
@@ -32,7 +33,7 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
       }`}
     >
       <ProductImage
-        src={product.image_url}
+        src={productImageUrl(product)}
         alt={`${product.brands.name} ${product.name}`}
         brand={product.brands.name}
         className="aspect-square w-full"
