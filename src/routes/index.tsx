@@ -4,6 +4,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { Filter, GitCompareArrows, Search, ShieldCheck, X } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
+import { NewsletterSignup } from "@/components/suppcheck/NewsletterSignup";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -224,6 +225,7 @@ function HomePage() {
           </div>
         )}
         </section>
+        <NewsletterSignup />
       </main>
 
       {selected.length > 0 && (

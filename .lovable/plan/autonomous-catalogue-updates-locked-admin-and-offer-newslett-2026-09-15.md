@@ -9,16 +9,18 @@ Three systems, all controlled by you from the admin area, no code changes needed
 - Matching never invents links: it only updates offers that already exist. Unmatched rows are listed as "new products found" so you can import them with one click using the existing bulk import.
 - Upload fallback: same screen accepts a manual CSV/XLSX drop for retailers that only email files.
 - Safety: each run has a size cap, a lock so two runs never overlap, a run history with row counts and errors, and a pause switch. You can also hit "Run now" for one feed.
+- also a way to check the emails for csv files from retailer and automatically grab them and update the products on the page .  this automation should run once every 24hours
+- add images of the supplements to each supplement 
 
 ## 2. Admin locked to one address, everyone else is a subscriber
 
-- Admin rights come from an allowlist, seeded with **isupplementsofficial@gmail.com** only. The current "first person to sign in becomes admin" rule is removed.
+- Admin rights come from an allowlist, seeded with **[isupplementsofficial@gmail.com](mailto:isupplementsofficial@gmail.com)** only. The current "first person to sign in becomes admin" rule is removed.
 - Anyone else can still sign in with Google — they get a normal account and a newsletter subscription, with no access to any admin screen or edit action. Blocked both in the page and on the server.
 - An "Admins" screen lets you add or remove admin emails yourself later.
 
 ## 3. Retailer offers turned into newsletters
 
-Because sending from a Gmail address needs that account's permission, the site will connect to **isupplementsofficial@gmail.com** through a secure Google connection (you approve it once, in-app, and can swap to another account or a real domain later).
+Because sending from a Gmail address needs that account's permission, the site will connect to **[isupplementsofficial@gmail.com](mailto:isupplementsofficial@gmail.com)** through a secure Google connection (you approve it once, in-app, and can swap to another account or a real domain later).
 
 - Once a day the system reads recent messages in that inbox that look like retailer promos (filtered by sender and keywords you control in a settings list, e.g. iHerb, Amazon).
 - Each one is rewritten by AI into your own short promo: subject, body, the discount and expiry, and a link into your catalogue.
