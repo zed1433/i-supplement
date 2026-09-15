@@ -346,7 +346,7 @@ export const runSelfTest = createServerFn({ method: "POST" })
       return jobs
         .map(
           (j: any) =>
-            `${j.job_name}: ${j.paused ? "paused" : "active"}${j.last_run_at ? `, last ${new Date(j.last_run_at).toLocaleString()}` : ", never run"}${j.last_result ? ` (${j.last_result})` : ""}`,
+            `${j.job_name}: ${j.paused ? "paused" : "active"}${j.last_run_at ? `, last ${new Date(j.last_run_at).toLocaleString()}` : ", never run"}${j.last_status ? ` (${j.last_status})` : ""}`,
         )
         .join(" · ");
     });
