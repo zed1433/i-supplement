@@ -322,6 +322,7 @@ export type Database = {
           product_id: string
           retailer_product_id: string
           shipping_cost: number
+          ships_to: string[]
           updated_at: string
         }
         Insert: {
@@ -339,6 +340,7 @@ export type Database = {
           product_id: string
           retailer_product_id?: string
           shipping_cost?: number
+          ships_to?: string[]
           updated_at?: string
         }
         Update: {
@@ -356,6 +358,7 @@ export type Database = {
           product_id?: string
           retailer_product_id?: string
           shipping_cost?: number
+          ships_to?: string[]
           updated_at?: string
         }
         Relationships: [
