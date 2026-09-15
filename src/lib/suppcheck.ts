@@ -42,6 +42,7 @@ export type MerchantOffer = {
   link_verified: boolean;
   link_verified_at: string | null;
   in_stock: boolean;
+  ships_to: string[];
   updated_at: string;
 };
 
@@ -77,7 +78,7 @@ const PRODUCT_SELECT = `
   merchant_offers (
     id, merchant_name, country_flag, affiliate_network, price, currency,
     shipping_cost, estimated_delivery, affiliate_target_url, retailer_product_id,
-    link_verified, link_verified_at, in_stock, updated_at
+    link_verified, link_verified_at, in_stock, ships_to, updated_at
   )
 `;
 
