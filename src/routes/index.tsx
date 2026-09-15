@@ -35,7 +35,6 @@ import { productsForRegion, useRegion } from "@/lib/region";
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
-  validateSearch: (search: Record<string, unknown>) => ({ q: typeof search["q"] === "string" ? search["q"] : undefined }),
   head: () => ({
     meta: [
       { title: "Buy Lab-Tested Supplements | i-Supplement" },
@@ -132,11 +131,10 @@ function formOf(p: Product) {
 }
 
 function HomePage() {
-  const routeSearch = Route.useSearch();
   const { data: products, isLoading, error, refetch } = useQuery(productsQuery);
   const reduceMotion = useReducedMotion();
   const { region } = useRegion();
-  const [search, setSearch] = useState(routeSearch.q ?? "");
+  const [search, setSearch] = useState("");
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("featured");
@@ -148,6 +146,8 @@ function HomePage() {
   const [under25, setUnder25] = useState(false);
 
   useEffect(() => {
+    const initialSearch = new URLSearchParams(window.location.search).get("q");
+    if (initialSearch) setSearch(initialSearch);
     const handler = (event: Event) => setSearch((event as CustomEvent<string>).detail ?? "");
     window.addEventListener("catalogue-search", handler);
     return () => window.removeEventListener("catalogue-search", handler);
@@ -404,7 +404,7 @@ function HomePage() {
           <QuickFilter active={topRanked} onClick={() => setTopRanked((value) => !value)} icon={<Star />}>Top Ranked</QuickFilter>
           <QuickFilter active={verifiedOnly} onClick={() => setVerifiedOnly((value) => !value)} icon={<ShieldCheck />}>Third-Party Verified</QuickFilter>
           <QuickFilter active={sort === "price"} onClick={() => setSort(sort === "price" ? "featured" : "price")} icon={<Tag />}>Lowest Price</QuickFilter>
-          <QuickFilter active={under25} onClick={() => setUnder25((value) => !value)} icon={<Tag />}>Under 25</QuickFilter>
+          <QuickFilter active={under25} onClick={() => setUnder25((value) => !value)} icon={<Tag />}>Under {region === "US" ? "$25" : region === "UK" ? "£25" : "€25"}</QuickFilter>
         </div>
       </div>
 
@@ -467,7 +467,7 @@ function HomePage() {
         </div>
 
         {isLoading && (
-          <div className="mt-6 grid grid-cols-2 gap-3 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="h-64 animate-pulse rounded-lg border border-border bg-surface" />
             ))}
@@ -484,7 +484,7 @@ function HomePage() {
         )}
 
         {!isLoading && !error && (
-           <div className="mt-6 grid grid-cols-2 gap-3 xl:grid-cols-3 2xl:grid-cols-4">
+           <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
             <AnimatePresence initial={false} mode="popLayout">
               {filtered.map((p) => (
                 <motion.div
