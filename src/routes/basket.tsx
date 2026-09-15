@@ -37,7 +37,8 @@ function BasketPage() {
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">Multi-store basket</p>
             <h1 className="mt-2 text-3xl font-semibold">Your retailer baskets</h1>
-            <p className="mt-2 text-sm text-muted-foreground">{totalItems} item{totalItems === 1 ? "" : "s"}, grouped by checkout destination.</p>
+            <p className="mt-2 text-sm text-muted-foreground">{totalItems} item{totalItems === 1 ? "" : "s"}, grouped by checkout destination. Take everything from one shop or split across several — each group hands you over to that retailer's own checkout.</p>
+            <p className="mt-2 max-w-2xl text-[11px] leading-relaxed text-muted-foreground">{AFFILIATE_DISCLOSURE}</p>
           </div>
           {items.length > 0 && <Button variant="ghost" onClick={clear}><Trash2 /> Clear all</Button>}
         </div>
