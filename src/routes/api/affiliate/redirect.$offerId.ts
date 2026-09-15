@@ -35,6 +35,7 @@ function buildAffiliateUrl(network: string, target: string, offerId: string): st
 }
 
 export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       GET: async ({ params }) => {

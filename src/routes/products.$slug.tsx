@@ -33,6 +33,7 @@ import {
 import { offerShipsTo, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
+  staticData: { sitemap: true },
   loader: ({ context, params }) =>
     Promise.all([
       context.queryClient.ensureQueryData(productQuery(params.slug)),

@@ -7,6 +7,7 @@ import { useBasket, type BasketItem } from "@/lib/basket";
 import { AFFILIATE_DISCLOSURE, formatPrice, priceAsOfShort } from "@/lib/suppcheck";
 
 export const Route = createFileRoute("/basket")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Multi-Store Supplement Basket — i-Supplement" },

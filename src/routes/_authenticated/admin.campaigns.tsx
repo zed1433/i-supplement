@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/_authenticated/admin/campaigns")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Offer emails | i-Supplement admin" },

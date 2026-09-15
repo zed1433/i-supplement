@@ -17,6 +17,7 @@ type AdminProduct = {
 };
 
 export const Route = createFileRoute("/_authenticated/admin/")({
+  staticData: { sitemap: false },
   component: AdminPage,
 });
 

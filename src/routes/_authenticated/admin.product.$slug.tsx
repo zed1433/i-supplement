@@ -43,6 +43,7 @@ type AdminProduct = {
 };
 
 export const Route = createFileRoute("/_authenticated/admin/product/$slug")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Edit Product — i-Supplement Admin" },
