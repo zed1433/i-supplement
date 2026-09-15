@@ -87,8 +87,22 @@ ${rawText.slice(0, 6000)}
   return {
     retailer: (parsed.retailer ?? retailerHint).slice(0, 120),
     subject: (parsed.subject ?? "A new supplement offer").slice(0, 200),
-    body: parsed.body_html ?? "",
+    body: stripExternalLinks(parsed.body_html ?? ""),
   };
+}
+
+/**
+ * Affiliate programmes (Amazon in particular) forbid affiliate or retailer links
+ * inside email. Any outbound href is rewritten to our own comparison page.
+ */
+export function stripExternalLinks(html: string): string {
+  return html
+    .replace(/href\s*=\s*"(.*?)"/gi, (match, url: string) =>
+      url.startsWith(SITE_URL) ? match : `href="${SITE_URL}"`,
+    )
+    .replace(/href\s*=\s*'(.*?)'/gi, (match, url: string) =>
+      url.startsWith(SITE_URL) ? match : `href="${SITE_URL}"`,
+    );
 }
 
 export type ScanOutcome = { from: string; subject: string; result: string };
