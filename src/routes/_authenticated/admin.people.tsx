@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 export const Route = createFileRoute("/_authenticated/admin/people")({
   head: () => ({
     meta: [
-      { title: "Admins & subscribers | SuppCheck admin" },
-      { name: "description", content: "Manage who can edit SuppCheck and who receives offers." },
+      { title: "Admins & subscribers | i-Supplement admin" },
+      { name: "description", content: "Manage who can edit i-Supplement and who receives offers." },
     ],
   }),
   component: PeoplePage,

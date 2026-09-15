@@ -36,10 +36,10 @@ import { Textarea } from "@/components/ui/textarea";
 export const Route = createFileRoute("/_authenticated/admin/campaigns")({
   head: () => ({
     meta: [
-      { title: "Offer emails | SuppCheck admin" },
+      { title: "Offer emails | i-Supplement admin" },
       {
         name: "description",
-        content: "Review, test and send rewritten retailer offers to SuppCheck subscribers.",
+        content: "Review, test and send rewritten retailer offers to i-Supplement subscribers.",
       },
     ],
   }),

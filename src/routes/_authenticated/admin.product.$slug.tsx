@@ -45,7 +45,7 @@ type AdminProduct = {
 export const Route = createFileRoute("/_authenticated/admin/product/$slug")({
   head: () => ({
     meta: [
-      { title: "Edit Product — SuppCheck Admin" },
+      { title: "Edit Product — i-Supplement Admin" },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -9,8 +9,8 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Sign in — SuppCheck Admin" },
-      { name: "description", content: "Owner sign-in for the SuppCheck catalogue admin." },
+      { title: "Sign in — i-Supplement Admin" },
+      { name: "description", content: "Owner sign-in for the i-Supplement catalogue admin." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -55,7 +55,7 @@ function AuthPage() {
         <span className="mx-auto flex size-10 items-center justify-center rounded-md bg-primary/15 text-primary">
           <FlaskConical className="size-5" />
         </span>
-        <h1 className="mt-4 font-display text-xl font-semibold">SuppCheck Admin</h1>
+        <h1 className="mt-4 font-display text-xl font-semibold">i-Supplement Admin</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Sign in with the site owner's Google account to manage the catalogue and affiliate
           links.

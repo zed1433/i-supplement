@@ -19,13 +19,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SuppCheck — Clinical Lab-Verified Supplement Comparison" },
+      { title: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
       {
         name: "description",
         content:
           "Compare elemental magnesium yields, carrier molecules, excipients, third-party assays and live iHerb, Amazon.de and EU pharmacy pricing.",
       },
-      { property: "og:title", content: "SuppCheck — Clinical Lab-Verified Supplement Comparison" },
+      { property: "og:title", content: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
       {
         property: "og:description",
         content:

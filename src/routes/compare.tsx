@@ -22,13 +22,13 @@ export const Route = createFileRoute("/compare")({
     typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
   head: () => ({
     meta: [
-      { title: "Side-by-Side Supplement Comparison — SuppCheck" },
+      { title: "Side-by-Side Supplement Comparison — i-Supplement" },
       {
         name: "description",
         content:
           "Contrast elemental yield, normalised cost per 100 mg, chelation integrity, excipient transparency and third-party assays side by side.",
       },
-      { property: "og:title", content: "Side-by-Side Supplement Comparison — SuppCheck" },
+      { property: "og:title", content: "Side-by-Side Supplement Comparison — i-Supplement" },
       {
         property: "og:description",
         content: "Normalised elemental economics and excipient transparency, product by product.",

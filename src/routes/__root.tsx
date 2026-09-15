@@ -78,13 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SuppCheck — Clinical Supplement Comparison" },
+      { title: "i-Supplement — Clinical Supplement Comparison" },
       {
         name: "description",
         content:
           "Elemental yields, chelation integrity, excipients and live multi-retailer pricing for evidence-graded supplements.",
       },
-      { property: "og:title", content: "SuppCheck — Clinical Supplement Comparison" },
+      { property: "og:title", content: "i-Supplement — Clinical Supplement Comparison" },
       {
         property: "og:description",
         content:

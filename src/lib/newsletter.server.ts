@@ -1,5 +1,5 @@
 // Offer-email ingestion, AI rewriting and newsletter sending. Server-only.
-export const SITE_NAME = "SuppCheck";
+export const SITE_NAME = "i-Supplement";
 export const SITE_URL =
   process.env["PUBLIC_SITE_URL"] ??
   "https://project--3a22ec09-24a9-45ec-9881-3eb081d306ce.lovable.app";

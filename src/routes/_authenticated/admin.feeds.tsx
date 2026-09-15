@@ -13,8 +13,8 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/_authenticated/admin/feeds")({
   head: () => ({
     meta: [
-      { title: "Price & stock feeds | SuppCheck admin" },
-      { name: "description", content: "Daily retailer price and stock updates for SuppCheck." },
+      { title: "Price & stock feeds | i-Supplement admin" },
+      { name: "description", content: "Daily retailer price and stock updates for i-Supplement." },
     ],
   }),
   component: FeedsPage,

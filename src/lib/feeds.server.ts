@@ -141,7 +141,7 @@ export async function applyFeedCsv(
 }
 
 export async function fetchFeedText(url: string): Promise<string> {
-  const res = await fetch(url, { headers: { "user-agent": "SuppCheck-FeedBot/1.0" } });
+  const res = await fetch(url, { headers: { "user-agent": "iSupplement-FeedBot/1.0" } });
   if (!res.ok) throw new Error(`Feed download failed [${res.status}]`);
   const text = await res.text();
   if (text.length > 20_000_000) throw new Error("Feed file is too large");

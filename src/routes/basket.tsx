@@ -8,9 +8,9 @@ import { formatPrice } from "@/lib/suppcheck";
 export const Route = createFileRoute("/basket")({
   head: () => ({
     meta: [
-      { title: "Multi-Store Supplement Basket — SuppCheck" },
+      { title: "Multi-Store Supplement Basket — i-Supplement" },
       { name: "description", content: "Review supplement offers grouped by retailer before continuing to checkout." },
-      { property: "og:title", content: "Multi-Store Supplement Basket — SuppCheck" },
+      { property: "og:title", content: "Multi-Store Supplement Basket — i-Supplement" },
       { property: "og:description", content: "Review exact supplement offers grouped by retailer." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

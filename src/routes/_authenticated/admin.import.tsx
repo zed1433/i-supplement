@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 export const Route = createFileRoute("/_authenticated/admin/import")({
   head: () => ({
     meta: [
-      { title: "Bulk Import — SuppCheck Admin" },
+      { title: "Bulk Import — i-Supplement Admin" },
       { name: "robots", content: "noindex" },
     ],
   }),
