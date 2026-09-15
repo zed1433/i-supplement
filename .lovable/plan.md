@@ -12,7 +12,7 @@ Three systems, all controlled by you from the admin area, no code changes needed
 
 ## 2. Admin locked to one address, everyone else is a subscriber
 
-- Admin rights come from an allowlist, seeded with **papadatos62@gmail.com** only. The current "first person to sign in becomes admin" rule is removed.
+- Admin rights come from an allowlist, seeded with **isupplementsofficial@gmail.com** only. The current "first person to sign in becomes admin" rule is removed.
 - Anyone else can still sign in with Google — they get a normal account and a newsletter subscription, with no access to any admin screen or edit action. Blocked both in the page and on the server.
 - An "Admins" screen lets you add or remove admin emails yourself later.
 
