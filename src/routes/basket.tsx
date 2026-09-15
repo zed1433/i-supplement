@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { Button } from "@/components/ui/button";
 import { useBasket, type BasketItem } from "@/lib/basket";
-import { formatPrice } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, formatPrice, priceAsOfShort } from "@/lib/suppcheck";
 
 export const Route = createFileRoute("/basket")({
   head: () => ({
@@ -104,7 +104,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{item.brandName}</p>
               <Link to="/products/$slug" params={{ slug: item.productSlug }} className="mt-1 block font-semibold hover:text-primary">{item.productName}</Link>
               <p className="num mt-1 text-sm text-primary">{formatPrice(item.price, item.currency)} each</p>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">{priceAsOfShort(item.addedAt)}</p>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">{priceAsOfShort(item.priceCheckedAt)}</p>
             </div>
             <div className="flex h-9 items-center rounded-md border border-border">
               <Button size="icon" variant="ghost" aria-label="Decrease quantity" onClick={() => setQuantity(item.offerId, item.quantity - 1)}><Minus /></Button>
