@@ -425,6 +425,7 @@ export type Database = {
           excipients: string[]
           form: string
           id: string
+          image_source: string
           image_url: string
           name: string
           primary_benefit: string
@@ -442,6 +443,7 @@ export type Database = {
           excipients?: string[]
           form: string
           id?: string
+          image_source?: string
           image_url?: string
           name: string
           primary_benefit?: string
@@ -459,6 +461,7 @@ export type Database = {
           excipients?: string[]
           form?: string
           id?: string
+          image_source?: string
           image_url?: string
           name?: string
           primary_benefit?: string
