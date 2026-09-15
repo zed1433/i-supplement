@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
-import { Filter, GitCompareArrows, Info, Search, ShieldCheck, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  GitCompareArrows,
+  Info,
+  Search,
+  ShieldCheck,
+  X,
+} from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
 import { NewsletterSignup } from "@/components/suppcheck/NewsletterSignup";
@@ -10,7 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   CERT_FILTERS,
-  FORM_FILTERS,
+  
   chemicalForm,
   costPer100mgElemental,
   productsQuery,
@@ -104,16 +113,26 @@ function FilterOption({
   );
 }
 
+function groupOf(p: Product) {
+  return p.category_path[1] ?? p.category_path[0] ?? "Other";
+}
+function nutrientOf(p: Product) {
+  return p.category_path[2] ?? p.category;
+}
+function formOf(p: Product) {
+  return p.category_path[3] ?? chemicalForm(p);
+}
+
 function HomePage() {
   const { data: products, isLoading, error } = useQuery(productsQuery);
   const { region } = useRegion();
   const [search, setSearch] = useState("");
-  const [categories, setCategories] = useState<string[]>([]);
-  const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("featured");
-  const [topCategory, setTopCategory] = useState<string | null>(null);
+  const [group, setGroup] = useState<string | null>(null);
+  const [nutrient, setNutrient] = useState<string | null>(null);
+  const [form, setForm] = useState<string | null>(null);
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
@@ -122,50 +141,89 @@ function HomePage() {
     const q = search.trim().toLowerCase();
     return sortProducts(
       list.filter((p) => {
-        const form = chemicalForm(p).toLowerCase();
+        const chem = chemicalForm(p).toLowerCase();
         const matchesSearch =
           !q ||
           p.name.toLowerCase().includes(q) ||
           p.brands.name.toLowerCase().includes(q) ||
           p.category_path.join(" ").toLowerCase().includes(q) ||
-          form.includes(q);
-        const matchesTop = !topCategory || (p.category_path[0] ?? "Other") === topCategory;
-        const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
-        const matchesForm =
-          !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
+          chem.includes(q);
+        const matchesGroup = !group || groupOf(p) === group;
+        const matchesNutrient = !nutrient || nutrientOf(p) === nutrient;
+        const matchesForm = !form || formOf(p) === form;
         const matchesCert =
           !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-        return matchesSearch && matchesTop && matchesCategory && matchesForm && matchesCert;
+        return matchesSearch && matchesGroup && matchesNutrient && matchesForm && matchesCert;
       }),
       sort,
     );
-  }, [regional, search, categories, forms, certs, sort, topCategory]);
+  }, [regional, search, certs, sort, group, nutrient, form]);
 
-  const activeFilters = categories.length + forms.length + certs.length;
-  const categoryFilters = useMemo(
-    () => Array.from(new Set((products ?? []).map((product) => product.category_path.join(" › ")))).sort(),
+  const activeFilters =
+    certs.length + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0);
+
+  const all = products ?? [];
+  const groups = useMemo(
+    () => Array.from(new Set(all.map(groupOf))).sort(),
     [products],
   );
-  const topCategories = useMemo(
-    () => Array.from(new Set((products ?? []).map((product) => product.category_path[0] ?? "Other"))).sort(),
-    [products],
+  const nutrients = useMemo(
+    () =>
+      group
+        ? Array.from(new Set(all.filter((p) => groupOf(p) === group).map(nutrientOf))).sort()
+        : [],
+    [products, group],
   );
-  const countCategory = (value: string) => (products ?? []).filter((product) => product.category_path.join(" › ") === value).length;
-  const countTopCategory = (value: string) => (products ?? []).filter((product) => (product.category_path[0] ?? "Other") === value).length;
-  const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
-  const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
+  const formOptions = useMemo(
+    () =>
+      nutrient
+        ? Array.from(
+            new Set(
+              all
+                .filter((p) => groupOf(p) === group && nutrientOf(p) === nutrient)
+                .map(formOf),
+            ),
+          ).sort()
+        : [],
+    [products, group, nutrient],
+  );
+
+  const countGroup = (value: string) => all.filter((p) => groupOf(p) === value).length;
+  const countNutrient = (value: string) =>
+    all.filter((p) => groupOf(p) === group && nutrientOf(p) === value).length;
+  const countForm = (value: string) =>
+    all.filter((p) => groupOf(p) === group && nutrientOf(p) === nutrient && formOf(p) === value)
+      .length;
+  const countCert = (value: string) =>
+    all.filter((p) => p.third_party_certifications.includes(value)).length;
+
+  const selectGroup = (value: string | null) => {
+    setGroup(value);
+    setNutrient(null);
+    setForm(null);
+  };
+  const selectNutrient = (value: string | null) => {
+    setNutrient(value);
+    setForm(null);
+  };
+
   const filters = (
     <FilterPanel
-      categories={categories}
-      forms={forms}
-      certs={certs}
-      categoryFilters={categoryFilters}
-      countCategory={countCategory}
+      group={group}
+      nutrient={nutrient}
+      form={form}
+      groups={groups}
+      nutrients={nutrients}
+      formOptions={formOptions}
+      countGroup={countGroup}
+      countNutrient={countNutrient}
       countForm={countForm}
       countCert={countCert}
-      setCategories={setCategories}
-      setForms={setForms}
+      certs={certs}
       setCerts={setCerts}
+      selectGroup={selectGroup}
+      selectNutrient={selectNutrient}
+      setForm={setForm}
     />
   );
 
@@ -211,30 +269,64 @@ function HomePage() {
           <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
             <button
               type="button"
-              onClick={() => setTopCategory(null)}
+              onClick={() => selectGroup(null)}
               className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
-                topCategory === null
+                group === null
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
               All
             </button>
-            {topCategories.map((cat) => (
+            {groups.map((cat) => (
               <button
                 key={cat}
                 type="button"
-                onClick={() => setTopCategory((prev) => (prev === cat ? null : cat))}
+                onClick={() => selectGroup(group === cat ? null : cat)}
                 className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
-                  topCategory === cat
+                  group === cat
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
-                {cat} <span className="num opacity-70">{countTopCategory(cat)}</span>
+                {cat} <span className="num opacity-70">{countGroup(cat)}</span>
               </button>
             ))}
           </div>
+
+          {group && (
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              <button type="button" onClick={() => selectGroup(null)} className="hover:text-foreground">
+                All supplements
+              </button>
+              <span>›</span>
+              <button
+                type="button"
+                onClick={() => selectNutrient(null)}
+                className={nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}
+              >
+                {group}
+              </button>
+              {nutrient && (
+                <>
+                  <span>›</span>
+                  <button
+                    type="button"
+                    onClick={() => setForm(null)}
+                    className={form ? "hover:text-foreground" : "font-semibold text-foreground"}
+                  >
+                    {nutrient}
+                  </button>
+                </>
+              )}
+              {form && (
+                <>
+                  <span>›</span>
+                  <span className="font-semibold text-foreground">{form}</span>
+                </>
+              )}
+            </div>
+          )}
 
           <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-surface/60 p-3 text-xs leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
@@ -282,8 +374,7 @@ function HomePage() {
             <button
               type="button"
               onClick={() => {
-                setCategories([]);
-                setForms([]);
+                selectGroup(null);
                 setCerts([]);
               }}
               className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
@@ -385,19 +476,138 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
   );
 }
 
+function BrowseRow({
+  label,
+  count,
+  active,
+  onClick,
+  chevron,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+  chevron?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
+        active
+          ? "bg-primary/15 font-semibold text-foreground"
+          : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+      }`}
+    >
+      <span className="min-w-0 flex-1 leading-snug">{label}</span>
+      <span className="num text-xs text-muted-foreground">{count}</span>
+      {chevron && <ChevronRight className="size-3.5 shrink-0 text-muted-foreground" />}
+    </button>
+  );
+}
+
 type FilterPanelProps = {
-  categories: string[]; forms: string[]; certs: string[]; categoryFilters: string[];
-  countCategory: (value: string) => number; countForm: (value: string) => number; countCert: (value: string) => number;
-  setCategories: (values: string[]) => void; setForms: (values: string[]) => void; setCerts: (values: string[]) => void;
+  group: string | null;
+  nutrient: string | null;
+  form: string | null;
+  groups: string[];
+  nutrients: string[];
+  formOptions: string[];
+  countGroup: (value: string) => number;
+  countNutrient: (value: string) => number;
+  countForm: (value: string) => number;
+  countCert: (value: string) => number;
+  certs: string[];
+  setCerts: (values: string[]) => void;
+  selectGroup: (value: string | null) => void;
+  selectNutrient: (value: string | null) => void;
+  setForm: (value: string | null) => void;
 };
 
 function FilterPanel(props: FilterPanelProps) {
+  const { group, nutrient, form } = props;
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2"><Filter className="size-4 text-primary" /><h2 className="text-sm font-semibold">Refine catalogue</h2></div>
-      <FilterGroup label="Category">{props.categoryFilters.map((value) => <FilterOption key={value} label={value} count={props.countCategory(value)} active={props.categories.includes(value)} onClick={() => props.setCategories(togglePill(props.categories, value))} />)}</FilterGroup>
-      <FilterGroup label="Chemical form">{FORM_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countForm(value)} active={props.forms.includes(value)} onClick={() => props.setForms(togglePill(props.forms, value))} />)}</FilterGroup>
-      <FilterGroup label="Certification">{CERT_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countCert(value)} active={props.certs.includes(value)} onClick={() => props.setCerts(togglePill(props.certs, value))} />)}</FilterGroup>
+      <div className="mb-4 flex items-center gap-2">
+        <Filter className="size-4 text-primary" />
+        <h2 className="text-sm font-semibold">Browse</h2>
+      </div>
+
+      {!group && (
+        <FilterGroup label="Category">
+          {props.groups.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countGroup(value)}
+              active={false}
+              chevron
+              onClick={() => props.selectGroup(value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {group && !nutrient && (
+        <FilterGroup label={group}>
+          <button
+            type="button"
+            onClick={() => props.selectGroup(null)}
+            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <ChevronLeft className="size-3.5" /> All categories
+          </button>
+          {props.nutrients.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countNutrient(value)}
+              active={false}
+              chevron
+              onClick={() => props.selectNutrient(value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {group && nutrient && (
+        <FilterGroup label={`${nutrient} — form`}>
+          <button
+            type="button"
+            onClick={() => props.selectNutrient(null)}
+            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <ChevronLeft className="size-3.5" /> Back to {group}
+          </button>
+          <BrowseRow
+            label="All forms"
+            count={props.formOptions.reduce((s, v) => s + props.countForm(v), 0)}
+            active={!form}
+            onClick={() => props.setForm(null)}
+          />
+          {props.formOptions.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countForm(value)}
+              active={form === value}
+              onClick={() => props.setForm(form === value ? null : value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      <FilterGroup label="Certification">
+        {CERT_FILTERS.map((value) => (
+          <FilterOption
+            key={value}
+            label={value}
+            count={props.countCert(value)}
+            active={props.certs.includes(value)}
+            onClick={() => props.setCerts(togglePill(props.certs, value))}
+          />
+        ))}
+      </FilterGroup>
     </div>
   );
 }
