@@ -12,28 +12,58 @@ async function assertAdmin(context: Ctx) {
   if (error || !data) throw new Error("Forbidden: admin role required");
 }
 
-/** First signed-in user becomes admin when no admin exists yet. */
+/**
+ * Sync the signed-in account against the admin allowlist.
+ * Allow-listed email -> admin role. Everyone else -> newsletter subscriber only.
+ */
 export const bootstrapAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }: { context: Ctx }) => {
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    if (isAdmin) return { admin: true, bootstrapped: false };
-
+  .handler(async ({ context }: any) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { count } = await supabaseAdmin
-      .from("user_roles")
-      .select("id", { count: "exact", head: true })
-      .eq("role", "admin");
-    if ((count ?? 0) > 0) return { admin: false, bootstrapped: false };
 
-    const { error } = await supabaseAdmin
+    let email: string = context.claims?.email ?? "";
+    if (!email) {
+      const { data } = await supabaseAdmin.auth.admin.getUserById(context.userId);
+      email = data.user?.email ?? "";
+    }
+    email = email.toLowerCase();
+    if (!email) return { admin: false, bootstrapped: false };
+
+    const { data: allowed } = await supabaseAdmin
+      .from("admin_allowlist")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (allowed) {
+      const { data: existing } = await supabaseAdmin
+        .from("user_roles")
+        .select("id")
+        .eq("user_id", context.userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (!existing) {
+        await supabaseAdmin.from("user_roles").insert({ user_id: context.userId, role: "admin" });
+        return { admin: true, bootstrapped: true };
+      }
+      return { admin: true, bootstrapped: false };
+    }
+
+    // Not allow-listed: make sure no stale admin role remains, and subscribe them.
+    await supabaseAdmin
       .from("user_roles")
-      .insert({ user_id: context.userId, role: "admin" });
-    if (error) throw error;
-    return { admin: true, bootstrapped: true };
+      .delete()
+      .eq("user_id", context.userId)
+      .eq("role", "admin");
+    const { data: sub } = await supabaseAdmin
+      .from("subscribers")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+    if (!sub) {
+      await supabaseAdmin.from("subscribers").insert({ email, source: "account" });
+    }
+    return { admin: false, bootstrapped: false };
   });
 
 export const getAdminCatalog = createServerFn({ method: "GET" })
