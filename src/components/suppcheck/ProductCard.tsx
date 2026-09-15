@@ -31,7 +31,14 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
         selected ? "border-primary/70 bg-accent/40" : "border-border hover:border-border-strong"
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
+      <ProductImage
+        src={product.image_url}
+        alt={`${product.brands.name} ${product.name}`}
+        brand={product.brands.name}
+        className="aspect-square w-full"
+      />
+
+      <div className="mt-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
             {product.brands.name} · {product.brands.country_of_origin}
