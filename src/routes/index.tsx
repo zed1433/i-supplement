@@ -15,6 +15,7 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { productsForRegion, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -64,14 +65,17 @@ function FilterOption({
 
 function HomePage() {
   const { data: products, isLoading, error } = useQuery(productsQuery);
+  const { region } = useRegion();
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
 
+  const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
+
   const filtered = useMemo(() => {
-    const list: Product[] = products ?? [];
+    const list: Product[] = regional;
     const q = search.trim().toLowerCase();
     return list.filter((p) => {
       const form = chemicalForm(p).toLowerCase();

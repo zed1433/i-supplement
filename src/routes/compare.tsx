@@ -44,9 +44,10 @@ function ComparePage() {
   const { ids } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { data: products, isLoading } = useQuery(productsQuery);
+  const { region } = useRegion();
 
   const selectedIds = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
-  const all = products ?? [];
+  const all = productsForRegion(products ?? [], region);
   const chosen = selectedIds
     .map((id) => all.find((p) => p.id === id))
     .filter((p): p is Product => Boolean(p));
