@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Check, ExternalLink, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import {
   bestOffer,

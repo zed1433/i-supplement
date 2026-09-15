@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
+import { productImageUrl } from "@/lib/productImages";
 
 const STORAGE_KEY = "suppcheck-retailer-basket-v1";
 
