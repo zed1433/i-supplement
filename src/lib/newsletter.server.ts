@@ -4,23 +4,42 @@ export const SITE_URL =
   process.env["PUBLIC_SITE_URL"] ??
   "https://project--3a22ec09-24a9-45ec-9881-3eb081d306ce.lovable.app";
 
-const RETAILER_HINTS = [
+export const DEFAULT_RETAILER_TERMS = [
   "iherb",
   "amazon",
   "skroutz",
   "myprotein",
   "holland",
   "vitacost",
-  "pharmacy",
   "solgar",
   "now foods",
 ];
 
 const PROMO_WORDS = ["off", "discount", "sale", "code", "coupon", "deal", "%", "εκπτωση", "προσφορ"];
 
-export function looksPromotional(subject: string, from: string, body: string): boolean {
+/** Retailer names the admin keeps in settings. Empty list = accept any promo. */
+export async function retailerTerms(): Promise<string[]> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("app_settings")
+    .select("value")
+    .eq("key", "retailer_terms")
+    .maybeSingle();
+  const raw = data?.value ?? "";
+  return raw
+    .split(",")
+    .map((s: string) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export function looksPromotional(
+  subject: string,
+  from: string,
+  body: string,
+  terms: string[] = DEFAULT_RETAILER_TERMS,
+): boolean {
   const haystack = `${subject} ${from}`.toLowerCase();
-  const retailer = RETAILER_HINTS.some((r) => haystack.includes(r));
+  const retailer = terms.length === 0 || terms.some((r) => haystack.includes(r));
   const promo = PROMO_WORDS.some((w) => `${subject} ${body}`.toLowerCase().includes(w));
   return retailer && promo;
 }
