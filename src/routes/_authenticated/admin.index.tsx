@@ -58,7 +58,22 @@ function AdminPage() {
               live for visitors.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/feeds">
+                <RefreshCw className="size-4" /> Price &amp; stock feeds
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/campaigns">
+                <Mail className="size-4" /> Offer emails
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/people">
+                <Users className="size-4" /> Admins &amp; subscribers
+              </Link>
+            </Button>
             <Button asChild variant="outline" size="sm">
               <Link to="/admin/import">
                 <FileUp className="size-4" /> Bulk import
@@ -72,8 +87,9 @@ function AdminPage() {
 
         {booted && boot && !boot.admin && (
           <div className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
-            This account is not an admin. An admin account already exists for this site — sign in
-            with that Google account.
+            This account does not have admin access. Your email is not on the admin list, but you
+            are signed up for offer emails. Sign in with the admin Google account to manage the
+            catalogue.
           </div>
         )}
 
