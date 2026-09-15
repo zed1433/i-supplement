@@ -179,11 +179,12 @@ export function renderEmail(
   const notice = testNotice
     ? `<p style="font-size:13px;color:#6b7280;margin:0 0 16px">This is a test copy sent to you only. Subscribers have not received it.</p>`
     : "";
+  const safeBody = stripExternalLinks(bodyHtml);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
   <div style="max-width:560px;margin:0 auto;padding:24px">
     <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 12px">${SITE_NAME}</p>
     ${notice}<h1 style="font-size:20px;margin:0 0 16px">${escapeHtml(subject)}</h1>
-    <div style="font-size:15px;line-height:1.6">${bodyHtml}</div>
+    <div style="font-size:15px;line-height:1.6">${safeBody}</div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0" />
     <p style="font-size:12px;color:#6b7280">
       You are receiving this because you subscribed to ${SITE_NAME} offers.
