@@ -33,7 +33,7 @@ function BasketPage() {
   return (
     <div className="min-h-screen bg-background pb-16">
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 py-8 pb-24 sm:px-6 md:pb-8">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">Multi-store basket</p>
@@ -52,7 +52,7 @@ function BasketPage() {
             <Button asChild className="mt-6"><Link to="/">Browse products</Link></Button>
           </div>
         ) : (
-          <div className="mt-8 space-y-8">
+          <div id="retailer-checkouts" className="mt-8 scroll-mt-36 space-y-8">
             {groups.map(([merchant, group]) => <MerchantGroup key={merchant} merchant={merchant} items={group} removeOffer={removeOffer} setQuantity={setQuantity} />)}
           </div>
         )}
@@ -70,7 +70,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
   const firstItem = items[0];
 
   return (
-    <section className="border-t border-border pt-5">
+    <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold">{merchant}</h2>
@@ -108,7 +108,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
               <p className="num mt-1 text-sm text-primary">{formatPrice(item.price, item.currency)} each</p>
               <p className="mt-0.5 text-[10px] text-muted-foreground">{priceAsOfShort(item.priceCheckedAt)}</p>
             </div>
-            <div className="flex h-9 items-center rounded-md border border-border">
+            <div className="flex min-h-11 items-center rounded-md border border-border">
               <Button size="icon" variant="ghost" aria-label="Decrease quantity" onClick={() => setQuantity(item.offerId, item.quantity - 1)}><Minus /></Button>
               <span className="num w-8 text-center text-sm">{item.quantity}</span>
               <Button size="icon" variant="ghost" aria-label="Increase quantity" onClick={() => setQuantity(item.offerId, item.quantity + 1)}><Plus /></Button>
