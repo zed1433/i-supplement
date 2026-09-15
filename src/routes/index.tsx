@@ -260,30 +260,64 @@ function HomePage() {
           <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
             <button
               type="button"
-              onClick={() => setTopCategory(null)}
+              onClick={() => selectGroup(null)}
               className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
-                topCategory === null
+                group === null
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
               All
             </button>
-            {topCategories.map((cat) => (
+            {groups.map((cat) => (
               <button
                 key={cat}
                 type="button"
-                onClick={() => setTopCategory((prev) => (prev === cat ? null : cat))}
+                onClick={() => selectGroup(group === cat ? null : cat)}
                 className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
-                  topCategory === cat
+                  group === cat
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
-                {cat} <span className="num opacity-70">{countTopCategory(cat)}</span>
+                {cat} <span className="num opacity-70">{countGroup(cat)}</span>
               </button>
             ))}
           </div>
+
+          {group && (
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              <button type="button" onClick={() => selectGroup(null)} className="hover:text-foreground">
+                All supplements
+              </button>
+              <span>›</span>
+              <button
+                type="button"
+                onClick={() => selectNutrient(null)}
+                className={nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}
+              >
+                {group}
+              </button>
+              {nutrient && (
+                <>
+                  <span>›</span>
+                  <button
+                    type="button"
+                    onClick={() => setForm(null)}
+                    className={form ? "hover:text-foreground" : "font-semibold text-foreground"}
+                  >
+                    {nutrient}
+                  </button>
+                </>
+              )}
+              {form && (
+                <>
+                  <span>›</span>
+                  <span className="font-semibold text-foreground">{form}</span>
+                </>
+              )}
+            </div>
+          )}
 
           <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-surface/60 p-3 text-xs leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
