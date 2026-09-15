@@ -92,7 +92,7 @@ function HomePage() {
         !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
       return matchesSearch && matchesCategory && matchesForm && matchesCert;
     });
-  }, [products, search, categories, forms, certs]);
+  }, [regional, search, categories, forms, certs]);
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(
