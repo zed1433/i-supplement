@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 
 export const Route = createFileRoute("/affiliate-disclosure")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Affiliate Disclosure — i-Supplement" },

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/admin/people")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Admins & subscribers | i-Supplement admin" },

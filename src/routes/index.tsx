@@ -32,6 +32,7 @@ import {
 import { productsForRegion, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
   head: () => ({
     meta: [

@@ -13,6 +13,7 @@ function page(message: string) {
 }
 
 export const Route = createFileRoute("/api/public/unsubscribe")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       GET: async ({ request }) => {

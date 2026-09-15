@@ -22,6 +22,7 @@ import { productsForRegion, useRegion } from "@/lib/region";
 type CompareSearch = { ids?: string };
 
 export const Route = createFileRoute("/compare")({
+  staticData: { sitemap: true },
   validateSearch: (search: Record<string, unknown>): CompareSearch =>
     typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
