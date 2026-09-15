@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { BadgeCheck, FileUp, LogOut, Pencil } from "lucide-react";
+import { BadgeCheck, FileUp, LogOut, Mail, Pencil, RefreshCw, Users } from "lucide-react";
 import { bootstrapAdmin, getAdminCatalog } from "@/lib/admin.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
