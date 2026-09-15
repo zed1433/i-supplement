@@ -12,6 +12,7 @@ import {
   elementalPerServing,
   excipientFlags,
   formatPrice,
+  priceAsOfShort,
   primaryIngredient,
   productsQuery,
   type Product,
