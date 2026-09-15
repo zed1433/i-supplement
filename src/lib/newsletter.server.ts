@@ -52,9 +52,10 @@ export async function rewriteOffer(rawText: string, retailerHint = ""): Promise<
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
 
   const prompt = `You write short promotional emails for ${SITE_NAME}, an independent supplement comparison site.
-Rewrite the retailer promotion below in our own words. Never copy sentences verbatim, never invent a discount that is not in the source, and keep any expiry date and discount code exactly as written.
+Rewrite the retailer promotion below in our own words. Never copy sentences verbatim, never invent a discount or coupon code that is not in the source, and keep any expiry date and discount code exactly as written.
 Return STRICT JSON only: {"retailer": string, "subject": string, "body_html": string}.
 The body_html must be simple HTML (<p>, <strong>, <ul>, <a>) of 80-150 words, end with a link to ${SITE_URL} labelled "Compare the products", and contain no unsubscribe text.
+Affiliate rules: the ONLY link allowed anywhere in body_html is ${SITE_URL}. Never link to a retailer (Amazon, iHerb, eBay or any shop) and never include a retailer URL as text. Never imitate a retailer's branding or claim to be them.
 
 SOURCE (retailer hint: ${retailerHint || "unknown"}):
 """
