@@ -126,7 +126,7 @@ function formOf(p: Product) {
 }
 
 function HomePage() {
-  const { data: products, isLoading, error } = useQuery(productsQuery);
+  const { data: products, isLoading, error, refetch } = useQuery(productsQuery);
   const reduceMotion = useReducedMotion();
   const { region } = useRegion();
   const [search, setSearch] = useState("");
