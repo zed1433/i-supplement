@@ -112,7 +112,7 @@ function FilterOption({
   count: number;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-2.5 py-1.5 text-sm">
+    <label className="flex min-h-11 cursor-pointer items-center gap-2.5 py-1.5 text-sm">
       <Checkbox checked={active} onCheckedChange={onClick} className="mt-0.5" />
       <span className="min-w-0 flex-1 leading-snug">{label}</span>
       <span className="num text-xs text-muted-foreground">{count}</span>
@@ -257,14 +257,14 @@ function HomePage() {
         <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 sm:py-14">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
-            Lab-verified. Every batch, every claim.
+            Clinical transparency, clearer choices.
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.08] sm:text-6xl">
             Find and buy the best lab-tested supplements.
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
             One place for what actually works, at the best price we can find — real elemental doses,
-            real third-party testing, no marketing claims.
+             published third-party testing, no marketing spin.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
@@ -296,7 +296,7 @@ function HomePage() {
                 type="button"
                 onClick={() => setSearch("")}
                 aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-1 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
@@ -355,14 +355,14 @@ function HomePage() {
 
           {group && (
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-              <button type="button" onClick={() => selectGroup(null)} className="hover:text-foreground">
+              <button type="button" onClick={() => selectGroup(null)} className="min-h-11 hover:text-foreground">
                 All supplements
               </button>
               <span>›</span>
               <button
                 type="button"
                 onClick={() => selectNutrient(null)}
-                className={nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}
+                className={`min-h-11 ${nutrient ? "hover:text-foreground" : "font-semibold text-foreground"}`}
               >
                 {group}
               </button>
@@ -372,7 +372,7 @@ function HomePage() {
                   <button
                     type="button"
                     onClick={() => setForm(null)}
-                    className={form ? "hover:text-foreground" : "font-semibold text-foreground"}
+                    className={`min-h-11 ${form ? "hover:text-foreground" : "font-semibold text-foreground"}`}
                   >
                     {nutrient}
                   </button>
@@ -457,8 +457,12 @@ function HomePage() {
               onClick={() => {
                 selectGroup(null);
                 setCerts([]);
+                setTopRanked(false);
+                setVerifiedOnly(false);
+                setUnder25(false);
+                setSort("featured");
               }}
-              className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              className="min-h-11 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             >
               Reset filters
             </button>
@@ -534,7 +538,7 @@ function HomePage() {
                 <button
                   type="button"
                   onClick={() => setSelected([])}
-                  className="ml-3 text-xs underline-offset-4 hover:text-foreground hover:underline"
+                   className="ml-3 min-h-11 text-xs underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Clear
                 </button>
@@ -596,7 +600,7 @@ function BrowseRow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
+      className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
         active
           ? "bg-primary/15 font-semibold text-foreground"
           : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
@@ -667,7 +671,7 @@ function FilterPanel(props: FilterPanelProps) {
           <button
             type="button"
             onClick={() => props.selectGroup(null)}
-            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mb-1 flex min-h-11 items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" /> All categories
           </button>
@@ -689,7 +693,7 @@ function FilterPanel(props: FilterPanelProps) {
           <button
             type="button"
             onClick={() => props.selectNutrient(null)}
-            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mb-1 flex min-h-11 items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" /> Back to {group}
           </button>

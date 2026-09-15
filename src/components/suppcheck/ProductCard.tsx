@@ -4,17 +4,24 @@ import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { productImageUrl } from "@/lib/productImages";
 import { useBasket } from "@/lib/basket";
-import { chemicalForm, costPer100mgElemental, formatPrice, priceAsOfShort, type Product } from "@/lib/suppcheck";
+import { chemicalForm, elementalPerServing, formatPrice, priceAsOfShort, type Product } from "@/lib/suppcheck";
 
 type Props = { product: Product; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
 
 export function ProductCard({ product, selected, selectionFull, onToggle }: Props) {
   const { addOffer, hasOffer } = useBasket();
-  const offers = [...product.merchant_offers]
-    .filter((offer) => offer.in_stock && offer.link_verified)
-    .sort((a, b) => a.currency === b.currency ? Number(a.price) - Number(b.price) : a.currency.localeCompare(b.currency));
+  const eligibleOffers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified);
+  const currencyCounts = eligibleOffers.reduce<Record<string, number>>((counts, offer) => {
+    counts[offer.currency] = (counts[offer.currency] ?? 0) + 1;
+    return counts;
+  }, {});
+  const comparisonCurrency = Object.entries(currencyCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+  const offers = eligibleOffers
+    .filter((offer) => offer.currency === comparisonCurrency)
+    .sort((a, b) => Number(a.price) - Number(b.price));
   const cheapest = offers[0];
-  const unitCost = costPer100mgElemental(product);
+  const elemental = elementalPerServing(product);
+  const unitCost = cheapest && elemental ? (Number(cheapest.price) / (elemental * 30)) * 100 : null;
   const category = (product.category_path[2] ?? product.category).toUpperCase();
 
   return (
@@ -36,7 +43,7 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
 
       <div className="mt-3 rounded-md border border-border bg-background p-2.5">
         <div className="flex items-center justify-between gap-2">
-          <span className="rounded bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-accent-foreground">BEST PRICE</span>
+          <span className="rounded bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-accent-foreground">BEST {comparisonCurrency ?? ""} PRICE</span>
           <span className="num text-base font-semibold text-primary">{cheapest ? formatPrice(cheapest.price, cheapest.currency) : "Unavailable"}</span>
         </div>
         {cheapest && <p className="mt-1 text-[11px] text-muted-foreground">{cheapest.merchant_name} · {priceAsOfShort(cheapest.updated_at)}</p>}
@@ -45,6 +52,7 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
             {offers.slice(1, 3).map((offer) => <span key={offer.id}>{offer.merchant_name} <strong className="num font-medium text-foreground">{formatPrice(offer.price, offer.currency)}</strong></span>)}
           </div>
         )}
+        {currencyCounts && Object.keys(currencyCounts).length > 1 && <p className="mt-1 text-[10px] text-muted-foreground">Other currencies shown separately on details</p>}
       </div>
 
       <div className="mt-2 flex items-center justify-between text-xs">
