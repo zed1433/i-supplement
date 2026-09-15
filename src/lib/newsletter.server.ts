@@ -195,7 +195,7 @@ export function renderEmail(
 
 /** Plain-text twin of the HTML email — required for good inbox placement. */
 export function renderText(subject: string, bodyHtml: string, unsubscribeUrl: string): string {
-  const body = bodyHtml
+  const body = stripExternalLinks(bodyHtml)
     .replace(/<\/(p|div|li|h[1-6])>/gi, "\n\n")
     .replace(/<li[^>]*>/gi, "- ")
     .replace(/<br\s*\/?>/gi, "\n")
