@@ -250,6 +250,110 @@ export const sendCampaignNow = createServerFn({ method: "POST" })
     return sendCampaign(data.id);
   });
 
+/* ---------------- settings & self test ---------------- */
+
+export const getRetailerTerms = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }: any) => {
+    await assertAdmin(context);
+    const { retailerTerms } = await import("@/lib/newsletter.server");
+    return { terms: (await retailerTerms()).join(", ") };
+  });
+
+export const saveRetailerTerms = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ terms: z.string().max(1000) }).parse(data))
+  .handler(async ({ context, data }: any) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await supabaseAdmin
+      .from("app_settings")
+      .upsert(
+        { key: "retailer_terms", value: data.terms, updated_at: new Date().toISOString() },
+        { onConflict: "key" },
+      );
+    return { ok: true };
+  });
+
+type Check = { name: string; ok: boolean; detail: string };
+
+/** Run every moving part once and report pass/fail per item. */
+export const runSelfTest = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }: any) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const checks: Check[] = [];
+    const step = async (name: string, fn: () => Promise<string>) => {
+      try {
+        checks.push({ name, ok: true, detail: await fn() });
+      } catch (err) {
+        checks.push({ name, ok: false, detail: (err as Error).message.slice(0, 400) });
+      }
+    };
+
+    await step("Email account connected", async () => {
+      const { gmailProfile } = await import("@/lib/gmail.server");
+      const p = await gmailProfile();
+      return p.emailAddress;
+    });
+
+    await step("Inbox search", async () => {
+      const { listMessageIds } = await import("@/lib/gmail.server");
+      const { retailerTerms } = await import("@/lib/newsletter.server");
+      const terms = await retailerTerms();
+      const q = terms.length
+        ? `newer_than:30d -in:chats (category:promotions OR ${terms.map((t) => `"${t}"`).join(" OR ")})`
+        : "newer_than:30d -in:chats category:promotions";
+      const ids = await listMessageIds(q, 25);
+      return `${ids.length} matching emails in the last 30 days`;
+    });
+
+    await step("Rewriting offers with AI", async () => {
+      const { rewriteOffer } = await import("@/lib/newsletter.server");
+      const draft = await rewriteOffer(
+        "iHerb: 15% off all vitamins this week with code VIT15. Offer ends Sunday.",
+        "iHerb",
+      );
+      return `sample rewritten: "${draft.subject}"`;
+    });
+
+    await step("Subscriber list", async () => {
+      const { count } = await supabaseAdmin
+        .from("subscribers")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "subscribed");
+      return `${count ?? 0} people would receive a send`;
+    });
+
+    await step("Price & stock files", async () => {
+      const { data: feeds } = await supabaseAdmin
+        .from("retailer_feeds")
+        .select("merchant_name, active, last_run_at, last_status")
+        .order("merchant_name");
+      if (!feeds || feeds.length === 0) return "no retailer files added yet";
+      return feeds
+        .map(
+          (f: any) =>
+            `${f.merchant_name}: ${f.active ? "on" : "off"}${f.last_status ? `, last run ${f.last_status}` : ", never run"}`,
+        )
+        .join(" · ");
+    });
+
+    await step("Nightly jobs", async () => {
+      const { data: jobs } = await supabaseAdmin.from("job_state").select("*");
+      if (!jobs || jobs.length === 0) return "no runs recorded yet";
+      return jobs
+        .map(
+          (j: any) =>
+            `${j.job_name}: ${j.paused ? "paused" : "active"}${j.last_run_at ? `, last ${new Date(j.last_run_at).toLocaleString()}` : ", never run"}${j.last_result ? ` (${j.last_result})` : ""}`,
+        )
+        .join(" · ");
+    });
+
+    return { checks };
+  });
+
 /* ---------------- admins & subscribers ---------------- */
 
 export const listPeople = createServerFn({ method: "GET" })
