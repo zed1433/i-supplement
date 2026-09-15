@@ -345,13 +345,26 @@ function HomePage() {
 
       <main className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
-          <div className="sticky top-20">{filters}</div>
+          <div className="sticky top-20">
+            {isLoading ? (
+              <div className="space-y-3">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="h-5 animate-pulse rounded bg-surface" />
+                ))}
+              </div>
+            ) : (
+              filters
+            )}
+          </div>
         </aside>
         <section className="min-w-0">
         <div className="flex items-center justify-between border-b border-border pb-4">
           <p className="num text-xs text-muted-foreground">
-            {filtered.length} product{filtered.length === 1 ? "" : "s"}
-            {activeFilters > 0 ? ` · ${activeFilters} filters active` : ""}
+            {isLoading
+              ? "Loading catalogue…"
+              : `${filtered.length} product${filtered.length === 1 ? "" : "s"}${
+                  activeFilters > 0 ? ` · ${activeFilters} filters active` : ""
+                }`}
           </p>
           <div className="flex items-center gap-2">
           <label className="flex items-center gap-2 text-xs text-muted-foreground">
