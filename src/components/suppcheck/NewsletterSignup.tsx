@@ -29,7 +29,7 @@ export function NewsletterSignup() {
   }
 
   return (
-    <section className="mt-12 rounded-xl border border-border bg-surface/60 p-6">
+    <section className="mt-8 rounded-lg border border-border bg-surface p-6 shadow-sm">
       <div className="flex items-start gap-3">
         <Mail className="mt-1 size-5 text-primary" />
         <div className="flex-1">

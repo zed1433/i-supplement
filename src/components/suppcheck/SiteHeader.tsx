@@ -35,18 +35,18 @@ export function SiteHeader() {
           <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search supplements, forms or brands" aria-label="Search catalogue" className="h-11 w-full rounded-md border border-input bg-background pl-10 pr-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
         </form>
         <nav className="ml-auto flex items-center gap-1 text-sm">
-          <label className="mr-1 hidden items-center gap-1.5 sm:flex">
+          <label className="mr-1 flex items-center gap-1.5">
             <MapPin className="size-4 text-primary" />
             <span className="sr-only">Deliver to</span>
             <select
               value={region}
               onChange={(e) => setRegion(e.target.value as RegionCode)}
               aria-label="Deliver to"
-              className="h-11 max-w-40 rounded-md border border-border bg-background px-2 text-xs text-foreground transition-colors hover:border-primary"
+              className="h-11 max-w-28 rounded-md border border-border bg-background px-2 text-xs text-foreground transition-colors hover:border-primary sm:max-w-40"
             >
               {REGIONS.map((r) => (
                 <option key={r.code} value={r.code}>
-                  Deliver to: {r.label}
+                  {r.label}
                 </option>
               ))}
             </select>

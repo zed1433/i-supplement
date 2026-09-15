@@ -3,8 +3,8 @@ import { AFFILIATE_DISCLOSURE } from "@/lib/suppcheck";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <footer className="mt-16 border-t border-border bg-surface pb-20 md:pb-0">
+      <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
         <p className="text-xs leading-relaxed text-muted-foreground">{AFFILIATE_DISCLOSURE}</p>
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
           <Link to="/" className="text-muted-foreground hover:text-foreground">

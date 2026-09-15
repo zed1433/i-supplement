@@ -328,7 +328,7 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => setOpenMechanism((v) => !v)}
-                className="flex w-full items-center justify-between p-4 text-left text-sm font-semibold"
+                className="flex min-h-11 w-full items-center justify-between p-4 text-left text-sm font-semibold"
               >
                 Mechanism & pharmacokinetic pathway — {ingredient.chemical_form}
                 <ChevronDown
