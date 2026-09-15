@@ -33,6 +33,11 @@ import {
 import { offerShipsTo, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
+  loader: ({ context, params }) =>
+    Promise.all([
+      context.queryClient.ensureQueryData(productQuery(params.slug)),
+      context.queryClient.ensureQueryData(productsQuery),
+    ]),
   head: ({ params }) => {
     const readable = params.slug
       .split("-")
