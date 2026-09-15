@@ -13,6 +13,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 import {
@@ -104,47 +105,93 @@ function ProductPage() {
           >
             ← Catalog
           </Link>
-          <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-primary">
-            {product.brands.name} · {product.brands.country_of_origin}
-          </p>
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{product.category_path.join(" › ")}</p>
-          <h1 className="mt-2 max-w-3xl text-3xl font-semibold sm:text-4xl">{product.name}</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
-            {product.form} · {product.serving_size} · {chemicalForm(product)} ·{" "}
-            <span className="num text-foreground">{elementalPerServing(product)} mg</span> elemental
-            per serving
-            {normalized && (
-              <>
-                {" "}
-                · <span className="num text-foreground">€{normalized.toFixed(3)}</span> per 100 mg
-                elemental
-              </>
-            )}
-          </p>
+          <div className="mt-6 grid gap-8 sm:grid-cols-[260px_minmax(0,1fr)] sm:items-start">
+            <div>
+              <ProductImage
+                src={product.image_url}
+                alt={`${product.brands.name} ${product.name}`}
+                brand={product.brands.name}
+                className="aspect-square w-full"
+                eager
+              />
+              {product.image_source === "generated" && (
+                <p className="mt-1 text-center text-[10px] text-muted-foreground">
+                  Illustrative image — retailer photo will replace it
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">
+                {product.brands.name} · {product.brands.country_of_origin}
+              </p>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{product.category_path.join(" › ")}</p>
+              <h1 className="mt-2 max-w-3xl text-3xl font-semibold sm:text-4xl">{product.name}</h1>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {product.form} · {product.serving_size} · {chemicalForm(product)} ·{" "}
+                <span className="num text-foreground">{elementalPerServing(product)} mg</span> elemental
+                per serving
+                {normalized && (
+                  <>
+                    {" "}
+                    · <span className="num text-foreground">€{normalized.toFixed(3)}</span> per 100 mg
+                    elemental
+                  </>
+                )}
+              </p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            {(product.third_party_certifications.length
-              ? product.third_party_certifications
-              : ["None"]
-            ).map((cert) => (
-              <span
-                key={cert}
-                title={CERT_EXPLANATIONS[cert] ?? "Third-party programme."}
-                className="group relative flex cursor-help items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs text-primary"
-              >
-                <BadgeCheck className="size-3.5" />
-                {cert}
-                <span className="pointer-events-none absolute left-0 top-full z-30 mt-2 w-72 rounded-md border border-border bg-popover p-3 text-xs leading-relaxed text-popover-foreground opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
-                  {CERT_EXPLANATIONS[cert] ?? "Third-party programme."}
-                </span>
-              </span>
-            ))}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {(product.third_party_certifications.length
+                  ? product.third_party_certifications
+                  : ["None"]
+                ).map((cert) => (
+                  <span
+                    key={cert}
+                    title={CERT_EXPLANATIONS[cert] ?? "Third-party programme."}
+                    className="group relative flex cursor-help items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs text-primary"
+                  >
+                    <BadgeCheck className="size-3.5" />
+                    {cert}
+                    <span className="pointer-events-none absolute left-0 top-full z-30 mt-2 w-72 rounded-md border border-border bg-popover p-3 text-xs leading-relaxed text-popover-foreground opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
+                      {CERT_EXPLANATIONS[cert] ?? "Third-party programme."}
+                    </span>
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5"><RetailerActions product={product} /></div>
+            </div>
           </div>
-          <div className="mt-5"><RetailerActions product={product} /></div>
         </div>
       </section>
 
+      {/* At a glance */}
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6">
+        <div className="grid gap-4 rounded-lg border border-border bg-surface p-4 sm:grid-cols-3">
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">What it is</p>
+            <p className="mt-1 text-sm leading-relaxed">{product.primary_benefit}</p>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Who it suits</p>
+            <p className="mt-1 text-sm leading-relaxed">{ingredient?.target_benefits.slice(0, 3).join(", ") || "General wellness support"}</p>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Best price today</p>
+            <p className="mt-1 text-sm">
+              {(() => {
+                const cheapest = offers[0];
+                return cheapest ? (
+                  <>
+                    <span className="num font-semibold text-primary">{formatPrice(cheapest.price, cheapest.currency)}</span>{" "}
+                    at {cheapest.merchant_name} <span className="text-muted-foreground">({cheapest.country_flag})</span>
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">No offers ship to your region</span>
+                );
+              })()}
+            </p>
+          </div>
+        </div>
+
         {/* Advantages / trade-offs */}
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-primary/30 bg-primary/5 p-4">

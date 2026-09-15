@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
-import { Filter, GitCompareArrows, Search, ShieldCheck, X } from "lucide-react";
+import { Filter, GitCompareArrows, Info, Search, ShieldCheck, X } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
 import { NewsletterSignup } from "@/components/suppcheck/NewsletterSignup";
@@ -12,6 +12,7 @@ import {
   CERT_FILTERS,
   FORM_FILTERS,
   chemicalForm,
+  costPer100mgElemental,
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
@@ -43,6 +44,46 @@ function togglePill(list: string[], value: string) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
+type SortKey = "featured" | "price" | "value" | "elemental" | "name";
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: "featured", label: "Featured" },
+  { value: "price", label: "Cheapest first" },
+  { value: "value", label: "Best value per 100 mg" },
+  { value: "elemental", label: "Most elemental per serving" },
+  { value: "name", label: "A–Z" },
+];
+
+function sortProducts(list: Product[], sort: SortKey): Product[] {
+  const sorted = [...list];
+  switch (sort) {
+    case "price":
+      return sorted.sort((a, b) => {
+        const pa = a.merchant_offers.length
+          ? Math.min(...a.merchant_offers.map((o) => Number(o.price)))
+          : Infinity;
+        const pb = b.merchant_offers.length
+          ? Math.min(...b.merchant_offers.map((o) => Number(o.price)))
+          : Infinity;
+        return pa - pb;
+      });
+    case "value":
+      return sorted.sort(
+        (a, b) => (costPer100mgElemental(a) ?? Infinity) - (costPer100mgElemental(b) ?? Infinity),
+      );
+    case "elemental":
+      return sorted.sort((a, b) => {
+        const ea = a.product_ingredients.reduce((s, pi) => s + Number(pi.elemental_amount_mg), 0);
+        const eb = b.product_ingredients.reduce((s, pi) => s + Number(pi.elemental_amount_mg), 0);
+        return eb - ea;
+      });
+    case "name":
+      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    default:
+      return sorted;
+  }
+}
+
 function FilterOption({
   label,
   active,
@@ -71,35 +112,46 @@ function HomePage() {
   const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [sort, setSort] = useState<SortKey>("featured");
+  const [topCategory, setTopCategory] = useState<string | null>(null);
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
   const filtered = useMemo(() => {
     const list: Product[] = regional;
     const q = search.trim().toLowerCase();
-    return list.filter((p) => {
-      const form = chemicalForm(p).toLowerCase();
-      const matchesSearch =
-        !q ||
-        p.name.toLowerCase().includes(q) ||
-        p.brands.name.toLowerCase().includes(q) ||
-        p.category_path.join(" ").toLowerCase().includes(q) ||
-        form.includes(q);
-      const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
-      const matchesForm =
-        !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
-      const matchesCert =
-        !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-      return matchesSearch && matchesCategory && matchesForm && matchesCert;
-    });
-  }, [regional, search, categories, forms, certs]);
+    return sortProducts(
+      list.filter((p) => {
+        const form = chemicalForm(p).toLowerCase();
+        const matchesSearch =
+          !q ||
+          p.name.toLowerCase().includes(q) ||
+          p.brands.name.toLowerCase().includes(q) ||
+          p.category_path.join(" ").toLowerCase().includes(q) ||
+          form.includes(q);
+        const matchesTop = !topCategory || (p.category_path[0] ?? "Other") === topCategory;
+        const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
+        const matchesForm =
+          !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
+        const matchesCert =
+          !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
+        return matchesSearch && matchesTop && matchesCategory && matchesForm && matchesCert;
+      }),
+      sort,
+    );
+  }, [regional, search, categories, forms, certs, sort, topCategory]);
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(
     () => Array.from(new Set((products ?? []).map((product) => product.category_path.join(" › ")))).sort(),
     [products],
   );
+  const topCategories = useMemo(
+    () => Array.from(new Set((products ?? []).map((product) => product.category_path[0] ?? "Other"))).sort(),
+    [products],
+  );
   const countCategory = (value: string) => (products ?? []).filter((product) => product.category_path.join(" › ") === value).length;
+  const countTopCategory = (value: string) => (products ?? []).filter((product) => (product.category_path[0] ?? "Other") === value).length;
   const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
   const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
   const filters = (
@@ -155,6 +207,44 @@ function HomePage() {
               </button>
             )}
           </div>
+
+          <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
+            <button
+              type="button"
+              onClick={() => setTopCategory(null)}
+              className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                topCategory === null
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
+              }`}
+            >
+              All
+            </button>
+            {topCategories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setTopCategory((prev) => (prev === cat ? null : cat))}
+                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                  topCategory === cat
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                {cat} <span className="num opacity-70">{countTopCategory(cat)}</span>
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-surface/60 p-3 text-xs leading-relaxed text-muted-foreground">
+            <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
+            <span>
+              <strong className="font-semibold text-foreground">How to read this:</strong> "Elemental" is the
+              amount your body actually absorbs per serving — it can be far less than the label's compound
+              weight. "Cost / 100 mg elemental" lets you compare products with different strengths fairly.
+              Every certification badge is explained on hover.
+            </span>
+          </p>
         </div>
       </section>
 
@@ -169,6 +259,18 @@ function HomePage() {
             {activeFilters > 0 ? ` · ${activeFilters} filters active` : ""}
           </p>
           <div className="flex items-center gap-2">
+          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+            Sort
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="rounded-md border border-border bg-surface px-2 py-1.5 text-xs text-foreground outline-none focus:border-primary/60"
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </label>
           <Sheet>
             <SheetTrigger asChild><Button variant="outline" size="sm" className="lg:hidden"><Filter /> Filters{activeFilters ? ` (${activeFilters})` : ""}</Button></SheetTrigger>
             <SheetContent side="left" className="overflow-y-auto">

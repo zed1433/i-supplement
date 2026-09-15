@@ -9,6 +9,7 @@ export type BasketItem = {
   productSlug: string;
   productName: string;
   brandName: string;
+  imageUrl: string;
   merchantName: string;
   affiliateNetwork: string;
   retailerProductId: string;
@@ -65,6 +66,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
             productSlug: product.slug,
             productName: product.name,
             brandName: product.brands.name,
+            imageUrl: product.image_url,
             merchantName: offer.merchant_name,
             affiliateNetwork: offer.affiliate_network,
             retailerProductId: offer.retailer_product_id,

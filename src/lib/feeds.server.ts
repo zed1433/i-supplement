@@ -120,11 +120,20 @@ export async function applyFeedCsv(
     result.rows_updated += 1;
 
     if (image && /^https?:\/\//i.test(image)) {
-      await supabaseAdmin
+      // Retailer feed images win over web/generated images, and always fill a blank.
+      // Manually curated retailer-quality images (image_source = 'retailer') are kept.
+      const { data: existing } = await supabaseAdmin
         .from("products")
-        .update({ image_url: image })
+        .select("image_source")
         .eq("id", offer.product_id)
-        .eq("image_url", "");
+        .maybeSingle();
+      const source = existing?.image_source ?? "";
+      if (source !== "retailer") {
+        await supabaseAdmin
+          .from("products")
+          .update({ image_url: image, image_source: "retailer" })
+          .eq("id", offer.product_id);
+      }
     }
   }
 

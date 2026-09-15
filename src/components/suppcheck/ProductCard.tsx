@@ -8,6 +8,7 @@ import {
   formatPrice,
   type Product,
 } from "@/lib/suppcheck";
+import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 
@@ -30,7 +31,14 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
         selected ? "border-primary/70 bg-accent/40" : "border-border hover:border-border-strong"
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
+      <ProductImage
+        src={product.image_url}
+        alt={`${product.brands.name} ${product.name}`}
+        brand={product.brands.name}
+        className="aspect-square w-full"
+      />
+
+      <div className="mt-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
             {product.brands.name} · {product.brands.country_of_origin}
@@ -78,13 +86,13 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-border bg-border">
-        <div className="bg-surface-raised px-3 py-2">
+        <div className="bg-surface-raised px-3 py-2" title="The active amount your body can actually absorb per serving — often far less than the label's compound weight.">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             Elemental / serving
           </p>
           <p className="num mt-0.5 text-lg font-semibold text-primary">{elemental} mg</p>
         </div>
-        <div className="bg-surface-raised px-3 py-2">
+        <div className="bg-surface-raised px-3 py-2" title="Price normalised to 100 mg of elemental mineral, so products with different strengths compare fairly.">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             Cost / 100 mg
           </p>
