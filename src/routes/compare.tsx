@@ -14,6 +14,7 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { productsForRegion, useRegion } from "@/lib/region";
 
 type CompareSearch = { ids?: string };
 
