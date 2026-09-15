@@ -397,9 +397,12 @@ function HomePage() {
         )}
 
         {error && (
-          <p className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive-foreground">
-            The catalog could not be loaded. Please refresh and try again.
-          </p>
+          <div className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
+            <p className="text-foreground">We could not load the catalogue just now.</p>
+            <Button size="sm" variant="outline" className="mt-3" onClick={() => refetch()}>
+              Try again
+            </Button>
+          </div>
         )}
 
         {!isLoading && !error && (
