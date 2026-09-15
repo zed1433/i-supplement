@@ -539,6 +539,9 @@ type FilterPanelProps = {
 
 function FilterPanel(props: FilterPanelProps) {
   const { group, nutrient, form } = props;
+  const reduceMotion = useReducedMotion();
+  const level = !group ? 0 : !nutrient ? 1 : 2;
+  const slide = reduceMotion ? 0 : 14;
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
@@ -546,6 +549,14 @@ function FilterPanel(props: FilterPanelProps) {
         <h2 className="text-sm font-semibold">Browse</h2>
       </div>
 
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          key={`${level}-${group ?? ""}-${nutrient ?? ""}`}
+          initial={{ opacity: 0, x: slide }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -slide }}
+          transition={{ duration: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
+        >
       {!group && (
         <FilterGroup label="Category">
           {props.groups.map((value) => (
@@ -609,6 +620,9 @@ function FilterPanel(props: FilterPanelProps) {
           ))}
         </FilterGroup>
       )}
+        </motion.div>
+      </AnimatePresence>
+
 
       <FilterGroup label="Certification">
         {CERT_FILTERS.map((value) => (
