@@ -41,6 +41,14 @@ export function SiteHeader() {
             <ShoppingBasket className="size-4" />
             {totalItems > 0 && <span className="num absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">{totalItems}</span>}
           </Link>
+          <Link
+            to="/admin"
+            aria-label="Catalogue admin"
+            className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            activeProps={{ className: "text-primary border-primary/50" }}
+          >
+            <Settings className="size-4" />
+          </Link>
         </nav>
       </div>
     </header>
