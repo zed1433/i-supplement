@@ -128,23 +128,29 @@ function HomePage() {
           p.brands.name.toLowerCase().includes(q) ||
           p.category_path.join(" ").toLowerCase().includes(q) ||
           form.includes(q);
+        const matchesTop = !topCategory || (p.category_path[0] ?? "Other") === topCategory;
         const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
         const matchesForm =
           !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
         const matchesCert =
           !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-        return matchesSearch && matchesCategory && matchesForm && matchesCert;
+        return matchesSearch && matchesTop && matchesCategory && matchesForm && matchesCert;
       }),
       sort,
     );
-  }, [regional, search, categories, forms, certs, sort]);
+  }, [regional, search, categories, forms, certs, sort, topCategory]);
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(
     () => Array.from(new Set((products ?? []).map((product) => product.category_path.join(" › ")))).sort(),
     [products],
   );
+  const topCategories = useMemo(
+    () => Array.from(new Set((products ?? []).map((product) => product.category_path[0] ?? "Other"))).sort(),
+    [products],
+  );
   const countCategory = (value: string) => (products ?? []).filter((product) => product.category_path.join(" › ") === value).length;
+  const countTopCategory = (value: string) => (products ?? []).filter((product) => (product.category_path[0] ?? "Other") === value).length;
   const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
   const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
   const filters = (
