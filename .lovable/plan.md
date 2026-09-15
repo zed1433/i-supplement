@@ -17,7 +17,7 @@ The site currently shows retailer prices with no affiliate disclosure, no price 
 
 ## 3. Clear outbound links
 
-- Every buy button names the destination: "View on iHerb", "View on Amazon", instead of just the retailer name.
+- The basket keeps working exactly as now: add anything from anywhere, then decide per retailer. In the basket, items stay grouped by retailer and each group gets a clearly named button — "View on iHerb", "View on Amazon" — that sends you to that retailer with those items ready to check out, so you can take everything from one shop or split across several.
 - Links stay visible and honest — no hidden redirects, no tabs opened without the visitor clicking, no automatic background opening from the basket.
 - The basket stays an aggregator: it hands the visitor over to each retailer's own checkout, and never takes payment.
 - Buy links keep `rel="nofollow sponsored"` and are applied consistently everywhere (cards, product page, compare, basket).
