@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
+import { productImageUrl } from "@/lib/productImages";
 
 const STORAGE_KEY = "suppcheck-retailer-basket-v1";
 
@@ -66,7 +67,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
             productSlug: product.slug,
             productName: product.name,
             brandName: product.brands.name,
-            imageUrl: product.image_url,
+            imageUrl: productImageUrl(product),
             merchantName: offer.merchant_name,
             affiliateNetwork: offer.affiliate_network,
             retailerProductId: offer.retailer_product_id,

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Check, ExternalLink, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import {
   bestOffer,
@@ -120,7 +121,7 @@ function ComparePage() {
                       className="border-b border-r border-border bg-surface-raised p-3 text-left align-top last:border-r-0"
                     >
                       <ProductImage
-                        src={p.image_url}
+                        src={productImageUrl(p)}
                         alt={`${p.brands.name} ${p.name}`}
                         brand={p.brands.name}
                         className="mb-2 aspect-square w-16"

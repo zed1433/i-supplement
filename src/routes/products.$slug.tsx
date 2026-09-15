@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { isIllustrativeImage, productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 import {
@@ -108,13 +109,13 @@ function ProductPage() {
           <div className="mt-6 grid gap-8 sm:grid-cols-[260px_minmax(0,1fr)] sm:items-start">
             <div>
               <ProductImage
-                src={product.image_url}
+                src={productImageUrl(product)}
                 alt={`${product.brands.name} ${product.name}`}
                 brand={product.brands.name}
                 className="aspect-square w-full"
                 eager
               />
-              {product.image_source === "generated" && (
+              {isIllustrativeImage(product) && (
                 <p className="mt-1 text-center text-[10px] text-muted-foreground">
                   Illustrative image — retailer photo will replace it
                 </p>
