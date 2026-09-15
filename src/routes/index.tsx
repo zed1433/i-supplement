@@ -44,6 +44,46 @@ function togglePill(list: string[], value: string) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
+type SortKey = "featured" | "price" | "value" | "elemental" | "name";
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: "featured", label: "Featured" },
+  { value: "price", label: "Cheapest first" },
+  { value: "value", label: "Best value per 100 mg" },
+  { value: "elemental", label: "Most elemental per serving" },
+  { value: "name", label: "A–Z" },
+];
+
+function sortProducts(list: Product[], sort: SortKey): Product[] {
+  const sorted = [...list];
+  switch (sort) {
+    case "price":
+      return sorted.sort((a, b) => {
+        const pa = a.merchant_offers.length
+          ? Math.min(...a.merchant_offers.map((o) => Number(o.price)))
+          : Infinity;
+        const pb = b.merchant_offers.length
+          ? Math.min(...b.merchant_offers.map((o) => Number(o.price)))
+          : Infinity;
+        return pa - pb;
+      });
+    case "value":
+      return sorted.sort(
+        (a, b) => (costPer100mgElemental(a) ?? Infinity) - (costPer100mgElemental(b) ?? Infinity),
+      );
+    case "elemental":
+      return sorted.sort((a, b) => {
+        const ea = a.product_ingredients.reduce((s, pi) => s + Number(pi.elemental_amount_mg), 0);
+        const eb = b.product_ingredients.reduce((s, pi) => s + Number(pi.elemental_amount_mg), 0);
+        return eb - ea;
+      });
+    case "name":
+      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    default:
+      return sorted;
+  }
+}
+
 function FilterOption({
   label,
   active,
