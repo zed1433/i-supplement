@@ -51,28 +51,32 @@ export function BasketProvider({ children }: { children: ReactNode }) {
   const addOffer = useCallback((product: Product, offer: MerchantOffer) => {
     setItems((current) => {
       const existing = current.find((item) => item.offerId === offer.id);
+      let nextItems: BasketItem[];
       if (existing) {
-        return current.map((item) =>
+        nextItems = current.map((item) =>
           item.offerId === offer.id ? { ...item, quantity: item.quantity + 1 } : item,
         );
+      } else {
+        nextItems = [
+          ...current,
+          {
+            offerId: offer.id,
+            productId: product.id,
+            productSlug: product.slug,
+            productName: product.name,
+            brandName: product.brands.name,
+            merchantName: offer.merchant_name,
+            affiliateNetwork: offer.affiliate_network,
+            retailerProductId: offer.retailer_product_id,
+            price: Number(offer.price),
+            currency: offer.currency,
+            inStock: offer.in_stock,
+            quantity: 1,
+          },
+        ];
       }
-      return [
-        ...current,
-        {
-          offerId: offer.id,
-          productId: product.id,
-          productSlug: product.slug,
-          productName: product.name,
-          brandName: product.brands.name,
-          merchantName: offer.merchant_name,
-          affiliateNetwork: offer.affiliate_network,
-          retailerProductId: offer.retailer_product_id,
-          price: Number(offer.price),
-          currency: offer.currency,
-          inStock: offer.in_stock,
-          quantity: 1,
-        },
-      ];
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
+      return nextItems;
     });
   }, []);
 
