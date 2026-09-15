@@ -113,6 +113,7 @@ function HomePage() {
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("featured");
+  const [topCategory, setTopCategory] = useState<string | null>(null);
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
