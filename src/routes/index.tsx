@@ -284,7 +284,29 @@ function HomePage() {
             )}
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { icon: ShieldCheck, label: "Third-party tested" },
+              { icon: FlaskConical, label: "Elemental dose shown" },
+              { icon: Tag, label: "Live retailer prices" },
+              { icon: ShoppingBasket, label: "One basket, any retailer" },
+            ].map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2.5 text-xs font-medium text-foreground"
+              >
+                <Icon className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                {label}
+              </li>
+            ))}
+          </ul>
+
+          <div
+            id="catalogue"
+            className="mt-8 flex scroll-mt-24 flex-wrap gap-2"
+            role="group"
+            aria-label="Browse by category"
+          >
             <button
               type="button"
               onClick={() => selectGroup(null)}
