@@ -112,13 +112,15 @@ function HomePage() {
   const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [sort, setSort] = useState<SortKey>("featured");
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
   const filtered = useMemo(() => {
     const list: Product[] = regional;
     const q = search.trim().toLowerCase();
-    return list.filter((p) => {
+    return sortProducts(
+      list.filter((p) => {
       const form = chemicalForm(p).toLowerCase();
       const matchesSearch =
         !q ||
