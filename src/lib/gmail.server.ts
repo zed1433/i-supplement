@@ -131,23 +131,60 @@ const b64 = (s: string) =>
   Buffer.from(new TextEncoder().encode(s)).toString("base64");
 const encodeHeader = (v: string) => (/^[\x00-\x7F]*$/.test(v) ? v : `=?UTF-8?B?${b64(v)}?=`);
 
+/**
+ * Send a well-formed bulk-safe email: multipart/alternative (plain text +
+ * HTML), a readable From display name, and the list headers mail providers
+ * expect from legitimate newsletters.
+ */
 export async function sendMail(opts: {
   to: string;
   subject: string;
   html: string;
+  text?: string;
   fromName?: string;
+  fromAddress?: string;
+  unsubscribeUrl?: string;
+  listId?: string;
 }): Promise<void> {
+  const boundary = `b_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+  const from =
+    opts.fromName && opts.fromAddress
+      ? [`From: ${encodeHeader(opts.fromName)} <${opts.fromAddress}>`]
+      : [];
+
+  const listHeaders = opts.unsubscribeUrl
+    ? [
+        `List-Unsubscribe: <${opts.unsubscribeUrl}>`,
+        "List-Unsubscribe-Post: List-Unsubscribe=One-Click",
+        ...(opts.listId ? [`List-Id: ${opts.listId}`] : []),
+        "Precedence: bulk",
+        "Auto-Submitted: auto-generated",
+      ]
+    : [];
+
+  const text = opts.text ?? stripHtml(opts.html);
+
   const email = [
     `To: ${opts.to}`,
+    ...from,
     `Subject: ${encodeHeader(opts.subject)}`,
-    ...(opts.fromName ? [`From: ${encodeHeader(opts.fromName)} <me>`] : []),
+    ...listHeaders,
     "MIME-Version: 1.0",
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    "",
+    `--${boundary}`,
+    'Content-Type: text/plain; charset="UTF-8"',
+    "",
+    text,
+    "",
+    `--${boundary}`,
     'Content-Type: text/html; charset="UTF-8"',
     "",
     opts.html,
-  ]
-    .filter((line) => !line.startsWith("From: ") || !line.includes("<me>"))
-    .join("\r\n");
+    "",
+    `--${boundary}--`,
+    "",
+  ].join("\r\n");
 
   const raw = b64(email).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   await gmail("/users/me/messages/send", { method: "POST", body: JSON.stringify({ raw }) });
