@@ -147,9 +147,17 @@ export async function sendMail(opts: {
   listId?: string;
 }): Promise<void> {
   const boundary = `b_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+  let fromAddress = opts.fromAddress;
+  if (opts.fromName && !fromAddress) {
+    try {
+      fromAddress = (await gmailProfile()).emailAddress;
+    } catch {
+      fromAddress = undefined;
+    }
+  }
   const from =
-    opts.fromName && opts.fromAddress
-      ? [`From: ${encodeHeader(opts.fromName)} <${opts.fromAddress}>`]
+    opts.fromName && fromAddress
+      ? [`From: ${encodeHeader(opts.fromName)} <${fromAddress}>`]
       : [];
 
   const listHeaders = opts.unsubscribeUrl
