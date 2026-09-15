@@ -12,4 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    optimizeDeps: { include: ["motion/react", "react", "react-dom"] },
+    resolve: { dedupe: ["react", "react-dom", "motion", "motion-dom"] },
+  },
 });
