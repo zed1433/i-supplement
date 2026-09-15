@@ -16,6 +16,7 @@ import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
@@ -54,6 +55,11 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminImportRoute =
   AuthenticatedAdminImportRouteImport.update({
     id: '/import',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
@@ -89,9 +96,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
-  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
@@ -105,6 +112,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
 }
@@ -118,6 +126,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/products/$slug'
     | '/admin/import'
+    | '/admin/'
     | '/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
   fileRoutesByTo: FileRoutesByTo
@@ -126,9 +135,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
-    | '/admin'
     | '/products/$slug'
     | '/admin/import'
+    | '/admin'
     | '/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
   id:
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/products/$slug'
     | '/_authenticated/admin/import'
+    | '/_authenticated/admin/'
     | '/_authenticated/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
   fileRoutesById: FileRoutesById
@@ -206,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/import': {
       id: '/_authenticated/admin/import'
       path: '/import'
@@ -232,11 +249,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProductSlugRoute: typeof AuthenticatedAdminProductSlugRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProductSlugRoute: AuthenticatedAdminProductSlugRoute,
 }
 
