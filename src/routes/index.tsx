@@ -467,19 +467,138 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
   );
 }
 
+function BrowseRow({
+  label,
+  count,
+  active,
+  onClick,
+  chevron,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+  chevron?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm transition-colors ${
+        active
+          ? "bg-primary/15 font-semibold text-foreground"
+          : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+      }`}
+    >
+      <span className="min-w-0 flex-1 leading-snug">{label}</span>
+      <span className="num text-xs text-muted-foreground">{count}</span>
+      {chevron && <ChevronRight className="size-3.5 shrink-0 text-muted-foreground" />}
+    </button>
+  );
+}
+
 type FilterPanelProps = {
-  categories: string[]; forms: string[]; certs: string[]; categoryFilters: string[];
-  countCategory: (value: string) => number; countForm: (value: string) => number; countCert: (value: string) => number;
-  setCategories: (values: string[]) => void; setForms: (values: string[]) => void; setCerts: (values: string[]) => void;
+  group: string | null;
+  nutrient: string | null;
+  form: string | null;
+  groups: string[];
+  nutrients: string[];
+  formOptions: string[];
+  countGroup: (value: string) => number;
+  countNutrient: (value: string) => number;
+  countForm: (value: string) => number;
+  countCert: (value: string) => number;
+  certs: string[];
+  setCerts: (values: string[]) => void;
+  selectGroup: (value: string | null) => void;
+  selectNutrient: (value: string | null) => void;
+  setForm: (value: string | null) => void;
 };
 
 function FilterPanel(props: FilterPanelProps) {
+  const { group, nutrient, form } = props;
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2"><Filter className="size-4 text-primary" /><h2 className="text-sm font-semibold">Refine catalogue</h2></div>
-      <FilterGroup label="Category">{props.categoryFilters.map((value) => <FilterOption key={value} label={value} count={props.countCategory(value)} active={props.categories.includes(value)} onClick={() => props.setCategories(togglePill(props.categories, value))} />)}</FilterGroup>
-      <FilterGroup label="Chemical form">{FORM_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countForm(value)} active={props.forms.includes(value)} onClick={() => props.setForms(togglePill(props.forms, value))} />)}</FilterGroup>
-      <FilterGroup label="Certification">{CERT_FILTERS.map((value) => <FilterOption key={value} label={value} count={props.countCert(value)} active={props.certs.includes(value)} onClick={() => props.setCerts(togglePill(props.certs, value))} />)}</FilterGroup>
+      <div className="mb-4 flex items-center gap-2">
+        <Filter className="size-4 text-primary" />
+        <h2 className="text-sm font-semibold">Browse</h2>
+      </div>
+
+      {!group && (
+        <FilterGroup label="Category">
+          {props.groups.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countGroup(value)}
+              active={false}
+              chevron
+              onClick={() => props.selectGroup(value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {group && !nutrient && (
+        <FilterGroup label={group}>
+          <button
+            type="button"
+            onClick={() => props.selectGroup(null)}
+            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <ChevronLeft className="size-3.5" /> All categories
+          </button>
+          {props.nutrients.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countNutrient(value)}
+              active={false}
+              chevron
+              onClick={() => props.selectNutrient(value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      {group && nutrient && (
+        <FilterGroup label={`${nutrient} — form`}>
+          <button
+            type="button"
+            onClick={() => props.selectNutrient(null)}
+            className="mb-1 flex items-center gap-1 px-2 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <ChevronLeft className="size-3.5" /> Back to {group}
+          </button>
+          <BrowseRow
+            label="All forms"
+            count={props.formOptions.reduce((s, v) => s + props.countForm(v), 0)}
+            active={!form}
+            onClick={() => props.setForm(null)}
+          />
+          {props.formOptions.map((value) => (
+            <BrowseRow
+              key={value}
+              label={value}
+              count={props.countForm(value)}
+              active={form === value}
+              onClick={() => props.setForm(form === value ? null : value)}
+            />
+          ))}
+        </FilterGroup>
+      )}
+
+      <FilterGroup label="Certification">
+        {CERT_FILTERS.map((value) => (
+          <FilterOption
+            key={value}
+            label={value}
+            count={props.countCert(value)}
+            active={props.certs.includes(value)}
+            onClick={() => props.setCerts(togglePill(props.certs, value))}
+          />
+        ))}
+      </FilterGroup>
     </div>
   );
 }
