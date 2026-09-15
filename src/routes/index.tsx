@@ -207,6 +207,44 @@ function HomePage() {
               </button>
             )}
           </div>
+
+          <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
+            <button
+              type="button"
+              onClick={() => setTopCategory(null)}
+              className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                topCategory === null
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
+              }`}
+            >
+              All
+            </button>
+            {topCategories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setTopCategory((prev) => (prev === cat ? null : cat))}
+                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                  topCategory === cat
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                {cat} <span className="num opacity-70">{countTopCategory(cat)}</span>
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-6 flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-surface/60 p-3 text-xs leading-relaxed text-muted-foreground">
+            <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
+            <span>
+              <strong className="font-semibold text-foreground">How to read this:</strong> "Elemental" is the
+              amount your body actually absorbs per serving — it can be far less than the label's compound
+              weight. "Cost / 100 mg elemental" lets you compare products with different strengths fairly.
+              Every certification badge is explained on hover.
+            </span>
+          </p>
         </div>
       </section>
 
@@ -221,6 +259,18 @@ function HomePage() {
             {activeFilters > 0 ? ` · ${activeFilters} filters active` : ""}
           </p>
           <div className="flex items-center gap-2">
+          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+            Sort
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="rounded-md border border-border bg-surface px-2 py-1.5 text-xs text-foreground outline-none focus:border-primary/60"
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </label>
           <Sheet>
             <SheetTrigger asChild><Button variant="outline" size="sm" className="lg:hidden"><Filter /> Filters{activeFilters ? ` (${activeFilters})` : ""}</Button></SheetTrigger>
             <SheetContent side="left" className="overflow-y-auto">
