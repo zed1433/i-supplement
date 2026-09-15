@@ -17,7 +17,10 @@ import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authenticated/admin.campaigns'
+import { Route as AuthenticatedAdminFeedsRouteImport } from './routes/_authenticated/admin.feeds'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as AuthenticatedAdminPeopleRouteImport } from './routes/_authenticated/admin.people'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
@@ -63,10 +66,27 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCampaignsRoute =
+  AuthenticatedAdminCampaignsRouteImport.update({
+    id: '/campaigns',
+    path: '/campaigns',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFeedsRoute = AuthenticatedAdminFeedsRouteImport.update({
+  id: '/feeds',
+  path: '/feeds',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminImportRoute =
   AuthenticatedAdminImportRouteImport.update({
     id: '/import',
     path: '/import',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPeopleRoute =
+  AuthenticatedAdminPeopleRouteImport.update({
+    id: '/people',
+    path: '/people',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
@@ -104,7 +124,10 @@ export interface FileRoutesByFullPath {
   '/compare': typeof CompareRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -118,7 +141,10 @@ export interface FileRoutesByTo {
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -135,7 +161,10 @@ export interface FileRoutesById {
   '/compare': typeof CompareRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
+  '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
+  '/_authenticated/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
+  '/_authenticated/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -152,7 +181,10 @@ export interface FileRouteTypes {
     | '/compare'
     | '/admin'
     | '/products/$slug'
+    | '/admin/campaigns'
+    | '/admin/feeds'
     | '/admin/import'
+    | '/admin/people'
     | '/api/public/unsubscribe'
     | '/admin/'
     | '/admin/product/$slug'
@@ -166,7 +198,10 @@ export interface FileRouteTypes {
     | '/basket'
     | '/compare'
     | '/products/$slug'
+    | '/admin/campaigns'
+    | '/admin/feeds'
     | '/admin/import'
+    | '/admin/people'
     | '/api/public/unsubscribe'
     | '/admin'
     | '/admin/product/$slug'
@@ -182,7 +217,10 @@ export interface FileRouteTypes {
     | '/compare'
     | '/_authenticated/admin'
     | '/products/$slug'
+    | '/_authenticated/admin/campaigns'
+    | '/_authenticated/admin/feeds'
     | '/_authenticated/admin/import'
+    | '/_authenticated/admin/people'
     | '/api/public/unsubscribe'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/product/$slug'
@@ -262,11 +300,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/campaigns': {
+      id: '/_authenticated/admin/campaigns'
+      path: '/campaigns'
+      fullPath: '/admin/campaigns'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/feeds': {
+      id: '/_authenticated/admin/feeds'
+      path: '/feeds'
+      fullPath: '/admin/feeds'
+      preLoaderRoute: typeof AuthenticatedAdminFeedsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/import': {
       id: '/_authenticated/admin/import'
       path: '/import'
       fullPath: '/admin/import'
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/people': {
+      id: '/_authenticated/admin/people'
+      path: '/people'
+      fullPath: '/admin/people'
+      preLoaderRoute: typeof AuthenticatedAdminPeopleRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/api/public/unsubscribe': {
@@ -308,13 +367,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCampaignsRoute: typeof AuthenticatedAdminCampaignsRoute
+  AuthenticatedAdminFeedsRoute: typeof AuthenticatedAdminFeedsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
+  AuthenticatedAdminPeopleRoute: typeof AuthenticatedAdminPeopleRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProductSlugRoute: typeof AuthenticatedAdminProductSlugRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCampaignsRoute: AuthenticatedAdminCampaignsRoute,
+  AuthenticatedAdminFeedsRoute: AuthenticatedAdminFeedsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
+  AuthenticatedAdminPeopleRoute: AuthenticatedAdminPeopleRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProductSlugRoute: AuthenticatedAdminProductSlugRoute,
 }
