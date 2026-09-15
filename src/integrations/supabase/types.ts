@@ -32,6 +32,24 @@ export type Database = {
         }
         Relationships: []
       }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       brands: {
         Row: {
           country_of_origin: string
@@ -102,7 +120,10 @@ export type Database = {
           sent_at: string | null
           sent_count: number
           source: string
+          source_date: string | null
+          source_from: string
           source_message_id: string | null
+          source_subject: string
           status: string
           subject: string
           updated_at: string
@@ -117,7 +138,10 @@ export type Database = {
           sent_at?: string | null
           sent_count?: number
           source?: string
+          source_date?: string | null
+          source_from?: string
           source_message_id?: string | null
+          source_subject?: string
           status?: string
           subject?: string
           updated_at?: string
@@ -132,7 +156,10 @@ export type Database = {
           sent_at?: string | null
           sent_count?: number
           source?: string
+          source_date?: string | null
+          source_from?: string
           source_message_id?: string | null
+          source_subject?: string
           status?: string
           subject?: string
           updated_at?: string
