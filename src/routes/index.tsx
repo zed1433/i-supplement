@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
-import { Filter, GitCompareArrows, Search, ShieldCheck, X } from "lucide-react";
+import { Filter, GitCompareArrows, Info, Search, ShieldCheck, X } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
 import { NewsletterSignup } from "@/components/suppcheck/NewsletterSignup";
@@ -12,6 +12,7 @@ import {
   CERT_FILTERS,
   FORM_FILTERS,
   chemicalForm,
+  costPer100mgElemental,
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
