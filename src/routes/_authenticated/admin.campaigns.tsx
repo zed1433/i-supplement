@@ -2,14 +2,27 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Eye, Inbox, Send, Sparkles, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Eye,
+  Inbox,
+  Loader2,
+  Send,
+  Sparkles,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   deleteCampaign,
   draftFromText,
+  getRetailerTerms,
   listCampaigns,
   previewCampaign,
+  runSelfTest,
   saveCampaign,
+  saveRetailerTerms,
   scanInboxNow,
   sendCampaignNow,
   sendTestEmail,
@@ -43,15 +56,30 @@ function CampaignsPage() {
   const preview = useServerFn(previewCampaign);
   const test = useServerFn(sendTestEmail);
   const sendNow = useServerFn(sendCampaignNow);
+  const selfTest = useServerFn(runSelfTest);
+  const fetchTerms = useServerFn(getRetailerTerms);
+  const storeTerms = useServerFn(saveRetailerTerms);
 
   const [sample, setSample] = useState("");
   const [editing, setEditing] = useState<{ id: string; subject: string; body: string } | null>(null);
   const [previewHtml, setPreviewHtml] = useState<string | null>(null);
   const [testTo, setTestTo] = useState("");
+  const [scanResult, setScanResult] = useState<any>(null);
+  const [checks, setChecks] = useState<{ name: string; ok: boolean; detail: string }[] | null>(null);
+  const [terms, setTerms] = useState<string | null>(null);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin", "campaigns"],
     queryFn: fetchCampaigns,
+    retry: false,
+  });
+  useQuery({
+    queryKey: ["admin", "retailer-terms"],
+    queryFn: async () => {
+      const r: any = await fetchTerms();
+      setTerms(r.terms);
+      return r;
+    },
     retry: false,
   });
   const refresh = () => qc.invalidateQueries({ queryKey: ["admin", "campaigns"] });
@@ -59,9 +87,19 @@ function CampaignsPage() {
   const scanMutation = useMutation({
     mutationFn: () => scan({}),
     onSuccess: (r: any) => {
+      setScanResult(r);
       toast.success(`${r.created} new drafts from ${r.scanned} emails`);
       refresh();
     },
+    onError: (e: Error) => {
+      setScanResult({ error: e.message });
+      toast.error(e.message);
+    },
+  });
+
+  const testMutation = useMutation({
+    mutationFn: () => selfTest({}),
+    onSuccess: (r: any) => setChecks(r.checks),
     onError: (e: Error) => toast.error(e.message),
   });
 
@@ -76,6 +114,7 @@ function CampaignsPage() {
   });
 
   const campaigns = (data?.campaigns ?? []) as any[];
+  const subscriberCount = data?.subscriberCount ?? 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,22 +128,117 @@ function CampaignsPage() {
         <h1 className="font-display text-2xl font-semibold tracking-tight">Offer emails</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Retailer promotions arriving in your inbox are rewritten into your own wording as drafts.
-          Nothing is ever sent until you approve it. Currently {data?.subscriberCount ?? 0}{" "}
-          subscribers.
+          You see the original and the rewrite side by side, and nothing is sent until you approve
+          it. Currently {subscriberCount} subscribers.
         </p>
 
         {data && !data.gmailConnected && (
           <div className="mt-4 rounded-lg border border-border bg-muted/30 p-3 text-sm">
-            The email account is not connected yet, so inbox scanning and sending are off. You can
+            The email account is not connected yet, so inbox checking and sending are off. You can
             still test everything below by pasting a sample offer.
           </div>
         )}
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button size="sm" onClick={() => scanMutation.mutate()} disabled={scanMutation.isPending}>
-            <Inbox className="size-4" /> Check inbox now
-          </Button>
-        </div>
+        {/* ---------- self test ---------- */}
+        <section className="mt-6 rounded-lg border border-border p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="font-medium">Check everything works</h2>
+              <p className="text-sm text-muted-foreground">
+                Runs each part once and tells you exactly what fails.
+              </p>
+            </div>
+            <Button size="sm" onClick={() => testMutation.mutate()} disabled={testMutation.isPending}>
+              {testMutation.isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <CheckCircle2 className="size-4" />
+              )}
+              Run the checks
+            </Button>
+          </div>
+          {checks && (
+            <ul className="mt-3 space-y-2 text-sm">
+              {checks.map((c) => (
+                <li key={c.name} className="flex gap-2">
+                  {c.ok ? (
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />
+                  ) : (
+                    <XCircle className="mt-0.5 size-4 shrink-0 text-destructive" />
+                  )}
+                  <span>
+                    <span className="font-medium">{c.name}:</span>{" "}
+                    <span className="text-muted-foreground">{c.detail}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* ---------- inbox check ---------- */}
+        <section className="mt-6 rounded-lg border border-border p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="font-medium">Check the inbox for offers</h2>
+              <p className="text-sm text-muted-foreground">
+                Looks at the last 30 days of promotional mail from the retailers below.
+              </p>
+            </div>
+            <Button size="sm" onClick={() => scanMutation.mutate()} disabled={scanMutation.isPending}>
+              {scanMutation.isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Inbox className="size-4" />
+              )}
+              {scanMutation.isPending ? "Checking…" : "Check inbox now"}
+            </Button>
+          </div>
+
+          <div className="mt-3 flex flex-wrap items-end gap-2">
+            <div className="min-w-64 flex-1">
+              <Label>Retailer names to look for (comma separated, empty = all promotions)</Label>
+              <Input
+                className="mt-1"
+                value={terms ?? ""}
+                onChange={(e) => setTerms(e.target.value)}
+                placeholder="iherb, amazon, myprotein"
+              />
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={async () => {
+                await storeTerms({ data: { terms: terms ?? "" } });
+                toast.success("Retailer list saved");
+              }}
+            >
+              Save list
+            </Button>
+          </div>
+
+          {scanResult && (
+            <div className="mt-3 rounded-md border border-border bg-muted/20 p-3 text-sm">
+              {scanResult.error ? (
+                <p className="text-destructive">{scanResult.error}</p>
+              ) : (
+                <>
+                  <p>
+                    Read {scanResult.scanned} emails · {scanResult.created} new drafts ·{" "}
+                    {scanResult.skipped} skipped
+                  </p>
+                  <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                    {(scanResult.outcomes ?? []).map((o: any, i: number) => (
+                      <li key={i}>
+                        {o.from || "(already seen)"} — {o.subject} → {o.result}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+        </section>
 
         <section className="mt-6 rounded-lg border border-border p-4">
           <Label>Test with a pasted offer email</Label>
@@ -121,7 +255,12 @@ function CampaignsPage() {
             disabled={sample.trim().length < 20 || sampleMutation.isPending}
             onClick={() => sampleMutation.mutate()}
           >
-            <Sparkles className="size-4" /> Create a draft from this
+            {sampleMutation.isPending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Sparkles className="size-4" />
+            )}
+            Create a draft from this
           </Button>
         </section>
 
@@ -184,7 +323,7 @@ function CampaignsPage() {
                     size="sm"
                     disabled={c.status === "sent"}
                     onClick={async () => {
-                      if (!confirm("Send this to every subscriber?")) return;
+                      if (!confirm(`Send this to ${subscriberCount} subscribers?`)) return;
                       try {
                         const r: any = await sendNow({ data: { id: c.id } });
                         toast.success(`Sent to ${r.sent} subscribers (${r.failed} failed)`);
@@ -194,7 +333,7 @@ function CampaignsPage() {
                       }
                     }}
                   >
-                    <Send className="size-4" /> Approve &amp; send
+                    <Send className="size-4" /> Send to {subscriberCount} subscribers
                   </Button>
                   <Button
                     size="sm"
@@ -209,10 +348,32 @@ function CampaignsPage() {
                   </Button>
                 </div>
               </div>
-              <div
-                className="prose prose-invert mt-3 max-w-none text-sm"
-                dangerouslySetInnerHTML={{ __html: c.body }}
-              />
+
+              <div className="mt-3 grid gap-4 md:grid-cols-2">
+                <div className="rounded-md border border-border bg-muted/20 p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    Original email
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {c.source_from || c.source || "pasted sample"}
+                    {c.source_date ? ` · ${new Date(c.source_date).toLocaleString()}` : ""}
+                  </p>
+                  {c.source_subject && <p className="mt-1 text-sm font-medium">{c.source_subject}</p>}
+                  <p className="mt-2 max-h-60 overflow-y-auto whitespace-pre-wrap text-sm text-muted-foreground">
+                    {c.raw_excerpt || "—"}
+                  </p>
+                </div>
+                <div className="rounded-md border border-border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    Your rewritten version
+                  </p>
+                  <p className="mt-1 text-sm font-medium">{c.subject}</p>
+                  <div
+                    className="prose prose-invert mt-2 max-h-60 max-w-none overflow-y-auto text-sm"
+                    dangerouslySetInnerHTML={{ __html: c.body }}
+                  />
+                </div>
+              </div>
             </div>
           ))}
           {!isLoading && campaigns.length === 0 && (
