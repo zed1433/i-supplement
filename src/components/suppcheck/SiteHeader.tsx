@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { FlaskConical, GitCompareArrows, ShoppingBasket } from "lucide-react";
+import { FlaskConical, GitCompareArrows, Settings, ShoppingBasket } from "lucide-react";
 import { useBasket } from "@/lib/basket";
 
 export function SiteHeader() {
