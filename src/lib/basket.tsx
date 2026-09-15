@@ -18,6 +18,8 @@ export type BasketItem = {
   currency: string;
   inStock: boolean;
   quantity: number;
+  /** When the retailer feed last refreshed this price (affiliate compliance). */
+  priceCheckedAt?: string;
 };
 
 type BasketContextValue = {
@@ -75,6 +77,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
             currency: offer.currency,
             inStock: offer.in_stock,
             quantity: 1,
+            priceCheckedAt: offer.updated_at,
           },
         ];
       }

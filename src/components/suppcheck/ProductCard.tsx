@@ -6,6 +6,7 @@ import {
   costPer100mgElemental,
   elementalPerServing,
   formatPrice,
+  priceAsOfShort,
   type Product,
 } from "@/lib/suppcheck";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
@@ -119,6 +120,11 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
               {offer ? `at ${offer.merchant_name}` : ""}
             </span>
           </p>
+          {offer && (
+            <p className="mt-0.5 text-[10px] text-muted-foreground">
+              {priceAsOfShort(offer.updated_at)}
+            </p>
+          )}
         </div>
         <Link
           to="/products/$slug"

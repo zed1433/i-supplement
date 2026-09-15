@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BasketProvider } from "@/lib/basket";
 import { RegionProvider } from "@/lib/region";
+import { SiteFooter } from "@/components/suppcheck/SiteFooter";
 
 function NotFoundComponent() {
   return (
@@ -137,6 +138,7 @@ function RootComponent() {
         <BasketProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
+          <SiteFooter />
         </BasketProvider>
       </RegionProvider>
     </QueryClientProvider>

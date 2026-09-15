@@ -12,6 +12,7 @@ import {
   elementalPerServing,
   excipientFlags,
   formatPrice,
+  priceAsOfShort,
   primaryIngredient,
   productsQuery,
   type Product,
@@ -236,12 +237,16 @@ function ComparePage() {
                         <span className="block text-xs text-muted-foreground">
                           {offer.merchant_name} · {offer.country_flag}
                         </span>
+                        <span className="mt-1 block text-[10px] text-muted-foreground">
+                          {priceAsOfShort(offer.updated_at)}
+                        </span>
                         <a
                           href={`/api/affiliate/redirect/${offer.id}`}
                           rel="nofollow sponsored"
+                          target="_blank"
                           className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
                         >
-                          Go to store <ExternalLink className="size-3.5" />
+                          View on {offer.merchant_name} <ExternalLink className="size-3.5" />
                         </a>
                       </span>
                     );

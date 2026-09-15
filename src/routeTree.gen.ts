@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
@@ -34,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
+  id: '/affiliate-disclosure',
+  path: '/affiliate-disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -119,6 +125,7 @@ const ApiPublicCronInboxRoute = ApiPublicCronInboxRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
     | '/compare'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
     | '/compare'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
     | '/compare'
@@ -232,6 +244,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
@@ -256,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/affiliate-disclosure': {
+      id: '/affiliate-disclosure'
+      path: '/affiliate-disclosure'
+      fullPath: '/affiliate-disclosure'
+      preLoaderRoute: typeof AffiliateDisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -401,6 +421,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,

@@ -52,9 +52,10 @@ export async function rewriteOffer(rawText: string, retailerHint = ""): Promise<
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
 
   const prompt = `You write short promotional emails for ${SITE_NAME}, an independent supplement comparison site.
-Rewrite the retailer promotion below in our own words. Never copy sentences verbatim, never invent a discount that is not in the source, and keep any expiry date and discount code exactly as written.
+Rewrite the retailer promotion below in our own words. Never copy sentences verbatim, never invent a discount or coupon code that is not in the source, and keep any expiry date and discount code exactly as written.
 Return STRICT JSON only: {"retailer": string, "subject": string, "body_html": string}.
 The body_html must be simple HTML (<p>, <strong>, <ul>, <a>) of 80-150 words, end with a link to ${SITE_URL} labelled "Compare the products", and contain no unsubscribe text.
+Affiliate rules: the ONLY link allowed anywhere in body_html is ${SITE_URL}. Never link to a retailer (Amazon, iHerb, eBay or any shop) and never include a retailer URL as text. Never imitate a retailer's branding or claim to be them.
 
 SOURCE (retailer hint: ${retailerHint || "unknown"}):
 """
@@ -86,8 +87,22 @@ ${rawText.slice(0, 6000)}
   return {
     retailer: (parsed.retailer ?? retailerHint).slice(0, 120),
     subject: (parsed.subject ?? "A new supplement offer").slice(0, 200),
-    body: parsed.body_html ?? "",
+    body: stripExternalLinks(parsed.body_html ?? ""),
   };
+}
+
+/**
+ * Affiliate programmes (Amazon in particular) forbid affiliate or retailer links
+ * inside email. Any outbound href is rewritten to our own comparison page.
+ */
+export function stripExternalLinks(html: string): string {
+  return html
+    .replace(/href\s*=\s*"(.*?)"/gi, (match, url: string) =>
+      url.startsWith(SITE_URL) ? match : `href="${SITE_URL}"`,
+    )
+    .replace(/href\s*=\s*'(.*?)'/gi, (match, url: string) =>
+      url.startsWith(SITE_URL) ? match : `href="${SITE_URL}"`,
+    );
 }
 
 export type ScanOutcome = { from: string; subject: string; result: string };
@@ -164,11 +179,12 @@ export function renderEmail(
   const notice = testNotice
     ? `<p style="font-size:13px;color:#6b7280;margin:0 0 16px">This is a test copy sent to you only. Subscribers have not received it.</p>`
     : "";
+  const safeBody = stripExternalLinks(bodyHtml);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
   <div style="max-width:560px;margin:0 auto;padding:24px">
     <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 12px">${SITE_NAME}</p>
     ${notice}<h1 style="font-size:20px;margin:0 0 16px">${escapeHtml(subject)}</h1>
-    <div style="font-size:15px;line-height:1.6">${bodyHtml}</div>
+    <div style="font-size:15px;line-height:1.6">${safeBody}</div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0" />
     <p style="font-size:12px;color:#6b7280">
       You are receiving this because you subscribed to ${SITE_NAME} offers.
@@ -179,7 +195,7 @@ export function renderEmail(
 
 /** Plain-text twin of the HTML email — required for good inbox placement. */
 export function renderText(subject: string, bodyHtml: string, unsubscribeUrl: string): string {
-  const body = bodyHtml
+  const body = stripExternalLinks(bodyHtml)
     .replace(/<\/(p|div|li|h[1-6])>/gi, "\n\n")
     .replace(/<li[^>]*>/gi, "- ")
     .replace(/<br\s*\/?>/gi, "\n")
