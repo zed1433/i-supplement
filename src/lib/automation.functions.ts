@@ -225,7 +225,8 @@ export const sendTestEmail = createServerFn({ method: "POST" })
   .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { renderEmail, unsubscribeUrl } = await import("@/lib/newsletter.server");
+    const { renderEmail, renderText, unsubscribeUrl, cleanSubject, SITE_NAME, LIST_ID } =
+      await import("@/lib/newsletter.server");
     const { sendMail } = await import("@/lib/gmail.server");
     const { data: campaign } = await supabaseAdmin
       .from("campaigns")
@@ -233,10 +234,16 @@ export const sendTestEmail = createServerFn({ method: "POST" })
       .eq("id", data.id)
       .single();
     if (!campaign) throw new Error("Campaign not found");
+    const subject = cleanSubject(campaign.subject);
+    const unsub = unsubscribeUrl("test-token");
     await sendMail({
       to: data.to,
-      subject: `[TEST] ${campaign.subject}`,
-      html: renderEmail(campaign.subject, campaign.body, unsubscribeUrl("test-token")),
+      subject,
+      html: renderEmail(subject, campaign.body, unsub, true),
+      text: renderText(subject, campaign.body, unsub),
+      fromName: SITE_NAME,
+      unsubscribeUrl: unsub,
+      listId: LIST_ID,
     });
     return { ok: true };
   });

@@ -15,17 +15,18 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { productsForRegion, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SuppCheck — Clinical Lab-Verified Supplement Comparison" },
+      { title: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
       {
         name: "description",
         content:
           "Compare elemental magnesium yields, carrier molecules, excipients, third-party assays and live iHerb, Amazon.de and EU pharmacy pricing.",
       },
-      { property: "og:title", content: "SuppCheck — Clinical Lab-Verified Supplement Comparison" },
+      { property: "og:title", content: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
       {
         property: "og:description",
         content:
@@ -64,14 +65,17 @@ function FilterOption({
 
 function HomePage() {
   const { data: products, isLoading, error } = useQuery(productsQuery);
+  const { region } = useRegion();
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
 
+  const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
+
   const filtered = useMemo(() => {
-    const list: Product[] = products ?? [];
+    const list: Product[] = regional;
     const q = search.trim().toLowerCase();
     return list.filter((p) => {
       const form = chemicalForm(p).toLowerCase();
@@ -88,7 +92,7 @@ function HomePage() {
         !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
       return matchesSearch && matchesCategory && matchesForm && matchesCert;
     });
-  }, [products, search, categories, forms, certs]);
+  }, [regional, search, categories, forms, certs]);
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(

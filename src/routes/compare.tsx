@@ -14,6 +14,7 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { productsForRegion, useRegion } from "@/lib/region";
 
 type CompareSearch = { ids?: string };
 
@@ -22,13 +23,13 @@ export const Route = createFileRoute("/compare")({
     typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
   head: () => ({
     meta: [
-      { title: "Side-by-Side Supplement Comparison — SuppCheck" },
+      { title: "Side-by-Side Supplement Comparison — i-Supplement" },
       {
         name: "description",
         content:
           "Contrast elemental yield, normalised cost per 100 mg, chelation integrity, excipient transparency and third-party assays side by side.",
       },
-      { property: "og:title", content: "Side-by-Side Supplement Comparison — SuppCheck" },
+      { property: "og:title", content: "Side-by-Side Supplement Comparison — i-Supplement" },
       {
         property: "og:description",
         content: "Normalised elemental economics and excipient transparency, product by product.",
@@ -44,9 +45,10 @@ function ComparePage() {
   const { ids } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { data: products, isLoading } = useQuery(productsQuery);
+  const { region } = useRegion();
 
   const selectedIds = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
-  const all = products ?? [];
+  const all = productsForRegion(products ?? [], region);
   const chosen = selectedIds
     .map((id) => all.find((p) => p.id === id))
     .filter((p): p is Product => Boolean(p));

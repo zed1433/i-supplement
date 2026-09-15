@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BasketProvider } from "@/lib/basket";
+import { RegionProvider } from "@/lib/region";
 
 function NotFoundComponent() {
   return (
@@ -78,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SuppCheck — Clinical Supplement Comparison" },
+      { title: "i-Supplement — Clinical Supplement Comparison" },
       {
         name: "description",
         content:
           "Elemental yields, chelation integrity, excipients and live multi-retailer pricing for evidence-graded supplements.",
       },
-      { property: "og:title", content: "SuppCheck — Clinical Supplement Comparison" },
+      { property: "og:title", content: "i-Supplement — Clinical Supplement Comparison" },
       {
         property: "og:description",
         content:
@@ -132,10 +133,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BasketProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-      </BasketProvider>
+      <RegionProvider>
+        <BasketProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </BasketProvider>
+      </RegionProvider>
     </QueryClientProvider>
   );
 }

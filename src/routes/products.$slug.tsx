@@ -26,6 +26,7 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { offerShipsTo, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
   head: ({ params }) => {
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/products/$slug")({
       .split("-")
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
       .join(" ");
-    const title = `${readable} — Clinical Breakdown | SuppCheck`;
+    const title = `${readable} — Clinical Breakdown | i-Supplement`;
     const description = `Elemental yield, carrier molecule, excipients, tolerance profile and live multi-retailer pricing for ${readable}.`;
     return {
       meta: [
@@ -53,6 +54,7 @@ function ProductPage() {
   const { slug } = Route.useParams();
   const { data: product, isLoading } = useQuery(productQuery(slug));
   const { data: allProducts } = useQuery(productsQuery);
+  const { region } = useRegion();
   const [openMechanism, setOpenMechanism] = useState(true);
 
   if (isLoading) {
@@ -82,7 +84,9 @@ function ProductPage() {
 
   const pi = primaryIngredient(product);
   const ingredient = pi?.ingredients;
-  const offers = [...product.merchant_offers].sort((a, b) => Number(a.price) - Number(b.price));
+  const offers = product.merchant_offers
+    .filter((o) => offerShipsTo(o, region))
+    .sort((a, b) => Number(a.price) - Number(b.price));
   const normalized = costPer100mgElemental(product);
   const alternatives = (allProducts ?? []).filter(
     (p) => p.id !== product.id && p.category === product.category,
@@ -235,7 +239,7 @@ function ProductPage() {
             </table>
           </div>
           <p className="mt-2 text-[11px] text-muted-foreground">
-            Outbound links pass through SuppCheck's tracking redirect. Prices refresh from merchant
+            Outbound links pass through i-Supplement's tracking redirect. Prices refresh from merchant
             feeds and may vary at checkout.
           </p>
         </section>

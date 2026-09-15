@@ -1,5 +1,5 @@
 // Offer-email ingestion, AI rewriting and newsletter sending. Server-only.
-export const SITE_NAME = "SuppCheck";
+export const SITE_NAME = "i-Supplement";
 export const SITE_URL =
   process.env["PUBLIC_SITE_URL"] ??
   "https://project--3a22ec09-24a9-45ec-9881-3eb081d306ce.lovable.app";
@@ -155,11 +155,19 @@ export async function scanInboxForOffers(limit = 50) {
   return { scanned: ids.length, created, skipped, query, outcomes };
 }
 
-export function renderEmail(subject: string, bodyHtml: string, unsubscribeUrl: string): string {
-  return `<!doctype html><html><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
+export function renderEmail(
+  subject: string,
+  bodyHtml: string,
+  unsubscribeUrl: string,
+  testNotice = false,
+): string {
+  const notice = testNotice
+    ? `<p style="font-size:13px;color:#6b7280;margin:0 0 16px">This is a test copy sent to you only. Subscribers have not received it.</p>`
+    : "";
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
   <div style="max-width:560px;margin:0 auto;padding:24px">
     <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 12px">${SITE_NAME}</p>
-    <h1 style="font-size:20px;margin:0 0 16px">${escapeHtml(subject)}</h1>
+    ${notice}<h1 style="font-size:20px;margin:0 0 16px">${escapeHtml(subject)}</h1>
     <div style="font-size:15px;line-height:1.6">${bodyHtml}</div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0" />
     <p style="font-size:12px;color:#6b7280">
@@ -167,6 +175,33 @@ export function renderEmail(subject: string, bodyHtml: string, unsubscribeUrl: s
       <a href="${unsubscribeUrl}" style="color:#6b7280">Unsubscribe</a>.
     </p>
   </div></body></html>`;
+}
+
+/** Plain-text twin of the HTML email — required for good inbox placement. */
+export function renderText(subject: string, bodyHtml: string, unsubscribeUrl: string): string {
+  const body = bodyHtml
+    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n\n")
+    .replace(/<li[^>]*>/gi, "- ")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  return `${SITE_NAME}\n\n${subject}\n\n${body}\n\nCompare the products: ${SITE_URL}\n\nYou are receiving this because you subscribed to ${SITE_NAME} offers.\nUnsubscribe: ${unsubscribeUrl}\n`;
+}
+
+/** Subject lines that shout get filtered — calm them down before sending. */
+export function cleanSubject(subject: string): string {
+  let out = subject.replace(/[!]{1,}/g, "").replace(/\s{2,}/g, " ").trim();
+  const letters = out.replace(/[^A-Za-z]/g, "");
+  const caps = letters.replace(/[^A-Z]/g, "").length;
+  if (letters.length > 8 && caps / letters.length > 0.6) {
+    out = out
+      .toLowerCase()
+      .replace(/(^|\s)\S/g, (c) => c.toUpperCase());
+  }
+  return out.slice(0, 150);
 }
 
 function escapeHtml(value: string): string {
@@ -179,6 +214,8 @@ export function unsubscribeUrl(token: string): string {
   return `${SITE_URL}/api/public/unsubscribe?token=${token}`;
 }
 
+export const LIST_ID = `i-supplement-offers.${new URL(SITE_URL).hostname}`;
+
 /** Send a campaign to every subscribed recipient, in a bounded batch. */
 export async function sendCampaign(campaignId: string, batchSize = 100) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -190,6 +227,8 @@ export async function sendCampaign(campaignId: string, batchSize = 100) {
     .eq("id", campaignId)
     .single();
   if (error || !campaign) throw new Error("Campaign not found");
+
+  const subject = cleanSubject(campaign.subject);
 
   const { data: subscribers } = await supabaseAdmin
     .from("subscribers")
@@ -207,11 +246,16 @@ export async function sendCampaign(campaignId: string, batchSize = 100) {
   let failed = 0;
   for (const sub of subscribers ?? []) {
     if (done.has(sub.email)) continue;
+    const unsub = unsubscribeUrl(sub.unsubscribe_token);
     try {
       await sendMail({
         to: sub.email,
-        subject: campaign.subject,
-        html: renderEmail(campaign.subject, campaign.body, unsubscribeUrl(sub.unsubscribe_token)),
+        subject,
+        html: renderEmail(subject, campaign.body, unsub),
+        text: renderText(subject, campaign.body, unsub),
+        fromName: SITE_NAME,
+        unsubscribeUrl: unsub,
+        listId: LIST_ID,
       });
       await supabaseAdmin
         .from("campaign_sends")
@@ -226,6 +270,8 @@ export async function sendCampaign(campaignId: string, batchSize = 100) {
       });
       failed += 1;
     }
+    // Pace the loop so a batch does not look like a blast.
+    await new Promise((r) => setTimeout(r, 1200));
   }
 
   await supabaseAdmin
