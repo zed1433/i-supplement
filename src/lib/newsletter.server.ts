@@ -90,12 +90,21 @@ ${rawText.slice(0, 6000)}
   };
 }
 
+export type ScanOutcome = { from: string; subject: string; result: string };
+
 /** Scan the connected inbox and store new drafts. Bounded and idempotent. */
-export async function scanInboxForOffers(limit = 10) {
+export async function scanInboxForOffers(limit = 50) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { listMessageIds, getMessage, messageText, header } = await import("@/lib/gmail.server");
 
-  const ids = await listMessageIds("newer_than:3d -in:chats", limit);
+  const terms = await retailerTerms();
+  const termQuery = terms.length
+    ? ` (category:promotions OR ${terms.map((t) => `"${t}"`).join(" OR ")})`
+    : " category:promotions";
+  const query = `newer_than:30d -in:chats${termQuery}`;
+
+  const ids = await listMessageIds(query, limit);
+  const outcomes: ScanOutcome[] = [];
   let created = 0;
   let skipped = 0;
 
@@ -107,31 +116,43 @@ export async function scanInboxForOffers(limit = 10) {
       .maybeSingle();
     if (existing) {
       skipped += 1;
+      outcomes.push({ from: "", subject: "", result: "already imported" });
       continue;
     }
 
     const msg = await getMessage(id);
     const subject = header(msg, "Subject");
     const from = header(msg, "From");
+    const date = header(msg, "Date");
     const text = messageText(msg);
-    if (!looksPromotional(subject, from, text)) {
+    if (!looksPromotional(subject, from, text, terms)) {
       skipped += 1;
+      outcomes.push({ from, subject, result: "not an offer" });
       continue;
     }
 
-    const draft = await rewriteOffer(text, from);
-    const { error } = await supabaseAdmin.from("campaigns").insert({
-      source: "inbox",
-      source_message_id: id,
-      retailer: draft.retailer || from.slice(0, 120),
-      subject: draft.subject,
-      body: draft.body,
-      raw_excerpt: `${subject}\n\n${text}`.slice(0, 2000),
-      status: "draft",
-    });
-    if (!error) created += 1;
+    try {
+      const draft = await rewriteOffer(text, from);
+      const { error } = await supabaseAdmin.from("campaigns").insert({
+        source: "inbox",
+        source_message_id: id,
+        retailer: draft.retailer || from.slice(0, 120),
+        subject: draft.subject,
+        body: draft.body,
+        raw_excerpt: text.slice(0, 4000),
+        source_from: from.slice(0, 300),
+        source_subject: subject.slice(0, 300),
+        source_date: date ? new Date(date).toISOString() : null,
+        status: "draft",
+      });
+      if (error) throw new Error(error.message);
+      created += 1;
+      outcomes.push({ from, subject, result: "draft created" });
+    } catch (err) {
+      outcomes.push({ from, subject, result: `failed: ${(err as Error).message.slice(0, 200)}` });
+    }
   }
-  return { scanned: ids.length, created, skipped };
+  return { scanned: ids.length, created, skipped, query, outcomes };
 }
 
 export function renderEmail(subject: string, bodyHtml: string, unsubscribeUrl: string): string {
