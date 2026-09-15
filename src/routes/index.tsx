@@ -104,16 +104,26 @@ function FilterOption({
   );
 }
 
+function groupOf(p: Product) {
+  return p.category_path[1] ?? p.category_path[0] ?? "Other";
+}
+function nutrientOf(p: Product) {
+  return p.category_path[2] ?? p.category;
+}
+function formOf(p: Product) {
+  return p.category_path[3] ?? chemicalForm(p);
+}
+
 function HomePage() {
   const { data: products, isLoading, error } = useQuery(productsQuery);
   const { region } = useRegion();
   const [search, setSearch] = useState("");
-  const [categories, setCategories] = useState<string[]>([]);
-  const [forms, setForms] = useState<string[]>([]);
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("featured");
-  const [topCategory, setTopCategory] = useState<string | null>(null);
+  const [group, setGroup] = useState<string | null>(null);
+  const [nutrient, setNutrient] = useState<string | null>(null);
+  const [form, setForm] = useState<string | null>(null);
 
   const regional = useMemo(() => productsForRegion(products ?? [], region), [products, region]);
 
@@ -122,50 +132,89 @@ function HomePage() {
     const q = search.trim().toLowerCase();
     return sortProducts(
       list.filter((p) => {
-        const form = chemicalForm(p).toLowerCase();
+        const chem = chemicalForm(p).toLowerCase();
         const matchesSearch =
           !q ||
           p.name.toLowerCase().includes(q) ||
           p.brands.name.toLowerCase().includes(q) ||
           p.category_path.join(" ").toLowerCase().includes(q) ||
-          form.includes(q);
-        const matchesTop = !topCategory || (p.category_path[0] ?? "Other") === topCategory;
-        const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
-        const matchesForm =
-          !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
+          chem.includes(q);
+        const matchesGroup = !group || groupOf(p) === group;
+        const matchesNutrient = !nutrient || nutrientOf(p) === nutrient;
+        const matchesForm = !form || formOf(p) === form;
         const matchesCert =
           !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-        return matchesSearch && matchesTop && matchesCategory && matchesForm && matchesCert;
+        return matchesSearch && matchesGroup && matchesNutrient && matchesForm && matchesCert;
       }),
       sort,
     );
-  }, [regional, search, categories, forms, certs, sort, topCategory]);
+  }, [regional, search, certs, sort, group, nutrient, form]);
 
-  const activeFilters = categories.length + forms.length + certs.length;
-  const categoryFilters = useMemo(
-    () => Array.from(new Set((products ?? []).map((product) => product.category_path.join(" › ")))).sort(),
+  const activeFilters =
+    certs.length + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0);
+
+  const all = products ?? [];
+  const groups = useMemo(
+    () => Array.from(new Set(all.map(groupOf))).sort(),
     [products],
   );
-  const topCategories = useMemo(
-    () => Array.from(new Set((products ?? []).map((product) => product.category_path[0] ?? "Other"))).sort(),
-    [products],
+  const nutrients = useMemo(
+    () =>
+      group
+        ? Array.from(new Set(all.filter((p) => groupOf(p) === group).map(nutrientOf))).sort()
+        : [],
+    [products, group],
   );
-  const countCategory = (value: string) => (products ?? []).filter((product) => product.category_path.join(" › ") === value).length;
-  const countTopCategory = (value: string) => (products ?? []).filter((product) => (product.category_path[0] ?? "Other") === value).length;
-  const countForm = (value: string) => (products ?? []).filter((product) => chemicalForm(product).toLowerCase().includes(value.toLowerCase().split(" (")[0] ?? "")).length;
-  const countCert = (value: string) => (products ?? []).filter((product) => product.third_party_certifications.includes(value)).length;
+  const formOptions = useMemo(
+    () =>
+      nutrient
+        ? Array.from(
+            new Set(
+              all
+                .filter((p) => groupOf(p) === group && nutrientOf(p) === nutrient)
+                .map(formOf),
+            ),
+          ).sort()
+        : [],
+    [products, group, nutrient],
+  );
+
+  const countGroup = (value: string) => all.filter((p) => groupOf(p) === value).length;
+  const countNutrient = (value: string) =>
+    all.filter((p) => groupOf(p) === group && nutrientOf(p) === value).length;
+  const countForm = (value: string) =>
+    all.filter((p) => groupOf(p) === group && nutrientOf(p) === nutrient && formOf(p) === value)
+      .length;
+  const countCert = (value: string) =>
+    all.filter((p) => p.third_party_certifications.includes(value)).length;
+
+  const selectGroup = (value: string | null) => {
+    setGroup(value);
+    setNutrient(null);
+    setForm(null);
+  };
+  const selectNutrient = (value: string | null) => {
+    setNutrient(value);
+    setForm(null);
+  };
+
   const filters = (
     <FilterPanel
-      categories={categories}
-      forms={forms}
-      certs={certs}
-      categoryFilters={categoryFilters}
-      countCategory={countCategory}
+      group={group}
+      nutrient={nutrient}
+      form={form}
+      groups={groups}
+      nutrients={nutrients}
+      formOptions={formOptions}
+      countGroup={countGroup}
+      countNutrient={countNutrient}
       countForm={countForm}
       countCert={countCert}
-      setCategories={setCategories}
-      setForms={setForms}
+      certs={certs}
       setCerts={setCerts}
+      selectGroup={selectGroup}
+      selectNutrient={selectNutrient}
+      setForm={setForm}
     />
   );
 
