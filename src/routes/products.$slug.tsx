@@ -106,13 +106,20 @@ function ProductPage() {
             ← Catalog
           </Link>
           <div className="mt-6 grid gap-8 sm:grid-cols-[260px_minmax(0,1fr)] sm:items-start">
-            <ProductImage
-              src={product.image_url}
-              alt={`${product.brands.name} ${product.name}`}
-              brand={product.brands.name}
-              className="aspect-square w-full"
-              eager
-            />
+            <div>
+              <ProductImage
+                src={product.image_url}
+                alt={`${product.brands.name} ${product.name}`}
+                brand={product.brands.name}
+                className="aspect-square w-full"
+                eager
+              />
+              {product.image_source === "generated" && (
+                <p className="mt-1 text-center text-[10px] text-muted-foreground">
+                  Illustrative image — retailer photo will replace it
+                </p>
+              )}
+            </div>
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">
                 {product.brands.name} · {product.brands.country_of_origin}
