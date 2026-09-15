@@ -6,10 +6,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Filter,
+  FlaskConical,
   GitCompareArrows,
   Info,
   Search,
   ShieldCheck,
+  ShoppingBasket,
+  Tag,
   X,
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
