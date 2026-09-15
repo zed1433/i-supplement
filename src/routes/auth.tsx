@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { FlaskConical, LogIn } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/auth")({
@@ -36,14 +37,16 @@ function AuthPage() {
   async function signIn() {
     setBusy(true);
     setError(null);
-    const { error: err } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth` },
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/auth`,
     });
-    if (err) {
-      setError(err.message);
+    if (result.error) {
+      setError(result.error.message);
       setBusy(false);
+      return;
     }
+    if (result.redirected) return;
+    navigate({ to: "/admin" });
   }
 
   return (
