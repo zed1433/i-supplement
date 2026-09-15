@@ -402,19 +402,30 @@ function HomePage() {
 
         {!isLoading && !error && (
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                selected={selected.includes(p.id)}
-                selectionFull={selected.length >= 4}
-                onToggle={(id) =>
-                  setSelected((prev) =>
-                    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-                  )
-                }
-              />
-            ))}
+            <AnimatePresence initial={false} mode="popLayout">
+              {filtered.map((p) => (
+                <motion.div
+                  key={p.id}
+                  layout={reduceMotion ? false : "position"}
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                  className="h-full"
+                >
+                  <ProductCard
+                    product={p}
+                    selected={selected.includes(p.id)}
+                    selectionFull={selected.length >= 4}
+                    onToggle={(id) =>
+                      setSelected((prev) =>
+                        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                      )
+                    }
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {filtered.length === 0 && (
               <p className="col-span-full rounded-lg border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
                 No products match these filters.
