@@ -273,8 +273,12 @@ function ProductPage() {
                     <td className="p-3 text-right">
                       {o.in_stock && o.link_verified ? (
                         <Button asChild size="sm">
-                          <a href={`/api/affiliate/redirect/${o.id}`} rel="nofollow sponsored">
-                            Exact product <ExternalLink />
+                          <a
+                            href={`/api/affiliate/redirect/${o.id}`}
+                            rel="nofollow sponsored"
+                            target="_blank"
+                          >
+                            View on {o.merchant_name} <ExternalLink />
                           </a>
                         </Button>
                       ) : (
@@ -286,9 +290,14 @@ function ProductPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-2 text-[11px] text-muted-foreground">
-            Outbound links pass through i-Supplement's tracking redirect. Prices refresh from merchant
-            feeds and may vary at checkout.
+          {offers[0] && (
+            <p className="mt-2 text-[11px] text-muted-foreground">
+              {priceAsOfLong(offers[0].updated_at)}
+            </p>
+          )}
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            {AFFILIATE_DISCLOSURE} Buttons take you to the named retailer's own site to complete
+            your purchase.
           </p>
         </section>
 
