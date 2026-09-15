@@ -16,7 +16,7 @@ async function assertAdmin(context: Ctx) {
 
 export const listFeeds = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }: { context: Ctx }) => {
+  .handler(async ({ context }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [{ data: feeds }, { data: runs }, { data: jobs }] = await Promise.all([
@@ -50,7 +50,7 @@ const feedSchema = z.object({
 export const saveFeed = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => feedSchema.parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: z.infer<typeof feedSchema> }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { id, ...fields } = data;
@@ -64,7 +64,7 @@ export const saveFeed = createServerFn({ method: "POST" })
 export const deleteFeed = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("retailer_feeds").delete().eq("id", data.id);
@@ -77,7 +77,7 @@ export const runFeedNow = createServerFn({ method: "POST" })
   .inputValidator((data) =>
     z.object({ id: z.string().uuid(), csv: z.string().max(20_000_000).optional() }).parse(data),
   )
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string; csv?: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { runFeed } = await import("@/lib/feeds.server");
@@ -95,7 +95,7 @@ export const setJobPaused = createServerFn({ method: "POST" })
   .inputValidator((data) =>
     z.object({ job_name: z.string().max(40), paused: z.boolean() }).parse(data),
   )
-  .handler(async ({ context, data }: { context: Ctx; data: { job_name: string; paused: boolean } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin
@@ -109,7 +109,7 @@ export const setJobPaused = createServerFn({ method: "POST" })
 
 export const listCampaigns = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }: { context: Ctx }) => {
+  .handler(async ({ context }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { gmailConfigured } = await import("@/lib/gmail.server");
@@ -129,7 +129,7 @@ export const listCampaigns = createServerFn({ method: "GET" })
 
 export const scanInboxNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }: { context: Ctx }) => {
+  .handler(async ({ context }: any) => {
     await assertAdmin(context);
     const { scanInboxForOffers } = await import("@/lib/newsletter.server");
     return scanInboxForOffers(10);
@@ -138,7 +138,7 @@ export const scanInboxNow = createServerFn({ method: "POST" })
 export const draftFromText = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ text: z.string().min(20).max(20000) }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { text: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { rewriteOffer } = await import("@/lib/newsletter.server");
@@ -170,7 +170,7 @@ export const saveCampaign = createServerFn({ method: "POST" })
       })
       .parse(data),
   )
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string; subject: string; body: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
@@ -184,7 +184,7 @@ export const saveCampaign = createServerFn({ method: "POST" })
 export const deleteCampaign = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin.from("campaigns").delete().eq("id", data.id);
@@ -195,7 +195,7 @@ export const deleteCampaign = createServerFn({ method: "POST" })
 export const previewCampaign = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { renderEmail, unsubscribeUrl } = await import("@/lib/newsletter.server");
@@ -222,7 +222,7 @@ export const sendTestEmail = createServerFn({ method: "POST" })
   .inputValidator((data) =>
     z.object({ id: z.string().uuid(), to: z.string().email().max(200) }).parse(data),
   )
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string; to: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { renderEmail, unsubscribeUrl } = await import("@/lib/newsletter.server");
@@ -244,7 +244,7 @@ export const sendTestEmail = createServerFn({ method: "POST" })
 export const sendCampaignNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { sendCampaign } = await import("@/lib/newsletter.server");
     return sendCampaign(data.id);
@@ -254,7 +254,7 @@ export const sendCampaignNow = createServerFn({ method: "POST" })
 
 export const listPeople = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }: { context: Ctx }) => {
+  .handler(async ({ context }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [{ data: admins }, { data: subscribers, count }] = await Promise.all([
@@ -271,7 +271,7 @@ export const listPeople = createServerFn({ method: "GET" })
 export const addAdminEmail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ email: z.string().email().max(200) }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { email: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
@@ -284,7 +284,7 @@ export const addAdminEmail = createServerFn({ method: "POST" })
 export const removeAdminEmail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
-  .handler(async ({ context, data }: { context: Ctx; data: { id: string } }) => {
+  .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { count } = await supabaseAdmin
@@ -313,7 +313,7 @@ export const removeAdminEmail = createServerFn({ method: "POST" })
 
 export const subscribeEmail = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({ email: z.string().email().max(200) }).parse(data))
-  .handler(async ({ data }: { data: { email: string } }) => {
+  .handler(async ({ data }: any) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const email = data.email.toLowerCase();
     const { data: existing } = await supabaseAdmin

@@ -18,8 +18,11 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
+import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
+import { Route as ApiPublicCronFeedsRouteImport } from './routes/api/public/cron/feeds'
+import { Route as ApiPublicCronInboxRouteImport } from './routes/api/public/cron/inbox'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -66,6 +69,11 @@ const AuthenticatedAdminImportRoute =
     path: '/import',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
+  id: '/api/public/unsubscribe',
+  path: '/api/public/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminProductSlugRoute =
   AuthenticatedAdminProductSlugRouteImport.update({
     id: '/product/$slug',
@@ -78,6 +86,16 @@ const ApiAffiliateRedirectOfferIdRoute =
     path: '/api/affiliate/redirect/$offerId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicCronFeedsRoute = ApiPublicCronFeedsRouteImport.update({
+  id: '/api/public/cron/feeds',
+  path: '/api/public/cron/feeds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicCronInboxRoute = ApiPublicCronInboxRouteImport.update({
+  id: '/api/public/cron/inbox',
+  path: '/api/public/cron/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -87,9 +105,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
+  '/api/public/cron/feeds': typeof ApiPublicCronFeedsRoute
+  '/api/public/cron/inbox': typeof ApiPublicCronInboxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -98,9 +119,12 @@ export interface FileRoutesByTo {
   '/compare': typeof CompareRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
+  '/api/public/cron/feeds': typeof ApiPublicCronFeedsRoute
+  '/api/public/cron/inbox': typeof ApiPublicCronInboxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,9 +136,12 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
   '/api/affiliate/redirect/$offerId': typeof ApiAffiliateRedirectOfferIdRoute
+  '/api/public/cron/feeds': typeof ApiPublicCronFeedsRoute
+  '/api/public/cron/inbox': typeof ApiPublicCronInboxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,9 +153,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/products/$slug'
     | '/admin/import'
+    | '/api/public/unsubscribe'
     | '/admin/'
     | '/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
+    | '/api/public/cron/feeds'
+    | '/api/public/cron/inbox'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -137,9 +167,12 @@ export interface FileRouteTypes {
     | '/compare'
     | '/products/$slug'
     | '/admin/import'
+    | '/api/public/unsubscribe'
     | '/admin'
     | '/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
+    | '/api/public/cron/feeds'
+    | '/api/public/cron/inbox'
   id:
     | '__root__'
     | '/'
@@ -150,9 +183,12 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/products/$slug'
     | '/_authenticated/admin/import'
+    | '/api/public/unsubscribe'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/product/$slug'
     | '/api/affiliate/redirect/$offerId'
+    | '/api/public/cron/feeds'
+    | '/api/public/cron/inbox'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -162,7 +198,10 @@ export interface RootRouteChildren {
   BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
+  ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
+  ApiPublicCronFeedsRoute: typeof ApiPublicCronFeedsRoute
+  ApiPublicCronInboxRoute: typeof ApiPublicCronInboxRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -230,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/unsubscribe': {
+      id: '/api/public/unsubscribe'
+      path: '/api/public/unsubscribe'
+      fullPath: '/api/public/unsubscribe'
+      preLoaderRoute: typeof ApiPublicUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/product/$slug': {
       id: '/_authenticated/admin/product/$slug'
       path: '/product/$slug'
@@ -242,6 +288,20 @@ declare module '@tanstack/react-router' {
       path: '/api/affiliate/redirect/$offerId'
       fullPath: '/api/affiliate/redirect/$offerId'
       preLoaderRoute: typeof ApiAffiliateRedirectOfferIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cron/feeds': {
+      id: '/api/public/cron/feeds'
+      path: '/api/public/cron/feeds'
+      fullPath: '/api/public/cron/feeds'
+      preLoaderRoute: typeof ApiPublicCronFeedsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cron/inbox': {
+      id: '/api/public/cron/inbox'
+      path: '/api/public/cron/inbox'
+      fullPath: '/api/public/cron/inbox'
+      preLoaderRoute: typeof ApiPublicCronInboxRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -280,7 +340,10 @@ const rootRouteChildren: RootRouteChildren = {
   BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
+  ApiPublicCronFeedsRoute: ApiPublicCronFeedsRoute,
+  ApiPublicCronInboxRoute: ApiPublicCronInboxRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
