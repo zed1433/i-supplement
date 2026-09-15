@@ -128,7 +128,9 @@ function ImportPage() {
       const XLSX = await import("xlsx");
       const buffer = await file.arrayBuffer();
       const wb = XLSX.read(buffer);
-      const sheet = wb.Sheets[wb.SheetNames[0]];
+      const firstName = wb.SheetNames[0];
+      const sheet = firstName ? wb.Sheets[firstName] : undefined;
+      if (!sheet) throw new Error("No worksheet found in file");
       setRawText(XLSX.utils.sheet_to_csv(sheet));
     } else {
       setRawText(await file.text());
