@@ -97,11 +97,17 @@ export async function applyFeedCsv(
     const currency = pick(rec, mapping, "currency");
     const image = pick(rec, mapping, "image");
 
-    const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
-    if (price !== null && price > 0) patch["price"] = price;
-    if (stock !== null) patch["in_stock"] = stock;
-    if (currency) patch["currency"] = currency.slice(0, 8);
-    if (rid && !offer.retailer_product_id) patch["retailer_product_id"] = rid;
+    const patch: {
+      updated_at: string;
+      price?: number;
+      in_stock?: boolean;
+      currency?: string;
+      retailer_product_id?: string;
+    } = { updated_at: new Date().toISOString() };
+    if (price !== null && price > 0) patch.price = price;
+    if (stock !== null) patch.in_stock = stock;
+    if (currency) patch.currency = currency.slice(0, 8);
+    if (rid && !offer.retailer_product_id) patch.retailer_product_id = rid;
 
     const { error: upErr } = await supabaseAdmin
       .from("merchant_offers")
