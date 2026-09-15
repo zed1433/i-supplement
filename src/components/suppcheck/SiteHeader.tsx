@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { FlaskConical, GitCompareArrows, ShoppingBasket } from "lucide-react";
 import { useBasket } from "@/lib/basket";
 import { REGIONS, useRegion, type RegionCode } from "@/lib/region";
+import { AffiliateNotice } from "@/components/suppcheck/AffiliateNotice";
 
 export function SiteHeader() {
   const { totalItems } = useBasket();
@@ -60,6 +61,7 @@ export function SiteHeader() {
           </Link>
         </nav>
       </div>
+      <AffiliateNotice />
     </header>
   );
 }

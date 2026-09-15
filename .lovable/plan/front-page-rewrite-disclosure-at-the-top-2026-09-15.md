@@ -4,7 +4,7 @@ The three hero directions never reached you — the design step was cut off befo
 
 ## 1. Affiliate disclosure moves to the top
 
-- A slim, always-visible disclosure strip sits directly under the site header, on every page: "We earn a commission when you buy through our links. Prices and stock come from the retailers."
+- A slim, always-visible disclosure strip sits directly under the site header, on every page: "We might earn a commission when you buy through our links. Prices and stock come from the retailers."
 - It links to the full disclosure page.
 - It stays quiet visually (small text, subtle background) so it doesn't fight the headline, but it is above the fold on both phone and desktop.
 - The footer keeps a short version too, which is normal practice.

@@ -6,10 +6,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Filter,
+  FlaskConical,
   GitCompareArrows,
   Info,
   Search,
   ShieldCheck,
+  ShoppingBasket,
+  Tag,
   X,
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
@@ -238,24 +241,39 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
-            Clinical transparency, not marketing claims
+            Lab-verified. Every batch, every claim.
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl">
-            Clinical Lab-Verified Supplement Comparison
+          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
+            Find and buy the best lab-tested supplements.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Elemental yields separated from gross compound weight, carrier molecules and chelation
-            integrity, full excipient disclosure, and live pricing across iHerb, Amazon.de and EU
-            pharmacy networks.
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
+            One place for what actually works, at the best price we can find — real elemental doses,
+            real third-party testing, no marketing claims.
           </p>
 
-          <div className="relative mt-8 max-w-xl">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a
+              href="#catalogue"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Browse supplements
+              <ChevronRight className="size-4" />
+            </a>
+            <Link
+              to="/affiliate-disclosure"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              How we verify
+            </Link>
+          </div>
+
+          <div className="relative mt-8 max-w-2xl">
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by brand, product or chemical form (e.g. bisglycinate)"
-              className="w-full rounded-lg border border-border bg-surface py-3 pl-10 pr-10 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-1 focus:ring-primary/40"
+              placeholder="Search magnesium, vitamin D, omega-3…"
+              className="w-full rounded-xl border border-border bg-surface py-4 pl-11 pr-10 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-1 focus:ring-primary/40"
             />
             {search && (
               <button
@@ -269,7 +287,29 @@ function HomePage() {
             )}
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Browse by category">
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { icon: ShieldCheck, label: "Third-party tested" },
+              { icon: FlaskConical, label: "Elemental dose shown" },
+              { icon: Tag, label: "Live retailer prices" },
+              { icon: ShoppingBasket, label: "One basket, any retailer" },
+            ].map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2.5 text-xs font-medium text-foreground"
+              >
+                <Icon className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                {label}
+              </li>
+            ))}
+          </ul>
+
+          <div
+            id="catalogue"
+            className="mt-8 flex scroll-mt-24 flex-wrap gap-2"
+            role="group"
+            aria-label="Browse by category"
+          >
             <button
               type="button"
               onClick={() => selectGroup(null)}
