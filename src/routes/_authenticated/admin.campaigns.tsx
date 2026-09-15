@@ -132,6 +132,19 @@ function CampaignsPage() {
           it. Currently {subscriberCount} subscribers.
         </p>
 
+        <div className="mt-4 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+          <p className="font-medium">Why some emails land in spam</p>
+          <p className="mt-1 text-muted-foreground">
+            Emails are currently sent from a normal Gmail address. Gmail and Outlook treat bulk mail
+            from a personal address as suspicious no matter how it is written, so it often lands in
+            spam. The emails now include a plain-text version, a proper sender name and a one-click
+            unsubscribe, which helps — but the real fix is sending from your own domain
+            (i-supplement.com) once it is bought and verified. After that, inbox placement becomes
+            reliable. In the meantime, ask your first subscribers to mark the email "Not spam" and
+            add the sender to their contacts.
+          </p>
+        </div>
+
         {data && !data.gmailConnected && (
           <div className="mt-4 rounded-lg border border-border bg-muted/30 p-3 text-sm">
             The email account is not connected yet, so inbox checking and sending are off. You can
