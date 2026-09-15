@@ -18,8 +18,10 @@ import { isIllustrativeImage, productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 import {
+  AFFILIATE_DISCLOSURE,
   CERT_EXPLANATIONS,
   chemicalForm,
+  priceAsOfLong,
   costPer100mgElemental,
   elementalPerServing,
   formatPrice,
