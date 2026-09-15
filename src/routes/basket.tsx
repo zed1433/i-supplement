@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink, Minus, Plus, ShoppingBasket, Trash2 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { Button } from "@/components/ui/button";
 import { useBasket, type BasketItem } from "@/lib/basket";
 import { formatPrice } from "@/lib/suppcheck";
@@ -78,7 +79,13 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
       </div>
       <div className="mt-4 divide-y divide-border border-y border-border">
         {items.map((item) => (
-          <div key={item.offerId} className="grid gap-4 py-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
+          <div key={item.offerId} className="grid gap-4 py-4 sm:grid-cols-[auto_1fr_auto_auto] sm:items-center">
+            <ProductImage
+              src={item.imageUrl}
+              alt={item.productName}
+              brand={item.brandName}
+              className="size-14"
+            />
             <div>
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{item.brandName}</p>
               <Link to="/products/$slug" params={{ slug: item.productSlug }} className="mt-1 block font-semibold hover:text-primary">{item.productName}</Link>
