@@ -26,6 +26,7 @@ import {
   productsQuery,
   type Product,
 } from "@/lib/suppcheck";
+import { offerShipsTo, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
   head: ({ params }) => {
