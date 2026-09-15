@@ -84,8 +84,18 @@ const PRODUCT_SELECT = `
   )
 `;
 
+/** Abort a hung request instead of leaving the page on skeletons forever. */
+const REQUEST_TIMEOUT_MS = 12_000;
+function timeoutSignal(): AbortSignal {
+  return AbortSignal.timeout(REQUEST_TIMEOUT_MS);
+}
+
 export async function fetchProducts(): Promise<Product[]> {
-  const { data, error } = await supabase.from("products").select(PRODUCT_SELECT).order("name");
+  const { data, error } = await supabase
+    .from("products")
+    .select(PRODUCT_SELECT)
+    .order("name")
+    .abortSignal(timeoutSignal());
   if (error) throw error;
   return (data ?? []) as unknown as Product[];
 }
@@ -95,6 +105,7 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
     .from("products")
     .select(PRODUCT_SELECT)
     .eq("slug", slug)
+    .abortSignal(timeoutSignal())
     .maybeSingle();
   if (error) throw error;
   return (data ?? null) as unknown as Product | null;
@@ -104,12 +115,16 @@ export const productsQuery = {
   queryKey: ["suppcheck", "products"],
   queryFn: fetchProducts,
   staleTime: 60_000,
+  retry: 2,
+  retryDelay: (attempt: number) => Math.min(1000 * 2 ** attempt, 4000),
 };
 
 export const productQuery = (slug: string) => ({
   queryKey: ["suppcheck", "product", slug],
   queryFn: () => fetchProductBySlug(slug),
   staleTime: 60_000,
+  retry: 2,
+  retryDelay: (attempt: number) => Math.min(1000 * 2 ** attempt, 4000),
 });
 
 /* ---------- derived clinical metrics ---------- */

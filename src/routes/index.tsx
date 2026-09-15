@@ -29,6 +29,7 @@ import {
 import { productsForRegion, useRegion } from "@/lib/region";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
   head: () => ({
     meta: [
       { title: "i-Supplement — Clinical Lab-Verified Supplement Comparison" },
@@ -125,7 +126,7 @@ function formOf(p: Product) {
 }
 
 function HomePage() {
-  const { data: products, isLoading, error } = useQuery(productsQuery);
+  const { data: products, isLoading, error, refetch } = useQuery(productsQuery);
   const reduceMotion = useReducedMotion();
   const { region } = useRegion();
   const [search, setSearch] = useState("");
@@ -344,13 +345,26 @@ function HomePage() {
 
       <main className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
-          <div className="sticky top-20">{filters}</div>
+          <div className="sticky top-20">
+            {isLoading ? (
+              <div className="space-y-3">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="h-5 animate-pulse rounded bg-surface" />
+                ))}
+              </div>
+            ) : (
+              filters
+            )}
+          </div>
         </aside>
         <section className="min-w-0">
         <div className="flex items-center justify-between border-b border-border pb-4">
           <p className="num text-xs text-muted-foreground">
-            {filtered.length} product{filtered.length === 1 ? "" : "s"}
-            {activeFilters > 0 ? ` · ${activeFilters} filters active` : ""}
+            {isLoading
+              ? "Loading catalogue…"
+              : `${filtered.length} product${filtered.length === 1 ? "" : "s"}${
+                  activeFilters > 0 ? ` · ${activeFilters} filters active` : ""
+                }`}
           </p>
           <div className="flex items-center gap-2">
           <label className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -396,9 +410,12 @@ function HomePage() {
         )}
 
         {error && (
-          <p className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive-foreground">
-            The catalog could not be loaded. Please refresh and try again.
-          </p>
+          <div className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
+            <p className="text-foreground">We could not load the catalogue just now.</p>
+            <Button size="sm" variant="outline" className="mt-3" onClick={() => refetch()}>
+              Try again
+            </Button>
+          </div>
         )}
 
         {!isLoading && !error && (

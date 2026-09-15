@@ -24,6 +24,7 @@ type CompareSearch = { ids?: string };
 export const Route = createFileRoute("/compare")({
   validateSearch: (search: Record<string, unknown>): CompareSearch =>
     typeof search["ids"] === "string" ? { ids: search["ids"] } : {},
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
   head: () => ({
     meta: [
       { title: "Side-by-Side Supplement Comparison — i-Supplement" },
