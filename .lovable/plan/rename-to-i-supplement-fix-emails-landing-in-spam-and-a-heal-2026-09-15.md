@@ -26,6 +26,7 @@ Changes in this round:
 - Slow the send loop slightly and cap each run, so a burst of identical messages does not look like a blast.
 - Tighten the email markup: no hidden text, fewer links, no all-caps or exclamation marks in subjects, and a plain visible unsubscribe line (already present, kept).
 - Add a short "deliverability" note on the offer-emails admin screen explaining the domain step, so the state is visible rather than a surprise.
+- add a button to change our region and dynamically chage the reatilser and the products that can be sent to your door , for example someone in grecee should be able to see the iherb and skroutz products ,and the eurpean products frrom amazon but some on usa shouldnt be able to see the skroutz website and so on
 
 ### After you buy i-supplement.com
 
