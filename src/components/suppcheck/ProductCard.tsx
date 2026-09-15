@@ -86,13 +86,13 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-border bg-border">
-        <div className="bg-surface-raised px-3 py-2">
+        <div className="bg-surface-raised px-3 py-2" title="The active amount your body can actually absorb per serving — often far less than the label's compound weight.">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             Elemental / serving
           </p>
           <p className="num mt-0.5 text-lg font-semibold text-primary">{elemental} mg</p>
         </div>
-        <div className="bg-surface-raised px-3 py-2">
+        <div className="bg-surface-raised px-3 py-2" title="Price normalised to 100 mg of elemental mineral, so products with different strengths compare fairly.">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             Cost / 100 mg
           </p>
