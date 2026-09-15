@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_allowlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       brands: {
         Row: {
           country_of_origin: string
@@ -37,6 +55,139 @@ export type Database = {
           website_url?: string
         }
         Relationships: []
+      }
+      campaign_sends: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          email: string
+          error: string
+          id: string
+          status: string
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          email: string
+          error?: string
+          id?: string
+          status?: string
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          email?: string
+          error?: string
+          id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_sends_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          body: string
+          created_at: string
+          failed_count: number
+          id: string
+          raw_excerpt: string
+          retailer: string
+          sent_at: string | null
+          sent_count: number
+          source: string
+          source_message_id: string | null
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          failed_count?: number
+          id?: string
+          raw_excerpt?: string
+          retailer?: string
+          sent_at?: string | null
+          sent_count?: number
+          source?: string
+          source_message_id?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          failed_count?: number
+          id?: string
+          raw_excerpt?: string
+          retailer?: string
+          sent_at?: string | null
+          sent_count?: number
+          source?: string
+          source_message_id?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      feed_runs: {
+        Row: {
+          errors: string[]
+          feed_id: string | null
+          finished_at: string | null
+          id: string
+          rows_matched: number
+          rows_total: number
+          rows_updated: number
+          started_at: string
+          status: string
+          trigger: string
+          unmatched: Json
+        }
+        Insert: {
+          errors?: string[]
+          feed_id?: string | null
+          finished_at?: string | null
+          id?: string
+          rows_matched?: number
+          rows_total?: number
+          rows_updated?: number
+          started_at?: string
+          status?: string
+          trigger?: string
+          unmatched?: Json
+        }
+        Update: {
+          errors?: string[]
+          feed_id?: string | null
+          finished_at?: string | null
+          id?: string
+          rows_matched?: number
+          rows_total?: number
+          rows_updated?: number
+          started_at?: string
+          status?: string
+          trigger?: string
+          unmatched?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_runs_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "retailer_feeds"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ingredients: {
         Row: {
@@ -74,6 +225,39 @@ export type Database = {
           potential_side_effects?: string[]
           target_benefits?: string[]
           upper_tolerable_limit?: string
+        }
+        Relationships: []
+      }
+      job_state: {
+        Row: {
+          failures: number
+          job_name: string
+          last_run_at: string | null
+          last_status: string
+          leased_until: string | null
+          pause_reason: string
+          paused: boolean
+          updated_at: string
+        }
+        Insert: {
+          failures?: number
+          job_name: string
+          last_run_at?: string | null
+          last_status?: string
+          leased_until?: string | null
+          pause_reason?: string
+          paused?: boolean
+          updated_at?: string
+        }
+        Update: {
+          failures?: number
+          job_name?: string
+          last_run_at?: string | null
+          last_status?: string
+          leased_until?: string | null
+          pause_reason?: string
+          paused?: boolean
+          updated_at?: string
         }
         Relationships: []
       }
@@ -193,6 +377,7 @@ export type Database = {
           excipients: string[]
           form: string
           id: string
+          image_url: string
           name: string
           primary_benefit: string
           serving_size: string
@@ -209,6 +394,7 @@ export type Database = {
           excipients?: string[]
           form: string
           id?: string
+          image_url?: string
           name: string
           primary_benefit?: string
           serving_size?: string
@@ -225,6 +411,7 @@ export type Database = {
           excipients?: string[]
           form?: string
           id?: string
+          image_url?: string
           name?: string
           primary_benefit?: string
           serving_size?: string
@@ -242,6 +429,84 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      retailer_feeds: {
+        Row: {
+          active: boolean
+          created_at: string
+          feed_url: string
+          from_email: string
+          id: string
+          last_message: string
+          last_run_at: string | null
+          last_status: string
+          mapping: Json
+          merchant_name: string
+          source_kind: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          feed_url?: string
+          from_email?: string
+          id?: string
+          last_message?: string
+          last_run_at?: string | null
+          last_status?: string
+          mapping?: Json
+          merchant_name: string
+          source_kind?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          feed_url?: string
+          from_email?: string
+          id?: string
+          last_message?: string
+          last_run_at?: string | null
+          last_status?: string
+          mapping?: Json
+          merchant_name?: string
+          source_kind?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string
+          status: string
+          unsubscribe_token: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string
+          status?: string
+          unsubscribe_token?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string
+          status?: string
+          unsubscribe_token?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {
