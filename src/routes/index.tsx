@@ -238,16 +238,31 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
-            Clinical transparency, not marketing claims
+            Lab-verified. Every batch, every claim.
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl">
-            Clinical Lab-Verified Supplement Comparison
+          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
+            Find and buy the best lab-tested supplements.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Elemental yields separated from gross compound weight, carrier molecules and chelation
-            integrity, full excipient disclosure, and live pricing across iHerb, Amazon.de and EU
-            pharmacy networks.
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
+            One place for what actually works, at the best price we can find — real elemental doses,
+            real third-party testing, no marketing claims.
           </p>
+
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a
+              href="#catalogue"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Browse supplements
+              <ChevronRight className="size-4" />
+            </a>
+            <Link
+              to="/affiliate-disclosure"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              How we verify
+            </Link>
+          </div>
 
           <div className="relative mt-8 max-w-xl">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
