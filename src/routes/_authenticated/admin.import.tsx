@@ -87,7 +87,7 @@ function parseCsv(text: string): string[][] {
 function toRows(text: string): Row[] {
   const table = parseCsv(text);
   if (table.length < 2) return [];
-  const header = table[0].map((h) => h.toLowerCase().replace(/\s+/g, "_"));
+  const header = (table[0] ?? []).map((h) => h.toLowerCase().replace(/\s+/g, "_"));
   return table.slice(1).map((cells) => {
     const get = (key: string) => cells[header.indexOf(key)] ?? "";
     return {
