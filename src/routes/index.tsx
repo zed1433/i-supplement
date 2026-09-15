@@ -121,21 +121,23 @@ function HomePage() {
     const q = search.trim().toLowerCase();
     return sortProducts(
       list.filter((p) => {
-      const form = chemicalForm(p).toLowerCase();
-      const matchesSearch =
-        !q ||
-        p.name.toLowerCase().includes(q) ||
-        p.brands.name.toLowerCase().includes(q) ||
-        p.category_path.join(" ").toLowerCase().includes(q) ||
-        form.includes(q);
-      const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
-      const matchesForm =
-        !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
-      const matchesCert =
-        !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
-      return matchesSearch && matchesCategory && matchesForm && matchesCert;
-    });
-  }, [regional, search, categories, forms, certs]);
+        const form = chemicalForm(p).toLowerCase();
+        const matchesSearch =
+          !q ||
+          p.name.toLowerCase().includes(q) ||
+          p.brands.name.toLowerCase().includes(q) ||
+          p.category_path.join(" ").toLowerCase().includes(q) ||
+          form.includes(q);
+        const matchesCategory = !categories.length || categories.includes(p.category_path.join(" › "));
+        const matchesForm =
+          !forms.length || forms.some((f) => form.includes(f.toLowerCase().split(" (")[0]!));
+        const matchesCert =
+          !certs.length || certs.some((c) => p.third_party_certifications.includes(c));
+        return matchesSearch && matchesCategory && matchesForm && matchesCert;
+      }),
+      sort,
+    );
+  }, [regional, search, categories, forms, certs, sort]);
 
   const activeFilters = categories.length + forms.length + certs.length;
   const categoryFilters = useMemo(
