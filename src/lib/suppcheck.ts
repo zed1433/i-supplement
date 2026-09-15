@@ -50,6 +50,8 @@ export type Product = {
   id: string;
   name: string;
   slug: string;
+  image_url: string;
+  image_source: string;
   category: string;
   category_path: string[];
   form: string;
@@ -65,7 +67,7 @@ export type Product = {
 };
 
 const PRODUCT_SELECT = `
-  id, name, slug, category, category_path, form, serving_size, primary_benefit,
+  id, name, slug, image_url, image_source, category, category_path, form, serving_size, primary_benefit,
   verified_advantages, trade_offs, excipients, third_party_certifications,
   brands ( id, name, country_of_origin, website_url ),
   product_ingredients (
