@@ -264,13 +264,13 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="relative mt-8 max-w-xl">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <div className="relative mt-8 max-w-2xl">
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by brand, product or chemical form (e.g. bisglycinate)"
-              className="w-full rounded-lg border border-border bg-surface py-3 pl-10 pr-10 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-1 focus:ring-primary/40"
+              placeholder="Search magnesium, vitamin D, omega-3…"
+              className="w-full rounded-xl border border-border bg-surface py-4 pl-11 pr-10 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-1 focus:ring-primary/40"
             />
             {search && (
               <button
