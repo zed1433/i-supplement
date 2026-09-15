@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BasketProvider } from "@/lib/basket";
+import { RegionProvider } from "@/lib/region";
 
 function NotFoundComponent() {
   return (
