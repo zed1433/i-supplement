@@ -13,6 +13,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import { Button } from "@/components/ui/button";
 import {
