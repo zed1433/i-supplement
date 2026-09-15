@@ -162,6 +162,42 @@ export function formatPrice(value: number, currency = "EUR"): string {
   return new Intl.NumberFormat("en-IE", { style: "currency", currency }).format(Number(value));
 }
 
+/* ---------- affiliate compliance: price freshness ---------- */
+
+const STALE_AFTER_MS = 24 * 60 * 60 * 1000;
+
+export function isPriceStale(updatedAt?: string | null): boolean {
+  if (!updatedAt) return true;
+  return Date.now() - new Date(updatedAt).getTime() > STALE_AFTER_MS;
+}
+
+/** Compact freshness note for dense surfaces, e.g. "Price as of 15 Sep". */
+export function priceAsOfShort(updatedAt?: string | null): string {
+  if (!updatedAt) return "Price date unavailable — subject to change";
+  const d = new Date(updatedAt);
+  const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" }).format(d);
+  return `Price as of ${label}${isPriceStale(updatedAt) ? " — may be out of date" : ""}`;
+}
+
+/** Full timestamp note required by retailer operating agreements. */
+export function priceAsOfLong(updatedAt?: string | null): string {
+  if (!updatedAt) return "Price date unavailable — subject to change";
+  const d = new Date(updatedAt);
+  const label = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(d);
+  return `Price as of ${label} — subject to change${
+    isPriceStale(updatedAt) ? "; may be out of date" : ""
+  }`;
+}
+
+export const AFFILIATE_DISCLOSURE =
+  "We may earn a commission when you buy through links on this site. Prices and availability are subject to change.";
+
 export const FORM_FILTERS = [
   "Bisglycinate",
   "Glycinate",
