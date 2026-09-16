@@ -92,19 +92,74 @@ function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground">Access and deletion</h2>
+            <h2 className="text-base font-semibold text-foreground">Why we are allowed to use it</h2>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>
+                <strong className="text-foreground">Consent</strong> — offer emails. You give it by
+                subscribing and withdraw it by unsubscribing.
+              </li>
+              <li>
+                <strong className="text-foreground">Contract</strong> — running your account and
+                sign-in session.
+              </li>
+              <li>
+                <strong className="text-foreground">Legitimate interest</strong> — keeping the site
+                secure, working and free of abuse, and remembering your region and basket.
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">How long we keep it</h2>
             <p className="mt-2">
-              You can ask us for a copy of the data linked to your email address, or ask us to
-              delete it entirely, by writing to{" "}
+              Subscription and account data is kept until you unsubscribe or ask for deletion, after
+              which it is removed within 30 days apart from a minimal suppression record that stops
+              us emailing you again. Your region and basket live in your own browser until you clear
+              them. Aggregated usage counts contain no identifiers.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Who we share it with</h2>
+            <p className="mt-2">
+              Only the providers that run the service for us: our hosting and database provider and
+              our email delivery provider. They act on our instructions and cannot use your data for
+              their own purposes. We never sell or share personal information for money or for
+              cross-context behavioural advertising, so under the CCPA there is nothing to opt out
+              of — but you may still tell us not to, and we will record it.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Your rights</h2>
+            <p className="mt-2">
+              Wherever you live, we honour the rights given by the GDPR and the CCPA/CPRA: to know
+              what we hold, to get a copy, to correct it, to delete it, to receive it in a portable
+              form, to object to or restrict a use, to withdraw consent at any time, and not to be
+              treated differently for exercising any of them. If you are in the EU/EEA or UK you may
+              also complain to your national data protection authority.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">
+              Making a request, and children
+            </h2>
+            <p className="mt-2">
+              Write to{" "}
               <a
                 className="text-primary underline underline-offset-2"
                 href="mailto:isupplementsofficial@gmail.com"
               >
                 isupplementsofficial@gmail.com
-              </a>
-              . We respond within 30 days.
+              </a>{" "}
+              from the address you signed up with and we will respond within 30 days, free of
+              charge. The site is not intended for anyone under 16 and we do not knowingly collect
+              their data. Data may be processed on servers outside your country, under standard
+              contractual protections.
             </p>
           </section>
+
         </div>
       </main>
     </div>
