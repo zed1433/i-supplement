@@ -8,5 +8,5 @@
 - [x] Add coordinated mobile basket/checkout trigger with 44px touch targets
 - [x] Update catalogue metadata and verify desktop/mobile flows
 - [x] Add biochemical synergy recommendations, timing cautions, quick view, and safe basket actions
-- [ ] Add structured package data and dynamic value metrics across all shopping views
-- [ ] Polish retailer cards, synergy visuals, and sticky catalog-group navigation
+- [x] Add structured package data and dynamic value metrics across all shopping views
+- [x] Polish retailer cards, synergy visuals, and sticky catalog-group navigation

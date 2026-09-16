@@ -51,7 +51,7 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
 
       <div className="mt-3 rounded-md border border-border bg-background p-2.5">
         <div className="flex items-center justify-between gap-2">
-          <span className="rounded bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-accent-foreground">BEST DEAL</span>
+          <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? "BEST DEAL" : "NO ACTIVE OFFER"}</span>
           <span className="num text-base font-semibold text-primary">{cheapest ? formatPrice(cheapest.price, cheapest.currency) : "Unavailable"}</span>
         </div>
         {cheapest && <p className="mt-1 text-[10px] text-muted-foreground">{priceAsOfShort(cheapest.updated_at)}</p>}

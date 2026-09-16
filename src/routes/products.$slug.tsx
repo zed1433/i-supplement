@@ -96,7 +96,7 @@ function ProductPage() {
   const pi = primaryIngredient(product);
   const ingredient = pi?.ingredients;
   const offers = product.merchant_offers
-    .filter((o) => offerShipsTo(o, region))
+    .filter((o) => o.in_stock && o.link_verified && offerShipsTo(o, region))
     .sort((a, b) => Number(a.price) - Number(b.price));
   const metric = valueMetric(product, offers[0]);
   const alternatives = (allProducts ?? []).filter(
