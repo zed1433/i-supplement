@@ -33,6 +33,11 @@ type AdminProduct = {
   category_path: string[];
   form: string;
   serving_size: string;
+  pricing_basis: "per_serving" | "bulk_powder" | null;
+  total_servings: number | null;
+  net_weight_grams: number | null;
+  serving_weight_grams: number | null;
+  catalog_group: "Vitamins & Minerals" | "Performance & Protein" | "Nootropics & Focus" | "Longevity" | null;
   primary_benefit: string;
   verified_advantages: string[];
   trade_offs: string[];
@@ -140,6 +145,11 @@ function EditProductPage() {
           category_path: form.category_path,
           form: form.form,
           serving_size: form.serving_size,
+          pricing_basis: form.pricing_basis,
+          total_servings: form.total_servings,
+          net_weight_grams: form.net_weight_grams,
+          serving_weight_grams: form.serving_weight_grams,
+          catalog_group: form.catalog_group,
           primary_benefit: form.primary_benefit,
           verified_advantages: form.verified_advantages,
           trade_offs: form.trade_offs,
@@ -251,6 +261,25 @@ function EditProductPage() {
             <span className="text-xs uppercase tracking-wider text-muted-foreground">Name</span>
             <Input value={form.name} onChange={(e) => set("name", e.target.value)} />
           </label>
+          <label className="block">
+            <span className="text-xs uppercase tracking-wider text-muted-foreground">Catalog group</span>
+            <select value={form.catalog_group ?? ""} onChange={(e) => set("catalog_group", (e.target.value || null) as AdminProduct["catalog_group"])} className="flex min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <option value="">Not assigned</option>
+              <option>Vitamins &amp; Minerals</option><option>Performance &amp; Protein</option><option>Nootropics &amp; Focus</option><option>Longevity</option>
+            </select>
+          </label>
+          <label className="block">
+            <span className="text-xs uppercase tracking-wider text-muted-foreground">Pricing basis</span>
+            <select value={form.pricing_basis ?? ""} onChange={(e) => set("pricing_basis", (e.target.value || null) as AdminProduct["pricing_basis"])} className="flex min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <option value="">Not set</option><option value="per_serving">Per serving</option><option value="bulk_powder">Bulk powder</option>
+            </select>
+          </label>
+          {(["total_servings", "net_weight_grams", "serving_weight_grams"] as const).map((key) => (
+            <label key={key} className="block">
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">{key === "total_servings" ? "Total servings" : key === "net_weight_grams" ? "Net weight (g)" : "Serving weight (g)"}</span>
+              <Input type="number" min="0" step="any" value={form[key] ?? ""} onChange={(e) => set(key, e.target.value ? Number(e.target.value) : null)} />
+            </label>
+          ))}
           <label className="block">
             <span className="text-xs uppercase tracking-wider text-muted-foreground">Brand</span>
             <Input

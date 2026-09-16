@@ -73,7 +73,8 @@ export const getAdminCatalog = createServerFn({ method: "GET" })
     const { data, error } = await context.supabase
       .from("products")
       .select(
-        `id, name, slug, category, category_path, form, serving_size, primary_benefit,
+        `id, name, slug, category, category_path, form, serving_size, pricing_basis,
+         total_servings, net_weight_grams, serving_weight_grams, catalog_group, primary_benefit,
          verified_advantages, trade_offs, excipients, third_party_certifications,
          brands ( id, name, country_of_origin, website_url ),
          merchant_offers ( id, merchant_name, country_flag, affiliate_network, price, currency,
@@ -94,6 +95,11 @@ const productSchema = z.object({
   category_path: z.array(z.string().max(120)).max(8),
   form: z.string().min(1).max(60),
   serving_size: z.string().max(60),
+  pricing_basis: z.enum(["per_serving", "bulk_powder"]).nullable(),
+  total_servings: z.number().positive().nullable(),
+  net_weight_grams: z.number().positive().nullable(),
+  serving_weight_grams: z.number().positive().nullable(),
+  catalog_group: z.enum(["Vitamins & Minerals", "Performance & Protein", "Nootropics & Focus", "Longevity"]).nullable(),
   primary_benefit: z.string().max(300),
   verified_advantages: z.array(z.string().max(300)).max(10),
   trade_offs: z.array(z.string().max(300)).max(10),
@@ -193,6 +199,11 @@ const importRowSchema = z.object({
   category: z.string().min(1).max(120),
   form: z.string().max(60).default("Capsules"),
   serving_size: z.string().max(60).default(""),
+  pricing_basis: z.enum(["per_serving", "bulk_powder"]).nullable().default(null),
+  total_servings: z.number().positive().nullable().default(null),
+  net_weight_grams: z.number().positive().nullable().default(null),
+  serving_weight_grams: z.number().positive().nullable().default(null),
+  catalog_group: z.enum(["Vitamins & Minerals", "Performance & Protein", "Nootropics & Focus", "Longevity"]).nullable().default(null),
   merchant_name: z.string().min(1).max(120),
   country_flag: z.string().max(8).default(""),
   affiliate_network: z.string().max(40).default("direct"),
@@ -253,6 +264,11 @@ export const importCatalogRows = createServerFn({ method: "POST" })
               category_path: ["Supplements", row.category, row.product_name],
               form: row.form,
               serving_size: row.serving_size,
+              pricing_basis: row.pricing_basis,
+              total_servings: row.total_servings,
+              net_weight_grams: row.net_weight_grams,
+              serving_weight_grams: row.serving_weight_grams,
+              catalog_group: row.catalog_group,
               primary_benefit: "",
             })
             .select("id")
