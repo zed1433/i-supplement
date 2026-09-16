@@ -17,13 +17,13 @@ type SynergyRule = {
 };
 
 export type ResolvedSynergy = PartnerDefinition & {
-  product?: Product;
-  offer?: MerchantOffer;
+  product?: Product | undefined;
+  offer?: MerchantOffer | undefined;
 };
 
 export type SynergyResult = {
   pairings: ResolvedSynergy[];
-  caution?: string;
+  caution?: string | undefined;
 };
 
 const required = (name: string, aliases: string[], explanation: string): PartnerDefinition => ({
