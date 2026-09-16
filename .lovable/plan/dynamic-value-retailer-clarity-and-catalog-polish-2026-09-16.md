@@ -1,6 +1,9 @@
+&nbsp;
+
 # Dynamic value, retailer clarity, and catalog polish
 
 ## Goal
+
 Refactor catalog cards, product details, quick view, and comparison so value is calculated from real package data, retailer choices are immediately understandable, and co-factor recommendations feel visual and purchasable without overstating testing evidence.
 
 ## 1. Add accurate package and catalog data

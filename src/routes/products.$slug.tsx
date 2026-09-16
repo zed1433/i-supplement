@@ -23,12 +23,12 @@ import {
   CERT_EXPLANATIONS,
   chemicalForm,
   priceAsOfLong,
-  costPer100mgElemental,
   elementalPerServing,
   formatPrice,
   primaryIngredient,
   productQuery,
   productsQuery,
+  valueMetric,
   type Product,
 } from "@/lib/suppcheck";
 import { offerShipsTo, useRegion } from "@/lib/region";
@@ -96,9 +96,9 @@ function ProductPage() {
   const pi = primaryIngredient(product);
   const ingredient = pi?.ingredients;
   const offers = product.merchant_offers
-    .filter((o) => offerShipsTo(o, region))
+    .filter((o) => o.in_stock && o.link_verified && offerShipsTo(o, region))
     .sort((a, b) => Number(a.price) - Number(b.price));
-  const normalized = costPer100mgElemental(product);
+  const metric = valueMetric(product, offers[0]);
   const alternatives = (allProducts ?? []).filter(
     (p) => p.id !== product.id && p.category === product.category,
   );
@@ -140,11 +140,10 @@ function ProductPage() {
                 {product.form} · {product.serving_size} · {chemicalForm(product)} ·{" "}
                 <span className="num text-foreground">{elementalPerServing(product)} mg</span> elemental
                 per serving
-                {normalized && (
+                {metric && (
                   <>
                     {" "}
-                    · <span className="num text-foreground">€{normalized.toFixed(3)}</span> per 100 mg
-                    elemental
+                    · <span className="num text-foreground">{formatPrice(metric.primaryValue, metric.currency)}</span> {metric.primaryLabel.toLowerCase()}
                   </>
                 )}
               </p>
@@ -444,7 +443,8 @@ function ListBlock({
 }
 
 function AltCard({ product }: { product: Product }) {
-  const normalized = costPer100mgElemental(product);
+  const offer = product.merchant_offers.filter((item) => item.in_stock && item.link_verified).sort((a, b) => Number(a.price) - Number(b.price))[0];
+  const metric = valueMetric(product, offer);
   return (
     <Link
       to="/products/$slug"
@@ -458,7 +458,7 @@ function AltCard({ product }: { product: Product }) {
       <p className="mt-2 text-xs text-muted-foreground">{chemicalForm(product)}</p>
       <p className="num mt-3 text-sm">
         <span className="text-primary">{elementalPerServing(product)} mg</span> elemental ·{" "}
-        {normalized ? `€${normalized.toFixed(3)}/100 mg` : "—"}
+        {metric ? `${formatPrice(metric.primaryValue, metric.currency)} ${metric.primaryLabel.toLowerCase()}` : "Value unavailable"}
       </p>
     </Link>
   );

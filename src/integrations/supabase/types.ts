@@ -419,6 +419,7 @@ export type Database = {
       products: {
         Row: {
           brand_id: string
+          catalog_group: string | null
           category: string
           category_path: string[]
           created_at: string
@@ -428,15 +429,20 @@ export type Database = {
           image_source: string
           image_url: string
           name: string
+          net_weight_grams: number | null
+          pricing_basis: string | null
           primary_benefit: string
           serving_size: string
+          serving_weight_grams: number | null
           slug: string
           third_party_certifications: string[]
+          total_servings: number | null
           trade_offs: string[]
           verified_advantages: string[]
         }
         Insert: {
           brand_id: string
+          catalog_group?: string | null
           category: string
           category_path?: string[]
           created_at?: string
@@ -446,15 +452,20 @@ export type Database = {
           image_source?: string
           image_url?: string
           name: string
+          net_weight_grams?: number | null
+          pricing_basis?: string | null
           primary_benefit?: string
           serving_size?: string
+          serving_weight_grams?: number | null
           slug: string
           third_party_certifications?: string[]
+          total_servings?: number | null
           trade_offs?: string[]
           verified_advantages?: string[]
         }
         Update: {
           brand_id?: string
+          catalog_group?: string | null
           category?: string
           category_path?: string[]
           created_at?: string
@@ -464,10 +475,14 @@ export type Database = {
           image_source?: string
           image_url?: string
           name?: string
+          net_weight_grams?: number | null
+          pricing_basis?: string | null
           primary_benefit?: string
           serving_size?: string
+          serving_weight_grams?: number | null
           slug?: string
           third_party_certifications?: string[]
+          total_servings?: number | null
           trade_offs?: string[]
           verified_advantages?: string[]
         }

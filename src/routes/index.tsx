@@ -24,10 +24,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   CERT_FILTERS,
-  
+  CATALOG_GROUPS,
   chemicalForm,
-  costPer100mgElemental,
   productsQuery,
+  valueMetric,
+  type CatalogGroup,
   type Product,
 } from "@/lib/suppcheck";
 import { productsForRegion, useRegion } from "@/lib/region";
@@ -65,7 +66,7 @@ type SortKey = "featured" | "price" | "value" | "elemental" | "name";
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
   { value: "price", label: "Cheapest first" },
-  { value: "value", label: "Best value per 100 mg" },
+  { value: "value", label: "Best comparable value" },
   { value: "elemental", label: "Most elemental per serving" },
   { value: "name", label: "A–Z" },
 ];
@@ -84,9 +85,10 @@ function sortProducts(list: Product[], sort: SortKey): Product[] {
         return pa - pb;
       });
     case "value":
-      return sorted.sort(
-        (a, b) => (costPer100mgElemental(a) ?? Infinity) - (costPer100mgElemental(b) ?? Infinity),
-      );
+      return sorted.sort((a, b) => {
+        const offerFor = (product: Product) => product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified).sort((x, y) => Number(x.price) - Number(y.price))[0];
+        return (valueMetric(a, offerFor(a))?.primaryValue ?? Infinity) - (valueMetric(b, offerFor(b))?.primaryValue ?? Infinity);
+      });
     case "elemental":
       return sorted.sort((a, b) => {
         const ea = a.product_ingredients.reduce((s, pi) => s + Number(pi.elemental_amount_mg), 0);
@@ -144,6 +146,7 @@ function HomePage() {
   const [topRanked, setTopRanked] = useState(false);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [under25, setUnder25] = useState(false);
+  const [catalogGroup, setCatalogGroup] = useState<CatalogGroup | null>(null);
 
   useEffect(() => {
     const initialSearch = new URLSearchParams(window.location.search).get("q");
@@ -168,6 +171,7 @@ function HomePage() {
           p.category_path.join(" ").toLowerCase().includes(q) ||
           chem.includes(q);
         const matchesGroup = !group || groupOf(p) === group;
+        const matchesCatalogGroup = !catalogGroup || p.catalog_group === catalogGroup;
         const matchesNutrient = !nutrient || nutrientOf(p) === nutrient;
         const matchesForm = !form || formOf(p) === form;
         const matchesCert =
@@ -175,19 +179,19 @@ function HomePage() {
         const matchesRank = !topRanked || (p.third_party_certifications.length > 0 && p.verified_advantages.length >= 2);
         const matchesVerified = !verifiedOnly || p.third_party_certifications.length > 0;
         const matchesBudget = !under25 || p.merchant_offers.some((offer) => offer.in_stock && offer.link_verified && Number(offer.price) < 25);
-        return matchesSearch && matchesGroup && matchesNutrient && matchesForm && matchesCert && matchesRank && matchesVerified && matchesBudget;
+        return matchesSearch && matchesCatalogGroup && matchesGroup && matchesNutrient && matchesForm && matchesCert && matchesRank && matchesVerified && matchesBudget;
       }),
       sort,
     );
-  }, [regional, search, certs, sort, group, nutrient, form, topRanked, verifiedOnly, under25]);
+  }, [regional, search, certs, sort, catalogGroup, group, nutrient, form, topRanked, verifiedOnly, under25]);
 
   const activeFilters =
-    certs.length + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0) + (topRanked ? 1 : 0) + (verifiedOnly ? 1 : 0) + (under25 ? 1 : 0);
+    certs.length + (catalogGroup ? 1 : 0) + (group ? 1 : 0) + (nutrient ? 1 : 0) + (form ? 1 : 0) + (topRanked ? 1 : 0) + (verifiedOnly ? 1 : 0) + (under25 ? 1 : 0);
 
-  const all = products ?? [];
+  const all = regional.filter((product) => !catalogGroup || product.catalog_group === catalogGroup);
   const groups = useMemo(
     () => Array.from(new Set(all.map(groupOf))).sort(),
-    [products],
+    [regional, catalogGroup],
   );
   const nutrients = useMemo(
     () =>
@@ -246,6 +250,12 @@ function HomePage() {
       selectGroup={selectGroup}
       selectNutrient={selectNutrient}
       setForm={setForm}
+      topRanked={topRanked}
+      verifiedOnly={verifiedOnly}
+      under25={under25}
+      setTopRanked={setTopRanked}
+      setVerifiedOnly={setVerifiedOnly}
+      setUnder25={setUnder25}
     />
   );
 
@@ -320,39 +330,6 @@ function HomePage() {
             ))}
           </ul>
 
-           <div
-            id="catalogue"
-             className="mt-8 flex scroll-mt-32 gap-2 overflow-x-auto pb-2"
-            role="group"
-            aria-label="Browse by category"
-          >
-            <button
-              type="button"
-              onClick={() => selectGroup(null)}
-               className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-medium transition-colors ${
-                group === null
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
-            >
-              All
-            </button>
-            {groups.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => selectGroup(group === cat ? null : cat)}
-                 className={`min-h-11 shrink-0 rounded-full border px-4 text-xs font-medium transition-colors ${
-                  group === cat
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-surface text-muted-foreground hover:border-primary/50 hover:text-foreground"
-                }`}
-              >
-                {cat} <span className="num opacity-70">{countGroup(cat)}</span>
-              </button>
-            ))}
-          </div>
-
           {group && (
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <button type="button" onClick={() => selectGroup(null)} className="min-h-11 hover:text-foreground">
@@ -390,21 +367,16 @@ function HomePage() {
           <p className="mt-6 flex max-w-3xl items-start gap-2 border-l-2 border-primary pl-3 text-xs leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span>
-              <strong className="font-semibold text-foreground">How to read this:</strong> "Elemental" is the
-              amount your body actually absorbs per serving — it can be far less than the label's compound
-              weight. "Cost / 100 mg elemental" lets you compare products with different strengths fairly.
-              Every certification badge is explained on hover.
+              <strong className="font-semibold text-foreground">How to read this:</strong> Elemental dose is a clinical fact. Value uses verified package data: cost per serving for standard products and weight-based pricing for bulk powders.
             </span>
           </p>
         </div>
       </section>
 
       <div className="sticky top-[129px] z-30 border-b border-border bg-background/95 backdrop-blur sm:top-[105px] lg:top-[105px]">
-        <div className="mx-auto flex max-w-[1600px] gap-2 overflow-x-auto px-4 py-3 sm:px-6" aria-label="Quick filters">
-          <QuickFilter active={topRanked} onClick={() => setTopRanked((value) => !value)} icon={<Star />}>Top Ranked</QuickFilter>
-          <QuickFilter active={verifiedOnly} onClick={() => setVerifiedOnly((value) => !value)} icon={<ShieldCheck />}>Third-Party Verified</QuickFilter>
-          <QuickFilter active={sort === "price"} onClick={() => setSort(sort === "price" ? "featured" : "price")} icon={<Tag />}>Lowest Price</QuickFilter>
-          <QuickFilter active={under25} onClick={() => setUnder25((value) => !value)} icon={<Tag />}>Under {region === "US" ? "$25" : region === "UK" ? "£25" : "€25"}</QuickFilter>
+        <div id="catalogue" className="mx-auto flex max-w-[1600px] scroll-mt-32 gap-2 overflow-x-auto px-4 py-3 sm:px-6" aria-label="Catalog groups">
+          <QuickFilter active={catalogGroup === null} onClick={() => { setCatalogGroup(null); selectGroup(null); }} icon={<span>⚡</span>}>All</QuickFilter>
+          {CATALOG_GROUPS.map((value) => <QuickFilter key={value} active={catalogGroup === value} onClick={() => { setCatalogGroup(value); selectGroup(null); }} icon={<span>{value === "Vitamins & Minerals" ? "💊" : value === "Performance & Protein" ? "🏋️" : value === "Nootropics & Focus" ? "🧠" : "🌿"}</span>}>{value}</QuickFilter>)}
         </div>
       </div>
 
@@ -456,6 +428,7 @@ function HomePage() {
               type="button"
               onClick={() => {
                 selectGroup(null);
+                setCatalogGroup(null);
                 setCerts([]);
                 setTopRanked(false);
                 setVerifiedOnly(false);
@@ -630,6 +603,12 @@ type FilterPanelProps = {
   selectGroup: (value: string | null) => void;
   selectNutrient: (value: string | null) => void;
   setForm: (value: string | null) => void;
+  topRanked: boolean;
+  verifiedOnly: boolean;
+  under25: boolean;
+  setTopRanked: (value: boolean) => void;
+  setVerifiedOnly: (value: boolean) => void;
+  setUnder25: (value: boolean) => void;
 };
 
 function FilterPanel(props: FilterPanelProps) {
@@ -729,6 +708,11 @@ function FilterPanel(props: FilterPanelProps) {
             onClick={() => props.setCerts(togglePill(props.certs, value))}
           />
         ))}
+      </FilterGroup>
+      <FilterGroup label="Shopping filters">
+        <FilterOption label="Top ranked" count={0} active={props.topRanked} onClick={() => props.setTopRanked(!props.topRanked)} />
+        <FilterOption label="Third-party verified" count={0} active={props.verifiedOnly} onClick={() => props.setVerifiedOnly(!props.verifiedOnly)} />
+        <FilterOption label="Under 25" count={0} active={props.under25} onClick={() => props.setUnder25(!props.under25)} />
       </FilterGroup>
     </div>
   );

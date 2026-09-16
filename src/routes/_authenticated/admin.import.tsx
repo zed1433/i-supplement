@@ -25,6 +25,11 @@ type Row = {
   category: string;
   form: string;
   serving_size: string;
+  pricing_basis: "per_serving" | "bulk_powder" | null;
+  total_servings: number | null;
+  net_weight_grams: number | null;
+  serving_weight_grams: number | null;
+  catalog_group: "Vitamins & Minerals" | "Performance & Protein" | "Nootropics & Focus" | "Longevity" | null;
   merchant_name: string;
   country_flag: string;
   affiliate_network: string;
@@ -40,6 +45,11 @@ const EXPECTED = [
   "category",
   "form",
   "serving_size",
+  "pricing_basis",
+  "total_servings",
+  "net_weight_grams",
+  "serving_weight_grams",
+  "catalog_group",
   "merchant_name",
   "country_flag",
   "affiliate_network",
@@ -97,6 +107,11 @@ function toRows(text: string): Row[] {
       category: get("category"),
       form: get("form") || "Capsules",
       serving_size: get("serving_size"),
+      pricing_basis: get("pricing_basis") === "bulk_powder" ? "bulk_powder" : get("pricing_basis") === "per_serving" ? "per_serving" : null,
+      total_servings: Number(get("total_servings")) || null,
+      net_weight_grams: Number(get("net_weight_grams")) || null,
+      serving_weight_grams: Number(get("serving_weight_grams")) || null,
+      catalog_group: (["Vitamins & Minerals", "Performance & Protein", "Nootropics & Focus", "Longevity"].includes(get("catalog_group")) ? get("catalog_group") : null) as Row["catalog_group"],
       merchant_name: get("merchant_name"),
       country_flag: get("country_flag") || "",
       affiliate_network: get("affiliate_network") || "direct",
