@@ -252,7 +252,12 @@ export function priceAsOfLong(updatedAt?: string | null): string {
 }
 
 export const AFFILIATE_DISCLOSURE =
-  "We may earn a commission when you buy through links on this site. Prices and availability are subject to change.";
+  "Disclosure: We are an independent comparison platform. We may earn an affiliate commission when you purchase through links on our site at no extra cost to you. As an Amazon Associate, we earn from qualifying purchases.";
+
+export const MEDICAL_DISCLAIMER =
+  "FDA & EFSA Disclaimer: The information on this website is for educational and informational purposes only and is not intended as medical advice. Dietary supplements are not intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified healthcare professional before starting any supplement regimen.";
+
+export const SUPPORT_EMAIL = "isupplementsofficial@gmail.com";
 
 export const FORM_FILTERS = [
   "Bisglycinate",

@@ -88,6 +88,43 @@ function TermsPage() {
           </section>
 
           <section>
+            <h2 className="text-base font-semibold text-foreground">Acceptable use</h2>
+            <p className="mt-2">
+              Use the site for your own personal, non-commercial research. Do not scrape, copy or
+              republish our comparison data in bulk, attempt to break or overload the service, misuse
+              accounts or sign-up forms, or use the site for anything unlawful.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">
+              Intellectual property and trademarks
+            </h2>
+            <p className="mt-2">
+              The design, text and compiled comparison data on this site belong to i-Supplement.
+              Brand names, retailer names, product names and logos belong to their respective owners
+              and are used for identification only; their use does not imply any affiliation with or
+              endorsement by them.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Changes to these terms</h2>
+            <p className="mt-2">
+              We may update these terms as the service develops. The current version is always the
+              one published here, and continuing to use the site after a change means you accept it.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Governing law</h2>
+            <p className="mt-2">
+              These terms are governed by the laws of Greece, and disputes fall to the courts there,
+              without affecting any mandatory consumer rights you have where you live.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-base font-semibold text-foreground">Contact</h2>
             <p className="mt-2">
               Questions about these terms:{" "}
@@ -100,6 +137,7 @@ function TermsPage() {
               .
             </p>
           </section>
+
         </div>
       </main>
     </div>

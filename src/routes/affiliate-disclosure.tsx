@@ -37,6 +37,10 @@ function DisclosurePage() {
             ranks in our comparisons — ranking is driven only by elemental yield, chemical form,
             certification and price.
           </p>
+          <p>
+            As an Amazon Associate, we earn from qualifying purchases. Commission is paid by the
+            retailer out of their own margin, at no extra cost to you.
+          </p>
           <h2 className="pt-2 text-lg font-semibold">Prices and availability</h2>
           <p>
             Prices come from retailer feeds and are refreshed automatically. Every price on this
