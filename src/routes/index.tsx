@@ -264,7 +264,7 @@ function HomePage() {
       <SiteHeader />
 
       <section className="grid-noise border-b border-border bg-surface">
-        <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-10 text-center sm:px-6 sm:py-14">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
             Clinical transparency, clearer choices.
@@ -277,7 +277,7 @@ function HomePage() {
              published third-party testing, no marketing spin.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
             <a
               href="#catalogue"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
