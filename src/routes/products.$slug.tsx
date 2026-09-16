@@ -16,6 +16,7 @@ import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { isIllustrativeImage, productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
+import { SynergyCard } from "@/components/suppcheck/SynergyCard";
 import { Button } from "@/components/ui/button";
 import {
   AFFILIATE_DISCLOSURE,
@@ -167,6 +168,7 @@ function ProductPage() {
                 ))}
               </div>
               <div className="mt-5"><RetailerActions product={product} /></div>
+              <div className="mt-5"><SynergyCard product={product} products={allProducts ?? []} /></div>
             </div>
           </div>
         </div>
