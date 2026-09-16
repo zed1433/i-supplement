@@ -11,6 +11,7 @@ Each alternative card gets:
 - Three short facts: form, elemental dose per serving, servings per pack.
 - A two-line "versus this product" read-out generated from the real data, not written by hand: cheaper or dearer per serving, higher or lower elemental dose, more or fewer servings, and whether it carries third-party certification the current product doesn't (or the other way round). Positives read green, drawbacks read muted.
 - The whole card stays a link to that product; nothing is added to the basket from here.
+- add a function to directly add the product to the backet without leaving the page , so put all the retailes below and clicking them adds the to the appropriet backet
 
 If an alternative has no verified regional offer, it says so plainly instead of showing a price.
 
