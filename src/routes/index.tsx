@@ -293,7 +293,7 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="relative mt-8 max-w-3xl">
+          <div className="relative mt-8 w-full max-w-3xl text-left">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               value={search}
@@ -313,7 +313,7 @@ function HomePage() {
             )}
           </div>
 
-          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <ul className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { icon: ShieldCheck, label: "Third-party tested" },
               { icon: FlaskConical, label: "Elemental dose shown" },
@@ -331,7 +331,7 @@ function HomePage() {
           </ul>
 
           {group && (
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
               <button type="button" onClick={() => selectGroup(null)} className="min-h-11 hover:text-foreground">
                 All supplements
               </button>
