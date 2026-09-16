@@ -22,6 +22,12 @@ export function SiteFooter() {
           >
             Affiliate disclosure
           </Link>
+          <Link to="/privacy" className="text-muted-foreground hover:text-foreground">
+            Privacy policy
+          </Link>
+          <Link to="/terms" className="text-muted-foreground hover:text-foreground">
+            Terms of service
+          </Link>
           <span className="text-muted-foreground/70">
             © {new Date().getFullYear()} i-Supplement
           </span>

@@ -31,7 +31,7 @@ import {
   valueMetric,
   type Product,
 } from "@/lib/suppcheck";
-import { offerShipsTo, useRegion } from "@/lib/region";
+import { offerShipsTo, useRegion, type RegionCode } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
   staticData: { sitemap: true },
@@ -387,9 +387,9 @@ function ProductPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               Same category, different carrier economics.
             </p>
-            <div className="mt-3 flex gap-4 overflow-x-auto pb-2">
+            <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {alternatives.map((alt) => (
-                <AltCard key={alt.id} product={alt} />
+                <AltCard key={alt.id} product={alt} base={product} />
               ))}
             </div>
           </section>
@@ -442,24 +442,128 @@ function ListBlock({
   );
 }
 
-function AltCard({ product }: { product: Product }) {
-  const offer = product.merchant_offers.filter((item) => item.in_stock && item.link_verified).sort((a, b) => Number(a.price) - Number(b.price))[0];
+type Diff = { text: string; tone: "good" | "bad" | "neutral" };
+
+/** Plain-language differences between an alternative and the product in view. */
+function compareToBase(base: Product, alt: Product, region: RegionCode): Diff[] {
+  const diffs: Diff[] = [];
+  const pick = (p: Product) =>
+    p.merchant_offers
+      .filter((o) => o.in_stock && o.link_verified && offerShipsTo(o, region))
+      .sort((a, b) => Number(a.price) - Number(b.price))[0];
+  const baseMetric = valueMetric(base, pick(base));
+  const altMetric = valueMetric(alt, pick(alt));
+
+  if (baseMetric && altMetric && baseMetric.primaryLabel === altMetric.primaryLabel) {
+    const delta = altMetric.primaryValue - baseMetric.primaryValue;
+    const pct = Math.round((Math.abs(delta) / baseMetric.primaryValue) * 100);
+    if (pct >= 1) {
+      diffs.push({
+        text: `${pct}% ${delta < 0 ? "cheaper" : "dearer"} ${altMetric.primaryLabel.toLowerCase()}`,
+        tone: delta < 0 ? "good" : "bad",
+      });
+    } else {
+      diffs.push({ text: `Same ${altMetric.primaryLabel.toLowerCase()}`, tone: "neutral" });
+    }
+  }
+
+  const baseDose = elementalPerServing(base);
+  const altDose = elementalPerServing(alt);
+  if (baseDose > 0 && altDose > 0 && altDose !== baseDose) {
+    diffs.push({
+      text: `${altDose > baseDose ? "Higher" : "Lower"} elemental dose (${altDose} mg vs ${baseDose} mg)`,
+      tone: altDose > baseDose ? "good" : "bad",
+    });
+  }
+
+  if (base.total_servings && alt.total_servings && alt.total_servings !== base.total_servings) {
+    diffs.push({
+      text: `${alt.total_servings > base.total_servings ? "More" : "Fewer"} servings per pack (${alt.total_servings} vs ${base.total_servings})`,
+      tone: alt.total_servings > base.total_servings ? "good" : "bad",
+    });
+  }
+
+  const extraCerts = alt.third_party_certifications.filter(
+    (c) => c !== "None" && !base.third_party_certifications.includes(c),
+  );
+  const missingCerts = base.third_party_certifications.filter(
+    (c) => c !== "None" && !alt.third_party_certifications.includes(c),
+  );
+  if (extraCerts.length) diffs.push({ text: `Adds ${extraCerts.join(", ")}`, tone: "good" });
+  else if (missingCerts.length)
+    diffs.push({ text: `No ${missingCerts.join(", ")}`, tone: "bad" });
+
+  if (chemicalForm(alt) !== chemicalForm(base))
+    diffs.push({ text: `Different carrier: ${chemicalForm(alt)}`, tone: "neutral" });
+
+  return diffs.slice(0, 4);
+}
+
+function AltCard({ product, base }: { product: Product; base: Product }) {
+  const { region } = useRegion();
+  const offer = product.merchant_offers
+    .filter((item) => item.in_stock && item.link_verified && offerShipsTo(item, region))
+    .sort((a, b) => Number(a.price) - Number(b.price))[0];
   const metric = valueMetric(product, offer);
+  const diffs = compareToBase(base, product, region);
+
   return (
-    <Link
-      to="/products/$slug"
-      params={{ slug: product.slug }}
-      className="w-64 shrink-0 rounded-lg border border-border bg-surface p-4 transition-colors hover:border-primary/50"
-    >
-      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-        {product.brands.name}
-      </p>
-      <p className="mt-1 text-sm font-semibold leading-snug">{product.name}</p>
-      <p className="mt-2 text-xs text-muted-foreground">{chemicalForm(product)}</p>
-      <p className="num mt-3 text-sm">
-        <span className="text-primary">{elementalPerServing(product)} mg</span> elemental ·{" "}
-        {metric ? `${formatPrice(metric.primaryValue, metric.currency)} ${metric.primaryLabel.toLowerCase()}` : "Value unavailable"}
-      </p>
-    </Link>
+    <article className="flex flex-col rounded-lg border border-border bg-surface p-4 transition-colors hover:border-primary/50">
+      <Link to="/products/$slug" params={{ slug: product.slug }} className="flex gap-3">
+        <ProductImage
+          src={productImageUrl(product)}
+          alt={`${product.brands.name} ${product.name}`}
+          brand={product.brands.name}
+          className="size-20 shrink-0"
+        />
+        <div className="min-w-0">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            {product.brands.name}
+          </p>
+          <p className="mt-1 text-sm font-semibold leading-snug">{product.name}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{chemicalForm(product)}</p>
+          {offer ? (
+            <p className="num mt-1.5 text-sm font-semibold text-primary">
+              {formatPrice(offer.price, offer.currency)}
+              {metric ? (
+                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                  · {formatPrice(metric.primaryValue, metric.currency)}{" "}
+                  {metric.primaryLabel.toLowerCase()}
+                </span>
+              ) : null}
+            </p>
+          ) : (
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              No verified offer ships to your region
+            </p>
+          )}
+        </div>
+      </Link>
+
+      <ul className="mt-3 space-y-1 text-xs">
+        {diffs.map((d) => (
+          <li
+            key={d.text}
+            className={`flex gap-1.5 ${
+              d.tone === "good"
+                ? "text-primary"
+                : d.tone === "bad"
+                  ? "text-muted-foreground"
+                  : "text-muted-foreground"
+            }`}
+          >
+            <span className="mt-1.5 size-1 shrink-0 rounded-full bg-current" />
+            {d.text}
+          </li>
+        ))}
+        {!diffs.length && (
+          <li className="text-muted-foreground">Comparable specification to this product.</li>
+        )}
+      </ul>
+
+      <div className="mt-3">
+        <RetailerActions product={product} compact />
+      </div>
+    </article>
   );
 }

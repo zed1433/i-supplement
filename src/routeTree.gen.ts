@@ -15,7 +15,9 @@ import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disc
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -58,9 +60,19 @@ const CompareRoute = CompareRouteImport.update({
   path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -135,7 +147,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -155,7 +169,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
@@ -176,7 +192,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -198,7 +216,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin'
     | '/products/$slug'
     | '/admin/campaigns'
@@ -218,7 +238,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/products/$slug'
     | '/admin/campaigns'
     | '/admin/feeds'
@@ -238,7 +260,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/privacy'
     | '/sitemap.xml'
+    | '/terms'
     | '/_authenticated/admin'
     | '/products/$slug'
     | '/_authenticated/admin/campaigns'
@@ -260,7 +284,9 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
+  PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
@@ -312,11 +338,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -445,7 +485,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,
+  PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,

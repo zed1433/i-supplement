@@ -264,7 +264,7 @@ function HomePage() {
       <SiteHeader />
 
       <section className="grid-noise border-b border-border bg-surface">
-        <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-10 text-center sm:px-6 sm:py-14">
           <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
             <ShieldCheck className="size-4" />
             Clinical transparency, clearer choices.
@@ -277,7 +277,7 @@ function HomePage() {
              published third-party testing, no marketing spin.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
             <a
               href="#catalogue"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
@@ -293,7 +293,7 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="relative mt-8 max-w-3xl">
+          <div className="relative mt-8 w-full max-w-3xl text-left">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               value={search}
@@ -313,7 +313,7 @@ function HomePage() {
             )}
           </div>
 
-          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <ul className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { icon: ShieldCheck, label: "Third-party tested" },
               { icon: FlaskConical, label: "Elemental dose shown" },
@@ -331,7 +331,7 @@ function HomePage() {
           </ul>
 
           {group && (
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
               <button type="button" onClick={() => selectGroup(null)} className="min-h-11 hover:text-foreground">
                 All supplements
               </button>
