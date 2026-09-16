@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { productImageUrl } from "@/lib/productImages";
 import { offerShipsTo, useRegion } from "@/lib/region";
-import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, formatPrice, priceAsOfShort, type Product } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, formatPrice, priceAsOfShort, valueMetric, type Product } from "@/lib/suppcheck";
 
 export function ProductQuickView({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
@@ -15,6 +15,7 @@ export function ProductQuickView({ product, products }: { product: Product; prod
     .filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region))
     .sort((a, b) => Number(a.price) - Number(b.price));
   const best = offers[0];
+  const metric = valueMetric(product, best);
 
   return (
     <Sheet>
@@ -47,6 +48,7 @@ export function ProductQuickView({ product, products }: { product: Product; prod
             {best ? (
               <>
                 <p className="mt-1 text-xs text-muted-foreground">{best.merchant_name} · {priceAsOfShort(best.updated_at)}</p>
+                {metric ? <p className="mt-2 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"><strong className="num text-foreground">{formatPrice(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? ` · ${formatPrice(metric.secondaryValue, metric.currency)} ${metric.secondaryLabel.toLowerCase()}` : ""}</p> : null}
                 <RetailerActions product={product} compact />
               </>
             ) : (

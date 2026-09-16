@@ -8,13 +8,13 @@ import { RetailerActions } from "@/components/suppcheck/RetailerActions";
 import {
   bestOffer,
   chemicalForm,
-  costPer100mgElemental,
   elementalPerServing,
   excipientFlags,
   formatPrice,
   priceAsOfShort,
   primaryIngredient,
   productsQuery,
+  valueMetric,
   type Product,
 } from "@/lib/suppcheck";
 import { productsForRegion, useRegion } from "@/lib/region";
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/compare")({
       {
         name: "description",
         content:
-          "Contrast elemental yield, normalised cost per 100 mg, chelation integrity, excipient transparency and third-party assays side by side.",
+          "Compare serving value, elemental yield, ingredient form, excipient transparency and third-party assays side by side.",
       },
       { property: "og:title", content: "Side-by-Side Supplement Comparison — i-Supplement" },
       {
@@ -69,8 +69,7 @@ function ComparePage() {
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">Side-by-side comparison engine</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Prices are normalised to cost per 100 mg of elemental active assuming a 30-serving
-          container, so gross compound weight cannot disguise a low payload.
+          Value uses verified package data: cost per serving for standard products and weight-based pricing for bulk powders.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
@@ -159,12 +158,13 @@ function ComparePage() {
                   ))}
                 />
                 <Row
-                  label="Cost per 100 mg elemental"
+                  label="Comparable value"
                   cells={chosen.map((p) => {
-                    const v = costPer100mgElemental(p);
+                    const offer = p.merchant_offers.filter((candidate) => candidate.in_stock && candidate.link_verified).sort((a, b) => Number(a.price) - Number(b.price))[0];
+                    const metric = valueMetric(p, offer);
                     return (
-                      <span key={p.id} className="num text-base font-semibold">
-                        {v ? `€${v.toFixed(3)}` : "—"}
+                      <span key={p.id} className="text-xs">
+                        {metric ? <><strong className="num block text-base">{formatPrice(metric.primaryValue, metric.currency)}</strong><span className="text-muted-foreground">{metric.primaryLabel}</span>{metric.secondaryLabel && metric.secondaryValue != null ? <span className="mt-1 block text-muted-foreground">{formatPrice(metric.secondaryValue, metric.currency)} {metric.secondaryLabel}</span> : null}</> : "—"}
                       </span>
                     );
                   })}
