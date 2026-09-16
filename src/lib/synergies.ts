@@ -167,7 +167,7 @@ export const SYNERGY_RULES: SynergyRule[] = [
   {
     triggers: ["curcumin", "turmeric", "meriva"],
     partners: [
-      booster("Piperine / Black Pepper", ["piperine", "black pepper", "bioperine"], "Piperine slows glucuronidation and can substantially increase curcumin exposure."),
+      booster("Piperine / Black Pepper", ["piperine", "black pepper", "bioperine"], "Piperine inhibits glucuronidation and has been reported to raise curcumin bioavailability by up to 2,000%."),
       booster("Healthy Lipids / Phytosome", ["omega-3", "omega 3", "fish oil", "phytosome"], "Curcumin is lipophilic, so fats or a phospholipid phytosome can improve dispersion and uptake."),
     ],
   },

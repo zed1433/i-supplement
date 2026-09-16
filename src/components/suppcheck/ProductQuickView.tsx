@@ -19,7 +19,7 @@ export function ProductQuickView({ product, products }: { product: Product; prod
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button type="button" variant="outline" size="icon" aria-label={`Quick view ${product.name}`} title="Quick view">
+        <Button type="button" variant="outline" size="icon" className="w-full" aria-label={`Quick view ${product.name}`} title="Quick view">
           <Eye />
         </Button>
       </SheetTrigger>
