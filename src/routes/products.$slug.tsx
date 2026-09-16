@@ -31,7 +31,7 @@ import {
   valueMetric,
   type Product,
 } from "@/lib/suppcheck";
-import { offerShipsTo, useRegion } from "@/lib/region";
+import { offerShipsTo, useRegion, type RegionCode } from "@/lib/region";
 
 export const Route = createFileRoute("/products/$slug")({
   staticData: { sitemap: true },
@@ -445,7 +445,7 @@ function ListBlock({
 type Diff = { text: string; tone: "good" | "bad" | "neutral" };
 
 /** Plain-language differences between an alternative and the product in view. */
-function compareToBase(base: Product, alt: Product, region: string): Diff[] {
+function compareToBase(base: Product, alt: Product, region: RegionCode): Diff[] {
   const diffs: Diff[] = [];
   const pick = (p: Product) =>
     p.merchant_offers
