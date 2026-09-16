@@ -10,3 +10,4 @@
 - [x] Add biochemical synergy recommendations, timing cautions, quick view, and safe basket actions
 - [x] Add structured package data and dynamic value metrics across all shopping views
 - [x] Polish retailer cards, synergy visuals, and sticky catalog-group navigation
+- [x] Affiliate/legal compliance: About page, footer compliance block, GDPR/CCPA privacy, expanded terms, outbound-link audit
