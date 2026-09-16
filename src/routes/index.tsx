@@ -502,6 +502,7 @@ function HomePage() {
                 >
                   <ProductCard
                     product={p}
+                    products={regional}
                     selected={selected.includes(p.id)}
                     selectionFull={selected.length >= 4}
                     onToggle={(id) =>

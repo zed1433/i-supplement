@@ -217,7 +217,10 @@ function bestEligibleOffer(product: Product, region: RegionCode): MerchantOffer 
 
 export function resolveSynergies(active: Product, products: Product[], region: RegionCode): SynergyResult {
   const activeText = searchable(active);
-  const rule = SYNERGY_RULES.find((candidate) => aliasScore(activeText, candidate.triggers) > 0);
+  const categoryText = `${active.category} ${active.category_path[2] ?? ""}`.toLowerCase();
+  const rule =
+    SYNERGY_RULES.find((candidate) => aliasScore(categoryText, candidate.triggers) > 0) ??
+    SYNERGY_RULES.find((candidate) => aliasScore(activeText, candidate.triggers) > 0);
   if (!rule) return { pairings: [] };
 
   const pairings = rule.partners.slice(0, 2).map<ResolvedSynergy>((partner) => {

@@ -2,13 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BadgeCheck, Check, ShoppingBasket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { ProductQuickView } from "@/components/suppcheck/ProductQuickView";
 import { productImageUrl } from "@/lib/productImages";
 import { useBasket } from "@/lib/basket";
 import { chemicalForm, elementalPerServing, formatPrice, priceAsOfShort, type Product } from "@/lib/suppcheck";
 
-type Props = { product: Product; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
+type Props = { product: Product; products: Product[]; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
 
-export function ProductCard({ product, selected, selectionFull, onToggle }: Props) {
+export function ProductCard({ product, products, selected, selectionFull, onToggle }: Props) {
   const { addOffer, hasOffer } = useBasket();
   const eligibleOffers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified);
   const currencyCounts = eligibleOffers.reduce<Record<string, number>>((counts, offer) => {
@@ -61,12 +62,13 @@ export function ProductCard({ product, selected, selectionFull, onToggle }: Prop
       </div>
       {product.third_party_certifications.length > 0 && <p className="mt-2 flex items-center gap-1 text-[11px] font-medium text-primary"><BadgeCheck className="size-3.5" /> Third-party verified</p>}
 
-      <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-3">
+      <div className="mt-auto grid grid-cols-[1fr_auto_auto] gap-2 pt-3">
         {cheapest ? (
           <Button type="button" onClick={() => addOffer(product, cheapest)} variant={hasOffer(cheapest.id) ? "secondary" : "default"} className="min-w-0 px-2 text-xs">
             {hasOffer(cheapest.id) ? <Check /> : <ShoppingBasket />} {hasOffer(cheapest.id) ? "Added" : "Add best price"}
           </Button>
         ) : <Button disabled className="px-2 text-xs">Unavailable</Button>}
+        <ProductQuickView product={product} products={products} />
         <Button asChild variant="outline" size="icon"><Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`Details for ${product.name}`}><ArrowUpRight /></Link></Button>
       </div>
     </article>

@@ -22,6 +22,8 @@ export function SynergyCard({ product, products }: { product: Product; products:
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {result.pairings.map((pairing) => {
             const added = pairing.offer ? hasOffer(pairing.offer.id) : false;
+            const partnerProduct = pairing.product;
+            const partnerOffer = pairing.offer;
             return (
               <article key={`${pairing.badge}-${pairing.name}`} className="flex flex-col rounded-md border border-primary/20 bg-surface p-3">
                 <span className="w-fit rounded-full bg-accent px-2 py-1 text-[10px] font-semibold uppercase text-accent-foreground">
@@ -30,21 +32,21 @@ export function SynergyCard({ product, products }: { product: Product; products:
                 <h3 className="mt-2 text-sm font-semibold text-foreground">{pairing.name}</h3>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pairing.explanation}</p>
                 <div className="mt-auto pt-3">
-                  {pairing.product && pairing.offer ? (
+                  {partnerProduct && partnerOffer ? (
                     <Button
                       type="button"
                       size="sm"
                       variant={added ? "secondary" : "default"}
                       className="w-full whitespace-normal px-3 text-center leading-tight"
-                      onClick={() => addOffer(pairing.product as Product, pairing.offer as NonNullable<typeof pairing.offer>)}
+                      onClick={() => addOffer(partnerProduct, partnerOffer)}
                     >
                       {added ? <Check /> : <ShoppingBasket />}
                       {added ? "Added to Basket" : "Add Co-factor to Basket"}
                     </Button>
-                  ) : pairing.product ? (
+                  ) : partnerProduct ? (
                     <Button asChild type="button" size="sm" variant="outline" className="w-full whitespace-normal px-3 text-center leading-tight">
-                      <Link to="/products/$slug" params={{ slug: pairing.product.slug }}>
-                        View {pairing.product.name}
+                      <Link to="/products/$slug" params={{ slug: partnerProduct.slug }}>
+                        View {partnerProduct.name}
                       </Link>
                     </Button>
                   ) : (
