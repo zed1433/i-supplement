@@ -190,7 +190,7 @@ export function isPriceStale(updatedAt?: string | null): boolean {
 export function priceAsOfShort(updatedAt?: string | null): string {
   if (!updatedAt) return "Price date unavailable — subject to change";
   const d = new Date(updatedAt);
-  const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" }).format(d);
+  const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(d);
   return `Price as of ${label}${isPriceStale(updatedAt) ? " — may be out of date" : ""}`;
 }
 
@@ -204,6 +204,8 @@ export function priceAsOfLong(updatedAt?: string | null): string {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
+    timeZoneName: "short",
   }).format(d);
   return `Price as of ${label} — subject to change${
     isPriceStale(updatedAt) ? "; may be out of date" : ""
