@@ -56,6 +56,11 @@ export type Product = {
   category_path: string[];
   form: string;
   serving_size: string;
+  pricing_basis: "per_serving" | "bulk_powder" | null;
+  total_servings: number | null;
+  net_weight_grams: number | null;
+  serving_weight_grams: number | null;
+  catalog_group: CatalogGroup | null;
   primary_benefit: string;
   verified_advantages: string[];
   trade_offs: string[];
@@ -67,7 +72,8 @@ export type Product = {
 };
 
 const PRODUCT_SELECT = `
-  id, name, slug, image_url, image_source, category, category_path, form, serving_size, primary_benefit,
+  id, name, slug, image_url, image_source, category, category_path, form, serving_size,
+  pricing_basis, total_servings, net_weight_grams, serving_weight_grams, catalog_group, primary_benefit,
   verified_advantages, trade_offs, excipients, third_party_certifications,
   brands ( id, name, country_of_origin, website_url ),
   product_ingredients (
@@ -140,18 +146,51 @@ export function elementalPerServing(p: Product): number {
 }
 
 export function bestOffer(p: Product): MerchantOffer | undefined {
-  const stocked = p.merchant_offers.filter((o) => o.in_stock);
+  const stocked = p.merchant_offers.filter((o) => o.in_stock && o.link_verified);
   const pool = stocked.length ? stocked : p.merchant_offers;
   return [...pool].sort((a, b) => Number(a.price) - Number(b.price))[0];
 }
 
-/** Normalised cost per 100 mg elemental active, assuming a 30-serving container. */
-export function costPer100mgElemental(p: Product, servingsPerContainer = 30): number | null {
-  const offer = bestOffer(p);
-  const elemental = elementalPerServing(p);
-  if (!offer || !elemental) return null;
-  const totalElementalMg = elemental * servingsPerContainer;
-  return (Number(offer.price) / totalElementalMg) * 100;
+export const CATALOG_GROUPS = [
+  "Vitamins & Minerals",
+  "Performance & Protein",
+  "Nootropics & Focus",
+  "Longevity",
+] as const;
+
+export type CatalogGroup = (typeof CATALOG_GROUPS)[number];
+
+export type ValueMetric = {
+  primaryLabel: "Cost per serving" | "Cost per 100 g";
+  primaryValue: number;
+  secondaryLabel?: "Cost per 5 g scoop";
+  secondaryValue?: number;
+  currency: string;
+};
+
+/** Commercial value based only on verified package facts; unknown values stay undisplayed. */
+export function valueMetric(product: Product, offer?: MerchantOffer): ValueMetric | null {
+  if (!offer) return null;
+  const price = Number(offer.price);
+  if (!Number.isFinite(price) || price < 0) return null;
+  if (product.pricing_basis === "bulk_powder") {
+    const grams = Number(product.net_weight_grams);
+    if (!Number.isFinite(grams) || grams <= 0) return null;
+    return {
+      primaryLabel: "Cost per 100 g",
+      primaryValue: (price / grams) * 100,
+      secondaryLabel: "Cost per 5 g scoop",
+      secondaryValue: (price / grams) * 5,
+      currency: offer.currency,
+    };
+  }
+  const servings = Number(product.total_servings);
+  if (!Number.isFinite(servings) || servings <= 0) return null;
+  return {
+    primaryLabel: "Cost per serving",
+    primaryValue: price / servings,
+    currency: offer.currency,
+  };
 }
 
 export function chemicalForm(p: Product): string {

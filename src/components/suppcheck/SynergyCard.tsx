@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, Check, ShoppingBasket, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { useBasket } from "@/lib/basket";
+import { productImageUrl } from "@/lib/productImages";
 import { useRegion } from "@/lib/region";
 import { resolveSynergies } from "@/lib/synergies";
-import type { Product } from "@/lib/suppcheck";
+import { formatPrice, type Product } from "@/lib/suppcheck";
 
 export function SynergyCard({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
@@ -26,10 +28,17 @@ export function SynergyCard({ product, products }: { product: Product; products:
             const partnerOffer = pairing.offer;
             return (
               <article key={`${pairing.badge}-${pairing.name}`} className="flex flex-col rounded-md border border-primary/20 bg-surface p-3">
-                <span className="w-fit rounded-full bg-accent px-2 py-1 text-[10px] font-semibold uppercase text-accent-foreground">
-                  {pairing.badge}
-                </span>
-                <h3 className="mt-2 text-sm font-semibold text-foreground">{pairing.name}</h3>
+                <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-3">
+                  {partnerProduct ? (
+                    <ProductImage src={productImageUrl(partnerProduct)} alt={partnerProduct.name} brand={partnerProduct.brands.name} className="size-16" />
+                  ) : <div className="size-16 rounded-md bg-surface-raised" aria-hidden="true" />}
+                  <div className="min-w-0">
+                    <span className="inline-flex rounded-full bg-accent px-2 py-1 text-[10px] font-semibold uppercase text-accent-foreground">
+                      {pairing.badge}
+                    </span>
+                    <h3 className="mt-2 text-sm font-semibold text-foreground">{pairing.name}</h3>
+                  </div>
+                </div>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pairing.explanation}</p>
                 <div className="mt-auto pt-3">
                   {partnerProduct && partnerOffer ? (
@@ -41,7 +50,7 @@ export function SynergyCard({ product, products }: { product: Product; products:
                       onClick={() => addOffer(partnerProduct, partnerOffer)}
                     >
                       {added ? <Check /> : <ShoppingBasket />}
-                      {added ? "Added to Basket" : "Add Co-factor to Basket"}
+                       {added ? "Added to Basket" : `+ Add ${partnerProduct.name} — ${formatPrice(partnerOffer.price, partnerOffer.currency)}`}
                     </Button>
                   ) : partnerProduct ? (
                     <Button asChild type="button" size="sm" variant="outline" className="w-full whitespace-normal px-3 text-center leading-tight">

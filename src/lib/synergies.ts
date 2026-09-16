@@ -1,7 +1,7 @@
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
 import { offerShipsTo, type RegionCode } from "@/lib/region";
 
-export type SynergyBadge = "Required Co-factor" | "Absorption Booster" | "Transporter Balance";
+export type SynergyBadge = "Obligate Co-factor" | "Absorption Booster" | "Transporter Balance";
 
 type PartnerDefinition = {
   name: string;
@@ -30,7 +30,7 @@ const required = (name: string, aliases: string[], explanation: string): Partner
   name,
   aliases,
   explanation,
-  badge: "Required Co-factor",
+  badge: "Obligate Co-factor",
 });
 
 const booster = (name: string, aliases: string[], explanation: string): PartnerDefinition => ({
