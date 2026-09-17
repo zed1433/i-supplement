@@ -16,6 +16,7 @@ import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disc
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -64,6 +65,11 @@ const BasketRoute = BasketRouteImport.update({
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -154,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -201,6 +209,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
+  ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -506,6 +526,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,
+  ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
