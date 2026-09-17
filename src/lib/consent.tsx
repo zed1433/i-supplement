@@ -67,7 +67,10 @@ function read(): ConsentState | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<ConsentState>;
     if (typeof parsed !== "object" || parsed === null) return null;
+    // Older wording versions are re-asked rather than silently carried over.
+    if (parsed.version !== CONSENT_VERSION) return null;
     return {
+      version: CONSENT_VERSION,
       necessary: true,
       preferences: Boolean(parsed.preferences),
       affiliate: Boolean(parsed.affiliate),
