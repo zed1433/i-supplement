@@ -11,3 +11,5 @@
 - [x] Add structured package data and dynamic value metrics across all shopping views
 - [x] Polish retailer cards, synergy visuals, and sticky catalog-group navigation
 - [x] Affiliate/legal compliance: About page, footer compliance block, GDPR/CCPA privacy, expanded terms, outbound-link audit
+
+- [x] Cookie consent banner (accept all / reject non-essential / customize) with stored choice, footer "Cookie settings" re-open, consent-gated affiliate click references, FDA/EFSA disclaimer in footer + co-factors module, "Prices accurate as of ... subject to change by retailer" wording.
