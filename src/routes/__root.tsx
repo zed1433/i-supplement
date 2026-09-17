@@ -100,6 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Elemental yields, chelation integrity, excipients and live multi-retailer pricing.",
       },
       { property: "og:type", content: "website" },
+      { name: "awin", content: "Awin" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
