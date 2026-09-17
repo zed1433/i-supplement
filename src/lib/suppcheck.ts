@@ -250,7 +250,7 @@ export const AFFILIATE_DISCLOSURE =
 export const MEDICAL_DISCLAIMER =
   "Statements regarding dietary supplements have not been evaluated by the FDA or EFSA and are not intended to diagnose, treat, cure, or prevent any disease. Always consult your physician before starting any supplementation protocol.";
 
-export const SUPPORT_EMAIL = "isupplementsofficial@gmail.com";
+export const SUPPORT_EMAIL = "contact@i-supplement.com";
 export const OPERATOR_NAME = "i-Supplement";
 export const OPERATOR_LOCATION = "Athens, Greece";
 export const OPERATOR_CONTACT = `Operated by ${OPERATOR_NAME} (${OPERATOR_LOCATION}). Support: ${SUPPORT_EMAIL}`;
