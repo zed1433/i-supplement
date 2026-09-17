@@ -32,9 +32,9 @@ export const MARKETS: Market[] = [
   { code: "US", country: "US", label: "United States", flag: "🇺🇸", currency: "USD", currencySymbol: "$", locale: "en-US", languages: ["en", "es"], region: "US", amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", iherbCountry: "US" },
   { code: "EU", country: "DE", label: "Europe", flag: "🇪🇺", currency: "EUR", currencySymbol: "€", locale: "de-DE", languages: ["en", "de", "fr", "es"], region: "EU", amazonDomain: "www.amazon.de", amazonTag: "suppcheck-21", iherbCountry: "DE" },
   { code: "UK", country: "GB", label: "United Kingdom", flag: "🇬🇧", currency: "GBP", currencySymbol: "£", locale: "en-GB", languages: ["en"], region: "UK", amazonDomain: "www.amazon.co.uk", amazonTag: "suppcheck-21", iherbCountry: "GB" },
-  { code: "BR", country: "BR", label: "Brazil", flag: "🇧🇷", currency: "BRL", currencySymbol: "R$", locale: "pt-BR", languages: ["pt", "en", "es"], region: "ALL", amazonDomain: "www.amazon.com.br", amazonTag: "suppcheck-20", iherbCountry: "BR" },
-  { code: "ZA", country: "ZA", label: "South Africa", flag: "🇿🇦", currency: "ZAR", currencySymbol: "R", locale: "en-ZA", languages: ["en"], region: "ALL", amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", iherbCountry: "ZA" },
-  { code: "NG", country: "NG", label: "Nigeria", flag: "🇳🇬", currency: "NGN", currencySymbol: "₦", locale: "en-NG", languages: ["en"], region: "ALL", amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", iherbCountry: "NG" },
+  { code: "BR", country: "BR", label: "Brazil", flag: "🇧🇷", currency: "BRL", currencySymbol: "R$", locale: "pt-BR", languages: ["pt", "en", "es"], region: "BR", amazonDomain: "www.amazon.com.br", amazonTag: "suppcheck-20", iherbCountry: "BR" },
+  { code: "ZA", country: "ZA", label: "South Africa", flag: "🇿🇦", currency: "ZAR", currencySymbol: "R", locale: "en-ZA", languages: ["en"], region: "ZA", amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", iherbCountry: "ZA" },
+  { code: "NG", country: "NG", label: "Nigeria", flag: "🇳🇬", currency: "NGN", currencySymbol: "₦", locale: "en-NG", languages: ["en"], region: "NG", amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", iherbCountry: "NG" },
 ];
 
 export const DEFAULT_MARKET = MARKETS[0]!;
@@ -179,10 +179,10 @@ export function MarketProvider({ children }: { children: ReactNode }) {
         const next = marketByCode(code) ?? DEFAULT_MARKET;
         persist(next, next.languages[0]!);
       },
-      setLanguage: (code) => persist(market, code),
+      setLanguage: (code) => persist(market, market.languages.includes(code) ? code : market.languages[0]!),
       money,
       isConverted: (currency) =>
-        Boolean(currency) && currency!.toUpperCase() !== market.currency,
+        Boolean(currency) && currency?.toUpperCase() !== market.currency,
       t: (key) => translate(language, key),
     };
   }, [language, market, persist, rates, ready]);
