@@ -32,6 +32,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { productsForRegion, useRegion } from "@/lib/region";
+import { useT } from "@/lib/market";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
@@ -136,6 +137,13 @@ function HomePage() {
   const { data: products, isLoading, error, refetch } = useQuery(productsQuery);
   const reduceMotion = useReducedMotion();
   const { region } = useRegion();
+  const t = useT();
+  const groupLabel = (value: string) =>
+    value === "Vitamins & Minerals" ? t("filter.vitamins")
+      : value === "Performance & Protein" ? t("filter.performance")
+      : value === "Nootropics & Focus" ? t("filter.nootropics")
+      : value === "Longevity" ? t("filter.longevity")
+      : value;
   const [search, setSearch] = useState("");
   const [certs, setCerts] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
@@ -375,8 +383,8 @@ function HomePage() {
 
       <div className="sticky top-[129px] z-30 border-b border-border bg-background/95 backdrop-blur sm:top-[105px] lg:top-[105px]">
         <div id="catalogue" className="mx-auto flex max-w-[1600px] scroll-mt-32 gap-2 overflow-x-auto px-4 py-3 sm:px-6" aria-label="Catalog groups">
-          <QuickFilter active={catalogGroup === null} onClick={() => { setCatalogGroup(null); selectGroup(null); }} icon={<span>⚡</span>}>All</QuickFilter>
-          {CATALOG_GROUPS.map((value) => <QuickFilter key={value} active={catalogGroup === value} onClick={() => { setCatalogGroup(value); selectGroup(null); }} icon={<span>{value === "Vitamins & Minerals" ? "💊" : value === "Performance & Protein" ? "🏋️" : value === "Nootropics & Focus" ? "🧠" : "🌿"}</span>}>{value}</QuickFilter>)}
+          <QuickFilter active={catalogGroup === null} onClick={() => { setCatalogGroup(null); selectGroup(null); }} icon={<span>⚡</span>}>{t("filter.all")}</QuickFilter>
+          {CATALOG_GROUPS.map((value) => <QuickFilter key={value} active={catalogGroup === value} onClick={() => { setCatalogGroup(value); selectGroup(null); }} icon={<span>{value === "Vitamins & Minerals" ? "💊" : value === "Performance & Protein" ? "🏋️" : value === "Nootropics & Focus" ? "🧠" : "🌿"}</span>}>{groupLabel(value)}</QuickFilter>)}
         </div>
       </div>
 

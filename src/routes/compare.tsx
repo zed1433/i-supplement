@@ -10,13 +10,13 @@ import {
   chemicalForm,
   elementalPerServing,
   excipientFlags,
-  formatPrice,
-  priceAsOfShort,
+    priceAsOfShort,
   primaryIngredient,
   productsQuery,
   valueMetric,
   type Product,
 } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 import { productsForRegion, useRegion } from "@/lib/region";
 import { useAffiliateHref } from "@/lib/consent";
 
@@ -53,6 +53,7 @@ function ComparePage() {
   const navigate = Route.useNavigate();
   const { data: products, isLoading } = useQuery(productsQuery);
   const { region } = useRegion();
+  const money = useMoney();
 
   const selectedIds = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
   const all = productsForRegion(products ?? [], region);
@@ -166,7 +167,7 @@ function ComparePage() {
                     const metric = valueMetric(p, offer);
                     return (
                       <span key={p.id} className="text-xs">
-                        {metric ? <><strong className="num block text-base">{formatPrice(metric.primaryValue, metric.currency)}</strong><span className="text-muted-foreground">{metric.primaryLabel}</span>{metric.secondaryLabel && metric.secondaryValue != null ? <span className="mt-1 block text-muted-foreground">{formatPrice(metric.secondaryValue, metric.currency)} {metric.secondaryLabel}</span> : null}</> : "—"}
+                        {metric ? <><strong className="num block text-base">{money(metric.primaryValue, metric.currency)}</strong><span className="text-muted-foreground">{metric.primaryLabel}</span>{metric.secondaryLabel && metric.secondaryValue != null ? <span className="mt-1 block text-muted-foreground">{money(metric.secondaryValue, metric.currency)} {metric.secondaryLabel}</span> : null}</> : "—"}
                       </span>
                     );
                   })}
@@ -236,7 +237,7 @@ function ComparePage() {
                     return (
                       <span key={p.id}>
                         <span className="num block text-base font-semibold">
-                          {formatPrice(offer.price, offer.currency)}
+                          {money(offer.price, offer.currency)}
                         </span>
                         <span className="block text-xs text-muted-foreground">
                           {offer.merchant_name} · {offer.country_flag}

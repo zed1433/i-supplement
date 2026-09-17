@@ -2,14 +2,16 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowRight, ShoppingBasket } from "lucide-react";
 import { useBasket } from "@/lib/basket";
 import { formatPrice } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 
 export function MobileBasketBar() {
   const { items, totalItems } = useBasket();
+  const money = useMoney();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   if (!totalItems) return null;
   const currencies = new Set(items.map((item) => item.currency));
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalLabel = currencies.size === 1 ? formatPrice(total, items[0]?.currency) : "Multiple currencies";
+  const totalLabel = currencies.size === 1 ? money(total, items[0]?.currency) : "Multiple currencies";
   const onBasket = pathname === "/basket";
 
   return (

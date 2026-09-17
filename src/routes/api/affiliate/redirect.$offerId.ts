@@ -6,12 +6,26 @@ const AWIN_PUBLISHER_ID = "suppcheck";
 const AMAZON_TAG = "suppcheck-21";
 const LINKWISE_ID = "suppcheck-gr";
 
+/** Geo handoff table: only these markets are accepted from the query string. */
+const MARKET_TARGETS: Record<string, { amazonDomain: string; amazonTag: string; currency: string }> = {
+  US: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "USD" },
+  GB: { amazonDomain: "www.amazon.co.uk", amazonTag: "suppcheck-21", currency: "GBP" },
+  DE: { amazonDomain: "www.amazon.de", amazonTag: "suppcheck-21", currency: "EUR" },
+  BR: { amazonDomain: "www.amazon.com.br", amazonTag: "suppcheck-20", currency: "BRL" },
+  ZA: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "ZAR" },
+  NG: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "NGN" },
+};
+
+type Geo = { country?: string | undefined; currency?: string | undefined };
+
 function buildAffiliateUrl(
   network: string,
   target: string,
   offerId: string,
   trackClick = true,
+  geo: Geo = {},
 ): string {
+  const market = geo.country ? MARKET_TARGETS[geo.country] : undefined;
   try {
     switch (network) {
       case "awin":
@@ -20,7 +34,9 @@ function buildAffiliateUrl(
         }&ued=${encodeURIComponent(target)}`;
       case "amazon": {
         const url = new URL(target);
-        url.searchParams.set("tag", AMAZON_TAG);
+        // Route to the shopper's regional Amazon storefront (OneLink-style handoff).
+        if (market) url.hostname = market.amazonDomain;
+        url.searchParams.set("tag", market?.amazonTag ?? AMAZON_TAG);
         if (trackClick) url.searchParams.set("ascsubtag", offerId);
         return url.toString();
       }
@@ -31,6 +47,12 @@ function buildAffiliateUrl(
       default: {
         const url = new URL(target);
         url.searchParams.set("ref", "suppcheck");
+        // iHerb honours country/currency query parameters on product URLs.
+        if (url.hostname.includes("iherb") && geo.country) {
+          url.searchParams.set("rcode", "isupplement");
+          url.searchParams.set("country", geo.country);
+          if (geo.currency) url.searchParams.set("currency", geo.currency);
+        }
         return url.toString();
       }
     }
@@ -44,7 +66,14 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
   server: {
     handlers: {
       GET: async ({ params, request }) => {
-        const trackClick = new URL(request.url).searchParams.get("nt") !== "1";
+        const query = new URL(request.url).searchParams;
+        const trackClick = query.get("nt") !== "1";
+        const countryParam = (query.get("country") ?? "").toUpperCase();
+        const currencyParam = (query.get("currency") ?? "").toUpperCase();
+        const geo = {
+          country: /^[A-Z]{2}$/.test(countryParam) ? countryParam : undefined,
+          currency: /^[A-Z]{3}$/.test(currencyParam) ? currencyParam : undefined,
+        };
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
         const supabase = createClient(process.env["SUPABASE_URL"]!, key, {
           auth: { persistSession: false, autoRefreshToken: false },
@@ -75,6 +104,7 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
           data.affiliate_target_url,
           params.offerId,
           trackClick,
+          geo,
         );
 
         return new Response(null, {

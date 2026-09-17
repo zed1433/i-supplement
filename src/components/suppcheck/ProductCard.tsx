@@ -6,12 +6,15 @@ import { ProductQuickView } from "@/components/suppcheck/ProductQuickView";
 import { productImageUrl } from "@/lib/productImages";
 import { useBasket } from "@/lib/basket";
 import { offerShipsTo, useRegion } from "@/lib/region";
-import { chemicalForm, formatPrice, priceAsOfShort, primaryIngredient, valueMetric, type Product } from "@/lib/suppcheck";
+import { chemicalForm, priceAsOfShort, primaryIngredient, valueMetric, type Product } from "@/lib/suppcheck";
+import { useMoney, useT } from "@/lib/market";
 
 type Props = { product: Product; products: Product[]; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
 
 export function ProductCard({ product, products, selected, selectionFull, onToggle }: Props) {
   const { addOffer, hasOffer } = useBasket();
+  const money = useMoney();
+  const t = useT();
   const { region } = useRegion();
   const eligibleOffers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region));
   const currencyCounts = eligibleOffers.reduce<Record<string, number>>((counts, offer) => {
@@ -45,30 +48,30 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
 
       <div className="mt-2 flex flex-wrap gap-1.5">
         <span className="rounded-full border border-border bg-surface-raised px-2 py-1 text-[10px] text-muted-foreground">{chemicalForm(product)} · {primaryIngredient(product)?.bioavailability_score ?? product.form}</span>
-        {product.total_servings ? <span className="rounded-full border border-border bg-surface-raised px-2 py-1 text-[10px] text-muted-foreground">{product.total_servings} servings</span> : null}
-        {product.third_party_certifications.length > 0 ? <span className="flex items-center gap-1 rounded-full border border-primary/25 bg-accent px-2 py-1 text-[10px] font-medium text-accent-foreground"><BadgeCheck className="size-3" /> Lab tested</span> : null}
+        {product.total_servings ? <span className="rounded-full border border-border bg-surface-raised px-2 py-1 text-[10px] text-muted-foreground">{product.total_servings} {t("badge.servings")}</span> : null}
+        {product.third_party_certifications.length > 0 ? <span className="flex items-center gap-1 rounded-full border border-primary/25 bg-accent px-2 py-1 text-[10px] font-medium text-accent-foreground"><BadgeCheck className="size-3" /> {t("badge.labTested")}</span> : null}
       </div>
 
       <div className="mt-3 rounded-md border border-border bg-background p-2.5">
         <div className="flex items-center justify-between gap-2">
-          <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? "BEST DEAL" : "NO ACTIVE OFFER"}</span>
-          <span className="num text-base font-semibold text-primary">{cheapest ? formatPrice(cheapest.price, cheapest.currency) : "Unavailable"}</span>
+          <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? t("badge.bestDeal") : t("badge.noOffer")}</span>
+          <span className="num text-base font-semibold text-primary">{cheapest ? money(cheapest.price, cheapest.currency) : t("badge.unavailable")}</span>
         </div>
         {cheapest && <p className="mt-1 text-[10px] text-muted-foreground">{priceAsOfShort(cheapest.updated_at)}</p>}
         <div className="mt-2 grid grid-cols-1 gap-1.5 border-t border-border pt-2 sm:grid-cols-2">
-          {offers.slice(0, 3).map((offer, index) => <div key={offer.id} className={`flex items-center justify-between gap-2 rounded border px-2 py-1.5 text-[11px] ${index === 0 ? "border-primary/30 bg-accent" : "border-border bg-surface"}`}><span className="truncate">{offer.merchant_name}</span><strong className="num shrink-0 font-semibold text-foreground">{formatPrice(offer.price, offer.currency)}</strong></div>)}
+          {offers.slice(0, 3).map((offer, index) => <div key={offer.id} className={`flex items-center justify-between gap-2 rounded border px-2 py-1.5 text-[11px] ${index === 0 ? "border-primary/30 bg-accent" : "border-border bg-surface"}`}><span className="truncate">{offer.merchant_name}</span><strong className="num shrink-0 font-semibold text-foreground">{money(offer.price, offer.currency)}</strong></div>)}
         </div>
         {currencyCounts && Object.keys(currencyCounts).length > 1 && <p className="mt-1 text-[10px] text-muted-foreground">Other currencies shown separately on details</p>}
       </div>
 
-      {metric ? <div className="mt-2 flex flex-wrap gap-1.5 rounded-md bg-surface-raised px-2 py-1.5 text-[10px] text-muted-foreground"><strong className="num font-medium text-foreground">{formatPrice(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? <><span>·</span><strong className="num font-medium text-foreground">{formatPrice(metric.secondaryValue, metric.currency)}</strong> {metric.secondaryLabel.toLowerCase()}</> : null}</div> : null}
+      {metric ? <div className="mt-2 flex flex-wrap gap-1.5 rounded-md bg-surface-raised px-2 py-1.5 text-[10px] text-muted-foreground"><strong className="num font-medium text-foreground">{money(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? <><span>·</span><strong className="num font-medium text-foreground">{money(metric.secondaryValue, metric.currency)}</strong> {metric.secondaryLabel.toLowerCase()}</> : null}</div> : null}
 
       <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
         {cheapest ? (
           <Button type="button" onClick={() => addOffer(product, cheapest)} variant={hasOffer(cheapest.id) ? "secondary" : "default"} className="col-span-2 min-w-0 px-2 text-xs">
-            {hasOffer(cheapest.id) ? <Check /> : <ShoppingBasket />} {hasOffer(cheapest.id) ? "Saved to Universal Cart" : "Add to Universal Cart"}
+            {hasOffer(cheapest.id) ? <Check /> : <ShoppingBasket />} {hasOffer(cheapest.id) ? t("cart.added") : t("cart.add")}
           </Button>
-        ) : <Button disabled className="col-span-2 px-2 text-xs">Unavailable</Button>}
+        ) : <Button disabled className="col-span-2 px-2 text-xs">{t("badge.unavailable")}</Button>}
         <ProductQuickView product={product} products={products} />
         <Button asChild variant="outline" size="icon" className="w-full"><Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`Details for ${product.name}`} title="Full details"><ArrowUpRight /></Link></Button>
       </div>
