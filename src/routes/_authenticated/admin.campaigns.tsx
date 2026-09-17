@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DOMPurify from "dompurify";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -28,6 +29,15 @@ import {
   sendTestEmail,
 } from "@/lib/automation.functions";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+
+/** Defense-in-depth: re-sanitize stored draft HTML before rendering it in the admin DOM. */
+function safeCampaignHtml(html: string): string {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ["p", "strong", "b", "em", "i", "u", "ul", "ol", "li", "a", "br", "span", "h2", "h3"],
+    ALLOWED_ATTR: ["href"],
+    ALLOWED_URI_REGEXP: /^https:\/\//i,
+  });
+}
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -384,7 +394,7 @@ function CampaignsPage() {
                   <p className="mt-1 text-sm font-medium">{c.subject}</p>
                   <div
                     className="prose prose-invert mt-2 max-h-60 max-w-none overflow-y-auto text-sm"
-                    dangerouslySetInnerHTML={{ __html: c.body }}
+                    dangerouslySetInnerHTML={{ __html: safeCampaignHtml(c.body) }}
                   />
                 </div>
               </div>

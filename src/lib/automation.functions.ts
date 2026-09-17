@@ -173,9 +173,10 @@ export const saveCampaign = createServerFn({ method: "POST" })
   .handler(async ({ context, data }: any) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { sanitizeCampaignHtml } = await import("@/lib/newsletter.server");
     const { error } = await supabaseAdmin
       .from("campaigns")
-      .update({ subject: data.subject, body: data.body })
+      .update({ subject: data.subject, body: sanitizeCampaignHtml(data.body) })
       .eq("id", data.id);
     if (error) throw error;
     return { ok: true };

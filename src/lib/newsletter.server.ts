@@ -87,8 +87,41 @@ ${rawText.slice(0, 6000)}
   return {
     retailer: (parsed.retailer ?? retailerHint).slice(0, 120),
     subject: (parsed.subject ?? "A new supplement offer").slice(0, 200),
-    body: stripExternalLinks(parsed.body_html ?? ""),
+    body: sanitizeCampaignHtml(stripExternalLinks(parsed.body_html ?? "")),
   };
+}
+
+const ALLOWED_TAGS = new Set([
+  "p", "strong", "b", "em", "i", "u", "ul", "ol", "li", "a", "br", "span", "h2", "h3",
+]);
+
+/**
+ * Strict tag allow-list sanitizer for AI-rewritten email HTML. The source text
+ * comes from untrusted third-party inboxes and an LLM rewrite step, so nothing
+ * outside a small formatting tag set may survive. Removes scripts, event
+ * handler attributes, and non-http(s) hrefs. Server-safe (no DOM required).
+ */
+export function sanitizeCampaignHtml(html: string): string {
+  let out = html
+    // drop dangerous containers including their contents
+    .replace(/<(script|style|iframe|object|embed|form|svg|math|textarea|template)[\s\S]*?<\/\1>/gi, "")
+    // drop stray/self-closing dangerous tags
+    .replace(/<\/?(script|style|iframe|object|embed|form|svg|math|link|meta|base|input|button|textarea|template)[^>]*>/gi, "");
+  // keep only allow-listed tags, with all attributes stripped (except a safe href on <a>)
+  out = out.replace(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:\s[^<>]*)?)>/g, (_match, close: string, tag: string, attrs: string) => {
+    const t = tag.toLowerCase();
+    if (!ALLOWED_TAGS.has(t)) return "";
+    if (close) return `</${t}>`;
+    if (t === "br") return "<br>";
+    if (t === "a") {
+      const m = attrs.match(/href\s*=\s*["']([^"']*)["']/i);
+      const url = m?.[1] ?? "";
+      const safe = /^https:\/\//i.test(url) || url.startsWith(SITE_URL) ? url : SITE_URL;
+      return `<a href="${safe.replace(/"/g, "%22")}">`;
+    }
+    return `<${t}>`;
+  });
+  return out;
 }
 
 /**
@@ -179,7 +212,7 @@ export function renderEmail(
   const notice = testNotice
     ? `<p style="font-size:13px;color:#6b7280;margin:0 0 16px">This is a test copy sent to you only. Subscribers have not received it.</p>`
     : "";
-  const safeBody = stripExternalLinks(bodyHtml);
+  const safeBody = sanitizeCampaignHtml(stripExternalLinks(bodyHtml));
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
   <div style="max-width:560px;margin:0 auto;padding:24px">
     <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 12px">${SITE_NAME}</p>
