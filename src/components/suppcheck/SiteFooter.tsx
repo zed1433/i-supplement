@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { AFFILIATE_DISCLOSURE, MEDICAL_DISCLAIMER, OPERATOR_LOCATION, OPERATOR_NAME, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, CLAIMS_POLICY_NOTE, MEDICAL_DISCLAIMER, OPERATOR_IDENTITY, SUPPORT_EMAIL } from "@/lib/suppcheck";
 import { useConsent } from "@/lib/consent";
 import { useT } from "@/lib/market";
 

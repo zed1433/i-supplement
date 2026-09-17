@@ -80,6 +80,8 @@ function DisclosurePage() {
             We are not affiliated with, endorsed by or operated by any retailer or brand named on
             this site. All trademarks belong to their owners and are used for identification only.
           </p>
+          <h2 className="pt-2 text-lg font-semibold">Who operates this site</h2>
+          <p>{OPERATOR_IDENTITY}</p>
         </div>
         <Link to="/" className="mt-8 inline-block text-sm text-primary hover:underline">
           Back to catalogue
