@@ -102,17 +102,27 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
 
         const { data, error } = await supabase
           .from("merchant_offers")
-          .select("affiliate_target_url, affiliate_network, link_verified")
+          .select("affiliate_target_url, affiliate_network, link_verified, retailer_product_id, merchant_name")
           .eq("id", params.offerId)
           .maybeSingle();
 
-        if (error || !data?.affiliate_target_url || !data.link_verified) {
+        if (error || !data?.link_verified) {
           return new Response("Offer not found", { status: 404 });
         }
 
+        // Amazon offers saved with only an ASIN still resolve to a product page.
+        const asin = (data.retailer_product_id ?? "").trim();
+        const isAmazon = `${data.affiliate_network ?? ""} ${data.merchant_name ?? ""}`.toLowerCase().includes("amazon");
+        const target =
+          data.affiliate_target_url ||
+          (isAmazon && /^[A-Z0-9]{10}$/i.test(asin)
+            ? `https://${(geo.country && MARKET_TARGETS[geo.country]?.amazonDomain) || "www.amazon.com"}/dp/${asin}`
+            : "");
+        if (!target) return new Response("Offer not found", { status: 404 });
+
         const destination = buildAffiliateUrl(
           data.affiliate_network ?? "direct",
-          data.affiliate_target_url,
+          target,
           params.offerId,
           trackClick,
           geo,

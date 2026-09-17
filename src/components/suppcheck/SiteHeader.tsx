@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useBasket } from "@/lib/basket";
 import { AffiliateNotice } from "@/components/suppcheck/AffiliateNotice";
 import { MarketSelector } from "@/components/suppcheck/MarketSelector";
+import { StapleNav } from "@/components/suppcheck/StapleNav";
 import { useT } from "@/lib/market";
 
 export function SiteHeader() {
@@ -55,6 +56,9 @@ export function SiteHeader() {
             {totalItems > 0 && <span className="num absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">{totalItems}</span>}
           </button>
         </nav>
+      </div>
+      <div className="mx-auto max-w-[1600px] px-4 pb-2 sm:px-6">
+        <StapleNav />
       </div>
       <AffiliateNotice />
     </header>

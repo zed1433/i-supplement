@@ -24,3 +24,5 @@
 - [x] Owner access: email/password sign-in, footer Admin link, admin-email signup shortcut, editable affiliate identifier settings page
 - [x] Fix Amazon confirmation messaging and preserve direct iHerb affiliate destinations
 - [x] Rework phone catalogue cards for complete names and readable retailer choices
+
+- Added five staple comparison pages (creatine, whey isolate, magnesium, D3+K2, omega-3) with buying guides, desktop tables, phone cards, retailer offers and SEO metadata.
