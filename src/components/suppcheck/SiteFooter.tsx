@@ -65,7 +65,15 @@ export function SiteFooter() {
             © {new Date().getFullYear()} i-Supplement
           </span>
         </nav>
-        <p className="mt-4 text-xs text-muted-foreground">Operated by {OPERATOR_NAME} ({OPERATOR_LOCATION}). Support: <a className="text-primary underline underline-offset-2" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></p>
+        <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+          {OPERATOR_IDENTITY}{" "}
+          <a className="text-primary underline underline-offset-2" href={`mailto:${SUPPORT_EMAIL}`}>
+            {SUPPORT_EMAIL}
+          </a>
+        </p>
+        <p className="mt-2 max-w-3xl text-[11px] leading-relaxed text-muted-foreground">
+          {CLAIMS_POLICY_NOTE}
+        </p>
       </div>
     </footer>
   );
