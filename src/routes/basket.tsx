@@ -7,7 +7,7 @@ import { useBasket, type BasketItem } from "@/lib/basket";
 import { useAffiliateHref, useConsent } from "@/lib/consent";
 import { AFFILIATE_DISCLOSURE, priceAsOfShort } from "@/lib/suppcheck";
 import { useMarket, useMoney } from "@/lib/market";
-import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
+import { multiCart, retailerGroupKey } from "@/lib/retailerCart";
 
 export const Route = createFileRoute("/basket")({
   staticData: { sitemap: false },
@@ -124,7 +124,12 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
           </div>
         ))}
       </div>
-      {!multiCartHref && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{merchant} does not provide a verified multi-item basket link, so open each product above on their site to add it to your {merchant} basket.</p>}
+      {!cart.url && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{merchant} does not provide a verified multi-item basket link, so open each product above on their site to add it to your {merchant} basket.</p>}
+      {cart.url && cart.excluded.length > 0 && (
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          {cart.excluded.length} item{cart.excluded.length === 1 ? " is" : "s are"} not in that cart link yet ({cart.excluded.map((item) => item.productName).join(", ")}). Open {cart.excluded.length === 1 ? "it" : "them"} above to add {cart.excluded.length === 1 ? "it" : "them"} on {merchant}.
+        </p>
+      )}
     </section>
   );
 }
