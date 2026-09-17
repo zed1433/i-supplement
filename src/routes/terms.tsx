@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { OPERATOR_CONTACT, SUPPORT_EMAIL } from "@/lib/suppcheck";
 
 const title = "Terms of Service | i-Supplement";
 const description =
@@ -127,12 +128,12 @@ function TermsPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">Contact</h2>
             <p className="mt-2">
-              Questions about these terms:{" "}
+               {OPERATOR_CONTACT}. Questions about these terms:{" "}
               <a
                 className="text-primary underline underline-offset-2"
-                href="mailto:isupplementsofficial@gmail.com"
+                 href={`mailto:${SUPPORT_EMAIL}`}
               >
-                isupplementsofficial@gmail.com
+                 {SUPPORT_EMAIL}
               </a>
               .
             </p>

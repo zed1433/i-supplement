@@ -31,7 +31,7 @@ import {
   type CatalogGroup,
   type Product,
 } from "@/lib/suppcheck";
-import { productsForRegion, useRegion } from "@/lib/region";
+import { offersForRegion, productsForRegion, useRegion } from "@/lib/region";
 import { useT } from "@/lib/market";
 
 export const Route = createFileRoute("/")({

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
-import { MEDICAL_DISCLAIMER, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { MEDICAL_DISCLAIMER, OPERATOR_CONTACT, SUPPORT_EMAIL } from "@/lib/suppcheck";
 
 const title = "About i-Supplement | Independent Supplement Comparison";
 const description =
@@ -98,7 +98,7 @@ function AboutPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">Contact and support</h2>
             <p className="mt-2">
-              Questions, corrections to product data, partnership enquiries and privacy requests all
+               {OPERATOR_CONTACT}. Questions, corrections to product data, partnership enquiries and privacy requests all
               go to{" "}
               <a
                 className="text-primary underline underline-offset-2"
