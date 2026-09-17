@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { OPERATOR_IDENTITY, PRICE_AUTHORITY_NOTE } from "@/lib/suppcheck";
 
 export const Route = createFileRoute("/affiliate-disclosure")({
   staticData: { sitemap: true },
