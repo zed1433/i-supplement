@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
-import { OPERATOR_CONTACT, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { OPERATOR_CONTACT, OPERATOR_IDENTITY, PRICE_AUTHORITY_NOTE, SUPPORT_EMAIL } from "@/lib/suppcheck";
 
 const title = "Terms of Service | i-Supplement";
 const description =
@@ -46,8 +46,8 @@ function TermsPage() {
             <h2 className="text-base font-semibold text-foreground">Prices and availability</h2>
             <p className="mt-2">
               Prices, stock and shipping details come from retailer feeds and retailer pages and can
-              change at any time. Every price on this site carries the date it was last checked. The
-              price shown at the retailer&apos;s checkout is the price that applies.
+              change at any time. Every price on this site carries the date it was last checked.{" "}
+              {PRICE_AUTHORITY_NOTE}
             </p>
           </section>
 
