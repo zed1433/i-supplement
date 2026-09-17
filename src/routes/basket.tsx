@@ -86,7 +86,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
         ) : (
           firstItem && (
             <Button asChild>
-              <a href={`/api/affiliate/redirect/${firstItem.offerId}`} rel="nofollow sponsored" target="_blank">
+              <a href={affiliateHref(firstItem.offerId)} rel="nofollow sponsored" target="_blank">
                 View on {merchant} <ExternalLink />
               </a>
             </Button>
@@ -114,7 +114,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
               <Button size="icon" variant="ghost" aria-label="Increase quantity" onClick={() => setQuantity(item.offerId, item.quantity + 1)}><Plus /></Button>
             </div>
             <div className="flex items-center gap-2">
-              <Button asChild variant="outline"><a href={`/api/affiliate/redirect/${item.offerId}`} rel="nofollow sponsored" target="_blank">View on {merchant} <ExternalLink /></a></Button>
+              <Button asChild variant="outline"><a href={affiliateHref(item.offerId)} rel="nofollow sponsored" target="_blank">View on {merchant} <ExternalLink /></a></Button>
               <Button size="icon" variant="ghost" aria-label={`Remove ${item.productName}`} onClick={() => removeOffer(item.offerId)}><Trash2 /></Button>
             </div>
           </div>

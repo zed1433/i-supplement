@@ -43,7 +43,8 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
   staticData: { sitemap: false },
   server: {
     handlers: {
-      GET: async ({ params }) => {
+      GET: async ({ params, request }) => {
+        const trackClick = new URL(request.url).searchParams.get("nt") !== "1";
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
         const supabase = createClient(process.env["SUPABASE_URL"]!, key, {
           auth: { persistSession: false, autoRefreshToken: false },
@@ -73,6 +74,7 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
           data.affiliate_network ?? "direct",
           data.affiliate_target_url,
           params.offerId,
+          trackClick,
         );
 
         return new Response(null, {
