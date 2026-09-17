@@ -146,6 +146,11 @@ export function MarketProvider({ children }: { children: ReactNode }) {
     (nextMarket: Market, nextLanguage: LanguageCode) => {
       setMarketState(nextMarket);
       setLanguageState(nextLanguage);
+      // ePrivacy: only remember the market across visits with preference consent.
+      if (!preferencesAllowed()) {
+        setRegion(nextMarket.region);
+        return;
+      }
       try {
         window.localStorage.setItem(
           STORAGE_KEY,

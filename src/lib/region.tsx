@@ -124,6 +124,8 @@ export function RegionProvider({ children }: { children: ReactNode }) {
     setRegionState(next);
     setSuggestedRegion(next);
     setShowPrompt(false);
+    // ePrivacy: remembering the choice beyond this visit needs preference consent.
+    if (!preferencesAllowed()) return;
     document.cookie = `${COOKIE_KEY}=${next}; Path=/; Max-Age=${COOKIE_MAX_AGE}; SameSite=Lax`;
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
