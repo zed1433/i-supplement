@@ -18,6 +18,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { productsForRegion, useRegion } from "@/lib/region";
+import { useAffiliateHref } from "@/lib/consent";
 
 type CompareSearch = { ids?: string };
 
@@ -47,6 +48,7 @@ export const Route = createFileRoute("/compare")({
 });
 
 function ComparePage() {
+  const affiliateHref = useAffiliateHref();
   const { ids } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { data: products, isLoading } = useQuery(productsQuery);
@@ -243,7 +245,7 @@ function ComparePage() {
                           {priceAsOfShort(offer.updated_at)}
                         </span>
                         <a
-                          href={`/api/affiliate/redirect/${offer.id}`}
+                          href={affiliateHref(offer.id)}
                           rel="nofollow sponsored"
                           target="_blank"
                            className="mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"

@@ -6,7 +6,7 @@ import { useBasket } from "@/lib/basket";
 import { productImageUrl } from "@/lib/productImages";
 import { useRegion } from "@/lib/region";
 import { resolveSynergies } from "@/lib/synergies";
-import { formatPrice, type Product } from "@/lib/suppcheck";
+import { formatPrice, MEDICAL_DISCLAIMER, type Product } from "@/lib/suppcheck";
 
 export function SynergyCard({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
@@ -77,7 +77,7 @@ export function SynergyCard({ product, products }: { product: Product; products:
         </p>
       )}
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-        Nutrient pairings based on clinical absorption data. Consult your healthcare professional.
+        Nutrient pairings are based on clinical absorption data. {MEDICAL_DISCLAIMER}
       </p>
     </section>
   );

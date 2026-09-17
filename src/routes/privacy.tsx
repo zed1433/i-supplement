@@ -68,9 +68,34 @@ function PrivacyPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">Cookies and local storage</h2>
             <p className="mt-2">
-              We use first-party cookies and browser local storage to remember your region, your
-              basket and your sign-in session. We do not sell your data, and we do not run
-              third-party advertising trackers. Clearing your browser storage removes all of it.
+              We use first-party cookies and browser local storage only. On your first visit a
+              consent banner lets you accept all, reject everything non-essential, or choose
+              category by category; your choice is stored in your browser and can be changed at
+              any time with the &ldquo;Cookie settings&rdquo; link in the footer.
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>
+                <strong className="text-foreground">Strictly necessary</strong> — your basket,
+                sign-in session and security. Always active; the site cannot work without it.
+              </li>
+              <li>
+                <strong className="text-foreground">Preferences</strong> — your delivery region, so
+                prices, currency and shipping are shown for the right country.
+              </li>
+              <li>
+                <strong className="text-foreground">Affiliate measurement</strong> — a per-click
+                reference added to retailer links so a purchase can be credited to us. If you
+                decline, the reference is left off the link.
+              </li>
+              <li>
+                <strong className="text-foreground">Regional analytics</strong> — aggregated,
+                region-level counts of which comparisons are used. No profiles, no advertising
+                networks, never sold or shared.
+              </li>
+            </ul>
+            <p className="mt-2">
+              We do not sell your data and we do not run third-party advertising trackers. Clearing
+              your browser storage removes all of it, including your consent choice.
             </p>
           </section>
 

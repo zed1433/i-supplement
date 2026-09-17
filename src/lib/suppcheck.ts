@@ -225,12 +225,14 @@ export function isPriceStale(updatedAt?: string | null): boolean {
   return Date.now() - new Date(updatedAt).getTime() > STALE_AFTER_MS;
 }
 
-/** Compact freshness note for dense surfaces, e.g. "Price as of 15 Sep". */
+/** Compact freshness note for dense surfaces, e.g. "Accurate as of 15 Sep". */
 export function priceAsOfShort(updatedAt?: string | null): string {
-  if (!updatedAt) return "Price date unavailable — subject to change";
+  if (!updatedAt) return "Price date unavailable — subject to change by retailer";
   const d = new Date(updatedAt);
   const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(d);
-  return `Price as of ${label}${isPriceStale(updatedAt) ? " — may be out of date" : ""}`;
+  return `Accurate as of ${label}, subject to change by retailer${
+    isPriceStale(updatedAt) ? " — may be out of date" : ""
+  }`;
 }
 
 /** Full timestamp note required by retailer operating agreements. */
@@ -246,16 +248,16 @@ export function priceAsOfLong(updatedAt?: string | null): string {
     timeZone: "UTC",
     timeZoneName: "short",
   }).format(d);
-  return `Price as of ${label} — subject to change${
+  return `Prices accurate as of ${label} and subject to change by retailer${
     isPriceStale(updatedAt) ? "; may be out of date" : ""
-  }`;
+  }.`;
 }
 
 export const AFFILIATE_DISCLOSURE =
   "Disclosure: We are an independent comparison platform. We may earn an affiliate commission when you purchase through links on our site at no extra cost to you. As an Amazon Associate, we earn from qualifying purchases.";
 
 export const MEDICAL_DISCLAIMER =
-  "FDA & EFSA Disclaimer: The information on this website is for educational and informational purposes only and is not intended as medical advice. Dietary supplements are not intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified healthcare professional before starting any supplement regimen.";
+  "Statements regarding dietary supplements have not been evaluated by the FDA or EFSA and are not intended to diagnose, treat, cure, or prevent any disease. Always consult your physician before starting any supplementation protocol.";
 
 export const SUPPORT_EMAIL = "isupplementsofficial@gmail.com";
 

@@ -38,8 +38,10 @@ function DisclosurePage() {
             certification and price.
           </p>
           <p>
-            As an Amazon Associate, we earn from qualifying purchases. Commission is paid by the
-            retailer out of their own margin, at no extra cost to you.
+            As an Amazon Associate, we earn from qualifying purchases. We also hold, or apply for,
+            affiliate relationships with other retailers listed on this site, including iHerb and
+            CVS, either directly or through affiliate networks. Commission is paid by the retailer
+            out of their own margin, at no extra cost to you.
           </p>
           <h2 className="pt-2 text-lg font-semibold">Prices and availability</h2>
           <p>

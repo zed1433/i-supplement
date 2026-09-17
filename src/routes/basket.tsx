@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { Button } from "@/components/ui/button";
 import { useBasket, type BasketItem } from "@/lib/basket";
+import { useAffiliateHref } from "@/lib/consent";
 import { AFFILIATE_DISCLOSURE, formatPrice, priceAsOfShort } from "@/lib/suppcheck";
 
 export const Route = createFileRoute("/basket")({
@@ -62,6 +63,7 @@ function BasketPage() {
 }
 
 function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant: string; items: BasketItem[]; removeOffer: (id: string) => void; setQuantity: (id: string, quantity: number) => void }) {
+  const affiliateHref = useAffiliateHref();
   const isAmazon = merchant === "Amazon.de" && items.every((item) => item.retailerProductId);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const multiCartHref = isAmazon
@@ -86,7 +88,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
         ) : (
           firstItem && (
             <Button asChild>
-              <a href={`/api/affiliate/redirect/${firstItem.offerId}`} rel="nofollow sponsored" target="_blank">
+              <a href={affiliateHref(firstItem.offerId)} rel="nofollow sponsored" target="_blank">
                 View on {merchant} <ExternalLink />
               </a>
             </Button>
@@ -114,7 +116,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
               <Button size="icon" variant="ghost" aria-label="Increase quantity" onClick={() => setQuantity(item.offerId, item.quantity + 1)}><Plus /></Button>
             </div>
             <div className="flex items-center gap-2">
-              <Button asChild variant="outline"><a href={`/api/affiliate/redirect/${item.offerId}`} rel="nofollow sponsored" target="_blank">View on {merchant} <ExternalLink /></a></Button>
+              <Button asChild variant="outline"><a href={affiliateHref(item.offerId)} rel="nofollow sponsored" target="_blank">View on {merchant} <ExternalLink /></a></Button>
               <Button size="icon" variant="ghost" aria-label={`Remove ${item.productName}`} onClick={() => removeOffer(item.offerId)}><Trash2 /></Button>
             </div>
           </div>
