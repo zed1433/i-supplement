@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DOMPurify from "dompurify";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -384,7 +385,7 @@ function CampaignsPage() {
                   <p className="mt-1 text-sm font-medium">{c.subject}</p>
                   <div
                     className="prose prose-invert mt-2 max-h-60 max-w-none overflow-y-auto text-sm"
-                    dangerouslySetInnerHTML={{ __html: c.body }}
+                    dangerouslySetInnerHTML={{ __html: safeCampaignHtml(c.body) }}
                   />
                 </div>
               </div>
