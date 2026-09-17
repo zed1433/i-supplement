@@ -11,7 +11,7 @@ It is hidden because of how the site picks shops for a shopper's country:
 
 Amazon.de is listed for Europe, so step 1 succeeds and the worldwide iHerb offer is never reached.
 
-**Fix:** show both — region shops and worldwide shops together, in one list sorted by price. iHerb at 16.75 EUR would then appear and take the "Best deal" badge over Amazon's 19.49 EUR. The "ships internationally" note only shows when every listed shop is a worldwide one.
+**Fix:** show all available and working links with working products — region shops and worldwide shops together, in one list sorted by price. iHerb at 16.75 EUR would then appear and take the "Best deal" badge over Amazon's 19.49 EUR. The "ships internationally" note only shows when every listed shop is a worldwide one.
 
 Offers that are out of stock or not ticked as verified stay hidden (so the Pharmacy24 row stays hidden until you verify it).
 
