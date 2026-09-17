@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/affiliate/cart")({
         const offerIds = (url.searchParams.get("offers") ?? "").split(",").filter(validUuid).slice(0, 20);
         const quantities = (url.searchParams.get("quantities") ?? "").split(",").map((value) => Math.min(20, Math.max(1, Number.parseInt(value, 10) || 1)));
         const country = (url.searchParams.get("country") ?? "US").toUpperCase();
-        const market = AMAZON_MARKETS[country] ?? AMAZON_MARKETS.US;
+        const market = AMAZON_MARKETS[country] ?? AMAZON_MARKETS["US"];
         if (!market || !offerIds.length) return new Response("Invalid basket", { status: 400 });
 
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
