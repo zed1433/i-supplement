@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { AFFILIATE_DISCLOSURE, MEDICAL_DISCLAIMER, OPERATOR_LOCATION, OPERATOR_NAME, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, CLAIMS_POLICY_NOTE, MEDICAL_DISCLAIMER, OPERATOR_IDENTITY, SUPPORT_EMAIL } from "@/lib/suppcheck";
 import { useConsent } from "@/lib/consent";
 import { useT } from "@/lib/market";
 
@@ -65,7 +65,15 @@ export function SiteFooter() {
             © {new Date().getFullYear()} i-Supplement
           </span>
         </nav>
-        <p className="mt-4 text-xs text-muted-foreground">Operated by {OPERATOR_NAME} ({OPERATOR_LOCATION}). Support: <a className="text-primary underline underline-offset-2" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></p>
+        <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+          {OPERATOR_IDENTITY}{" "}
+          <a className="text-primary underline underline-offset-2" href={`mailto:${SUPPORT_EMAIL}`}>
+            {SUPPORT_EMAIL}
+          </a>
+        </p>
+        <p className="mt-2 max-w-3xl text-[11px] leading-relaxed text-muted-foreground">
+          {CLAIMS_POLICY_NOTE}
+        </p>
       </div>
     </footer>
   );

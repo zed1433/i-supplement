@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
+import { preferencesAllowed } from "@/lib/consent";
 
 export type RegionCode = "ALL" | "GR" | "DE" | "EU" | "UK" | "US" | "BR" | "ZA" | "NG";
 
@@ -124,6 +125,8 @@ export function RegionProvider({ children }: { children: ReactNode }) {
     setRegionState(next);
     setSuggestedRegion(next);
     setShowPrompt(false);
+    // ePrivacy: remembering the choice beyond this visit needs preference consent.
+    if (!preferencesAllowed()) return;
     document.cookie = `${COOKIE_KEY}=${next}; Path=/; Max-Age=${COOKIE_MAX_AGE}; SameSite=Lax`;
     try {
       window.localStorage.setItem(STORAGE_KEY, next);

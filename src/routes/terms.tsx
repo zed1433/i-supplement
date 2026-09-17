@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
-import { OPERATOR_CONTACT, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { OPERATOR_CONTACT, OPERATOR_IDENTITY, PRICE_AUTHORITY_NOTE, SUPPORT_EMAIL } from "@/lib/suppcheck";
 
 const title = "Terms of Service | i-Supplement";
 const description =
@@ -46,8 +46,8 @@ function TermsPage() {
             <h2 className="text-base font-semibold text-foreground">Prices and availability</h2>
             <p className="mt-2">
               Prices, stock and shipping details come from retailer feeds and retailer pages and can
-              change at any time. Every price on this site carries the date it was last checked. The
-              price shown at the retailer&apos;s checkout is the price that applies.
+              change at any time. Every price on this site carries the date it was last checked.{" "}
+              {PRICE_AUTHORITY_NOTE}
             </p>
           </section>
 
@@ -123,6 +123,22 @@ function TermsPage() {
               These terms are governed by the laws of Greece, and disputes fall to the courts there,
               without affecting any mandatory consumer rights you have where you live.
             </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Complaints and dispute resolution</h2>
+            <p className="mt-2">
+              Please email us first — we aim to resolve complaints within 14 days. If you are a
+              consumer in the EU and we cannot settle it, you may refer the matter to the Greek
+              Consumer Ombudsman (Συνήγορος του Καταναλωτή, consumer-ombudsman.gr) or to the
+              consumer protection authority where you live. Complaints about a purchase, delivery or
+              refund must be raised with the retailer, since the contract is with them.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Who we are</h2>
+            <p className="mt-2">{OPERATOR_IDENTITY}</p>
           </section>
 
           <section>

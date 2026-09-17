@@ -1,19 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
-
-const AWIN_MERCHANT_ID = "12345";
-const AWIN_PUBLISHER_ID = "suppcheck";
-const AMAZON_TAG = "suppcheck-21";
-const LINKWISE_ID = "suppcheck-gr";
+import { affiliateId, amazonTagFor } from "@/lib/affiliateConfig";
 
 /** Geo handoff table: only these markets are accepted from the query string. */
-const MARKET_TARGETS: Record<string, { amazonDomain: string; amazonTag: string; currency: string }> = {
-  US: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "USD" },
-  GB: { amazonDomain: "www.amazon.co.uk", amazonTag: "suppcheck-21", currency: "GBP" },
-  DE: { amazonDomain: "www.amazon.de", amazonTag: "suppcheck-21", currency: "EUR" },
-  BR: { amazonDomain: "www.amazon.com.br", amazonTag: "suppcheck-20", currency: "BRL" },
-  ZA: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "ZAR" },
-  NG: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "NGN" },
+const MARKET_TARGETS: Record<string, { amazonDomain: string; currency: string }> = {
+  US: { amazonDomain: "www.amazon.com", currency: "USD" },
+  GB: { amazonDomain: "www.amazon.co.uk", currency: "GBP" },
+  DE: { amazonDomain: "www.amazon.de", currency: "EUR" },
+  BR: { amazonDomain: "www.amazon.com.br", currency: "BRL" },
+  ZA: { amazonDomain: "www.amazon.com", currency: "ZAR" },
+  NG: { amazonDomain: "www.amazon.com", currency: "NGN" },
 };
 
 type Geo = { country?: string | undefined; currency?: string | undefined };
@@ -29,29 +25,36 @@ function buildAffiliateUrl(
   try {
     switch (network) {
       case "awin":
-        return `https://www.awin1.com/cread.php?awinmid=${AWIN_MERCHANT_ID}&awinaffid=${AWIN_PUBLISHER_ID}${
+        return `https://www.awin1.com/cread.php?awinmid=${affiliateId("AWIN_MERCHANT_ID")}&awinaffid=${affiliateId("AWIN_PUBLISHER_ID")}${
           trackClick ? `&clickref=${encodeURIComponent(offerId)}` : ""
         }&ued=${encodeURIComponent(target)}`;
       case "amazon": {
         const url = new URL(target);
         // Route to the shopper's regional Amazon storefront (OneLink-style handoff).
         if (market) url.hostname = market.amazonDomain;
-        url.searchParams.set("tag", market?.amazonTag ?? AMAZON_TAG);
+        url.searchParams.set("tag", amazonTagFor(geo.country ?? "US"));
         if (trackClick) url.searchParams.set("ascsubtag", offerId);
         return url.toString();
       }
       case "linkwise":
-        return `https://go.linkwi.se/z/${LINKWISE_ID}/ct/?url=${encodeURIComponent(target)}${
+        return `https://go.linkwi.se/z/${affiliateId("LINKWISE_ID")}/ct/?url=${encodeURIComponent(target)}${
           trackClick ? `&sid=${encodeURIComponent(offerId)}` : ""
         }`;
       default: {
         const url = new URL(target);
-        url.searchParams.set("ref", "suppcheck");
-        // iHerb honours country/currency query parameters on product URLs.
-        if (url.hostname.includes("iherb") && geo.country) {
-          url.searchParams.set("rcode", "isupplement");
-          url.searchParams.set("country", geo.country);
-          if (geo.currency) url.searchParams.set("currency", geo.currency);
+        const host = url.hostname;
+        if (host.includes("iherb")) {
+          url.searchParams.set("rcode", affiliateId("IHERB_RCODE"));
+          if (geo.country) {
+            url.searchParams.set("country", geo.country);
+            if (geo.currency) url.searchParams.set("currency", geo.currency);
+          }
+        } else if (host.includes("myprotein")) {
+          url.searchParams.set("affil", affiliateId("MYPROTEIN_REF"));
+        } else if (host.includes("bulksupplements")) {
+          url.searchParams.set("ref", affiliateId("BULKSUPPLEMENTS_REF"));
+        } else {
+          url.searchParams.set("ref", "i-supplement");
         }
         return url.toString();
       }

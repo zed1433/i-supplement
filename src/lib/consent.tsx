@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { marketAffiliateParams, useMarket } from "@/lib/market";
 
 export const CONSENT_STORAGE_KEY = "isupplement_consent_v1";
+/** Bump when the banner wording changes so visitors are asked again. */
+export const CONSENT_VERSION = 1;
 
 export type ConsentCategory = "necessary" | "preferences" | "affiliate" | "analytics";
 
@@ -11,13 +13,31 @@ export type ConsentState = {
   affiliate: boolean;
   analytics: boolean;
   decidedAt: string;
+  version: number;
 };
+
+/**
+ * Synchronous check used by the region and market stores, which must decide
+ * whether they may write a preference cookie before React context is ready.
+ */
+export function preferencesAllowed(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = window.localStorage.getItem(CONSENT_STORAGE_KEY);
+    if (!raw) return false;
+    const parsed = JSON.parse(raw) as Partial<ConsentState>;
+    return parsed.version === CONSENT_VERSION && Boolean(parsed.preferences);
+  } catch {
+    return false;
+  }
+}
 
 const ACCEPT_ALL: Omit<ConsentState, "decidedAt"> = {
   necessary: true,
   preferences: true,
   affiliate: true,
   analytics: true,
+  version: CONSENT_VERSION,
 };
 
 const REJECT_ALL: Omit<ConsentState, "decidedAt"> = {
@@ -25,6 +45,7 @@ const REJECT_ALL: Omit<ConsentState, "decidedAt"> = {
   preferences: false,
   affiliate: false,
   analytics: false,
+  version: CONSENT_VERSION,
 };
 
 type ConsentContextValue = {
@@ -46,7 +67,10 @@ function read(): ConsentState | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<ConsentState>;
     if (typeof parsed !== "object" || parsed === null) return null;
+    // Older wording versions are re-asked rather than silently carried over.
+    if (parsed.version !== CONSENT_VERSION) return null;
     return {
+      version: CONSENT_VERSION,
       necessary: true,
       preferences: Boolean(parsed.preferences),
       affiliate: Boolean(parsed.affiliate),
@@ -94,7 +118,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
         setPanelOpen(false);
       },
       save: (choices) => {
-        persist({ necessary: true, ...choices });
+        persist({ necessary: true, version: CONSENT_VERSION, ...choices });
         setPanelOpen(false);
       },
     }),
