@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useConsent } from "@/lib/consent";
+import { useT } from "@/lib/market";
 
 const CATEGORIES = [
   {
@@ -35,6 +36,7 @@ export function CookieConsent() {
   const { consent, ready, panelOpen, openPanel, closePanel, acceptAll, rejectNonEssential, save } =
     useConsent();
   const [draft, setDraft] = useState({ preferences: true, affiliate: true, analytics: false });
+  const t = useT();
 
   useEffect(() => {
     if (panelOpen) {
@@ -67,13 +69,13 @@ export function CookieConsent() {
             </p>
             <div className="flex flex-wrap gap-2 sm:ml-auto sm:flex-nowrap">
               <Button type="button" size="sm" variant="outline" onClick={openPanel}>
-                Customize
+                {t("consent.customize")}
               </Button>
               <Button type="button" size="sm" variant="outline" onClick={rejectNonEssential}>
-                Reject non-essential
+                {t("consent.reject")}
               </Button>
               <Button type="button" size="sm" onClick={acceptAll}>
-                Accept all
+                {t("consent.acceptAll")}
               </Button>
             </div>
           </div>
@@ -126,10 +128,10 @@ export function CookieConsent() {
 
           <DialogFooter className="gap-2 sm:justify-between">
             <Button type="button" variant="outline" onClick={rejectNonEssential}>
-              Reject non-essential
+              {t("consent.reject")}
             </Button>
             <Button type="button" onClick={() => save(draft)}>
-              Save choices
+              {t("consent.save")}
             </Button>
           </DialogFooter>
         </DialogContent>

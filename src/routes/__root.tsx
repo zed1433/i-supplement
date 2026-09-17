@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BasketProvider } from "@/lib/basket";
 import { RegionProvider } from "@/lib/region";
+import { MarketProvider } from "@/lib/market";
 import { SiteFooter } from "@/components/suppcheck/SiteFooter";
 import { RegionPrompt } from "@/components/suppcheck/RegionPrompt";
 import { MobileBasketBar } from "@/components/suppcheck/MobileBasketBar";
@@ -141,14 +142,16 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ConsentProvider>
         <RegionProvider>
-          <BasketProvider>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-            <SiteFooter />
-            <RegionPrompt />
-            <MobileBasketBar />
-            <CookieConsent />
-          </BasketProvider>
+          <MarketProvider>
+            <BasketProvider>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+              <SiteFooter />
+              <RegionPrompt />
+              <MobileBasketBar />
+              <CookieConsent />
+            </BasketProvider>
+          </MarketProvider>
         </RegionProvider>
       </ConsentProvider>
     </QueryClientProvider>

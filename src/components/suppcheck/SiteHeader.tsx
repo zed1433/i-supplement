@@ -1,13 +1,14 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FlaskConical, GitCompareArrows, MapPin, Search, ShoppingBasket } from "lucide-react";
+import { FlaskConical, GitCompareArrows, Search, ShoppingBasket } from "lucide-react";
 import { useState } from "react";
 import { useBasket } from "@/lib/basket";
-import { REGIONS, useRegion, type RegionCode } from "@/lib/region";
 import { AffiliateNotice } from "@/components/suppcheck/AffiliateNotice";
+import { MarketSelector } from "@/components/suppcheck/MarketSelector";
+import { useT } from "@/lib/market";
 
 export function SiteHeader() {
   const { totalItems } = useBasket();
-  const { region, setRegion } = useRegion();
+  const t = useT();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [search, setSearch] = useState("");
   const submitSearch = (event: React.FormEvent) => {
@@ -32,32 +33,17 @@ export function SiteHeader() {
         </Link>
         <form onSubmit={submitSearch} className="order-3 relative w-full lg:order-none lg:ml-5 lg:max-w-xl lg:flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search supplements, forms or brands" aria-label="Search catalogue" className="h-11 w-full rounded-md border border-input bg-background pl-10 pr-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("search.placeholder")} aria-label={t("search.label")} className="h-11 w-full rounded-md border border-input bg-background pl-10 pr-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
         </form>
         <nav className="ml-auto flex items-center gap-1 text-sm">
-          <label className="mr-1 flex items-center gap-1.5">
-            <MapPin className="size-4 text-primary" />
-            <span className="sr-only">Deliver to</span>
-            <select
-              value={region}
-              onChange={(e) => setRegion(e.target.value as RegionCode)}
-              aria-label="Deliver to"
-              className="h-11 max-w-28 rounded-md border border-border bg-background px-2 text-xs text-foreground transition-colors hover:border-primary sm:max-w-40"
-            >
-              {REGIONS.map((r) => (
-                <option key={r.code} value={r.code}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <MarketSelector />
           <Link
             to="/compare"
             className="hidden min-h-11 items-center gap-1.5 rounded-md px-3 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary sm:flex"
             activeProps={{ className: "text-primary border-primary/50" }}
           >
             <GitCompareArrows className="size-3.5" />
-            Compare
+            {t("nav.compare")}
           </Link>
           <Link
             to="/basket"

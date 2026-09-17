@@ -6,11 +6,13 @@ import { useBasket } from "@/lib/basket";
 import { productImageUrl } from "@/lib/productImages";
 import { useRegion } from "@/lib/region";
 import { resolveSynergies } from "@/lib/synergies";
-import { formatPrice, MEDICAL_DISCLAIMER, type Product } from "@/lib/suppcheck";
+import { MEDICAL_DISCLAIMER, type Product } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 
 export function SynergyCard({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
   const { addOffer, hasOffer } = useBasket();
+  const money = useMoney();
   const result = resolveSynergies(product, products, region);
 
   return (
@@ -50,7 +52,7 @@ export function SynergyCard({ product, products }: { product: Product; products:
                       onClick={() => addOffer(partnerProduct, partnerOffer)}
                     >
                       {added ? <Check /> : <ShoppingBasket />}
-                       {added ? "Added to Basket" : `+ Add ${partnerProduct.name} — ${formatPrice(partnerOffer.price, partnerOffer.currency)}`}
+                       {added ? "Added to Basket" : `+ Add ${partnerProduct.name} — ${money(partnerOffer.price, partnerOffer.currency)}`}
                     </Button>
                   ) : partnerProduct ? (
                     <Button asChild type="button" size="sm" variant="outline" className="w-full whitespace-normal px-3 text-center leading-tight">

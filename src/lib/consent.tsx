@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { marketAffiliateParams, useMarket } from "@/lib/market";
 
 export const CONSENT_STORAGE_KEY = "isupplement_consent_v1";
 
@@ -116,9 +117,14 @@ export function useConsent() {
  */
 export function useAffiliateHref() {
   const { consent } = useConsent();
+  const { market } = useMarket();
   const tracking = consent?.affiliate ?? false;
   return useCallback(
-    (offerId: string) => `/api/affiliate/redirect/${offerId}${tracking ? "" : "?nt=1"}`,
-    [tracking],
+    (offerId: string) => {
+      const params = new URLSearchParams(marketAffiliateParams(market));
+      if (!tracking) params.set("nt", "1");
+      return `/api/affiliate/redirect/${offerId}?${params.toString()}`;
+    },
+    [market, tracking],
   );
 }

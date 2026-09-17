@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { productImageUrl } from "@/lib/productImages";
 import { offerShipsTo, useRegion } from "@/lib/region";
-import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, formatPrice, priceAsOfShort, valueMetric, type Product } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, priceAsOfShort, valueMetric, type Product } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 
 export function ProductQuickView({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
+  const money = useMoney();
   const offers = product.merchant_offers
     .filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region))
     .sort((a, b) => Number(a.price) - Number(b.price));
@@ -43,12 +45,12 @@ export function ProductQuickView({ product, products }: { product: Product; prod
           <section className="rounded-md border border-border bg-surface-raised p-3" aria-label="Best retailer price">
             <div className="flex items-center justify-between gap-3">
               <span className="text-xs font-semibold uppercase text-muted-foreground">Best regional price</span>
-              <strong className="num text-lg text-primary">{best ? formatPrice(best.price, best.currency) : "Unavailable"}</strong>
+              <strong className="num text-lg text-primary">{best ? money(best.price, best.currency) : "Unavailable"}</strong>
             </div>
             {best ? (
               <>
                 <p className="mt-1 text-xs text-muted-foreground">{best.merchant_name} · {priceAsOfShort(best.updated_at)}</p>
-                {metric ? <p className="mt-2 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"><strong className="num text-foreground">{formatPrice(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? ` · ${formatPrice(metric.secondaryValue, metric.currency)} ${metric.secondaryLabel.toLowerCase()}` : ""}</p> : null}
+                {metric ? <p className="mt-2 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"><strong className="num text-foreground">{money(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? ` · ${money(metric.secondaryValue, metric.currency)} ${metric.secondaryLabel.toLowerCase()}` : ""}</p> : null}
                 <RetailerActions product={product} compact />
               </>
             ) : (

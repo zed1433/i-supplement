@@ -107,8 +107,18 @@ export function BasketProvider({ children }: { children: ReactNode }) {
   return <BasketContext.Provider value={value}>{children}</BasketContext.Provider>;
 }
 
+const EMPTY_BASKET: BasketContextValue = {
+  items: [],
+  totalItems: 0,
+  addOffer: () => {},
+  removeOffer: () => {},
+  setQuantity: () => {},
+  hasOffer: () => false,
+  clear: () => {},
+};
+
 export function useBasket() {
-  const context = useContext(BasketContext);
-  if (!context) throw new Error("useBasket must be used inside BasketProvider");
-  return context;
+  // Falls back to an inert basket so a stray render outside the provider
+  // (e.g. during server rendering of an error boundary) never crashes the page.
+  return useContext(BasketContext) ?? EMPTY_BASKET;
 }

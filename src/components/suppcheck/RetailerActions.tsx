@@ -1,11 +1,13 @@
 import { Check, ShoppingBasket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBasket } from "@/lib/basket";
-import { formatPrice, type Product } from "@/lib/suppcheck";
+import { type Product } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 import { offerShipsTo, useRegion } from "@/lib/region";
 
 export function RetailerActions({ product, compact = false }: { product: Product; compact?: boolean }) {
   const { addOffer, hasOffer } = useBasket();
+  const money = useMoney();
   const { region } = useRegion();
   const offers = product.merchant_offers.filter(
     (offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region),
@@ -31,7 +33,7 @@ export function RetailerActions({ product, compact = false }: { product: Product
               {added ? <Check /> : <ShoppingBasket />}
               {offer.merchant_name}
             </span>
-            <span className="num">{formatPrice(offer.price, offer.currency)}</span>
+            <span className="num">{money(offer.price, offer.currency)}</span>
           </Button>
         );
       })}

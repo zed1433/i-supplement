@@ -24,13 +24,13 @@ import {
   chemicalForm,
   priceAsOfLong,
   elementalPerServing,
-  formatPrice,
-  primaryIngredient,
+    primaryIngredient,
   productQuery,
   productsQuery,
   valueMetric,
   type Product,
 } from "@/lib/suppcheck";
+import { useMoney } from "@/lib/market";
 import { offerShipsTo, useRegion, type RegionCode } from "@/lib/region";
 import { useAffiliateHref } from "@/lib/consent";
 
@@ -65,6 +65,7 @@ export const Route = createFileRoute("/products/$slug")({
 function ProductPage() {
   const affiliateHref = useAffiliateHref();
   const { slug } = Route.useParams();
+  const money = useMoney();
   const { data: product, isLoading } = useQuery(productQuery(slug));
   const { data: allProducts } = useQuery(productsQuery);
   const { region } = useRegion();
@@ -145,7 +146,7 @@ function ProductPage() {
                 {metric && (
                   <>
                     {" "}
-                    · <span className="num text-foreground">{formatPrice(metric.primaryValue, metric.currency)}</span> {metric.primaryLabel.toLowerCase()}
+                    · <span className="num text-foreground">{money(metric.primaryValue, metric.currency)}</span> {metric.primaryLabel.toLowerCase()}
                   </>
                 )}
               </p>
@@ -193,7 +194,7 @@ function ProductPage() {
                 const cheapest = offers[0];
                 return cheapest ? (
                   <>
-                    <span className="num font-semibold text-primary">{formatPrice(cheapest.price, cheapest.currency)}</span>{" "}
+                    <span className="num font-semibold text-primary">{money(cheapest.price, cheapest.currency)}</span>{" "}
                     at {cheapest.merchant_name} <span className="text-muted-foreground">({cheapest.country_flag})</span>
                   </>
                 ) : (
@@ -258,11 +259,11 @@ function ProductPage() {
                         {o.country_flag}
                       </span>
                     </td>
-                    <td className="num p-3 font-semibold">{formatPrice(o.price, o.currency)}</td>
+                    <td className="num p-3 font-semibold">{money(o.price, o.currency)}</td>
                     <td className="num p-3 text-muted-foreground">
                       {Number(o.shipping_cost) === 0
                         ? "Free"
-                        : formatPrice(o.shipping_cost, o.currency)}
+                        : money(o.shipping_cost, o.currency)}
                     </td>
                     <td className="p-3 text-muted-foreground">
                       <span className="flex items-center gap-1.5">
@@ -503,6 +504,7 @@ function compareToBase(base: Product, alt: Product, region: RegionCode): Diff[] 
 
 function AltCard({ product, base }: { product: Product; base: Product }) {
   const { region } = useRegion();
+  const money = useMoney();
   const offer = product.merchant_offers
     .filter((item) => item.in_stock && item.link_verified && offerShipsTo(item, region))
     .sort((a, b) => Number(a.price) - Number(b.price))[0];
@@ -526,10 +528,10 @@ function AltCard({ product, base }: { product: Product; base: Product }) {
           <p className="mt-1 text-xs text-muted-foreground">{chemicalForm(product)}</p>
           {offer ? (
             <p className="num mt-1.5 text-sm font-semibold text-primary">
-              {formatPrice(offer.price, offer.currency)}
+              {money(offer.price, offer.currency)}
               {metric ? (
                 <span className="ml-1 text-xs font-normal text-muted-foreground">
-                  · {formatPrice(metric.primaryValue, metric.currency)}{" "}
+                  · {money(metric.primaryValue, metric.currency)}{" "}
                   {metric.primaryLabel.toLowerCase()}
                 </span>
               ) : null}

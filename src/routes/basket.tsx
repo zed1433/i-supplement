@@ -5,7 +5,8 @@ import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { Button } from "@/components/ui/button";
 import { useBasket, type BasketItem } from "@/lib/basket";
 import { useAffiliateHref } from "@/lib/consent";
-import { AFFILIATE_DISCLOSURE, formatPrice, priceAsOfShort } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, priceAsOfShort } from "@/lib/suppcheck";
+import { useMarket, useMoney } from "@/lib/market";
 
 export const Route = createFileRoute("/basket")({
   staticData: { sitemap: false },
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/basket")({
 
 function BasketPage() {
   const { items, totalItems, removeOffer, setQuantity, clear } = useBasket();
+  const money = useMoney();
   const groups = Object.entries(
     items.reduce<Record<string, BasketItem[]>>((grouped, item) => {
       (grouped[item.merchantName] ??= []).push(item);
@@ -64,10 +66,11 @@ function BasketPage() {
 
 function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant: string; items: BasketItem[]; removeOffer: (id: string) => void; setQuantity: (id: string, quantity: number) => void }) {
   const affiliateHref = useAffiliateHref();
-  const isAmazon = merchant === "Amazon.de" && items.every((item) => item.retailerProductId);
+  const { market, money } = useMarket();
+  const isAmazon = merchant.startsWith("Amazon") && items.every((item) => item.retailerProductId);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const multiCartHref = isAmazon
-    ? `https://www.amazon.de/gp/aws/cart/add.html?${items.map((item, index) => `ASIN.${index + 1}=${encodeURIComponent(item.retailerProductId)}&Quantity.${index + 1}=${item.quantity}`).join("&")}&AssociateTag=suppcheck-21`
+    ? `https://${market.amazonDomain}/gp/aws/cart/add.html?${items.map((item, index) => `ASIN.${index + 1}=${encodeURIComponent(item.retailerProductId)}&Quantity.${index + 1}=${item.quantity}`).join("&")}&AssociateTag=${market.amazonTag}`
     : undefined;
   const firstItem = items[0];
 
@@ -76,7 +79,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold">{merchant}</h2>
-          <p className="num mt-1 text-xs text-muted-foreground">Estimated items total {formatPrice(total, items[0]?.currency ?? "EUR")}</p>
+          <p className="num mt-1 text-xs text-muted-foreground">Estimated items total {money(total, items[0]?.currency ?? "EUR")}</p>
         </div>
         {multiCartHref ? (
           <Button asChild>
@@ -107,7 +110,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
             <div>
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{item.brandName}</p>
               <Link to="/products/$slug" params={{ slug: item.productSlug }} className="mt-1 block font-semibold hover:text-primary">{item.productName}</Link>
-              <p className="num mt-1 text-sm text-primary">{formatPrice(item.price, item.currency)} each</p>
+              <p className="num mt-1 text-sm text-primary">{money(item.price, item.currency)} each</p>
               <p className="mt-0.5 text-[10px] text-muted-foreground">{priceAsOfShort(item.priceCheckedAt)}</p>
             </div>
             <div className="flex min-h-11 items-center rounded-md border border-border">
