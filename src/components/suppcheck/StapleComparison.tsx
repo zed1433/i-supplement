@@ -145,13 +145,13 @@ export function StapleComparison({ staple }: { staple: Staple }) {
             {/* Desktop: scannable comparison table */}
             <div className="mt-6 hidden overflow-x-auto rounded-lg border border-border md:block">
               <table className="w-full min-w-[900px] border-collapse text-sm">
-                <thead className="sticky top-16 z-10">
-                  <tr className="bg-surface-raised text-left text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                    <th className="border-b border-border p-3">Product</th>
-                    <th className="border-b border-border p-3">Form</th>
-                    <th className="border-b border-border p-3">{staple.doseLabel}</th>
-                    <th className="border-b border-border p-3">Value</th>
-                    <th className="border-b border-border p-3">Retailer offers</th>
+                <thead>
+                  <tr className="text-left text-[11px] uppercase text-muted-foreground">
+                    <th className="w-[32%] border-b border-border bg-surface-raised p-3 leading-5">Product</th>
+                    <th className="w-[11%] border-b border-border bg-surface-raised p-3 leading-5">Form</th>
+                    <th className="w-[17%] border-b border-border bg-surface-raised p-3 leading-5">{staple.doseLabel}</th>
+                    <th className="w-[14%] border-b border-border bg-surface-raised p-3 leading-5">Value</th>
+                    <th className="w-[26%] border-b border-border bg-surface-raised p-3 leading-5">Retailer offers</th>
                   </tr>
                 </thead>
                 <tbody>
