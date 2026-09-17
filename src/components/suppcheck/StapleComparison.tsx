@@ -39,7 +39,9 @@ export function StapleComparison({ staple }: { staple: Staple }) {
     [...offersForRegion(product, region).offers].sort((a, b) => Number(a.price) - Number(b.price))[0];
 
   const rows = useMemo(() => {
-    const regional = productsForRegion(products ?? [], region).filter(staple.matches);
+    // Keep matched products visible even when no retailer offer is live yet;
+    // the offers column says so explicitly instead of hiding the product.
+    const regional = (products ?? []).filter(staple.matches);
     const q = search.trim().toLowerCase();
     const list = regional.filter((p) => {
       const matchesSearch =
