@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { Button } from "@/components/ui/button";
 import { useBasket, type BasketItem } from "@/lib/basket";
-import { useAffiliateHref } from "@/lib/consent";
+import { useAffiliateHref, useConsent } from "@/lib/consent";
 import { AFFILIATE_DISCLOSURE, priceAsOfShort } from "@/lib/suppcheck";
 import { useMarket, useMoney } from "@/lib/market";
 import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
@@ -68,8 +68,9 @@ function BasketPage() {
 function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant: string; items: BasketItem[]; removeOffer: (id: string) => void; setQuantity: (id: string, quantity: number) => void }) {
   const affiliateHref = useAffiliateHref();
   const { market, money } = useMarket();
+  const { consent } = useConsent();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const multiCartHref = multiCartUrl(items, market);
+  const multiCartHref = multiCartUrl(items, market, consent?.affiliate ?? false);
   const firstItem = items[0];
 
   return (

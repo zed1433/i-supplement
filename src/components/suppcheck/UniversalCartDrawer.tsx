@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { useBasket, type BasketItem } from "@/lib/basket";
-import { useAffiliateHref } from "@/lib/consent";
+import { useAffiliateHref, useConsent } from "@/lib/consent";
 import { useMarket, useMoney } from "@/lib/market";
 import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
 import { AFFILIATE_DISCLOSURE } from "@/lib/suppcheck";
@@ -14,6 +14,7 @@ export function UniversalCartDrawer() {
   const { market } = useMarket();
   const money = useMoney();
   const affiliateHref = useAffiliateHref();
+  const { consent } = useConsent();
   const groups = Object.values(items.reduce<Record<string, BasketItem[]>>((all, item) => {
     (all[retailerGroupKey(item)] ??= []).push(item);
     return all;
@@ -30,7 +31,7 @@ export function UniversalCartDrawer() {
           {!items.length && <div className="py-16 text-center"><ShoppingBasket className="mx-auto size-9 text-muted-foreground" /><p className="mt-3 text-sm text-muted-foreground">Your Universal Cart is empty.</p></div>}
           {groups.map((group) => {
             const merchant = group[0]?.merchantName ?? "Retailer";
-            const groupedHref = multiCartUrl(group, market);
+            const groupedHref = multiCartUrl(group, market, consent?.affiliate ?? false);
             const total = group.reduce((sum, item) => sum + item.price * item.quantity, 0);
             return (
               <section key={retailerGroupKey(group[0] as BasketItem)} className="rounded-lg border border-border bg-surface p-3">
