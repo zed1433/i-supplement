@@ -22,3 +22,4 @@
 - [x] Publish operator details in the footer, legal pages, and a dedicated contact page
 
 - [x] Owner access: email/password sign-in, footer Admin link, admin-email signup shortcut, editable affiliate identifier settings page
+- [x] Fix Amazon confirmation messaging and preserve direct iHerb affiliate destinations
