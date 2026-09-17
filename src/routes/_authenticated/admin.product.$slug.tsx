@@ -375,11 +375,20 @@ function EditProductPage() {
                     />
                   </label>
                   <label className="block">
-                    <span className="text-xs text-muted-foreground">Retailer product ID</span>
+                    <span className="text-xs text-muted-foreground">
+                      Retailer product ID — enables one-click cart
+                    </span>
                     <Input
                       value={offer.retailer_product_id}
                       onChange={(e) => setOffer(offer.id, { retailer_product_id: e.target.value })}
                     />
+                    {`${offer.merchant_name} ${offer.affiliate_network}`.toLowerCase().includes("amazon") &&
+                      !offer.retailer_product_id.trim() && (
+                        <span className="mt-1 block text-[11px] text-warning-foreground">
+                          Add the Amazon ASIN (the B0… code in the product URL) so this item can be sent
+                          straight to the Amazon cart.
+                        </span>
+                      )}
                   </label>
                   <label className="block sm:col-span-3">
                     <span className="text-xs text-muted-foreground">Affiliate link URL</span>
