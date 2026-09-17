@@ -87,7 +87,7 @@ ${rawText.slice(0, 6000)}
   return {
     retailer: (parsed.retailer ?? retailerHint).slice(0, 120),
     subject: (parsed.subject ?? "A new supplement offer").slice(0, 200),
-    body: stripExternalLinks(parsed.body_html ?? ""),
+    body: sanitizeCampaignHtml(stripExternalLinks(parsed.body_html ?? "")),
   };
 }
 
