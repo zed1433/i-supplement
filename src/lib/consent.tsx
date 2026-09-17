@@ -37,6 +37,7 @@ const ACCEPT_ALL: Omit<ConsentState, "decidedAt"> = {
   preferences: true,
   affiliate: true,
   analytics: true,
+  version: CONSENT_VERSION,
 };
 
 const REJECT_ALL: Omit<ConsentState, "decidedAt"> = {
@@ -44,6 +45,7 @@ const REJECT_ALL: Omit<ConsentState, "decidedAt"> = {
   preferences: false,
   affiliate: false,
   analytics: false,
+  version: CONSENT_VERSION,
 };
 
 type ConsentContextValue = {
