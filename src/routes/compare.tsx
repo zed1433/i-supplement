@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { productImageUrl } from "@/lib/productImages";
 import { RetailerActions } from "@/components/suppcheck/RetailerActions";
+import { RankingDisclosure } from "@/components/suppcheck/RankingDisclosure";
 import {
   bestOffer,
   chemicalForm,
