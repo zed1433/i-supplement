@@ -13,3 +13,5 @@
 - [x] Affiliate/legal compliance: About page, footer compliance block, GDPR/CCPA privacy, expanded terms, outbound-link audit
 
 - [x] Cookie consent banner (accept all / reject non-essential / customize) with stored choice, footer "Cookie settings" re-open, consent-gated affiliate click references, FDA/EFSA disclaimer in footer + co-factors module, "Prices accurate as of ... subject to change by retailer" wording.
+
+- [x] Internationalization: market/currency/language selector, FX conversion, translated UI, geo-targeted affiliate handoff
