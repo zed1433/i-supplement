@@ -105,12 +105,17 @@ function AdminPage() {
 
         {affiliateIds && affiliateIds.length > 0 && (
           <section className="mt-6 rounded-lg border border-border bg-surface p-4">
-            <h2 className="text-sm font-semibold">Retailer affiliate identifiers</h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="text-sm font-semibold">Retailer affiliate identifiers</h2>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/admin/settings">Edit affiliate IDs</Link>
+              </Button>
+            </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              Each programme below runs on a demo identifier until its environment variable is set.
-              Links stay live either way — a demo identifier simply earns no commission. Set the
-              named variable in project secrets to go live.
+              Each programme below runs on a demo identifier until you paste a real one. Links stay
+              live either way — a demo identifier simply earns no commission.
             </p>
+
             <div className="mt-3 overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
