@@ -21,7 +21,8 @@ export function ProductQuickView({ product, products }: { product: Product; prod
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button type="button" variant="outline" size="icon" className="w-full" aria-label={`Quick view ${product.name}`} title="Quick view">
+        <Button type="button" variant="outline" size="icon" className="w-full px-2" aria-label={`Quick view ${product.name}`} title="Quick view">
+          <span className="sm:hidden">Quick view</span>
           <Eye />
         </Button>
       </SheetTrigger>

@@ -23,3 +23,4 @@
 
 - [x] Owner access: email/password sign-in, footer Admin link, admin-email signup shortcut, editable affiliate identifier settings page
 - [x] Fix Amazon confirmation messaging and preserve direct iHerb affiliate destinations
+- [x] Rework phone catalogue cards for complete names and readable retailer choices
