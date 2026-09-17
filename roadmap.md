@@ -20,3 +20,5 @@
 - [x] Add an app-wide retailer-grouped cart drawer and verified multi-item handoff links
 - [x] Standardize deterministic UTC price-sync messaging across shopping surfaces
 - [x] Publish operator details in the footer, legal pages, and a dedicated contact page
+
+- [x] Owner access: email/password sign-in, footer Admin link, admin-email signup shortcut, editable affiliate identifier settings page
