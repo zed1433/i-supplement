@@ -7,7 +7,7 @@ import { productImageUrl } from "@/lib/productImages";
 import { useBasket } from "@/lib/basket";
 import { offerShipsTo, useRegion } from "@/lib/region";
 import { chemicalForm, priceAsOfShort, primaryIngredient, valueMetric, type Product } from "@/lib/suppcheck";
-import { useMoney, useT } from "@/lib/market";
+import { useMarket, useMoney, useT } from "@/lib/market";
 
 type Props = { product: Product; products: Product[]; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
 
@@ -15,6 +15,7 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
   const { addOffer, hasOffer } = useBasket();
   const money = useMoney();
   const t = useT();
+  const { isConverted } = useMarket();
   const { region } = useRegion();
   const eligibleOffers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region));
   const currencyCounts = eligibleOffers.reduce<Record<string, number>>((counts, offer) => {
@@ -57,7 +58,7 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
           <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? t("badge.bestDeal") : t("badge.noOffer")}</span>
           <span className="num text-base font-semibold text-primary">{cheapest ? money(cheapest.price, cheapest.currency) : t("badge.unavailable")}</span>
         </div>
-        {cheapest && <p className="mt-1 text-[10px] text-muted-foreground">{priceAsOfShort(cheapest.updated_at)}</p>}
+        {cheapest && <p className="mt-1 text-[10px] text-muted-foreground">{priceAsOfShort(cheapest.updated_at)}{isConverted(cheapest.currency) ? ` · ${t("price.approx")} ${cheapest.currency}` : ""}</p>}
         <div className="mt-2 grid grid-cols-1 gap-1.5 border-t border-border pt-2 sm:grid-cols-2">
           {offers.slice(0, 3).map((offer, index) => <div key={offer.id} className={`flex items-center justify-between gap-2 rounded border px-2 py-1.5 text-[11px] ${index === 0 ? "border-primary/30 bg-accent" : "border-border bg-surface"}`}><span className="truncate">{offer.merchant_name}</span><strong className="num shrink-0 font-semibold text-foreground">{money(offer.price, offer.currency)}</strong></div>)}
         </div>
