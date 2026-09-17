@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { marketAffiliateParams, useMarket } from "@/lib/market";
 
 export const CONSENT_STORAGE_KEY = "isupplement_consent_v1";
+/** Bump when the banner wording changes so visitors are asked again. */
+export const CONSENT_VERSION = 1;
 
 export type ConsentCategory = "necessary" | "preferences" | "affiliate" | "analytics";
 
