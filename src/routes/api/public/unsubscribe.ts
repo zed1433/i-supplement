@@ -25,7 +25,7 @@ export const Route = createFileRoute("/api/public/unsubscribe")({
           .from("subscribers")
           .update({ status: "unsubscribed" })
           .eq("unsubscribe_token", token)
-          .select("email")
+          .select("id")
           .maybeSingle();
 
         return page(
