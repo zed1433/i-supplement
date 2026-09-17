@@ -38,19 +38,27 @@ function DisclosurePage() {
             certification and price.
           </p>
           <p>
-            As an Amazon Associate, we earn from qualifying purchases. We also hold, or apply for,
-            affiliate relationships with other retailers listed on this site, including iHerb and
-            CVS, either directly or through affiliate networks. Commission is paid by the retailer
-            out of their own margin, at no extra cost to you.
+            As an Amazon Associate, we earn from qualifying purchases. We also hold, or have applied
+            for, affiliate relationships with the other retailers listed on this site — iHerb,
+            Myprotein and Bulk Supplements — either directly or through affiliate networks such as
+            Awin and Linkwise. Commission is paid by the retailer out of their own margin, at no
+            extra cost to you. Where a programme has not yet approved us, the link still takes you
+            to the same verified retailer product page and simply earns us nothing.
+          </p>
+          <h2 className="pt-2 text-lg font-semibold">How results are ranked</h2>
+          <p>
+            Ranking is determined by elemental dose per serving, chemical form, published
+            third-party certification and cost per serving. No brand or retailer can pay for
+            placement, and commission never moves a product up or down. We compare only the
+            retailers we have links with, so this site is not a view of the entire market.
           </p>
           <h2 className="pt-2 text-lg font-semibold">Prices and availability</h2>
           <p>
             Prices come from retailer feeds and are refreshed automatically. Every price on this
             site is shown with the date and time it was last checked and is subject to change. If a
             price has not been refreshed in the last 24 hours we mark it as possibly out of date.
-            The price and availability shown on the retailer's own page at the moment of purchase
-            is the one that applies. Products listed as out of stock are never presented as
-            buyable.
+            {" "}
+            {PRICE_AUTHORITY_NOTE} Products listed as out of stock are never presented as buyable.
           </p>
           <h2 className="pt-2 text-lg font-semibold">Where our links take you</h2>
           <p>
