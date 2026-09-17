@@ -21,6 +21,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as CompareIndexRouteImport } from './routes/compare.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authenticated/admin.campaigns'
@@ -93,6 +94,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const CompareIndexRoute = CompareIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CompareRoute,
 } as any)
 const ProductsSlugRoute = ProductsSlugRouteImport.update({
   id: '/products/$slug',
@@ -172,13 +178,14 @@ export interface FileRoutesByFullPath {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
-  '/compare': typeof CompareRoute
+  '/compare': typeof CompareRouteWithChildren
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
+  '/compare/': typeof CompareIndexRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
@@ -198,12 +205,12 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
-  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/compare': typeof CompareIndexRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
@@ -225,13 +232,14 @@ export interface FileRoutesById {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
-  '/compare': typeof CompareRoute
+  '/compare': typeof CompareRouteWithChildren
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
+  '/compare/': typeof CompareIndexRoute
   '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
   '/_authenticated/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
@@ -260,6 +268,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/products/$slug'
+    | '/compare/'
     | '/admin/campaigns'
     | '/admin/feeds'
     | '/admin/import'
@@ -279,12 +288,12 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
-    | '/compare'
     | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
     | '/products/$slug'
+    | '/compare'
     | '/admin/campaigns'
     | '/admin/feeds'
     | '/admin/import'
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/products/$slug'
+    | '/compare/'
     | '/_authenticated/admin/campaigns'
     | '/_authenticated/admin/feeds'
     | '/_authenticated/admin/import'
@@ -333,7 +343,7 @@ export interface RootRouteChildren {
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
-  CompareRoute: typeof CompareRoute
+  CompareRoute: typeof CompareRouteWithChildren
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -431,6 +441,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/compare/': {
+      id: '/compare/'
+      path: '/'
+      fullPath: '/compare/'
+      preLoaderRoute: typeof CompareIndexRouteImport
+      parentRoute: typeof CompareRoute
     }
     '/products/$slug': {
       id: '/products/$slug'
@@ -560,6 +577,17 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CompareRouteChildren {
+  CompareIndexRoute: typeof CompareIndexRoute
+}
+
+const CompareRouteChildren: CompareRouteChildren = {
+  CompareIndexRoute: CompareIndexRoute,
+}
+
+const CompareRouteWithChildren =
+  CompareRoute._addFileChildren(CompareRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -567,7 +595,7 @@ const rootRouteChildren: RootRouteChildren = {
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
-  CompareRoute: CompareRoute,
+  CompareRoute: CompareRouteWithChildren,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

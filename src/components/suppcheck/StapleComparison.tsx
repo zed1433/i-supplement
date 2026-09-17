@@ -16,6 +16,7 @@ import {
   PRICE_AUTHORITY_NOTE,
   latestOfferUpdate,
   priceAsOfShort,
+  productsQuery,
   valueMetric,
   type MerchantOffer,
   type Product,
@@ -25,11 +26,7 @@ import type { Staple } from "@/lib/staples";
 type SortKey = "value" | "price" | "name";
 
 export function StapleComparison({ staple }: { staple: Staple }) {
-  const { data: products, isLoading } = useQuery({
-    queryKey: ["suppcheck", "products"],
-    queryFn: async () => (await import("@/lib/suppcheck")).fetchProducts(),
-    staleTime: 60_000,
-  });
+  const { data: products, isLoading } = useQuery(productsQuery);
   const { region } = useRegion();
   const money = useMoney();
   const affiliateHref = useAffiliateHref();
