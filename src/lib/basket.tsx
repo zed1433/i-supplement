@@ -30,6 +30,9 @@ type BasketContextValue = {
   setQuantity: (offerId: string, quantity: number) => void;
   hasOffer: (offerId: string) => boolean;
   clear: () => void;
+  drawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
 };
 
 const BasketContext = createContext<BasketContextValue | null>(null);
@@ -37,6 +40,7 @@ const BasketContext = createContext<BasketContextValue | null>(null);
 export function BasketProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<BasketItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -84,6 +88,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
       return nextItems;
     });
+    setDrawerOpen(true);
   }, []);
 
   const value = useMemo<BasketContextValue>(
@@ -100,8 +105,11 @@ export function BasketProvider({ children }: { children: ReactNode }) {
         ),
       hasOffer: (offerId) => items.some((item) => item.offerId === offerId),
       clear: () => setItems([]),
+      drawerOpen,
+      openDrawer: () => setDrawerOpen(true),
+      closeDrawer: () => setDrawerOpen(false),
     }),
-    [addOffer, items],
+    [addOffer, drawerOpen, items],
   );
 
   return <BasketContext.Provider value={value}>{children}</BasketContext.Provider>;
@@ -115,6 +123,9 @@ const EMPTY_BASKET: BasketContextValue = {
   setQuantity: () => {},
   hasOffer: () => false,
   clear: () => {},
+  drawerOpen: false,
+  openDrawer: () => {},
+  closeDrawer: () => {},
 };
 
 export function useBasket() {

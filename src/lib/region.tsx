@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
 
-export type RegionCode = "ALL" | "GR" | "DE" | "EU" | "UK" | "US";
+export type RegionCode = "ALL" | "GR" | "DE" | "EU" | "UK" | "US" | "BR" | "ZA" | "NG";
 
 export const REGIONS: { code: RegionCode; label: string }[] = [
   { code: "GR", label: "Greece" },
@@ -9,6 +9,9 @@ export const REGIONS: { code: RegionCode; label: string }[] = [
   { code: "EU", label: "Rest of the EU" },
   { code: "UK", label: "United Kingdom" },
   { code: "US", label: "United States" },
+  { code: "BR", label: "Brazil" },
+  { code: "ZA", label: "South Africa" },
+  { code: "NG", label: "Nigeria" },
   { code: "ALL", label: "Show every shop" },
 ];
 
@@ -33,6 +36,9 @@ function localeRegion(locale: string): RegionCode {
   if (upper.endsWith("-GB")) return "UK";
   if (upper.endsWith("-DE")) return "DE";
   if (upper.endsWith("-GR") || upper.startsWith("EL")) return "GR";
+  if (upper.endsWith("-BR")) return "BR";
+  if (upper.endsWith("-ZA")) return "ZA";
+  if (upper.endsWith("-NG")) return "NG";
   const european = ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "ES", "FI", "FR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"];
   return european.some((country) => upper.endsWith(`-${country}`)) ? "EU" : "ALL";
 }
@@ -47,9 +53,33 @@ export function offerShipsTo(offer: Pick<MerchantOffer, "ships_to">, region: Reg
   return false;
 }
 
+export type RegionalOffers = {
+  offers: MerchantOffer[];
+  usedFallback: boolean;
+};
+
+function isGlobalOffer(offer: Pick<MerchantOffer, "ships_to">): boolean {
+  const destinations = offer.ships_to ?? ["GLOBAL"];
+  return destinations.length === 0 || destinations.includes("GLOBAL");
+}
+
+/** Prefer destination-specific inventory, then widen to verified global shipping. */
+export function offersForRegion(product: Product, region: RegionCode): RegionalOffers {
+  const active = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified);
+  if (region === "ALL") return { offers: active, usedFallback: false };
+  const local = active.filter((offer) => {
+    const destinations = offer.ships_to ?? [];
+    if (destinations.includes(region)) return true;
+    return destinations.includes("EU") && EU_REGIONS.includes(region);
+  });
+  if (local.length) return { offers: local, usedFallback: false };
+  const global = active.filter(isGlobalOffer);
+  return { offers: global, usedFallback: global.length > 0 };
+}
+
 /** Product with only the offers that deliver to the region; null when none do. */
 export function productForRegion(product: Product, region: RegionCode): Product | null {
-  const offers = product.merchant_offers.filter((o) => offerShipsTo(o, region));
+  const { offers } = offersForRegion(product, region);
   if (!offers.length) return null;
   return { ...product, merchant_offers: offers };
 }

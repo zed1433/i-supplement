@@ -43,6 +43,9 @@ const en = {
   "footer.terms": "Terms of Service",
   "footer.affiliate": "Affiliate Disclosure",
   "footer.contact": "Contact",
+  "inventory.global": "Showing global inventory for this region.",
+  "inventory.shipsInternationally": "Ships internationally via",
+  "cart.transferAll": "Transfer all items to retailer cart",
 } as const;
 
 export type TranslationKey = keyof typeof en;
@@ -82,6 +85,9 @@ const de: Dict = {
   "footer.terms": "Nutzungsbedingungen",
   "footer.affiliate": "Affiliate-Hinweis",
   "footer.contact": "Kontakt",
+  "inventory.global": "Für diese Region wird globaler Bestand angezeigt.",
+  "inventory.shipsInternationally": "Internationaler Versand über",
+  "cart.transferAll": "Alle Artikel zum Händler übertragen",
 };
 
 const fr: Dict = {
@@ -117,6 +123,9 @@ const fr: Dict = {
   "footer.terms": "Conditions d'utilisation",
   "footer.affiliate": "Divulgation d'affiliation",
   "footer.contact": "Contact",
+  "inventory.global": "Affichage du stock mondial pour cette région.",
+  "inventory.shipsInternationally": "Livraison internationale via",
+  "cart.transferAll": "Transférer tous les articles chez le marchand",
 };
 
 const pt: Dict = {
@@ -152,6 +161,9 @@ const pt: Dict = {
   "footer.terms": "Termos de uso",
   "footer.affiliate": "Divulgação de afiliados",
   "footer.contact": "Contato",
+  "inventory.global": "Exibindo estoque global para esta região.",
+  "inventory.shipsInternationally": "Envio internacional via",
+  "cart.transferAll": "Transferir todos os itens para a loja",
 };
 
 const es: Dict = {
@@ -187,6 +199,9 @@ const es: Dict = {
   "footer.terms": "Términos del servicio",
   "footer.affiliate": "Divulgación de afiliados",
   "footer.contact": "Contacto",
+  "inventory.global": "Mostrando inventario global para esta región.",
+  "inventory.shipsInternationally": "Envío internacional mediante",
+  "cart.transferAll": "Transferir todos los artículos a la tienda",
 };
 
 const DICTIONARIES: Record<LanguageCode, Dict> = { en, de, fr, pt, es };

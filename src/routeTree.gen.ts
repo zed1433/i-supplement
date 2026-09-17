@@ -16,6 +16,7 @@ import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disc
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BasketRouteImport } from './routes/basket'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -26,6 +27,7 @@ import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminFeedsRouteImport } from './routes/_authenticated/admin.feeds'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
 import { Route as AuthenticatedAdminPeopleRouteImport } from './routes/_authenticated/admin.people'
+import { Route as ApiAffiliateCartRouteImport } from './routes/api/affiliate/cart'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
@@ -64,6 +66,11 @@ const BasketRoute = BasketRouteImport.update({
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -119,6 +126,11 @@ const AuthenticatedAdminPeopleRoute =
     path: '/people',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const ApiAffiliateCartRoute = ApiAffiliateCartRouteImport.update({
+  id: '/api/affiliate/cart',
+  path: '/api/affiliate/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
   id: '/api/public/unsubscribe',
   path: '/api/public/unsubscribe',
@@ -154,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -163,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -177,6 +191,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -185,6 +200,7 @@ export interface FileRoutesByTo {
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -201,6 +217,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
   '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -210,6 +227,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -226,6 +244,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -235,6 +254,7 @@ export interface FileRouteTypes {
     | '/admin/feeds'
     | '/admin/import'
     | '/admin/people'
+    | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/admin/'
     | '/admin/product/$slug'
@@ -249,6 +269,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -257,6 +278,7 @@ export interface FileRouteTypes {
     | '/admin/feeds'
     | '/admin/import'
     | '/admin/people'
+    | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/admin'
     | '/admin/product/$slug'
@@ -272,6 +294,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/basket'
     | '/compare'
+    | '/contact'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
@@ -281,6 +304,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/feeds'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/people'
+    | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/product/$slug'
@@ -297,10 +321,12 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
   CompareRoute: typeof CompareRoute
+  ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
+  ApiAffiliateCartRoute: typeof ApiAffiliateCartRoute
   ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
   ApiPublicCronFeedsRoute: typeof ApiPublicCronFeedsRoute
@@ -356,6 +382,13 @@ declare module '@tanstack/react-router' {
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -427,6 +460,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/people'
       preLoaderRoute: typeof AuthenticatedAdminPeopleRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/affiliate/cart': {
+      id: '/api/affiliate/cart'
+      path: '/api/affiliate/cart'
+      fullPath: '/api/affiliate/cart'
+      preLoaderRoute: typeof ApiAffiliateCartRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/unsubscribe': {
       id: '/api/public/unsubscribe'
@@ -506,10 +546,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
   CompareRoute: CompareRoute,
+  ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  ApiAffiliateCartRoute: ApiAffiliateCartRoute,
   ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
   ApiPublicCronFeedsRoute: ApiPublicCronFeedsRoute,

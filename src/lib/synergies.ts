@@ -1,5 +1,5 @@
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
-import { offerShipsTo, type RegionCode } from "@/lib/region";
+import { offersForRegion, type RegionCode } from "@/lib/region";
 
 export type SynergyBadge = "Obligate Co-factor" | "Absorption Booster" | "Transporter Balance";
 
@@ -210,8 +210,7 @@ function aliasScore(text: string, aliases: string[]): number {
 }
 
 function bestEligibleOffer(product: Product, region: RegionCode): MerchantOffer | undefined {
-  return product.merchant_offers
-    .filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region))
+  return offersForRegion(product, region).offers
     .sort((a, b) => Number(a.price) - Number(b.price))[0];
 }
 

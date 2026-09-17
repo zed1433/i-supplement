@@ -227,30 +227,21 @@ export function isPriceStale(updatedAt?: string | null): boolean {
 
 /** Compact freshness note for dense surfaces, e.g. "Accurate as of 15 Sep". */
 export function priceAsOfShort(updatedAt?: string | null): string {
-  if (!updatedAt) return "Price date unavailable — subject to change by retailer";
+  if (!updatedAt) return "Price sync time unavailable. Prices and availability are subject to change.";
   const d = new Date(updatedAt);
-  const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(d);
-  return `Accurate as of ${label}, subject to change by retailer${
-    isPriceStale(updatedAt) ? " — may be out of date" : ""
-  }`;
+  if (Number.isNaN(d.getTime())) return "Price sync time unavailable. Prices and availability are subject to change.";
+  const label = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" }).format(d);
+  return `Prices last synced: ${label} UTC. Prices and availability are subject to change.`;
 }
 
 /** Full timestamp note required by retailer operating agreements. */
 export function priceAsOfLong(updatedAt?: string | null): string {
-  if (!updatedAt) return "Price date unavailable — subject to change";
-  const d = new Date(updatedAt);
-  const label = new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-    timeZoneName: "short",
-  }).format(d);
-  return `Prices accurate as of ${label} and subject to change by retailer${
-    isPriceStale(updatedAt) ? "; may be out of date" : ""
-  }.`;
+  return priceAsOfShort(updatedAt);
+}
+
+export function latestOfferUpdate(offers: Pick<MerchantOffer, "updated_at">[]): string | null {
+  const times = offers.map((offer) => new Date(offer.updated_at).getTime()).filter(Number.isFinite);
+  return times.length ? new Date(Math.max(...times)).toISOString() : null;
 }
 
 export const AFFILIATE_DISCLOSURE =
@@ -260,6 +251,9 @@ export const MEDICAL_DISCLAIMER =
   "Statements regarding dietary supplements have not been evaluated by the FDA or EFSA and are not intended to diagnose, treat, cure, or prevent any disease. Always consult your physician before starting any supplementation protocol.";
 
 export const SUPPORT_EMAIL = "isupplementsofficial@gmail.com";
+export const OPERATOR_NAME = "i-Supplement";
+export const OPERATOR_LOCATION = "Athens, Greece";
+export const OPERATOR_CONTACT = `Operated by ${OPERATOR_NAME} (${OPERATOR_LOCATION}). Support: ${SUPPORT_EMAIL}`;
 
 export const FORM_FILTERS = [
   "Bisglycinate",

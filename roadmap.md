@@ -15,3 +15,8 @@
 - [x] Cookie consent banner (accept all / reject non-essential / customize) with stored choice, footer "Cookie settings" re-open, consent-gated affiliate click references, FDA/EFSA disclaimer in footer + co-factors module, "Prices accurate as of ... subject to change by retailer" wording.
 
 - [x] Internationalization: market/currency/language selector, FX conversion, translated UI, geo-targeted affiliate handoff
+- [x] Add local-first regional inventory with clearly labelled global fallback
+- [x] Replace generic product-card action with explicit retailer rows and add feedback
+- [x] Add an app-wide retailer-grouped cart drawer and verified multi-item handoff links
+- [x] Standardize deterministic UTC price-sync messaging across shopping surfaces
+- [x] Publish operator details in the footer, legal pages, and a dedicated contact page

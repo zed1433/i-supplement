@@ -19,6 +19,7 @@ import { RegionPrompt } from "@/components/suppcheck/RegionPrompt";
 import { MobileBasketBar } from "@/components/suppcheck/MobileBasketBar";
 import { ConsentProvider } from "@/lib/consent";
 import { CookieConsent } from "@/components/suppcheck/CookieConsent";
+import { UniversalCartDrawer } from "@/components/suppcheck/UniversalCartDrawer";
 
 function NotFoundComponent() {
   return (
@@ -149,6 +150,7 @@ function RootComponent() {
               <SiteFooter />
               <RegionPrompt />
               <MobileBasketBar />
+              <UniversalCartDrawer />
               <CookieConsent />
             </BasketProvider>
           </MarketProvider>

@@ -23,6 +23,7 @@ import {
   CERT_EXPLANATIONS,
   chemicalForm,
   priceAsOfLong,
+  latestOfferUpdate,
   elementalPerServing,
     primaryIngredient,
   productQuery,
@@ -31,7 +32,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { useMoney } from "@/lib/market";
-import { offerShipsTo, useRegion, type RegionCode } from "@/lib/region";
+import { offersForRegion, useRegion, type RegionCode } from "@/lib/region";
 import { useAffiliateHref } from "@/lib/consent";
 
 export const Route = createFileRoute("/products/$slug")({
@@ -98,8 +99,8 @@ function ProductPage() {
 
   const pi = primaryIngredient(product);
   const ingredient = pi?.ingredients;
-  const offers = product.merchant_offers
-    .filter((o) => o.in_stock && o.link_verified && offerShipsTo(o, region))
+  const regionalOffers = offersForRegion(product, region);
+  const offers = regionalOffers.offers
     .sort((a, b) => Number(a.price) - Number(b.price));
   const metric = valueMetric(product, offers[0]);
   const alternatives = (allProducts ?? []).filter(
@@ -238,6 +239,7 @@ function ProductPage() {
         {/* Merchant table */}
         <section>
           <h2 className="text-lg font-semibold">Multi-store price comparison</h2>
+          {regionalOffers.usedFallback && <p className="mt-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-warning-foreground">Showing global inventory for this region. These offers ship internationally.</p>}
           <div className="mt-3 overflow-x-auto rounded-lg border border-border">
             <table className="w-full min-w-[640px] text-sm">
               <thead>
@@ -304,7 +306,7 @@ function ProductPage() {
           </div>
           {offers[0] && (
             <p className="mt-2 text-[11px] text-muted-foreground">
-              {priceAsOfLong(offers[0].updated_at)}
+              {priceAsOfLong(latestOfferUpdate(offers))}
             </p>
           )}
           <p className="mt-1 text-[11px] text-muted-foreground">
@@ -452,7 +454,7 @@ function compareToBase(base: Product, alt: Product, region: RegionCode): Diff[] 
   const diffs: Diff[] = [];
   const pick = (p: Product) =>
     p.merchant_offers
-      .filter((o) => o.in_stock && o.link_verified && offerShipsTo(o, region))
+      .filter((o) => offersForRegion(p, region).offers.some((offer) => offer.id === o.id))
       .sort((a, b) => Number(a.price) - Number(b.price))[0];
   const baseMetric = valueMetric(base, pick(base));
   const altMetric = valueMetric(alt, pick(alt));
@@ -505,8 +507,7 @@ function compareToBase(base: Product, alt: Product, region: RegionCode): Diff[] 
 function AltCard({ product, base }: { product: Product; base: Product }) {
   const { region } = useRegion();
   const money = useMoney();
-  const offer = product.merchant_offers
-    .filter((item) => item.in_stock && item.link_verified && offerShipsTo(item, region))
+  const offer = offersForRegion(product, region).offers
     .sort((a, b) => Number(a.price) - Number(b.price))[0];
   const metric = valueMetric(product, offer);
   const diffs = compareToBase(base, product, region);

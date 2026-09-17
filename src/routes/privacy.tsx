@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+import { OPERATOR_CONTACT, SUPPORT_EMAIL } from "@/lib/suppcheck";
 
 const title = "Privacy Policy | i-Supplement";
 const description =
@@ -171,12 +172,12 @@ function PrivacyPage() {
               Making a request, and children
             </h2>
             <p className="mt-2">
-              Write to{" "}
+               {OPERATOR_CONTACT}. Write to{" "}
               <a
                 className="text-primary underline underline-offset-2"
-                href="mailto:isupplementsofficial@gmail.com"
+                 href={`mailto:${SUPPORT_EMAIL}`}
               >
-                isupplementsofficial@gmail.com
+                 {SUPPORT_EMAIL}
               </a>{" "}
               from the address you signed up with and we will respond within 30 days, free of
               charge. The site is not intended for anyone under 16 and we do not knowingly collect

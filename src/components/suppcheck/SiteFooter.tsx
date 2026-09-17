@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { AFFILIATE_DISCLOSURE, MEDICAL_DISCLAIMER, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { AFFILIATE_DISCLOSURE, MEDICAL_DISCLAIMER, OPERATOR_LOCATION, OPERATOR_NAME, SUPPORT_EMAIL } from "@/lib/suppcheck";
 import { useConsent } from "@/lib/consent";
 import { useT } from "@/lib/market";
 
@@ -51,12 +51,9 @@ export function SiteFooter() {
           <Link to="/terms" className="text-muted-foreground hover:text-foreground">
             {t("footer.terms")}
           </Link>
-          <a
-            href={`mailto:${SUPPORT_EMAIL}`}
-            className="text-muted-foreground hover:text-foreground"
-          >
+          <Link to="/contact" className="text-muted-foreground hover:text-foreground">
             {t("footer.contact")}
-          </a>
+          </Link>
           <button
             type="button"
             onClick={openPanel}
@@ -68,6 +65,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} i-Supplement
           </span>
         </nav>
+        <p className="mt-4 text-xs text-muted-foreground">Operated by {OPERATOR_NAME} ({OPERATOR_LOCATION}). Support: <a className="text-primary underline underline-offset-2" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></p>
       </div>
     </footer>
   );
