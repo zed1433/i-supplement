@@ -64,18 +64,18 @@ function isGlobalOffer(offer: Pick<MerchantOffer, "ships_to">): boolean {
   return destinations.length === 0 || destinations.includes("GLOBAL");
 }
 
-/** Prefer destination-specific inventory, then widen to verified global shipping. */
+/** Every working offer that can reach the shopper: region-specific plus worldwide shipping. */
 export function offersForRegion(product: Product, region: RegionCode): RegionalOffers {
   const active = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified);
   if (region === "ALL") return { offers: active, usedFallback: false };
-  const local = active.filter((offer) => {
+  const isLocal = (offer: MerchantOffer) => {
     const destinations = offer.ships_to ?? [];
     if (destinations.includes(region)) return true;
     return destinations.includes("EU") && EU_REGIONS.includes(region);
-  });
-  if (local.length) return { offers: local, usedFallback: false };
-  const global = active.filter(isGlobalOffer);
-  return { offers: global, usedFallback: global.length > 0 };
+  };
+  const reachable = active.filter((offer) => isLocal(offer) || isGlobalOffer(offer));
+  const hasLocal = reachable.some(isLocal);
+  return { offers: reachable, usedFallback: reachable.length > 0 && !hasLocal };
 }
 
 /** Product with only the offers that deliver to the region; null when none do. */

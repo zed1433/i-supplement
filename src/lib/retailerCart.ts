@@ -17,24 +17,45 @@ export function retailerGroupKey(item: Pick<BasketItem, "merchantName" | "affili
   return kind === "other" ? item.merchantName.trim().toLowerCase() : kind;
 }
 
-/** Returns a grouped handoff only when every item has the retailer identifier it requires. */
-export function multiCartUrl(items: BasketItem[], market: Market, tracking = false): string | null {
-  if (!items.length || items.some((item) => !item.retailerProductId.trim())) return null;
+export type MultiCart = {
+  /** Grouped handoff URL, or null when the retailer has no verified multi-item cart. */
+  url: string | null;
+  /** Items the grouped cart will carry. */
+  included: BasketItem[];
+  /** Items that must be opened individually (missing retailer product ID). */
+  excluded: BasketItem[];
+};
+
+/**
+ * Amazon supports a verified multi-item cart handoff for every item that has a
+ * retailer product ID (ASIN). Items without one are handed back so the caller can
+ * still offer their individual links. Other retailers publish no supported
+ * multi-item cart URL, so they fall back to individual links entirely.
+ */
+export function multiCart(items: BasketItem[], market: Market, tracking = false): MultiCart {
   const first = items[0];
-  if (!first) return null;
+  if (!first) return { url: null, included: [], excluded: [] };
   const kind = retailerKind(first.merchantName, first.affiliateNetwork);
-  if (items.some((item) => retailerKind(item.merchantName, item.affiliateNetwork) !== kind)) return null;
-  if (kind === "amazon") {
-    const params = new URLSearchParams({
-      offers: items.map((item) => item.offerId).join(","),
-      quantities: items.map((item) => String(Math.max(1, item.quantity))).join(","),
-      country: market.country,
-      currency: market.currency,
-    });
-    if (!tracking) params.set("nt", "1");
-    return `/api/affiliate/cart?${params.toString()}`;
+  if (kind !== "amazon" || items.some((item) => retailerKind(item.merchantName, item.affiliateNetwork) !== kind)) {
+    return { url: null, included: [], excluded: items };
   }
-  // iHerb, Myprotein and Bulk require account-specific rewards/campaign configuration.
-  // Individual verified links remain the safe handoff until those values are configured.
-  return null;
+
+  const included = items.filter((item) => item.retailerProductId.trim());
+  const excluded = items.filter((item) => !item.retailerProductId.trim());
+  if (!included.length) return { url: null, included: [], excluded: items };
+
+  const params = new URLSearchParams({
+    offers: included.map((item) => item.offerId).join(","),
+    quantities: included.map((item) => String(Math.max(1, item.quantity))).join(","),
+    country: market.country,
+    currency: market.currency,
+  });
+  if (!tracking) params.set("nt", "1");
+  return { url: `/api/affiliate/cart?${params.toString()}`, included, excluded };
+}
+
+/** Backwards-compatible helper: grouped URL only when it carries every item. */
+export function multiCartUrl(items: BasketItem[], market: Market, tracking = false): string | null {
+  const cart = multiCart(items, market, tracking);
+  return cart.excluded.length ? null : cart.url;
 }
