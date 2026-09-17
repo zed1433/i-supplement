@@ -22,6 +22,11 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CompareIndexRouteImport } from './routes/compare.index'
+import { Route as CompareCreatineMonohydrateRouteImport } from './routes/compare.creatine-monohydrate'
+import { Route as CompareMagnesiumGlycinateMalateRouteImport } from './routes/compare.magnesium-glycinate-malate'
+import { Route as CompareOmega3FishOilRouteImport } from './routes/compare.omega-3-fish-oil'
+import { Route as CompareVitaminD3K2RouteImport } from './routes/compare.vitamin-d3-k2'
+import { Route as CompareWheyProteinIsolateRouteImport } from './routes/compare.whey-protein-isolate'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authenticated/admin.campaigns'
@@ -100,6 +105,34 @@ const CompareIndexRoute = CompareIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CompareRoute,
 } as any)
+const CompareCreatineMonohydrateRoute =
+  CompareCreatineMonohydrateRouteImport.update({
+    id: '/creatine-monohydrate',
+    path: '/creatine-monohydrate',
+    getParentRoute: () => CompareRoute,
+  } as any)
+const CompareMagnesiumGlycinateMalateRoute =
+  CompareMagnesiumGlycinateMalateRouteImport.update({
+    id: '/magnesium-glycinate-malate',
+    path: '/magnesium-glycinate-malate',
+    getParentRoute: () => CompareRoute,
+  } as any)
+const CompareOmega3FishOilRoute = CompareOmega3FishOilRouteImport.update({
+  id: '/omega-3-fish-oil',
+  path: '/omega-3-fish-oil',
+  getParentRoute: () => CompareRoute,
+} as any)
+const CompareVitaminD3K2Route = CompareVitaminD3K2RouteImport.update({
+  id: '/vitamin-d3-k2',
+  path: '/vitamin-d3-k2',
+  getParentRoute: () => CompareRoute,
+} as any)
+const CompareWheyProteinIsolateRoute =
+  CompareWheyProteinIsolateRouteImport.update({
+    id: '/whey-protein-isolate',
+    path: '/whey-protein-isolate',
+    getParentRoute: () => CompareRoute,
+  } as any)
 const ProductsSlugRoute = ProductsSlugRouteImport.update({
   id: '/products/$slug',
   path: '/products/$slug',
@@ -184,6 +217,11 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/compare/creatine-monohydrate': typeof CompareCreatineMonohydrateRoute
+  '/compare/magnesium-glycinate-malate': typeof CompareMagnesiumGlycinateMalateRoute
+  '/compare/omega-3-fish-oil': typeof CompareOmega3FishOilRoute
+  '/compare/vitamin-d3-k2': typeof CompareVitaminD3K2Route
+  '/compare/whey-protein-isolate': typeof CompareWheyProteinIsolateRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/compare/': typeof CompareIndexRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -209,6 +247,11 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/compare/creatine-monohydrate': typeof CompareCreatineMonohydrateRoute
+  '/compare/magnesium-glycinate-malate': typeof CompareMagnesiumGlycinateMalateRoute
+  '/compare/omega-3-fish-oil': typeof CompareOmega3FishOilRoute
+  '/compare/vitamin-d3-k2': typeof CompareVitaminD3K2Route
+  '/compare/whey-protein-isolate': typeof CompareWheyProteinIsolateRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/compare': typeof CompareIndexRoute
   '/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -238,6 +281,11 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/compare/creatine-monohydrate': typeof CompareCreatineMonohydrateRoute
+  '/compare/magnesium-glycinate-malate': typeof CompareMagnesiumGlycinateMalateRoute
+  '/compare/omega-3-fish-oil': typeof CompareOmega3FishOilRoute
+  '/compare/vitamin-d3-k2': typeof CompareVitaminD3K2Route
+  '/compare/whey-protein-isolate': typeof CompareWheyProteinIsolateRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/compare/': typeof CompareIndexRoute
   '/_authenticated/admin/campaigns': typeof AuthenticatedAdminCampaignsRoute
@@ -267,6 +315,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin'
+    | '/compare/creatine-monohydrate'
+    | '/compare/magnesium-glycinate-malate'
+    | '/compare/omega-3-fish-oil'
+    | '/compare/vitamin-d3-k2'
+    | '/compare/whey-protein-isolate'
     | '/products/$slug'
     | '/compare/'
     | '/admin/campaigns'
@@ -292,6 +345,11 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/compare/creatine-monohydrate'
+    | '/compare/magnesium-glycinate-malate'
+    | '/compare/omega-3-fish-oil'
+    | '/compare/vitamin-d3-k2'
+    | '/compare/whey-protein-isolate'
     | '/products/$slug'
     | '/compare'
     | '/admin/campaigns'
@@ -320,6 +378,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/_authenticated/admin'
+    | '/compare/creatine-monohydrate'
+    | '/compare/magnesium-glycinate-malate'
+    | '/compare/omega-3-fish-oil'
+    | '/compare/vitamin-d3-k2'
+    | '/compare/whey-protein-isolate'
     | '/products/$slug'
     | '/compare/'
     | '/_authenticated/admin/campaigns'
@@ -447,6 +510,41 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/compare/'
       preLoaderRoute: typeof CompareIndexRouteImport
+      parentRoute: typeof CompareRoute
+    }
+    '/compare/creatine-monohydrate': {
+      id: '/compare/creatine-monohydrate'
+      path: '/creatine-monohydrate'
+      fullPath: '/compare/creatine-monohydrate'
+      preLoaderRoute: typeof CompareCreatineMonohydrateRouteImport
+      parentRoute: typeof CompareRoute
+    }
+    '/compare/magnesium-glycinate-malate': {
+      id: '/compare/magnesium-glycinate-malate'
+      path: '/magnesium-glycinate-malate'
+      fullPath: '/compare/magnesium-glycinate-malate'
+      preLoaderRoute: typeof CompareMagnesiumGlycinateMalateRouteImport
+      parentRoute: typeof CompareRoute
+    }
+    '/compare/omega-3-fish-oil': {
+      id: '/compare/omega-3-fish-oil'
+      path: '/omega-3-fish-oil'
+      fullPath: '/compare/omega-3-fish-oil'
+      preLoaderRoute: typeof CompareOmega3FishOilRouteImport
+      parentRoute: typeof CompareRoute
+    }
+    '/compare/vitamin-d3-k2': {
+      id: '/compare/vitamin-d3-k2'
+      path: '/vitamin-d3-k2'
+      fullPath: '/compare/vitamin-d3-k2'
+      preLoaderRoute: typeof CompareVitaminD3K2RouteImport
+      parentRoute: typeof CompareRoute
+    }
+    '/compare/whey-protein-isolate': {
+      id: '/compare/whey-protein-isolate'
+      path: '/whey-protein-isolate'
+      fullPath: '/compare/whey-protein-isolate'
+      preLoaderRoute: typeof CompareWheyProteinIsolateRouteImport
       parentRoute: typeof CompareRoute
     }
     '/products/$slug': {
@@ -578,10 +676,20 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface CompareRouteChildren {
+  CompareCreatineMonohydrateRoute: typeof CompareCreatineMonohydrateRoute
+  CompareMagnesiumGlycinateMalateRoute: typeof CompareMagnesiumGlycinateMalateRoute
+  CompareOmega3FishOilRoute: typeof CompareOmega3FishOilRoute
+  CompareVitaminD3K2Route: typeof CompareVitaminD3K2Route
+  CompareWheyProteinIsolateRoute: typeof CompareWheyProteinIsolateRoute
   CompareIndexRoute: typeof CompareIndexRoute
 }
 
 const CompareRouteChildren: CompareRouteChildren = {
+  CompareCreatineMonohydrateRoute: CompareCreatineMonohydrateRoute,
+  CompareMagnesiumGlycinateMalateRoute: CompareMagnesiumGlycinateMalateRoute,
+  CompareOmega3FishOilRoute: CompareOmega3FishOilRoute,
+  CompareVitaminD3K2Route: CompareVitaminD3K2Route,
+  CompareWheyProteinIsolateRoute: CompareWheyProteinIsolateRoute,
   CompareIndexRoute: CompareIndexRoute,
 }
 
