@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/suppcheck/ProductCard";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { RankingDisclosure } from "@/components/suppcheck/RankingDisclosure";
 import { productImageUrl } from "@/lib/productImages";
-import { offersForRegion, productsForRegion, useRegion } from "@/lib/region";
+import { offersForRegion, useRegion } from "@/lib/region";
 import { useAffiliateHref } from "@/lib/consent";
 import { useMoney } from "@/lib/market";
 import {
