@@ -45,7 +45,7 @@ export const Route = createFileRoute("/api/affiliate/cart")({
         if (ordered.some((offer) => !offer || !offer.in_stock || !offer.link_verified || !offer.retailer_product_id || !`${offer.merchant_name} ${offer.affiliate_network}`.toLowerCase().includes("amazon"))) return new Response("Basket offers unavailable", { status: 400 });
 
         const params = new URLSearchParams();
-        if (url.searchParams.get("nt") !== "1") params.set("AssociateTag", market.tag);
+        if (url.searchParams.get("nt") !== "1") params.set("AssociateTag", amazonTagFor(country));
         ordered.forEach((offer, index) => {
           if (!offer) return;
           params.set(`ASIN.${index + 1}`, offer.retailer_product_id);

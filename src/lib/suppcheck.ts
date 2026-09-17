@@ -255,6 +255,23 @@ export const OPERATOR_NAME = "i-Supplement";
 export const OPERATOR_LOCATION = "Athens, Greece";
 export const OPERATOR_CONTACT = `Operated by ${OPERATOR_NAME} (${OPERATOR_LOCATION}). Support: ${SUPPORT_EMAIL}`;
 
+/** Service-provider identity required by Greek e-commerce law (PD 131/2003). */
+export const OPERATOR_IDENTITY =
+  `${OPERATOR_NAME} is an independent supplement comparison service operated from ${OPERATOR_LOCATION}. ` +
+  `It is not a shop: no stock is held, no payment is taken and nothing is shipped by us. ` +
+  `Registration and tax details are provided on request at ${SUPPORT_EMAIL}.`;
+
+/** Retailers whose affiliate programmes we participate in or have applied to. */
+export const AFFILIATE_RETAILERS = ["Amazon", "iHerb", "Myprotein", "Bulk Supplements"] as const;
+
+/** Amazon Associates / price-accuracy requirement shown wherever prices appear. */
+export const PRICE_AUTHORITY_NOTE =
+  "Prices and availability shown are captured at the time stated and may differ at the retailer. The price on the retailer's own page at the moment of purchase is the one that applies.";
+
+/** EU Reg. 1924/2006: only authorised claim wording may be used. */
+export const CLAIMS_POLICY_NOTE =
+  "Benefit descriptions follow EU authorised nutrition and health claim wording (Regulation (EC) No 1924/2006). Where no authorised claim exists, we describe the nutrient's established physiological role rather than a promised outcome.";
+
 export const FORM_FILTERS = [
   "Bisglycinate",
   "Glycinate",
