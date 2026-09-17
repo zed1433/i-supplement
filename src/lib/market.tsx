@@ -174,9 +174,10 @@ export function MarketProvider({ children }: { children: ReactNode }) {
       ready,
       rates,
       setMarket: (code) => {
+        // Switching market adopts that market's primary language; the shopper
+        // can still pick another language from the neighbouring control.
         const next = marketByCode(code) ?? DEFAULT_MARKET;
-        const nextLanguage = next.languages.includes(language) ? language : next.languages[0]!;
-        persist(next, nextLanguage);
+        persist(next, next.languages[0]!);
       },
       setLanguage: (code) => persist(market, code),
       money,
