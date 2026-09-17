@@ -118,7 +118,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
         setPanelOpen(false);
       },
       save: (choices) => {
-        persist({ necessary: true, ...choices });
+        persist({ necessary: true, version: CONSENT_VERSION, ...choices });
         setPanelOpen(false);
       },
     }),
