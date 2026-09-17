@@ -6,15 +6,14 @@ import { SynergyCard } from "@/components/suppcheck/SynergyCard";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { productImageUrl } from "@/lib/productImages";
-import { offerShipsTo, useRegion } from "@/lib/region";
-import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, priceAsOfShort, valueMetric, type Product } from "@/lib/suppcheck";
+import { offersForRegion, useRegion } from "@/lib/region";
+import { AFFILIATE_DISCLOSURE, chemicalForm, elementalPerServing, valueMetric, type Product } from "@/lib/suppcheck";
 import { useMoney } from "@/lib/market";
 
 export function ProductQuickView({ product, products }: { product: Product; products: Product[] }) {
   const { region } = useRegion();
   const money = useMoney();
-  const offers = product.merchant_offers
-    .filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region))
+  const offers = offersForRegion(product, region).offers
     .sort((a, b) => Number(a.price) - Number(b.price));
   const best = offers[0];
   const metric = valueMetric(product, best);
@@ -49,7 +48,7 @@ export function ProductQuickView({ product, products }: { product: Product; prod
             </div>
             {best ? (
               <>
-                <p className="mt-1 text-xs text-muted-foreground">{best.merchant_name} · {priceAsOfShort(best.updated_at)}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{best.merchant_name}</p>
                 {metric ? <p className="mt-2 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"><strong className="num text-foreground">{money(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? ` · ${money(metric.secondaryValue, metric.currency)} ${metric.secondaryLabel.toLowerCase()}` : ""}</p> : null}
                 <RetailerActions product={product} compact />
               </>

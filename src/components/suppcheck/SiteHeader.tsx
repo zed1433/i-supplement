@@ -7,7 +7,7 @@ import { MarketSelector } from "@/components/suppcheck/MarketSelector";
 import { useT } from "@/lib/market";
 
 export function SiteHeader() {
-  const { totalItems } = useBasket();
+  const { totalItems, openDrawer } = useBasket();
   const t = useT();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [search, setSearch] = useState("");
@@ -45,15 +45,15 @@ export function SiteHeader() {
             <GitCompareArrows className="size-3.5" />
             {t("nav.compare")}
           </Link>
-          <Link
-            to="/basket"
+          <button
+            type="button"
+            onClick={openDrawer}
             aria-label={`Basket with ${totalItems} items`}
             className="relative flex size-11 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:border-primary hover:text-primary"
-            activeProps={{ className: "text-primary border-primary/50" }}
           >
              <ShoppingBasket className="size-5" />
             {totalItems > 0 && <span className="num absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">{totalItems}</span>}
-          </Link>
+          </button>
         </nav>
       </div>
       <AffiliateNotice />

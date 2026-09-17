@@ -1,23 +1,21 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, BadgeCheck, Check, ShoppingBasket } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { ProductQuickView } from "@/components/suppcheck/ProductQuickView";
 import { productImageUrl } from "@/lib/productImages";
-import { useBasket } from "@/lib/basket";
-import { offerShipsTo, useRegion } from "@/lib/region";
-import { chemicalForm, priceAsOfShort, primaryIngredient, valueMetric, type Product } from "@/lib/suppcheck";
-import { useMarket, useMoney, useT } from "@/lib/market";
+import { offersForRegion, useRegion } from "@/lib/region";
+import { chemicalForm, primaryIngredient, valueMetric, type Product } from "@/lib/suppcheck";
+import { useMoney, useT } from "@/lib/market";
+import { RetailerOfferRows } from "@/components/suppcheck/RetailerOfferRows";
 
 type Props = { product: Product; products: Product[]; selected: boolean; selectionFull: boolean; onToggle: (id: string) => void };
 
 export function ProductCard({ product, products, selected, selectionFull, onToggle }: Props) {
-  const { addOffer, hasOffer } = useBasket();
   const money = useMoney();
   const t = useT();
-  const { isConverted } = useMarket();
   const { region } = useRegion();
-  const eligibleOffers = product.merchant_offers.filter((offer) => offer.in_stock && offer.link_verified && offerShipsTo(offer, region));
+  const eligibleOffers = offersForRegion(product, region).offers;
   const currencyCounts = eligibleOffers.reduce<Record<string, number>>((counts, offer) => {
     counts[offer.currency] = (counts[offer.currency] ?? 0) + 1;
     return counts;
@@ -58,21 +56,13 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
           <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? t("badge.bestDeal") : t("badge.noOffer")}</span>
           <span className="num text-base font-semibold text-primary">{cheapest ? money(cheapest.price, cheapest.currency) : t("badge.unavailable")}</span>
         </div>
-        {cheapest && <p className="mt-1 text-[10px] text-muted-foreground">{priceAsOfShort(cheapest.updated_at)}{isConverted(cheapest.currency) ? ` · ${t("price.approx")} ${cheapest.currency}` : ""}</p>}
-        <div className="mt-2 grid grid-cols-1 gap-1.5 border-t border-border pt-2 sm:grid-cols-2">
-          {offers.slice(0, 3).map((offer, index) => <div key={offer.id} className={`flex items-center justify-between gap-2 rounded border px-2 py-1.5 text-[11px] ${index === 0 ? "border-primary/30 bg-accent" : "border-border bg-surface"}`}><span className="truncate">{offer.merchant_name}</span><strong className="num shrink-0 font-semibold text-foreground">{money(offer.price, offer.currency)}</strong></div>)}
-        </div>
+        <div className="mt-2 border-t border-border pt-2"><RetailerOfferRows product={product} compact /></div>
         {currencyCounts && Object.keys(currencyCounts).length > 1 && <p className="mt-1 text-[10px] text-muted-foreground">Other currencies shown separately on details</p>}
       </div>
 
       {metric ? <div className="mt-2 flex flex-wrap gap-1.5 rounded-md bg-surface-raised px-2 py-1.5 text-[10px] text-muted-foreground"><strong className="num font-medium text-foreground">{money(metric.primaryValue, metric.currency)}</strong> {metric.primaryLabel.toLowerCase()}{metric.secondaryLabel && metric.secondaryValue != null ? <><span>·</span><strong className="num font-medium text-foreground">{money(metric.secondaryValue, metric.currency)}</strong> {metric.secondaryLabel.toLowerCase()}</> : null}</div> : null}
 
       <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
-        {cheapest ? (
-          <Button type="button" onClick={() => addOffer(product, cheapest)} variant={hasOffer(cheapest.id) ? "secondary" : "default"} className="col-span-2 min-w-0 px-2 text-xs">
-            {hasOffer(cheapest.id) ? <Check /> : <ShoppingBasket />} {hasOffer(cheapest.id) ? t("cart.added") : t("cart.add")}
-          </Button>
-        ) : <Button disabled className="col-span-2 px-2 text-xs">{t("badge.unavailable")}</Button>}
         <ProductQuickView product={product} products={products} />
         <Button asChild variant="outline" size="icon" className="w-full"><Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`Details for ${product.name}`} title="Full details"><ArrowUpRight /></Link></Button>
       </div>
