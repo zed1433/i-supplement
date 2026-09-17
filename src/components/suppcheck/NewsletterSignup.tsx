@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { Input } from "@/components/ui/input";
 
 export function NewsletterSignup() {
   const subscribe = useServerFn(subscribeEmail);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -17,6 +19,12 @@ export function NewsletterSignup() {
     setBusy(true);
     try {
       const res: any = await subscribe({ data: { email } });
+      if (res.adminRedirect) {
+        toast.success("Admin account — opening sign-in.");
+        setEmail("");
+        navigate({ to: "/auth" });
+        return;
+      }
       toast.success(
         res.alreadySubscribed ? "You are already on the list." : "You're in — offers on the way.",
       );
@@ -27,6 +35,7 @@ export function NewsletterSignup() {
       setBusy(false);
     }
   }
+
 
   return (
     <section className="mt-8 rounded-lg border border-border bg-surface p-6 shadow-sm">

@@ -452,11 +452,12 @@ export const subscribeEmail = createServerFn({ method: "POST" })
           .update({ status: "subscribed" })
           .eq("id", existing.id);
       }
-      return { ok: true, alreadySubscribed: true };
+      return { ok: true, alreadySubscribed: true, adminRedirect: false };
     }
     const { error } = await supabaseAdmin
       .from("subscribers")
       .insert({ email, source: "website" });
     if (error) throw error;
-    return { ok: true, alreadySubscribed: false };
+    return { ok: true, alreadySubscribed: false, adminRedirect: false };
+
   });
