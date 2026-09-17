@@ -29,6 +29,15 @@ import {
   sendTestEmail,
 } from "@/lib/automation.functions";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
+
+/** Defense-in-depth: re-sanitize stored draft HTML before rendering it in the admin DOM. */
+function safeCampaignHtml(html: string): string {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ["p", "strong", "b", "em", "i", "u", "ul", "ol", "li", "a", "br", "span", "h2", "h3"],
+    ALLOWED_ATTR: ["href"],
+    ALLOWED_URI_REGEXP: /^https:\/\//i,
+  });
+}
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
