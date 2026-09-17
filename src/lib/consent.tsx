@@ -13,7 +13,24 @@ export type ConsentState = {
   affiliate: boolean;
   analytics: boolean;
   decidedAt: string;
+  version: number;
 };
+
+/**
+ * Synchronous check used by the region and market stores, which must decide
+ * whether they may write a preference cookie before React context is ready.
+ */
+export function preferencesAllowed(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = window.localStorage.getItem(CONSENT_STORAGE_KEY);
+    if (!raw) return false;
+    const parsed = JSON.parse(raw) as Partial<ConsentState>;
+    return parsed.version === CONSENT_VERSION && Boolean(parsed.preferences);
+  } catch {
+    return false;
+  }
+}
 
 const ACCEPT_ALL: Omit<ConsentState, "decidedAt"> = {
   necessary: true,
