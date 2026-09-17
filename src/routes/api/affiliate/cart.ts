@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { amazonTagFor } from "@/lib/affiliateConfig";
 
-const AMAZON_MARKETS: Record<string, { domain: string; tag: string }> = {
-  US: { domain: "www.amazon.com", tag: "suppcheck-20" },
-  DE: { domain: "www.amazon.de", tag: "suppcheck-21" },
-  GB: { domain: "www.amazon.co.uk", tag: "suppcheck-21" },
-  BR: { domain: "www.amazon.com.br", tag: "suppcheck-20" },
-  ZA: { domain: "www.amazon.com", tag: "suppcheck-20" },
-  NG: { domain: "www.amazon.com", tag: "suppcheck-20" },
+const AMAZON_MARKETS: Record<string, { domain: string }> = {
+  US: { domain: "www.amazon.com" },
+  DE: { domain: "www.amazon.de" },
+  GB: { domain: "www.amazon.co.uk" },
+  BR: { domain: "www.amazon.com.br" },
+  ZA: { domain: "www.amazon.com" },
+  NG: { domain: "www.amazon.com" },
 };
 
 function validUuid(value: string): boolean {
