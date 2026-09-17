@@ -19,6 +19,7 @@ import {
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { ProductCard } from "@/components/suppcheck/ProductCard";
 import { NewsletterSignup } from "@/components/suppcheck/NewsletterSignup";
+import { RankingDisclosure } from "@/components/suppcheck/RankingDisclosure";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
