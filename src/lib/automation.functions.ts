@@ -428,7 +428,19 @@ export const subscribeEmail = createServerFn({ method: "POST" })
   .handler(async ({ data }: any) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const email = data.email.toLowerCase();
+
+    // Owner addresses manage the site; they never join the offers list.
+    const { data: allowlisted } = await supabaseAdmin
+      .from("admin_allowlist")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+    if (allowlisted) {
+      return { ok: true, alreadySubscribed: false, adminRedirect: true };
+    }
+
     const { data: existing } = await supabaseAdmin
+
       .from("subscribers")
       .select("id, status")
       .eq("email", email)
