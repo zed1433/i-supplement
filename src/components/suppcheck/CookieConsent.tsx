@@ -36,6 +36,7 @@ export function CookieConsent() {
   const { consent, ready, panelOpen, openPanel, closePanel, acceptAll, rejectNonEssential, save } =
     useConsent();
   const [draft, setDraft] = useState({ preferences: true, affiliate: true, analytics: false });
+  const t = useT();
 
   useEffect(() => {
     if (panelOpen) {
