@@ -108,3 +108,17 @@ export function useConsent() {
   if (!ctx) throw new Error("useConsent must be used inside ConsentProvider");
   return ctx;
 }
+
+/**
+ * Affiliate redirect URL for an offer. When the visitor has not consented to
+ * affiliate measurement, the link carries `nt=1` so the redirect omits the
+ * per-click reference.
+ */
+export function useAffiliateHref() {
+  const { consent } = useConsent();
+  const tracking = consent?.affiliate ?? false;
+  return useCallback(
+    (offerId: string) => `/api/affiliate/redirect/${offerId}${tracking ? "" : "?nt=1"}`,
+    [tracking],
+  );
+}
