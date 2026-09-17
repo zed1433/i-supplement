@@ -1,10 +1,13 @@
 import { MapPin, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { REGIONS, regionLabel, useRegion, type RegionCode } from "@/lib/region";
+import { useConsent } from "@/lib/consent";
 
 export function RegionPrompt() {
   const { suggestedRegion, showPrompt, confirmRegion, dismissPrompt } = useRegion();
-  if (!showPrompt) return null;
+  const { consent, ready } = useConsent();
+  // Ask about cookies first; the region question appears once that is answered.
+  if (!showPrompt || !ready || !consent) return null;
 
   return (
     <div className="fixed inset-x-3 bottom-20 z-50 mx-auto max-w-xl rounded-lg border border-border bg-surface p-4 shadow-xl sm:bottom-5">
