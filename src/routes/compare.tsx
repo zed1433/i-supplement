@@ -17,7 +17,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { useMoney } from "@/lib/market";
-import { productsForRegion, useRegion } from "@/lib/region";
+import { offersForRegion, productsForRegion, useRegion } from "@/lib/region";
 import { useAffiliateHref } from "@/lib/consent";
 
 type CompareSearch = { ids?: string };
@@ -163,7 +163,7 @@ function ComparePage() {
                 <Row
                   label="Comparable value"
                   cells={chosen.map((p) => {
-                    const offer = p.merchant_offers.filter((candidate) => candidate.in_stock && candidate.link_verified).sort((a, b) => Number(a.price) - Number(b.price))[0];
+                    const offer = offersForRegion(p, region).offers.sort((a, b) => Number(a.price) - Number(b.price))[0];
                     const metric = valueMetric(p, offer);
                     return (
                       <span key={p.id} className="text-xs">
@@ -230,8 +230,7 @@ function ComparePage() {
                 <Row
                   label="Lowest live merchant price"
                   cells={chosen.map((p) => {
-                    const offer = p.merchant_offers
-                      .filter((candidate) => candidate.in_stock && candidate.link_verified)
+                    const offer = offersForRegion(p, region).offers
                       .sort((a, b) => Number(a.price) - Number(b.price))[0];
                     if (!offer) return <span key={p.id}>—</span>;
                     return (

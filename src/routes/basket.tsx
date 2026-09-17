@@ -7,6 +7,7 @@ import { useBasket, type BasketItem } from "@/lib/basket";
 import { useAffiliateHref } from "@/lib/consent";
 import { AFFILIATE_DISCLOSURE, priceAsOfShort } from "@/lib/suppcheck";
 import { useMarket, useMoney } from "@/lib/market";
+import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
 
 export const Route = createFileRoute("/basket")({
   staticData: { sitemap: false },
@@ -28,7 +29,7 @@ function BasketPage() {
   const money = useMoney();
   const groups = Object.entries(
     items.reduce<Record<string, BasketItem[]>>((grouped, item) => {
-      (grouped[item.merchantName] ??= []).push(item);
+      (grouped[retailerGroupKey(item)] ??= []).push(item);
       return grouped;
     }, {}),
   ).sort(([a], [b]) => a.localeCompare(b));
@@ -56,7 +57,7 @@ function BasketPage() {
           </div>
         ) : (
           <div id="retailer-checkouts" className="mt-8 scroll-mt-36 space-y-8">
-            {groups.map(([merchant, group]) => <MerchantGroup key={merchant} merchant={merchant} items={group} removeOffer={removeOffer} setQuantity={setQuantity} />)}
+            {groups.map(([key, group]) => <MerchantGroup key={key} merchant={group[0]?.merchantName ?? "Retailer"} items={group} removeOffer={removeOffer} setQuantity={setQuantity} />)}
           </div>
         )}
       </main>
@@ -67,11 +68,8 @@ function BasketPage() {
 function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant: string; items: BasketItem[]; removeOffer: (id: string) => void; setQuantity: (id: string, quantity: number) => void }) {
   const affiliateHref = useAffiliateHref();
   const { market, money } = useMarket();
-  const isAmazon = merchant.startsWith("Amazon") && items.every((item) => item.retailerProductId);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const multiCartHref = isAmazon
-    ? `https://${market.amazonDomain}/gp/aws/cart/add.html?${items.map((item, index) => `ASIN.${index + 1}=${encodeURIComponent(item.retailerProductId)}&Quantity.${index + 1}=${item.quantity}`).join("&")}&AssociateTag=${market.amazonTag}`
-    : undefined;
+  const multiCartHref = multiCartUrl(items, market);
   const firstItem = items[0];
 
   return (
@@ -84,7 +82,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
         {multiCartHref ? (
           <Button asChild>
             <a href={multiCartHref} rel="nofollow sponsored" target="_blank">
-              View on {merchant} — {items.length} item{items.length === 1 ? "" : "s"} ready
+              Transfer all {items.length} item{items.length === 1 ? "" : "s"} to {merchant} Cart
               <ExternalLink />
             </a>
           </Button>
