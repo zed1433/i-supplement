@@ -212,7 +212,7 @@ export function renderEmail(
   const notice = testNotice
     ? `<p style="font-size:13px;color:#6b7280;margin:0 0 16px">This is a test copy sent to you only. Subscribers have not received it.</p>`
     : "";
-  const safeBody = stripExternalLinks(bodyHtml);
+  const safeBody = sanitizeCampaignHtml(stripExternalLinks(bodyHtml));
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#111827">
   <div style="max-width:560px;margin:0 auto;padding:24px">
     <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280;margin:0 0 12px">${SITE_NAME}</p>
