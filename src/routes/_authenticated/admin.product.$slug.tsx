@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { useAffiliateHref } from "@/lib/consent";
 
 type Offer = {
   id: string;
@@ -90,6 +91,7 @@ function EditProductPage() {
   const runSaveOffer = useServerFn(saveOffer);
   const runDeleteOffer = useServerFn(deleteOffer);
   const runDeleteProduct = useServerFn(deleteProduct);
+  const affiliateHref = useAffiliateHref();
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "catalog"],
@@ -373,6 +375,9 @@ function EditProductPage() {
                       value={offer.affiliate_network}
                       onChange={(e) => setOffer(offer.id, { affiliate_network: e.target.value })}
                     />
+                    <span className="mt-1 block text-[11px] text-muted-foreground">
+                      Direct retailer and referral URLs are preserved, including iHerb links.
+                    </span>
                   </label>
                   <label className="block">
                     <span className="text-xs text-muted-foreground">
@@ -446,7 +451,7 @@ function EditProductPage() {
                     </span>
                   </label>
                   <a
-                    href={offer.affiliate_target_url}
+                    href={affiliateHref(offer.id)}
                     target="_blank"
                     rel="noreferrer"
                     className="text-xs text-primary hover:underline"

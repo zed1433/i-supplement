@@ -23,13 +23,25 @@ function buildAffiliateUrl(
 ): string {
   const market = geo.country ? MARKET_TARGETS[geo.country] : undefined;
   try {
+    const targetUrl = new URL(target);
+    const targetHost = targetUrl.hostname.toLowerCase();
+
+    // A pasted iHerb product/referral URL is already the authoritative
+    // destination. Do not replace it with a generic Awin merchant wrapper.
+    if (targetHost === "iherb.com" || targetHost.endsWith(".iherb.com")) {
+      if (!targetUrl.searchParams.has("rcode")) {
+        targetUrl.searchParams.set("rcode", affiliateId("IHERB_RCODE"));
+      }
+      return targetUrl.toString();
+    }
+
     switch (network) {
       case "awin":
         return `https://www.awin1.com/cread.php?awinmid=${affiliateId("AWIN_MERCHANT_ID")}&awinaffid=${affiliateId("AWIN_PUBLISHER_ID")}${
           trackClick ? `&clickref=${encodeURIComponent(offerId)}` : ""
         }&ued=${encodeURIComponent(target)}`;
       case "amazon": {
-        const url = new URL(target);
+        const url = targetUrl;
         // Route to the shopper's regional Amazon storefront (OneLink-style handoff).
         if (market) url.hostname = market.amazonDomain;
         url.searchParams.set("tag", amazonTagFor(geo.country ?? "US"));
@@ -41,15 +53,9 @@ function buildAffiliateUrl(
           trackClick ? `&sid=${encodeURIComponent(offerId)}` : ""
         }`;
       default: {
-        const url = new URL(target);
+        const url = targetUrl;
         const host = url.hostname;
-        if (host.includes("iherb")) {
-          url.searchParams.set("rcode", affiliateId("IHERB_RCODE"));
-          if (geo.country) {
-            url.searchParams.set("country", geo.country);
-            if (geo.currency) url.searchParams.set("currency", geo.currency);
-          }
-        } else if (host.includes("myprotein")) {
+        if (host.includes("myprotein")) {
           url.searchParams.set("affil", affiliateId("MYPROTEIN_REF"));
         } else if (host.includes("bulksupplements")) {
           url.searchParams.set("ref", affiliateId("BULKSUPPLEMENTS_REF"));

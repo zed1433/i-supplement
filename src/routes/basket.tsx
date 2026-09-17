@@ -83,7 +83,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
         {cart.url ? (
           <Button asChild>
             <a href={cart.url} rel="nofollow sponsored" target="_blank">
-              Add {cart.included.length} item{cart.included.length === 1 ? "" : "s"} to {merchant} cart
+              Continue on {merchant}
               <ExternalLink />
             </a>
           </Button>
@@ -125,6 +125,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
         ))}
       </div>
       {!cart.url && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{merchant} does not provide a verified multi-item basket link, so open each product above on their site to add it to your {merchant} basket.</p>}
+      {cart.url && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">Amazon will show these items and quantities, then ask you to confirm before adding them to your Amazon basket.</p>}
       {cart.url && cart.excluded.length > 0 && (
         <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
           {cart.excluded.length} item{cart.excluded.length === 1 ? " is" : "s are"} not in that cart link yet ({cart.excluded.map((item) => item.productName).join(", ")}). Open {cart.excluded.length === 1 ? "it" : "them"} above to add {cart.excluded.length === 1 ? "it" : "them"} on {merchant}.
