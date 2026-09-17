@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { amazonTagFor } from "@/lib/affiliateConfig";
+import { amazonTagFor, loadAffiliateOverrides } from "@/lib/affiliateConfig";
 
 const AMAZON_MARKETS: Record<string, { domain: string }> = {
   US: { domain: "www.amazon.com" },
@@ -21,7 +21,9 @@ export const Route = createFileRoute("/api/affiliate/cart")({
   server: {
     handlers: {
       GET: async ({ request }) => {
+        await loadAffiliateOverrides();
         const url = new URL(request.url);
+
         const offerIds = (url.searchParams.get("offers") ?? "").split(",").filter(validUuid).slice(0, 20);
         const quantities = (url.searchParams.get("quantities") ?? "").split(",").map((value) => Math.min(20, Math.max(1, Number.parseInt(value, 10) || 1)));
         const country = (url.searchParams.get("country") ?? "US").toUpperCase();

@@ -4,6 +4,8 @@ import { FlaskConical, LogIn } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 
 export const Route = createFileRoute("/auth")({
   staticData: { sitemap: false },
@@ -21,6 +23,10 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
+  const [emailBusy, setEmailBusy] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,6 +56,32 @@ function AuthPage() {
     navigate({ to: "/admin" });
   }
 
+  async function signInWithEmail(event: React.FormEvent) {
+    event.preventDefault();
+    setEmailBusy(true);
+    setError(null);
+    setNotice(null);
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (!signInError) {
+      navigate({ to: "/admin" });
+      setEmailBusy(false);
+      return;
+    }
+    if (signInError.message.toLowerCase().includes("invalid login credentials")) {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
+      });
+      if (signUpError) setError(signUpError.message);
+      else if (!data.session) setNotice("Check your email to confirm the account, then sign in.");
+      else navigate({ to: "/admin" });
+    } else {
+      setError(signInError.message);
+    }
+    setEmailBusy(false);
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm rounded-lg border border-border bg-surface p-8 text-center">
@@ -58,13 +90,39 @@ function AuthPage() {
         </span>
         <h1 className="mt-4 font-display text-xl font-semibold">i-Supplement Admin</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Sign in with the site owner's Google account to manage the catalogue and affiliate
-          links.
+          Sign in with the site owner's account to manage the catalogue and affiliate links.
         </p>
         <Button onClick={signIn} disabled={busy} className="mt-6 w-full">
           <LogIn className="size-4" />
           {busy ? "Redirecting to Google…" : "Sign in with Google"}
         </Button>
+
+        <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="h-px flex-1 bg-border" /> or email <span className="h-px flex-1 bg-border" />
+        </div>
+
+        <form onSubmit={signInWithEmail} className="space-y-2 text-left">
+          <Input
+            type="email"
+            required
+            placeholder="you@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <Input
+            type="password"
+            required
+            minLength={8}
+            placeholder="Password (min 8 characters)"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <Button type="submit" variant="outline" disabled={emailBusy} className="w-full">
+            {emailBusy ? "Signing in…" : "Continue with email"}
+          </Button>
+        </form>
+
+        {notice && <p className="mt-3 text-sm text-muted-foreground">{notice}</p>}
         {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
         <Link to="/" className="mt-4 inline-block text-xs text-muted-foreground hover:text-foreground">
           Back to catalogue
@@ -73,3 +131,4 @@ function AuthPage() {
     </div>
   );
 }
+

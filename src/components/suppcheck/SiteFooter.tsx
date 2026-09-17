@@ -54,7 +54,11 @@ export function SiteFooter() {
           <Link to="/contact" className="text-muted-foreground hover:text-foreground">
             {t("footer.contact")}
           </Link>
+          <Link to="/auth" className="text-muted-foreground hover:text-foreground">
+            Admin
+          </Link>
           <button
+
             type="button"
             onClick={openPanel}
             className="text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"

@@ -45,17 +45,54 @@ function programme(key: AffiliateProgrammeKey): AffiliateProgramme {
   return AFFILIATE_PROGRAMMES.find((p) => p.key === key)!;
 }
 
-/** Configured identifier, falling back to the demo value. Server-side only. */
+/** Settings-table prefix used for saved affiliate identifiers. */
+export const AFFILIATE_SETTING_PREFIX = "affiliate.";
+
+let overrides: Partial<Record<AffiliateProgrammeKey, string>> = {};
+let overridesLoadedAt = 0;
+const OVERRIDES_TTL_MS = 60_000;
+
+/**
+ * Load admin-saved identifiers from app_settings into the in-process cache.
+ * Call once at the start of a server handler before reading identifiers.
+ */
+export async function loadAffiliateOverrides(force = false): Promise<void> {
+  if (!force && Date.now() - overridesLoadedAt < OVERRIDES_TTL_MS) return;
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data } = await supabaseAdmin
+      .from("app_settings")
+      .select("key, value")
+      .like("key", `${AFFILIATE_SETTING_PREFIX}%`);
+    const next: Partial<Record<AffiliateProgrammeKey, string>> = {};
+    for (const row of data ?? []) {
+      const key = row.key.slice(AFFILIATE_SETTING_PREFIX.length) as AffiliateProgrammeKey;
+      if (row.value && row.value.trim()) next[key] = row.value.trim();
+    }
+    overrides = next;
+    overridesLoadedAt = Date.now();
+  } catch {
+    // Keep whatever we already have; demo/env values still produce working links.
+  }
+}
+
+/**
+ * Configured identifier: admin-saved value, then environment variable, then the
+ * demo default. Server-side only.
+ */
 export function affiliateId(key: AffiliateProgrammeKey): string {
+  const saved = overrides[key];
+  if (saved && saved.trim()) return saved.trim();
   const configured = process.env[key];
   return configured && configured.trim() ? configured.trim() : programme(key).demo;
 }
 
 /** True while the programme still runs on its demo identifier. */
 export function isDemoIdentifier(key: AffiliateProgrammeKey): boolean {
-  const configured = process.env[key];
-  return !configured || !configured.trim() || configured.trim() === programme(key).demo;
+  const value = affiliateId(key);
+  return value === programme(key).demo;
 }
+
 
 /** Amazon Associates tag for a shopper country. */
 export function amazonTagFor(country: string): string {

@@ -27,6 +27,7 @@ import { Route as AuthenticatedAdminCampaignsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminFeedsRouteImport } from './routes/_authenticated/admin.feeds'
 import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenticated/admin.import'
 import { Route as AuthenticatedAdminPeopleRouteImport } from './routes/_authenticated/admin.people'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as ApiAffiliateCartRouteImport } from './routes/api/affiliate/cart'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
@@ -126,6 +127,12 @@ const AuthenticatedAdminPeopleRoute =
     path: '/people',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const ApiAffiliateCartRoute = ApiAffiliateCartRouteImport.update({
   id: '/api/affiliate/cart',
   path: '/api/affiliate/cart',
@@ -176,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -200,6 +208,7 @@ export interface FileRoutesByTo {
   '/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/admin/import': typeof AuthenticatedAdminImportRoute
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -227,6 +236,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/feeds': typeof AuthenticatedAdminFeedsRoute
   '/_authenticated/admin/import': typeof AuthenticatedAdminImportRoute
   '/_authenticated/admin/people': typeof AuthenticatedAdminPeopleRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/admin/feeds'
     | '/admin/import'
     | '/admin/people'
+    | '/admin/settings'
     | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/admin/'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/admin/feeds'
     | '/admin/import'
     | '/admin/people'
+    | '/admin/settings'
     | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/admin'
@@ -304,6 +316,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/feeds'
     | '/_authenticated/admin/import'
     | '/_authenticated/admin/people'
+    | '/_authenticated/admin/settings'
     | '/api/affiliate/cart'
     | '/api/public/unsubscribe'
     | '/_authenticated/admin/'
@@ -461,6 +474,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPeopleRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/affiliate/cart': {
       id: '/api/affiliate/cart'
       path: '/api/affiliate/cart'
@@ -511,6 +531,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminFeedsRoute: typeof AuthenticatedAdminFeedsRoute
   AuthenticatedAdminImportRoute: typeof AuthenticatedAdminImportRoute
   AuthenticatedAdminPeopleRoute: typeof AuthenticatedAdminPeopleRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProductSlugRoute: typeof AuthenticatedAdminProductSlugRoute
 }
@@ -520,6 +541,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminFeedsRoute: AuthenticatedAdminFeedsRoute,
   AuthenticatedAdminImportRoute: AuthenticatedAdminImportRoute,
   AuthenticatedAdminPeopleRoute: AuthenticatedAdminPeopleRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProductSlugRoute: AuthenticatedAdminProductSlugRoute,
 }
