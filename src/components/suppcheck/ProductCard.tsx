@@ -30,14 +30,16 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
 
   return (
     <article className={`group flex h-full flex-col rounded-lg border bg-surface p-3 transition-shadow hover:shadow-md ${selected ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
-      <div className="relative grid grid-cols-[96px_minmax(0,1fr)] items-start gap-3 sm:block">
-        <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
-          <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
-        </Link>
-        <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-2 top-2 size-11 shadow-sm">
-          <Check />
-        </Button>
-        <div className="min-w-0 pr-12 sm:pr-0">
+      <div className="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-3 sm:block">
+        <div className="relative">
+          <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
+            <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
+          </Link>
+          <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-1 top-1 size-9 shadow-sm sm:right-2 sm:top-2 sm:size-11">
+            <Check />
+          </Button>
+        </div>
+        <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase text-primary sm:mt-3">{category}</p>
           <p className="mt-1 text-[11px] text-muted-foreground">{product.brands.name}</p>
           <Link to="/products/$slug" params={{ slug: product.slug }} className="mt-1 block font-display text-base font-semibold leading-snug hover:text-primary sm:line-clamp-2 sm:min-h-11">
