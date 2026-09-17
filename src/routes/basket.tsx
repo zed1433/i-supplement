@@ -7,7 +7,7 @@ import { useBasket, type BasketItem } from "@/lib/basket";
 import { useAffiliateHref, useConsent } from "@/lib/consent";
 import { AFFILIATE_DISCLOSURE, priceAsOfShort } from "@/lib/suppcheck";
 import { useMarket, useMoney } from "@/lib/market";
-import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
+import { multiCart, retailerGroupKey } from "@/lib/retailerCart";
 
 export const Route = createFileRoute("/basket")({
   staticData: { sitemap: false },
@@ -70,7 +70,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
   const { market, money } = useMarket();
   const { consent } = useConsent();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const multiCartHref = multiCartUrl(items, market, consent?.affiliate ?? false);
+  const cart = multiCart(items, market, consent?.affiliate ?? false);
   const firstItem = items[0];
 
   return (
@@ -80,10 +80,10 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
           <h2 className="text-xl font-semibold">{merchant}</h2>
           <p className="num mt-1 text-xs text-muted-foreground">Estimated items total {money(total, items[0]?.currency ?? "EUR")}</p>
         </div>
-        {multiCartHref ? (
+        {cart.url ? (
           <Button asChild>
-            <a href={multiCartHref} rel="nofollow sponsored" target="_blank">
-              Transfer all {items.length} item{items.length === 1 ? "" : "s"} to {merchant} Cart
+            <a href={cart.url} rel="nofollow sponsored" target="_blank">
+              Add {cart.included.length} item{cart.included.length === 1 ? "" : "s"} to {merchant} cart
               <ExternalLink />
             </a>
           </Button>
@@ -124,7 +124,12 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
           </div>
         ))}
       </div>
-      {!multiCartHref && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{merchant} does not provide a verified multi-item basket link, so open each product above on their site to add it to your {merchant} basket.</p>}
+      {!cart.url && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{merchant} does not provide a verified multi-item basket link, so open each product above on their site to add it to your {merchant} basket.</p>}
+      {cart.url && cart.excluded.length > 0 && (
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          {cart.excluded.length} item{cart.excluded.length === 1 ? " is" : "s are"} not in that cart link yet ({cart.excluded.map((item) => item.productName).join(", ")}). Open {cart.excluded.length === 1 ? "it" : "them"} above to add {cart.excluded.length === 1 ? "it" : "them"} on {merchant}.
+        </p>
+      )}
     </section>
   );
 }

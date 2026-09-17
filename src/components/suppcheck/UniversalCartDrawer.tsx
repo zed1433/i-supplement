@@ -6,7 +6,7 @@ import { ProductImage } from "@/components/suppcheck/ProductImage";
 import { useBasket, type BasketItem } from "@/lib/basket";
 import { useAffiliateHref, useConsent } from "@/lib/consent";
 import { useMarket, useMoney } from "@/lib/market";
-import { multiCartUrl, retailerGroupKey } from "@/lib/retailerCart";
+import { multiCart, retailerGroupKey } from "@/lib/retailerCart";
 import { AFFILIATE_DISCLOSURE } from "@/lib/suppcheck";
 
 export function UniversalCartDrawer() {
@@ -31,15 +31,17 @@ export function UniversalCartDrawer() {
           {!items.length && <div className="py-16 text-center"><ShoppingBasket className="mx-auto size-9 text-muted-foreground" /><p className="mt-3 text-sm text-muted-foreground">Your Universal Cart is empty.</p></div>}
           {groups.map((group) => {
             const merchant = group[0]?.merchantName ?? "Retailer";
-            const groupedHref = multiCartUrl(group, market, consent?.affiliate ?? false);
+            const cart = multiCart(group, market, consent?.affiliate ?? false);
+            const groupedHref = cart.url;
             const total = group.reduce((sum, item) => sum + item.price * item.quantity, 0);
             return (
               <section key={retailerGroupKey(group[0] as BasketItem)} className="rounded-lg border border-border bg-surface p-3">
-                <div className="flex items-start justify-between gap-3"><div><h3 className="text-sm font-semibold">{merchant} Cart ({group.length} item{group.length === 1 ? "" : "s"})</h3><p className="num mt-1 text-xs text-muted-foreground">{money(total, group[0]?.currency)}</p></div>{groupedHref && <Button asChild size="sm"><a href={groupedHref} rel="nofollow sponsored" target="_blank">Transfer all <ExternalLink /></a></Button>}</div>
+                <div className="flex items-start justify-between gap-3"><div><h3 className="text-sm font-semibold">{merchant} Cart ({group.length} item{group.length === 1 ? "" : "s"})</h3><p className="num mt-1 text-xs text-muted-foreground">{money(total, group[0]?.currency)}</p></div>{groupedHref && <Button asChild size="sm"><a href={groupedHref} rel="nofollow sponsored" target="_blank">Add {cart.included.length} to cart <ExternalLink /></a></Button>}</div>
                 <div className="mt-3 divide-y divide-border border-y border-border">
                   {group.map((item) => <div key={item.offerId} className="grid grid-cols-[48px_minmax(0,1fr)] gap-3 py-3"><ProductImage src={item.imageUrl} alt={item.productName} brand={item.brandName} className="size-12" /><div className="min-w-0"><p className="truncate text-sm font-medium">{item.productName}</p><p className="num text-xs text-primary">{money(item.price, item.currency)}</p><div className="mt-2 flex items-center justify-between"><div className="flex min-h-11 items-center rounded-md border border-border"><Button size="icon" variant="ghost" aria-label="Decrease quantity" onClick={() => setQuantity(item.offerId, item.quantity - 1)}><Minus /></Button><span className="num w-6 text-center text-xs">{item.quantity}</span><Button size="icon" variant="ghost" aria-label="Increase quantity" onClick={() => setQuantity(item.offerId, item.quantity + 1)}><Plus /></Button></div><div className="flex gap-1"><Button asChild size="icon" variant="outline"><a href={affiliateHref(item.offerId)} rel="nofollow sponsored" target="_blank" aria-label={`Open ${item.productName} on ${merchant}`}><ExternalLink /></a></Button><Button size="icon" variant="ghost" aria-label={`Remove ${item.productName}`} onClick={() => removeOffer(item.offerId)}><Trash2 /></Button></div></div></div></div>)}
                 </div>
                 {!groupedHref && <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground">A verified multi-item cart is unavailable for this group. Open each product above to add it on {merchant}.</p>}
+                {groupedHref && cart.excluded.length > 0 && <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground">{cart.excluded.length} item{cart.excluded.length === 1 ? "" : "s"} can’t join that cart link yet — open {cart.excluded.length === 1 ? "it" : "them"} above on {merchant}.</p>}
               </section>
             );
           })}
