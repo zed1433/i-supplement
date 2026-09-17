@@ -74,6 +74,7 @@ function ComparePage() {
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
           Value uses verified package data: cost per serving for standard products and weight-based pricing for bulk powders.
         </p>
+        <RankingDisclosure className="mt-4 max-w-3xl" />
 
         <div className="mt-6 flex flex-wrap gap-3">
           {Array.from({ length: slots }).map((_, i) => (

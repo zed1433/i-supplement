@@ -404,6 +404,7 @@ function HomePage() {
           </div>
         </aside>
         <section className="min-w-0">
+        <RankingDisclosure className="mb-4" />
         {showingGlobalFallback && <p className="mb-4 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-warning-foreground">{t("inventory.global")}</p>}
         <div className="flex items-center justify-between border-b border-border pb-4">
           <p className="num text-xs text-muted-foreground">
