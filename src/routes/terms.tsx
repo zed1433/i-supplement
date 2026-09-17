@@ -126,6 +126,22 @@ function TermsPage() {
           </section>
 
           <section>
+            <h2 className="text-base font-semibold text-foreground">Complaints and dispute resolution</h2>
+            <p className="mt-2">
+              Please email us first — we aim to resolve complaints within 14 days. If you are a
+              consumer in the EU and we cannot settle it, you may refer the matter to the Greek
+              Consumer Ombudsman (Συνήγορος του Καταναλωτή, consumer-ombudsman.gr) or to the
+              consumer protection authority where you live. Complaints about a purchase, delivery or
+              refund must be raised with the retailer, since the contract is with them.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground">Who we are</h2>
+            <p className="mt-2">{OPERATOR_IDENTITY}</p>
+          </section>
+
+          <section>
             <h2 className="text-base font-semibold text-foreground">Contact</h2>
             <p className="mt-2">
                {OPERATOR_CONTACT}. Questions about these terms:{" "}
