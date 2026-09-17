@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { BadgeCheck, FileUp, LogOut, Mail, Pencil, RefreshCw, Users } from "lucide-react";
 import { bootstrapAdmin, getAdminCatalog } from "@/lib/admin.functions";
+import { getAffiliateIdStatus } from "@/lib/affiliate.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,14 @@ function AdminPage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin", "catalog"],
     queryFn: fetchCatalog,
+    enabled: !!boot?.admin,
+    retry: false,
+  });
+
+  const fetchAffiliateIds = useServerFn(getAffiliateIdStatus);
+  const { data: affiliateIds } = useQuery({
+    queryKey: ["admin", "affiliate-ids"],
+    queryFn: fetchAffiliateIds,
     enabled: !!boot?.admin,
     retry: false,
   });
