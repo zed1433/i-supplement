@@ -1,19 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
-
-const AWIN_MERCHANT_ID = "12345";
-const AWIN_PUBLISHER_ID = "suppcheck";
-const AMAZON_TAG = "suppcheck-21";
-const LINKWISE_ID = "suppcheck-gr";
+import { affiliateId, amazonTagFor } from "@/lib/affiliateConfig";
 
 /** Geo handoff table: only these markets are accepted from the query string. */
-const MARKET_TARGETS: Record<string, { amazonDomain: string; amazonTag: string; currency: string }> = {
-  US: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "USD" },
-  GB: { amazonDomain: "www.amazon.co.uk", amazonTag: "suppcheck-21", currency: "GBP" },
-  DE: { amazonDomain: "www.amazon.de", amazonTag: "suppcheck-21", currency: "EUR" },
-  BR: { amazonDomain: "www.amazon.com.br", amazonTag: "suppcheck-20", currency: "BRL" },
-  ZA: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "ZAR" },
-  NG: { amazonDomain: "www.amazon.com", amazonTag: "suppcheck-20", currency: "NGN" },
+const MARKET_TARGETS: Record<string, { amazonDomain: string; currency: string }> = {
+  US: { amazonDomain: "www.amazon.com", currency: "USD" },
+  GB: { amazonDomain: "www.amazon.co.uk", currency: "GBP" },
+  DE: { amazonDomain: "www.amazon.de", currency: "EUR" },
+  BR: { amazonDomain: "www.amazon.com.br", currency: "BRL" },
+  ZA: { amazonDomain: "www.amazon.com", currency: "ZAR" },
+  NG: { amazonDomain: "www.amazon.com", currency: "NGN" },
 };
 
 type Geo = { country?: string | undefined; currency?: string | undefined };
