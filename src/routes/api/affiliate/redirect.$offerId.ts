@@ -6,23 +6,28 @@ const AWIN_PUBLISHER_ID = "suppcheck";
 const AMAZON_TAG = "suppcheck-21";
 const LINKWISE_ID = "suppcheck-gr";
 
-function buildAffiliateUrl(network: string, target: string, offerId: string): string {
+function buildAffiliateUrl(
+  network: string,
+  target: string,
+  offerId: string,
+  trackClick = true,
+): string {
   try {
     switch (network) {
       case "awin":
-        return `https://www.awin1.com/cread.php?awinmid=${AWIN_MERCHANT_ID}&awinaffid=${AWIN_PUBLISHER_ID}&clickref=${encodeURIComponent(
-          offerId,
-        )}&ued=${encodeURIComponent(target)}`;
+        return `https://www.awin1.com/cread.php?awinmid=${AWIN_MERCHANT_ID}&awinaffid=${AWIN_PUBLISHER_ID}${
+          trackClick ? `&clickref=${encodeURIComponent(offerId)}` : ""
+        }&ued=${encodeURIComponent(target)}`;
       case "amazon": {
         const url = new URL(target);
         url.searchParams.set("tag", AMAZON_TAG);
-        url.searchParams.set("ascsubtag", offerId);
+        if (trackClick) url.searchParams.set("ascsubtag", offerId);
         return url.toString();
       }
       case "linkwise":
-        return `https://go.linkwi.se/z/${LINKWISE_ID}/ct/?url=${encodeURIComponent(
-          target,
-        )}&sid=${encodeURIComponent(offerId)}`;
+        return `https://go.linkwi.se/z/${LINKWISE_ID}/ct/?url=${encodeURIComponent(target)}${
+          trackClick ? `&sid=${encodeURIComponent(offerId)}` : ""
+        }`;
       default: {
         const url = new URL(target);
         url.searchParams.set("ref", "suppcheck");

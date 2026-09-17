@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { AFFILIATE_DISCLOSURE, MEDICAL_DISCLAIMER, SUPPORT_EMAIL } from "@/lib/suppcheck";
+import { useConsent } from "@/lib/consent";
 
 export function SiteFooter() {
+  const { openPanel } = useConsent();
   return (
     <footer className="mt-16 border-t border-border bg-surface pb-20 md:pb-0">
       <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
@@ -53,6 +55,13 @@ export function SiteFooter() {
           >
             Contact
           </a>
+          <button
+            type="button"
+            onClick={openPanel}
+            className="text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+          >
+            Cookie settings
+          </button>
           <span className="text-muted-foreground/70">
             © {new Date().getFullYear()} i-Supplement
           </span>

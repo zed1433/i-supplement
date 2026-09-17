@@ -16,6 +16,8 @@ import { RegionProvider } from "@/lib/region";
 import { SiteFooter } from "@/components/suppcheck/SiteFooter";
 import { RegionPrompt } from "@/components/suppcheck/RegionPrompt";
 import { MobileBasketBar } from "@/components/suppcheck/MobileBasketBar";
+import { ConsentProvider } from "@/lib/consent";
+import { CookieConsent } from "@/components/suppcheck/CookieConsent";
 
 function NotFoundComponent() {
   return (
@@ -137,15 +139,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RegionProvider>
-        <BasketProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <SiteFooter />
-          <RegionPrompt />
-          <MobileBasketBar />
-        </BasketProvider>
-      </RegionProvider>
+      <ConsentProvider>
+        <RegionProvider>
+          <BasketProvider>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+            <SiteFooter />
+            <RegionPrompt />
+            <MobileBasketBar />
+            <CookieConsent />
+          </BasketProvider>
+        </RegionProvider>
+      </ConsentProvider>
     </QueryClientProvider>
   );
 }
