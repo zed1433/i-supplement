@@ -70,7 +70,7 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
   const { market, money } = useMarket();
   const { consent } = useConsent();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const multiCartHref = multiCartUrl(items, market, consent?.affiliate ?? false);
+  const cart = multiCart(items, market, consent?.affiliate ?? false);
   const firstItem = items[0];
 
   return (
@@ -80,10 +80,10 @@ function MerchantGroup({ merchant, items, removeOffer, setQuantity }: { merchant
           <h2 className="text-xl font-semibold">{merchant}</h2>
           <p className="num mt-1 text-xs text-muted-foreground">Estimated items total {money(total, items[0]?.currency ?? "EUR")}</p>
         </div>
-        {multiCartHref ? (
+        {cart.url ? (
           <Button asChild>
-            <a href={multiCartHref} rel="nofollow sponsored" target="_blank">
-              Transfer all {items.length} item{items.length === 1 ? "" : "s"} to {merchant} Cart
+            <a href={cart.url} rel="nofollow sponsored" target="_blank">
+              Add {cart.included.length} item{cart.included.length === 1 ? "" : "s"} to {merchant} cart
               <ExternalLink />
             </a>
           </Button>
