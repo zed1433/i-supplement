@@ -456,7 +456,7 @@ function HomePage() {
         </div>
 
         {isLoading && (
-          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="h-64 animate-pulse rounded-lg border border-border bg-surface" />
             ))}
@@ -473,7 +473,7 @@ function HomePage() {
         )}
 
         {!isLoading && !error && (
-           <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <AnimatePresence initial={false} mode="popLayout">
               {filtered.map((p) => (
                 <motion.div

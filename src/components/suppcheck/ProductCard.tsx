@@ -30,20 +30,23 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
 
   return (
     <article className={`group flex h-full flex-col rounded-lg border bg-surface p-3 transition-shadow hover:shadow-md ${selected ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
-      <div className="relative">
-        <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`}>
-          <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
-        </Link>
-        <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-2 top-2 size-11 shadow-sm">
-          <Check />
-        </Button>
+      <div className="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-3 sm:block">
+        <div className="relative">
+          <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
+            <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
+          </Link>
+          <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-1 top-1 size-9 shadow-sm sm:right-2 sm:top-2 sm:size-11">
+            <Check />
+          </Button>
+        </div>
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase text-primary sm:mt-3">{category}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{product.brands.name}</p>
+          <Link to="/products/$slug" params={{ slug: product.slug }} className="mt-1 block font-display text-base font-semibold leading-snug hover:text-primary sm:line-clamp-2 sm:min-h-11">
+            {product.name}
+          </Link>
+        </div>
       </div>
-
-      <p className="mt-3 text-[10px] font-semibold uppercase text-primary">{category}</p>
-      <p className="mt-1 text-[11px] text-muted-foreground">{product.brands.name}</p>
-      <Link to="/products/$slug" params={{ slug: product.slug }} className="mt-1 line-clamp-2 min-h-11 font-display text-sm font-semibold leading-snug hover:text-primary sm:text-base">
-        {product.name}
-      </Link>
 
       <div className="mt-2 flex flex-wrap gap-1.5">
         <span className="rounded-full border border-border bg-surface-raised px-2 py-1 text-[10px] text-muted-foreground">{chemicalForm(product)} · {primaryIngredient(product)?.bioavailability_score ?? product.form}</span>
@@ -52,11 +55,8 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
       </div>
 
       <div className="mt-3 rounded-md border border-border bg-background p-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${cheapest ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{cheapest ? t("badge.bestDeal") : t("badge.noOffer")}</span>
-          <span className="num text-base font-semibold text-primary">{cheapest ? money(cheapest.price, cheapest.currency) : t("badge.unavailable")}</span>
-        </div>
-        <div className="mt-2 border-t border-border pt-2"><RetailerOfferRows product={product} compact /></div>
+        <p className="mb-2 text-[10px] font-semibold uppercase text-muted-foreground">Purchase options</p>
+        <RetailerOfferRows product={product} compact />
         {currencyCounts && Object.keys(currencyCounts).length > 1 && <p className="mt-1 text-[10px] text-muted-foreground">Other currencies shown separately on details</p>}
       </div>
 
@@ -64,9 +64,8 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
 
       <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
         <ProductQuickView product={product} products={products} />
-        <Button asChild variant="outline" size="icon" className="w-full"><Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`Details for ${product.name}`} title="Full details"><ArrowUpRight /></Link></Button>
+        <Button asChild variant="outline" size="icon" className="w-full px-2"><Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`Details for ${product.name}`} title="Full details"><span className="sm:hidden">Full details</span><ArrowUpRight /></Link></Button>
       </div>
-      <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground">Groups your selected offers by retailer, then sends you to each retailer checkout through affiliate links.</p>
     </article>
   );
 }
