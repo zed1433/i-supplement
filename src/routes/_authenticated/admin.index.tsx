@@ -103,6 +103,51 @@ function AdminPage() {
           </div>
         )}
 
+        {affiliateIds && affiliateIds.length > 0 && (
+          <section className="mt-6 rounded-lg border border-border bg-surface p-4">
+            <h2 className="text-sm font-semibold">Retailer affiliate identifiers</h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Each programme below runs on a demo identifier until its environment variable is set.
+              Links stay live either way — a demo identifier simply earns no commission. Set the
+              named variable in project secrets to go live.
+            </p>
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b border-border text-left uppercase tracking-wider text-muted-foreground">
+                    <th className="py-2 pr-3">Retailer</th>
+                    <th className="py-2 pr-3">Identifier</th>
+                    <th className="py-2 pr-3">Variable</th>
+                    <th className="py-2 pr-3">Value</th>
+                    <th className="py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {affiliateIds.map((row) => (
+                    <tr key={row.key} className="border-b border-border last:border-0">
+                      <td className="py-2 pr-3 font-medium">{row.retailer}</td>
+                      <td className="py-2 pr-3 text-muted-foreground">{row.label}</td>
+                      <td className="py-2 pr-3 font-mono text-[11px]">{row.key}</td>
+                      <td className="py-2 pr-3 font-mono text-[11px]">{row.preview}</td>
+                      <td className="py-2">
+                        <span
+                          className={`rounded border px-2 py-0.5 ${
+                            row.demo
+                              ? "border-warning/40 bg-warning/10 text-warning-foreground"
+                              : "border-primary/40 bg-primary/10 text-primary"
+                          }`}
+                        >
+                          {row.demo ? "Demo tracking" : "Live"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
         {isLoading && <p className="mt-8 text-sm text-muted-foreground">Loading catalogue…</p>}
         {error && (
           <p className="mt-8 text-sm text-destructive">
