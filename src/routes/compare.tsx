@@ -18,6 +18,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { productsForRegion, useRegion } from "@/lib/region";
+import { useAffiliateHref } from "@/lib/consent";
 
 type CompareSearch = { ids?: string };
 
@@ -47,6 +48,7 @@ export const Route = createFileRoute("/compare")({
 });
 
 function ComparePage() {
+  const affiliateHref = useAffiliateHref();
   const { ids } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { data: products, isLoading } = useQuery(productsQuery);

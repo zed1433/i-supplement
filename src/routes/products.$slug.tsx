@@ -32,6 +32,7 @@ import {
   type Product,
 } from "@/lib/suppcheck";
 import { offerShipsTo, useRegion, type RegionCode } from "@/lib/region";
+import { useAffiliateHref } from "@/lib/consent";
 
 export const Route = createFileRoute("/products/$slug")({
   staticData: { sitemap: true },
@@ -62,6 +63,7 @@ export const Route = createFileRoute("/products/$slug")({
 });
 
 function ProductPage() {
+  const affiliateHref = useAffiliateHref();
   const { slug } = Route.useParams();
   const { data: product, isLoading } = useQuery(productQuery(slug));
   const { data: allProducts } = useQuery(productsQuery);
