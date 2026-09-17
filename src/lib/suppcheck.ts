@@ -255,8 +255,6 @@ export const OPERATOR_NAME = "i-Supplement";
 export const OPERATOR_LOCATION = "Athens, Greece";
 export const OPERATOR_CONTACT = `Operated by ${OPERATOR_NAME} (${OPERATOR_LOCATION}). Support: ${SUPPORT_EMAIL}`;
 
-export const SUPPORT_EMAIL = "isupplementsofficial@gmail.com";
-
 export const FORM_FILTERS = [
   "Bisglycinate",
   "Glycinate",
