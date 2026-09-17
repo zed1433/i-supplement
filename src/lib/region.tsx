@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { MerchantOffer, Product } from "@/lib/suppcheck";
+import { preferencesAllowed } from "@/lib/consent";
 
 export type RegionCode = "ALL" | "GR" | "DE" | "EU" | "UK" | "US" | "BR" | "ZA" | "NG";
 

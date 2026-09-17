@@ -1,3 +1,4 @@
+import { preferencesAllowed } from "@/lib/consent";
 import {
   createContext,
   useCallback,
