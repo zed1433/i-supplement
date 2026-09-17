@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
-import { affiliateId, amazonTagFor } from "@/lib/affiliateConfig";
+import { affiliateId, amazonTagFor, loadAffiliateOverrides } from "@/lib/affiliateConfig";
 
 /** Geo handoff table: only these markets are accepted from the query string. */
 const MARKET_TARGETS: Record<string, { amazonDomain: string; currency: string }> = {
@@ -69,8 +69,10 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
   server: {
     handlers: {
       GET: async ({ params, request }) => {
+        await loadAffiliateOverrides();
         const query = new URL(request.url).searchParams;
         const trackClick = query.get("nt") !== "1";
+
         const countryParam = (query.get("country") ?? "").toUpperCase();
         const currencyParam = (query.get("currency") ?? "").toUpperCase();
         const geo = {
