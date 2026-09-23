@@ -26,3 +26,6 @@
 - [x] Rework phone catalogue cards for complete names and readable retailer choices
 
 - Added five staple comparison pages (creatine, whey isolate, magnesium, D3+K2, omega-3) with buying guides, desktop tables, phone cards, retailer offers and SEO metadata.
+- [ ] Upgrade the 50 imported iHerb products with high-resolution front, gallery, and readable label photos
+- [x] Add mobile/desktop product card carousels and full product-page galleries with zoom
+- [ ] Add owner controls for reviewing, reordering, replacing, and removing product photos

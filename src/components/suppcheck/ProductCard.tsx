@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BadgeCheck, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/suppcheck/ProductImage";
+import { ProductCardGallery } from "@/components/suppcheck/ProductGallery";
 import { ProductQuickView } from "@/components/suppcheck/ProductQuickView";
 import { productImageUrl } from "@/lib/productImages";
 import { offersForRegion, useRegion } from "@/lib/region";
@@ -33,7 +34,7 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
       <div className="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-3 sm:block">
         <div className="relative">
           <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
-            <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
+            {product.product_images?.length > 1 ? <ProductCardGallery product={product} /> : <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />}
           </Link>
           <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-1 top-1 size-9 shadow-sm sm:right-2 sm:top-2 sm:size-11">
             <Check />

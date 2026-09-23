@@ -46,6 +46,18 @@ export type MerchantOffer = {
   updated_at: string;
 };
 
+export type ProductImageRecord = {
+  id: string;
+  image_url: string;
+  image_type: "front" | "label" | "back" | "gallery";
+  display_order: number;
+  source: string;
+  alt_text: string;
+  width: number | null;
+  height: number | null;
+  is_primary: boolean;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -69,6 +81,7 @@ export type Product = {
   brands: Brand;
   product_ingredients: ProductIngredient[];
   merchant_offers: MerchantOffer[];
+  product_images: ProductImageRecord[];
 };
 
 const PRODUCT_SELECT = `
@@ -87,6 +100,9 @@ const PRODUCT_SELECT = `
     id, merchant_name, country_flag, affiliate_network, price, currency,
     shipping_cost, estimated_delivery, affiliate_target_url, retailer_product_id,
     link_verified, link_verified_at, in_stock, ships_to, updated_at
+  ),
+  product_images (
+    id, image_url, image_type, display_order, source, alt_text, width, height, is_primary
   )
 `;
 
