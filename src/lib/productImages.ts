@@ -62,8 +62,35 @@ export function fallbackProductImage(slug: string): string {
 export function productImageUrl(product: {
   slug: string;
   image_url?: string | null;
+  product_images?: ProductImageRecord[];
 }): string {
-  return product.image_url?.trim() || fallbackProductImage(product.slug);
+  return galleryImages(product)[0]?.image_url || fallbackProductImage(product.slug);
+}
+
+export type ProductImageRecord = {
+  id: string;
+  image_url: string;
+  image_type: "front" | "label" | "back" | "gallery";
+  display_order: number;
+  source: string;
+  alt_text: string;
+  width: number | null;
+  height: number | null;
+  is_primary: boolean;
+};
+
+export function galleryImages(product: {
+  slug: string;
+  image_url?: string | null;
+  image_source?: string | null;
+  product_images?: ProductImageRecord[];
+}): ProductImageRecord[] {
+  const saved = [...(product.product_images ?? [])]
+    .filter((image) => image.image_url.trim())
+    .sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.display_order - b.display_order);
+  if (saved.length) return saved;
+  const fallback = product.image_url?.trim() || fallbackProductImage(product.slug);
+  return fallback ? [{ id: `legacy-${product.slug}`, image_url: fallback, image_type: "front", display_order: 0, source: product.image_source ?? "", alt_text: "", width: null, height: null, is_primary: true }] : [];
 }
 
 export function isIllustrativeImage(product: {

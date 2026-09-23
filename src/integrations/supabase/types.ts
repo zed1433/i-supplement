@@ -371,6 +371,59 @@ export type Database = {
           },
         ]
       }
+      product_images: {
+        Row: {
+          alt_text: string
+          created_at: string
+          display_order: number
+          height: number | null
+          id: string
+          image_type: string
+          image_url: string
+          is_primary: boolean
+          product_id: string
+          source: string
+          updated_at: string
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string
+          created_at?: string
+          display_order?: number
+          height?: number | null
+          id?: string
+          image_type?: string
+          image_url: string
+          is_primary?: boolean
+          product_id: string
+          source?: string
+          updated_at?: string
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string
+          created_at?: string
+          display_order?: number
+          height?: number | null
+          id?: string
+          image_type?: string
+          image_url?: string
+          is_primary?: boolean
+          product_id?: string
+          source?: string
+          updated_at?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_ingredients: {
         Row: {
           bioavailability_score: string
