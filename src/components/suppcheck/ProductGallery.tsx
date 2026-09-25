@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
   const images = useMemo(() => galleryImages(product), [product]);
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
+  const touchStartX = useRef(0);
   const current = images[active] ?? images[0];
 
   useEffect(() => setActive(0), [product.id]);
@@ -39,10 +40,10 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
 
   const move = (step: number) => setActive((value) => (value + step + images.length) % images.length);
   const onTouchStart = (event: React.TouchEvent) => {
-    event.currentTarget.dataset.touchX = String(event.touches[0]?.clientX ?? 0);
+    touchStartX.current = event.touches[0]?.clientX ?? 0;
   };
   const onTouchEnd = (event: React.TouchEvent) => {
-    const start = Number(event.currentTarget.dataset.touchX ?? 0);
+    const start = touchStartX.current;
     const end = event.changedTouches[0]?.clientX ?? start;
     if (Math.abs(end - start) > 45) move(end < start ? 1 : -1);
   };
@@ -85,17 +86,18 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
       {!compact && images.length > 1 ? (
         <div className="mt-3 grid grid-cols-4 gap-2">
           {images.map((image, index) => (
-            <button
+            <Button
               key={image.id}
               type="button"
+              variant="outline"
               onClick={() => setActive(index)}
               aria-label={`View ${image.image_type === "label" ? "Supplement Facts" : `photo ${index + 1}`}`}
               aria-current={index === active}
-              className={cn("relative overflow-hidden rounded-md border bg-surface p-1", index === active ? "border-primary ring-2 ring-primary/15" : "border-border")}
+              className={cn("relative h-auto overflow-hidden rounded-md border bg-surface p-1", index === active ? "border-primary ring-2 ring-primary/15" : "border-border")}
             >
               <img src={image.image_url} alt="" loading="lazy" className="aspect-square w-full object-contain" />
               {image.image_type === "label" ? <ImageIcon className="absolute bottom-1 right-1 size-4 rounded-sm bg-background p-0.5 text-primary" /> : null}
-            </button>
+            </Button>
           ))}
         </div>
       ) : null}
