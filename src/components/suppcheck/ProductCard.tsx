@@ -33,9 +33,7 @@ export function ProductCard({ product, products, selected, selectionFull, onTogg
     <article className={`group flex h-full flex-col rounded-lg border bg-surface p-3 transition-shadow hover:shadow-md ${selected ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
       <div className="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-3 sm:block">
         <div className="relative">
-          <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
-            {product.product_images?.length > 1 ? <ProductCardGallery product={product} /> : <ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />}
-          </Link>
+          {product.product_images?.length > 1 ? <ProductCardGallery product={product} /> : <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block"><ProductImage src={productImageUrl(product)} alt={`${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" /></Link>}
           <Button type="button" onClick={() => onToggle(product.id)} disabled={!selected && selectionFull} aria-pressed={selected} aria-label={selected ? "Remove from comparison" : "Add to comparison"} size="icon" variant={selected ? "default" : "outline"} className="absolute right-1 top-1 size-9 shadow-sm sm:right-2 sm:top-2 sm:size-11">
             <Check />
           </Button>

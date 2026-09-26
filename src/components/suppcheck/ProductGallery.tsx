@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Expand, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,13 +52,13 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
   return (
     <div className={className}>
       <div className="relative" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        <ProductImage
-          src={current.image_url}
-          alt={current.alt_text || `${product.brands.name} ${product.name}`}
-          brand={product.brands.name}
-          className="aspect-square w-full"
-          eager={!compact}
-        />
+        {compact ? (
+          <Link to="/products/$slug" params={{ slug: product.slug }} aria-label={`View ${product.name}`} className="block">
+            <ProductImage src={current.image_url} alt={current.alt_text || `${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" />
+          </Link>
+        ) : (
+          <ProductImage src={current.image_url} alt={current.alt_text || `${product.brands.name} ${product.name}`} brand={product.brands.name} className="aspect-square w-full" eager />
+        )}
         {current.image_type === "label" ? (
           <span className="absolute bottom-2 left-2 rounded-md border border-border bg-background/95 px-2 py-1 text-[10px] font-semibold text-foreground shadow-sm">
             Supplement Facts
