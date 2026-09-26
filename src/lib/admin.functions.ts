@@ -77,6 +77,7 @@ export const getAdminCatalog = createServerFn({ method: "GET" })
          total_servings, net_weight_grams, serving_weight_grams, catalog_group, primary_benefit,
          verified_advantages, trade_offs, excipients, third_party_certifications,
          brands ( id, name, country_of_origin, website_url ),
+          product_images ( id, image_url, image_type, display_order, source, alt_text, is_primary ),
          merchant_offers ( id, merchant_name, country_flag, affiliate_network, price, currency,
            shipping_cost, estimated_delivery, affiliate_target_url, retailer_product_id,
            link_verified, link_verified_at, in_stock, updated_at )`,
@@ -146,6 +147,58 @@ export const deleteProduct = createServerFn({ method: "POST" })
     await context.supabase.from("product_ingredients").delete().eq("product_id", data.id);
     const { error } = await context.supabase.from("products").delete().eq("id", data.id);
     if (error) throw error;
+    return { ok: true };
+  });
+
+const photoSchema = z.object({
+  id: z.string().uuid().optional(),
+  product_id: z.string().uuid(),
+  image_url: z.string().url().max(2000).refine((value) => value.startsWith("https://") || value.startsWith("http://localhost:"), "Use an HTTPS image URL"),
+  image_type: z.enum(["front", "label", "back", "gallery"]),
+  display_order: z.number().int().min(0),
+  alt_text: z.string().max(300),
+  is_primary: z.boolean(),
+});
+
+export const saveProductPhoto = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => photoSchema.parse(data))
+  .handler(async ({ context, data }: { context: Ctx; data: z.infer<typeof photoSchema> }) => {
+    await assertAdmin(context);
+    const { id, ...fields } = data;
+    if (fields.is_primary) {
+      const { error } = await context.supabase.from("product_images").update({ is_primary: false }).eq("product_id", fields.product_id).eq("is_primary", true);
+      if (error) throw error;
+    }
+    const { data: saved, error } = id
+      ? await context.supabase.from("product_images").update(fields).eq("id", id).eq("product_id", fields.product_id).select("id").single()
+      : await context.supabase.from("product_images").insert({ ...fields, source: "Admin" }).select("id").single();
+    if (error) throw error;
+    if (fields.is_primary) {
+      const { error: productError } = await context.supabase.from("products").update({ image_url: fields.image_url, image_source: "Admin" }).eq("id", fields.product_id);
+      if (productError) throw productError;
+    }
+    return saved;
+  });
+
+export const deleteProductPhoto = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ id: z.string().uuid(), product_id: z.string().uuid() }).parse(data))
+  .handler(async ({ context, data }: { context: Ctx; data: { id: string; product_id: string } }) => {
+    await assertAdmin(context);
+    const { data: photo, error: readError } = await context.supabase.from("product_images").select("is_primary").eq("id", data.id).eq("product_id", data.product_id).single();
+    if (readError) throw readError;
+    const { error } = await context.supabase.from("product_images").delete().eq("id", data.id).eq("product_id", data.product_id);
+    if (error) throw error;
+    if (photo.is_primary) {
+      const { data: next } = await context.supabase.from("product_images").select("id, image_url").eq("product_id", data.product_id).order("display_order").limit(1).maybeSingle();
+      if (next) {
+        const { error: nextError } = await context.supabase.from("product_images").update({ is_primary: true }).eq("id", next.id);
+        if (nextError) throw nextError;
+      }
+      const { error: productError } = await context.supabase.from("products").update({ image_url: next?.image_url ?? "", image_source: next ? "Admin" : "" }).eq("id", data.product_id);
+      if (productError) throw productError;
+    }
     return { ok: true };
   });
 
