@@ -153,7 +153,7 @@ export const deleteProduct = createServerFn({ method: "POST" })
 const photoSchema = z.object({
   id: z.string().uuid().optional(),
   product_id: z.string().uuid(),
-  image_url: z.string().url().max(2000).refine((value) => value.startsWith("https://") || value.startsWith("http://localhost:"), "Use an HTTPS image URL"),
+  image_url: z.string().max(2000).refine((value) => value.startsWith("https://") || value.startsWith("/__l5e/assets-v1/"), "Use an HTTPS image URL"),
   image_type: z.enum(["front", "label", "back", "gallery"]),
   display_order: z.number().int().min(0),
   alt_text: z.string().max(300),

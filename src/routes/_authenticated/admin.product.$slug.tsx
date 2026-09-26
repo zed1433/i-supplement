@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, BadgeCheck, Loader2, Plus, Trash2 } from "lucide-react";
-import { deleteOffer, deleteProduct, getAdminCatalog, saveOffer, saveProduct } from "@/lib/admin.functions";
+import { ArrowLeft, BadgeCheck, ChevronDown, ChevronUp, Loader2, Plus, Trash2 } from "lucide-react";
+import { deleteOffer, deleteProduct, deleteProductPhoto, getAdminCatalog, saveOffer, saveProduct, saveProductPhoto } from "@/lib/admin.functions";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +26,16 @@ type Offer = {
   in_stock: boolean;
 };
 
+type AdminPhoto = {
+  id: string;
+  image_url: string;
+  image_type: "front" | "label" | "back" | "gallery";
+  display_order: number;
+  source: string;
+  alt_text: string;
+  is_primary: boolean;
+};
+
 type AdminProduct = {
   id: string;
   name: string;
@@ -45,6 +55,7 @@ type AdminProduct = {
   excipients: string[];
   third_party_certifications: string[];
   brands: { name: string };
+  product_images: AdminPhoto[];
   merchant_offers: Offer[];
 };
 
@@ -91,6 +102,8 @@ function EditProductPage() {
   const runSaveOffer = useServerFn(saveOffer);
   const runDeleteOffer = useServerFn(deleteOffer);
   const runDeleteProduct = useServerFn(deleteProduct);
+  const runSavePhoto = useServerFn(saveProductPhoto);
+  const runDeletePhoto = useServerFn(deleteProductPhoto);
   const affiliateHref = useAffiliateHref();
 
   const { data, isLoading } = useQuery({
@@ -104,6 +117,51 @@ function EditProductPage() {
   const [newOffer, setNewOffer] = useState<Partial<Offer> | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoType, setPhotoType] = useState<AdminPhoto["image_type"]>("gallery");
+
+  async function refreshPhotos() {
+    await queryClient.invalidateQueries({ queryKey: ["admin", "catalog"] });
+    await queryClient.invalidateQueries({ queryKey: ["suppcheck"] });
+  }
+
+  async function editPhoto(photo: AdminPhoto, patch: Partial<AdminPhoto>) {
+    if (!form) return;
+    setSaving(true);
+    setMessage("");
+    try {
+      const changed = { ...photo, ...patch };
+      await runSavePhoto({ data: { id: changed.id, product_id: form.id, image_url: changed.image_url, image_type: changed.image_type, display_order: changed.display_order, alt_text: changed.alt_text, is_primary: changed.is_primary } });
+      setForm((current) => current ? { ...current, product_images: current.product_images.map((item) => item.id === changed.id ? changed : changed.is_primary ? { ...item, is_primary: false } : item) } : current);
+      await refreshPhotos();
+    } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
+    finally { setSaving(false); }
+  }
+
+  async function addPhoto() {
+    if (!form || !photoUrl.trim()) return;
+    setSaving(true);
+    setMessage("");
+    try {
+      await runSavePhoto({ data: { product_id: form.id, image_url: photoUrl.trim(), image_type: photoType, display_order: form.product_images.length, alt_text: `${form.brands.name} ${form.name} ${photoType === "label" ? "Supplement Facts and ingredients" : "product photo"}`, is_primary: !form.product_images.length } });
+      setPhotoUrl("");
+      setMessage("Photo added. Reload the editor to review it.");
+      await refreshPhotos();
+    } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
+    finally { setSaving(false); }
+  }
+
+  async function removePhoto(photo: AdminPhoto) {
+    if (!form || !window.confirm("Remove this photo from the product gallery?")) return;
+    setSaving(true);
+    setMessage("");
+    try {
+      await runDeletePhoto({ data: { id: photo.id, product_id: form.id } });
+      setForm((current) => current ? { ...current, product_images: current.product_images.filter((item) => item.id !== photo.id) } : current);
+      await refreshPhotos();
+    } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
+    finally { setSaving(false); }
+  }
 
   useEffect(() => {
     if (product && !form) setForm(structuredClone(product));
@@ -350,6 +408,33 @@ function EditProductPage() {
             value={form.third_party_certifications}
             onChange={(v) => set("third_party_certifications", v)}
           />
+        </section>
+
+        <section className="mt-6 border-t border-border pt-6">
+          <h2 className="font-display text-lg font-semibold">Product photos</h2>
+          <div className="mt-4 space-y-3">
+            {[...form.product_images].sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.display_order - b.display_order).map((photo) => (
+              <div key={photo.id} className="flex flex-col gap-3 border-b border-border pb-3 sm:flex-row sm:items-center">
+                <img src={photo.image_url} alt={photo.alt_text} className="size-24 shrink-0 object-contain" />
+                <div className="min-w-0 flex-1">
+                  <p className="break-all text-xs text-muted-foreground">{photo.image_url}</p>
+                  <p className="text-sm">{photo.image_type === "label" ? "Supplement Facts / ingredients" : photo.image_type} {photo.is_primary ? "· Main photo" : ""}</p>
+                  <Input aria-label="Photo description" value={photo.alt_text} onChange={(event) => setForm((current) => current ? { ...current, product_images: current.product_images.map((item) => item.id === photo.id ? { ...item, alt_text: event.target.value } : item) } : current)} onBlur={() => editPhoto(photo, {})} />
+                </div>
+                <div className="flex items-center gap-1">
+                  <Button type="button" variant="outline" size="icon" title="Move photo earlier" aria-label="Move photo earlier" disabled={saving || photo.display_order === 0} onClick={() => editPhoto(photo, { display_order: Math.max(0, photo.display_order - 1) })}><ChevronUp className="size-4" /></Button>
+                  <Button type="button" variant="outline" size="icon" title="Move photo later" aria-label="Move photo later" disabled={saving} onClick={() => editPhoto(photo, { display_order: photo.display_order + 1 })}><ChevronDown className="size-4" /></Button>
+                  {!photo.is_primary && <Button type="button" variant="outline" size="sm" disabled={saving} onClick={() => editPhoto(photo, { is_primary: true })}>Main</Button>}
+                  <Button type="button" variant="outline" size="icon" title="Remove photo" aria-label="Remove photo" disabled={saving} onClick={() => removePhoto(photo)}><Trash2 className="size-4" /></Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <Input aria-label="New photo URL" placeholder="HTTPS image URL" value={photoUrl} onChange={(event) => setPhotoUrl(event.target.value)} />
+            <select aria-label="Photo type" value={photoType} onChange={(event) => setPhotoType(event.target.value as AdminPhoto["image_type"])} className="min-h-10 rounded-md border border-input bg-background px-3 text-sm"><option value="gallery">Gallery</option><option value="label">Supplement Facts</option><option value="front">Front</option><option value="back">Back</option></select>
+            <Button type="button" variant="outline" disabled={saving || !photoUrl.trim()} onClick={addPhoto}><Plus className="size-4" /> Add photo</Button>
+          </div>
         </section>
 
         <section className="mt-6 rounded-lg border border-border bg-surface p-4">
