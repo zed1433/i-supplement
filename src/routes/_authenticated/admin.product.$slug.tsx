@@ -150,10 +150,10 @@ function EditProductPage() {
       const next = ordered.map((item, position) => ({ ...item, display_order: position }));
       const moved = next[index];
       const neighbor = next[index + direction];
+      if (!moved || !neighbor) return;
       await runSavePhoto({ data: { id: moved.id, product_id: form.id, image_url: moved.image_url, image_type: moved.image_type, display_order: neighbor.display_order, alt_text: moved.alt_text, is_primary: moved.is_primary } });
       await runSavePhoto({ data: { id: neighbor.id, product_id: form.id, image_url: neighbor.image_url, image_type: neighbor.image_type, display_order: moved.display_order, alt_text: neighbor.alt_text, is_primary: neighbor.is_primary } });
-      const reordered = [...next];
-      [reordered[index], reordered[index + direction]] = [reordered[index + direction], reordered[index]];
+      const reordered = next.map((item, position) => position === index ? neighbor : position === index + direction ? moved : item);
       setForm((current) => current ? { ...current, product_images: reordered.map((item, position) => ({ ...item, display_order: position })) } : current);
       await refreshPhotos();
     } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
