@@ -138,15 +138,41 @@ function EditProductPage() {
     finally { setSaving(false); }
   }
 
+  async function movePhoto(photo: AdminPhoto, direction: -1 | 1) {
+    if (!form) return;
+    const ordered = [...form.product_images].sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id));
+    const index = ordered.findIndex((item) => item.id === photo.id);
+    const other = ordered[index + direction];
+    if (!other) return;
+    setSaving(true);
+    setMessage("");
+    try {
+      const next = ordered.map((item, position) => ({ ...item, display_order: position }));
+      const moved = next[index];
+      const neighbor = next[index + direction];
+      await runSavePhoto({ data: { id: moved.id, product_id: form.id, image_url: moved.image_url, image_type: moved.image_type, display_order: neighbor.display_order, alt_text: moved.alt_text, is_primary: moved.is_primary } });
+      await runSavePhoto({ data: { id: neighbor.id, product_id: form.id, image_url: neighbor.image_url, image_type: neighbor.image_type, display_order: moved.display_order, alt_text: neighbor.alt_text, is_primary: neighbor.is_primary } });
+      const reordered = [...next];
+      [reordered[index], reordered[index + direction]] = [reordered[index + direction], reordered[index]];
+      setForm((current) => current ? { ...current, product_images: reordered.map((item, position) => ({ ...item, display_order: position })) } : current);
+      await refreshPhotos();
+    } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
+    finally { setSaving(false); }
+  }
+
   async function addPhoto() {
     if (!form || !photoUrl.trim()) return;
     setSaving(true);
     setMessage("");
     try {
+      if (form.product_images.some((item) => item.image_url === photoUrl.trim())) throw new Error("This photo is already in the gallery.");
       await runSavePhoto({ data: { product_id: form.id, image_url: photoUrl.trim(), image_type: photoType, display_order: form.product_images.length, alt_text: `${form.brands.name} ${form.name} ${photoType === "label" ? "Supplement Facts and ingredients" : "product photo"}`, is_primary: !form.product_images.length } });
       setPhotoUrl("");
-      setMessage("Photo added. Reload the editor to review it.");
       await refreshPhotos();
+      const updated = await fetchCatalog();
+      const saved = (updated as unknown as AdminProduct[]).find((item) => item.id === form.id);
+      if (saved) setForm((current) => current ? { ...current, product_images: saved.product_images } : current);
+      setMessage("Photo added.");
     } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
     finally { setSaving(false); }
   }
@@ -157,7 +183,7 @@ function EditProductPage() {
     setMessage("");
     try {
       await runDeletePhoto({ data: { id: photo.id, product_id: form.id } });
-      setForm((current) => current ? { ...current, product_images: current.product_images.filter((item) => item.id !== photo.id) } : current);
+      setForm((current) => current ? { ...current, product_images: current.product_images.filter((item) => item.id !== photo.id).map((item) => photo.is_primary && item.id === current.product_images.filter((candidate) => candidate.id !== photo.id).sort((a, b) => a.display_order - b.display_order)[0]?.id ? { ...item, is_primary: true } : item) } : current);
       await refreshPhotos();
     } catch (error) { setMessage(`Photo error: ${(error as Error).message}`); }
     finally { setSaving(false); }
@@ -413,7 +439,7 @@ function EditProductPage() {
         <section className="mt-6 border-t border-border pt-6">
           <h2 className="font-display text-lg font-semibold">Product photos</h2>
           <div className="mt-4 space-y-3">
-            {[...form.product_images].sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.display_order - b.display_order).map((photo) => (
+            {[...form.product_images].sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id)).map((photo, index) => (
               <div key={photo.id} className="flex flex-col gap-3 border-b border-border pb-3 sm:flex-row sm:items-center">
                 <img src={photo.image_url} alt={photo.alt_text} className="size-24 shrink-0 object-contain" />
                 <div className="min-w-0 flex-1">
@@ -422,8 +448,8 @@ function EditProductPage() {
                   <Input aria-label="Photo description" value={photo.alt_text} onChange={(event) => setForm((current) => current ? { ...current, product_images: current.product_images.map((item) => item.id === photo.id ? { ...item, alt_text: event.target.value } : item) } : current)} onBlur={() => editPhoto(photo, {})} />
                 </div>
                 <div className="flex items-center gap-1">
-                  <Button type="button" variant="outline" size="icon" title="Move photo earlier" aria-label="Move photo earlier" disabled={saving || photo.display_order === 0} onClick={() => editPhoto(photo, { display_order: Math.max(0, photo.display_order - 1) })}><ChevronUp className="size-4" /></Button>
-                  <Button type="button" variant="outline" size="icon" title="Move photo later" aria-label="Move photo later" disabled={saving} onClick={() => editPhoto(photo, { display_order: photo.display_order + 1 })}><ChevronDown className="size-4" /></Button>
+                  <Button type="button" variant="outline" size="icon" title="Move photo earlier" aria-label="Move photo earlier" disabled={saving || index === 0} onClick={() => movePhoto(photo, -1)}><ChevronUp className="size-4" /></Button>
+                  <Button type="button" variant="outline" size="icon" title="Move photo later" aria-label="Move photo later" disabled={saving || index === form.product_images.length - 1} onClick={() => movePhoto(photo, 1)}><ChevronDown className="size-4" /></Button>
                   {!photo.is_primary && <Button type="button" variant="outline" size="sm" disabled={saving} onClick={() => editPhoto(photo, { is_primary: true })}>Main</Button>}
                   <Button type="button" variant="outline" size="icon" title="Remove photo" aria-label="Remove photo" disabled={saving} onClick={() => removePhoto(photo)}><Trash2 className="size-4" /></Button>
                 </div>
