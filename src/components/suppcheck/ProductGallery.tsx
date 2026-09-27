@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Expand, ImageIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand, ImageIcon, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,6 +23,7 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
   const images = useMemo(() => galleryImages(product), [product]);
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
+  const [magnified, setMagnified] = useState(false);
   const touchStartX = useRef(0);
   const current = images[active] ?? images[0];
 
@@ -46,7 +47,10 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
   const onTouchEnd = (event: React.TouchEvent) => {
     const start = touchStartX.current;
     const end = event.changedTouches[0]?.clientX ?? start;
-    if (Math.abs(end - start) > 45) move(end < start ? 1 : -1);
+    if (Math.abs(end - start) > 45) {
+      event.preventDefault();
+      move(end < start ? 1 : -1);
+    }
   };
 
   return (
@@ -103,11 +107,17 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
         </div>
       ) : null}
 
-      <Dialog open={zoomed} onOpenChange={setZoomed}>
+      <Dialog open={zoomed} onOpenChange={(open) => { setZoomed(open); if (!open) setMagnified(false); }}>
         <DialogContent className="max-h-[96vh] max-w-[96vw] overflow-auto p-3 sm:max-w-5xl">
           <DialogTitle className="pr-10 text-base">{current.image_type === "label" ? "Supplement Facts / ingredients" : `${product.brands.name} ${product.name}`}</DialogTitle>
-          <DialogDescription>Full-size product image. Zoom with your browser or device controls to read small print.</DialogDescription>
-          <img src={current.image_url} alt={current.alt_text || `${product.name} full-size product view`} className="mx-auto max-h-[80vh] max-w-full object-contain" />
+          <DialogDescription className="sr-only">Enlarge and pan the product photo to inspect the package label.</DialogDescription>
+          <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => setMagnified((value) => !value)}>
+            {magnified ? <ZoomOut className="size-4" /> : <ZoomIn className="size-4" />}
+            {magnified ? "Fit photo" : "Zoom in"}
+          </Button>
+          <div className="max-h-[78vh] overflow-auto">
+            <img src={current.image_url} alt={current.alt_text || `${product.name} full-size product view`} className={cn("mx-auto object-contain", magnified ? "h-auto max-w-none w-[min(180vw,1200px)]" : "max-h-[72vh] max-w-full")} />
+          </div>
         </DialogContent>
       </Dialog>
     </div>
