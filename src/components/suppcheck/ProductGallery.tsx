@@ -46,7 +46,10 @@ export function ProductGallery({ product, compact = false, className }: GalleryP
   const onTouchEnd = (event: React.TouchEvent) => {
     const start = touchStartX.current;
     const end = event.changedTouches[0]?.clientX ?? start;
-    if (Math.abs(end - start) > 45) move(end < start ? 1 : -1);
+    if (Math.abs(end - start) > 45) {
+      event.preventDefault();
+      move(end < start ? 1 : -1);
+    }
   };
 
   return (

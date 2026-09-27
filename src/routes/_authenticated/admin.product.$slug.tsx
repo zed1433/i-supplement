@@ -445,6 +445,7 @@ function EditProductPage() {
                 <div className="min-w-0 flex-1">
                   <p className="break-all text-xs text-muted-foreground">{photo.image_url}</p>
                   <p className="text-sm">{photo.image_type === "label" ? "Supplement Facts / ingredients" : photo.image_type} {photo.is_primary ? "· Main photo" : ""}</p>
+                  <Input aria-label="Photo URL" value={photo.image_url} onChange={(event) => setForm((current) => current ? { ...current, product_images: current.product_images.map((item) => item.id === photo.id ? { ...item, image_url: event.target.value } : item) } : current)} onBlur={() => editPhoto(photo, {})} />
                   <Input aria-label="Photo description" value={photo.alt_text} onChange={(event) => setForm((current) => current ? { ...current, product_images: current.product_images.map((item) => item.id === photo.id ? { ...item, alt_text: event.target.value } : item) } : current)} onBlur={() => editPhoto(photo, {})} />
                 </div>
                 <div className="flex items-center gap-1">
