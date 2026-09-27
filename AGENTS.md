@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Product photos live in `public.product_images` (public read, admin-only writes); keep `products.image_url` synchronized with the primary photo for legacy catalogue surfaces.
+- Store sourced product photography as Lovable asset pointers rather than external hotlinks so retailer image transforms do not degrade or disappear.
