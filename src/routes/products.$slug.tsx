@@ -283,7 +283,7 @@ function ProductPage() {
                       {o.in_stock && o.link_verified ? (
                         <Button asChild size="sm">
                           <a
-                            href={affiliateHref(o.id)}
+                            href={affiliateHref(o.id, o.affiliate_target_url)}
                             rel="nofollow sponsored"
                             target="_blank"
                           >
