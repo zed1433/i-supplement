@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import { affiliateId, amazonTagFor, loadAffiliateOverrides } from "@/lib/affiliateConfig";
+import { withIherbReferral } from "@/lib/iherb";
 
 const MARKET_TARGETS: Record<string, { amazonDomain: string; currency: string }> = {
   US: { amazonDomain: "www.amazon.com", currency: "USD" },
@@ -13,15 +14,24 @@ const MARKET_TARGETS: Record<string, { amazonDomain: string; currency: string }>
 
 type Geo = { country?: string | undefined; currency?: string | undefined };
 
+function visitorCountry(request: Request, queryCountry?: string): string | undefined {
+  const ip = request.headers.get("cf-ipcountry")
+    ?? request.headers.get("x-vercel-ip-country")
+    ?? request.headers.get("x-country-code");
+  if (ip && /^[A-Za-z]{2}$/.test(ip) && !["XX", "T1"].includes(ip.toUpperCase())) return ip.toUpperCase();
+  const lang = request.headers.get("accept-language") ?? "";
+  const match = lang.match(/-[A-Za-z]{2}\b/);
+  if (match) return match[0].slice(1).toUpperCase();
+  return queryCountry;
+}
+
 function buildAffiliateUrl(network: string, target: string, offerId: string, trackClick = true, geo: Geo = {}): string {
   const market = geo.country ? MARKET_TARGETS[geo.country] : undefined;
   try {
     const targetUrl = new URL(target);
     const targetHost = targetUrl.hostname.toLowerCase();
     if (targetHost === "iherb.com" || targetHost.endsWith(".iherb.com")) {
-      if (targetHost === "iherb.com") targetUrl.hostname = "www.iherb.com";
-      targetUrl.searchParams.set("rcode", "NBO7379");
-      return targetUrl.toString();
+      return withIherbReferral(target, geo.country);
     }
     switch (network) {
       case "awin":
@@ -60,7 +70,7 @@ export const Route = createFileRoute("/api/affiliate/redirect/$offerId")({
         const countryParam = (query.get("country") ?? "").toUpperCase();
         const currencyParam = (query.get("currency") ?? "").toUpperCase();
         const geo = {
-          country: /^[A-Z]{2}$/.test(countryParam) ? countryParam : undefined,
+          country: visitorCountry(request, /^[A-Z]{2}$/.test(countryParam) ? countryParam : undefined),
           currency: /^[A-Z]{3}$/.test(currencyParam) ? currencyParam : undefined,
         };
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
