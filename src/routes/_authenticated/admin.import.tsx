@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, FileUp, Loader2 } from "lucide-react";
 import { importCatalogRows } from "@/lib/admin.functions";
 import { EXPECTED, parseImport } from "@/lib/importMapping";
+import { detectDelimiter } from "@/lib/csv";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,15 @@ export const Route = createFileRoute("/_authenticated/admin/import")({
   }),
   component: ImportPage,
 });
+
+function separatorLabel(text: string): string {
+  const delimiter = detectDelimiter(text);
+  if (delimiter === ";") return "semicolon";
+  if (delimiter === ",") return "comma";
+  if (delimiter === "\t") return "tab";
+  if (delimiter === "|") return "pipe";
+  return "comma";
+}
 
 function ImportPage() {
   const queryClient = useQueryClient();
@@ -93,10 +103,9 @@ function ImportPage() {
           Bulk import supplier catalogues
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Upload a supplier's product file (Excel .xlsx or .csv) or paste CSV text. One row per
-          product-per-retailer: rows with the same product name merge into one product with
-          multiple offers. Imported links start unverified — review and verify them from the admin
-          list.
+          Upload the iHerb CSV from the scraper. Semicolon and comma files both work. One row per
+          product: a second import updates the iHerb offer instead of adding a duplicate. iHerb
+          links get the NBO7379 referral code if it is missing.
         </p>
 
         <div className="mt-5 rounded-lg border border-border bg-surface p-4">
@@ -104,11 +113,14 @@ function ImportPage() {
             Expected columns
           </p>
           <p className="num mt-1 break-all text-xs text-muted-foreground">{EXPECTED.join(", ")}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            iHerb headers title, product_url, item_id, portion_size and image_url are recognised.
+          </p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <Input type="file" accept=".csv,.tsv,.txt,.xlsx,.xls" onChange={onFile} className="max-w-xs" />
             {fileName && (
               <span className="text-xs text-muted-foreground">
-                {fileName} — {rows.length} rows detected
+                {fileName} — {separatorLabel(rawText)} separator — {rows.length} products ready
               </span>
             )}
           </div>
