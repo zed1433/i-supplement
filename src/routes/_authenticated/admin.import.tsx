@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, FileUp, Loader2 } from "lucide-react";
 import { importCatalogRows } from "@/lib/admin.functions";
+import { EXPECTED, parseImport } from "@/lib/importMapping";
 import { SiteHeader } from "@/components/suppcheck/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,110 +20,6 @@ export const Route = createFileRoute("/_authenticated/admin/import")({
   component: ImportPage,
 });
 
-type Row = {
-  brand: string;
-  product_name: string;
-  category: string;
-  form: string;
-  serving_size: string;
-  pricing_basis: "per_serving" | "bulk_powder" | null;
-  total_servings: number | null;
-  net_weight_grams: number | null;
-  serving_weight_grams: number | null;
-  catalog_group: "Vitamins & Minerals" | "Performance & Protein" | "Nootropics & Focus" | "Longevity" | null;
-  merchant_name: string;
-  country_flag: string;
-  affiliate_network: string;
-  price: number;
-  currency: string;
-  url: string;
-  retailer_product_id: string;
-};
-
-const EXPECTED = [
-  "brand",
-  "product_name",
-  "category",
-  "form",
-  "serving_size",
-  "pricing_basis",
-  "total_servings",
-  "net_weight_grams",
-  "serving_weight_grams",
-  "catalog_group",
-  "merchant_name",
-  "country_flag",
-  "affiliate_network",
-  "price",
-  "currency",
-  "url",
-  "retailer_product_id",
-];
-
-function parseCsv(text: string): string[][] {
-  const rows: string[][] = [];
-  let field = "";
-  let row: string[] = [];
-  let inQuotes = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (inQuotes) {
-      if (c === '"' && text[i + 1] === '"') {
-        field += '"';
-        i++;
-      } else if (c === '"') {
-        inQuotes = false;
-      } else {
-        field += c;
-      }
-    } else if (c === '"') {
-      inQuotes = true;
-    } else if (c === ",") {
-      row.push(field.trim());
-      field = "";
-    } else if (c === "\n" || c === "\r") {
-      if (c === "\r" && text[i + 1] === "\n") i++;
-      row.push(field.trim());
-      field = "";
-      if (row.some((v) => v !== "")) rows.push(row);
-      row = [];
-    } else {
-      field += c;
-    }
-  }
-  row.push(field.trim());
-  if (row.some((v) => v !== "")) rows.push(row);
-  return rows;
-}
-
-function toRows(text: string): Row[] {
-  const table = parseCsv(text);
-  if (table.length < 2) return [];
-  const header = (table[0] ?? []).map((h) => h.toLowerCase().replace(/\s+/g, "_"));
-  return table.slice(1).map((cells) => {
-    const get = (key: string) => cells[header.indexOf(key)] ?? "";
-    return {
-      brand: get("brand"),
-      product_name: get("product_name"),
-      category: get("category"),
-      form: get("form") || "Capsules",
-      serving_size: get("serving_size"),
-      pricing_basis: get("pricing_basis") === "bulk_powder" ? "bulk_powder" : get("pricing_basis") === "per_serving" ? "per_serving" : null,
-      total_servings: Number(get("total_servings")) || null,
-      net_weight_grams: Number(get("net_weight_grams")) || null,
-      serving_weight_grams: Number(get("serving_weight_grams")) || null,
-      catalog_group: (["Vitamins & Minerals", "Performance & Protein", "Nootropics & Focus", "Longevity"].includes(get("catalog_group")) ? get("catalog_group") : null) as Row["catalog_group"],
-      merchant_name: get("merchant_name"),
-      country_flag: get("country_flag") || "",
-      affiliate_network: get("affiliate_network") || "direct",
-      price: Number(get("price")) || 0,
-      currency: get("currency") || "EUR",
-      url: get("url"),
-      retailer_product_id: get("retailer_product_id") || "",
-    };
-  });
-}
-
 function ImportPage() {
   const queryClient = useQueryClient();
   const runImport = useServerFn(importCatalogRows);
@@ -133,7 +30,9 @@ function ImportPage() {
     null,
   );
 
-  const rows = useMemo(() => (rawText ? toRows(rawText) : []), [rawText]);
+  const parsed = useMemo(() => parseImport(rawText), [rawText]);
+  const rows = parsed.rows;
+  const [progress, setProgress] = useState("");
 
   async function onFile(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -157,8 +56,20 @@ function ImportPage() {
     setBusy(true);
     setResult(null);
     try {
-      const res = await runImport({ data: rows });
-      setResult(res as { created: number; offers: number; errors: string[] });
+      const total = { created: 0, offers: 0, errors: [] as string[] };
+      for (let i = 0; i < rows.length; i += 100) {
+        setProgress(`Importing ${Math.min(i + 100, rows.length)} / ${rows.length}…`);
+        try {
+          const res = (await runImport({ data: rows.slice(i, i + 100) })) as typeof total;
+          total.created += res.created;
+          total.offers += res.offers;
+          total.errors.push(...res.errors);
+        } catch (err) {
+          total.errors.push(`Rows ${i + 1}-${i + 100}: ${(err as Error).message}`);
+        }
+        setResult({ ...total });
+      }
+      setProgress("");
       queryClient.invalidateQueries({ queryKey: ["suppcheck"] });
       queryClient.invalidateQueries({ queryKey: ["admin"] });
     } catch (err) {
@@ -201,6 +112,18 @@ function ImportPage() {
               </span>
             )}
           </div>
+          {rawText && (
+            <div className="mt-3 space-y-1 text-xs text-muted-foreground">
+              <p>Recognised columns: {parsed.recognised.join(", ") || "none"}</p>
+              {parsed.ignored.length > 0 && <p>Ignored columns: {parsed.ignored.join(", ")}</p>}
+              {parsed.skipped.length > 0 && (
+                <details>
+                  <summary className="cursor-pointer text-destructive">{parsed.skipped.length} rows skipped</summary>
+                  {parsed.skipped.slice(0, 50).map((m) => <p key={m}>{m}</p>)}
+                </details>
+              )}
+            </div>
+          )}
           <textarea
             value={rawText}
             onChange={(e) => setRawText(e.target.value)}
@@ -217,6 +140,7 @@ function ImportPage() {
                 <tr className="border-b border-border bg-surface-raised text-left uppercase tracking-wider text-muted-foreground">
                   <th className="px-3 py-2">Product</th>
                   <th className="px-3 py-2">Brand</th>
+                  <th className="px-3 py-2">Category</th>
                   <th className="px-3 py-2">Merchant</th>
                   <th className="px-3 py-2">Price</th>
                   <th className="px-3 py-2">URL</th>
@@ -227,6 +151,7 @@ function ImportPage() {
                   <tr key={i} className="border-b border-border last:border-0">
                     <td className="px-3 py-2">{r.product_name}</td>
                     <td className="px-3 py-2 text-muted-foreground">{r.brand}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r.category}</td>
                     <td className="px-3 py-2 text-muted-foreground">{r.merchant_name}</td>
                     <td className="px-3 py-2 num">
                       {r.price} {r.currency}
@@ -249,6 +174,7 @@ function ImportPage() {
             {busy ? <Loader2 className="size-4 animate-spin" /> : <FileUp className="size-4" />}
             Import {rows.length > 0 ? `${rows.length} rows` : ""}
           </Button>
+          {progress && <span className="text-sm text-muted-foreground">{progress}</span>}
           {result && (
             <div className="text-sm">
               <p>
