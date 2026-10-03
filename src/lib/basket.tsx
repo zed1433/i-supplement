@@ -14,6 +14,7 @@ export type BasketItem = {
   merchantName: string;
   affiliateNetwork: string;
   retailerProductId: string;
+  targetUrl?: string;
   price: number;
   currency: string;
   inStock: boolean;
@@ -77,6 +78,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
             merchantName: offer.merchant_name,
             affiliateNetwork: offer.affiliate_network,
             retailerProductId: offer.retailer_product_id,
+            targetUrl: offer.affiliate_target_url,
             price: Number(offer.price),
             currency: offer.currency,
             inStock: offer.in_stock,
