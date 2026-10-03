@@ -36,7 +36,7 @@ export const AFFILIATE_PROGRAMMES: AffiliateProgramme[] = [
   { key: "AWIN_MERCHANT_ID", retailer: "Awin network", label: "Advertiser (merchant) ID", demo: "12345" },
   { key: "AWIN_PUBLISHER_ID", retailer: "Awin network", label: "Publisher ID", demo: "suppcheck" },
   { key: "LINKWISE_ID", retailer: "Linkwise network", label: "Publisher ID", demo: "suppcheck-gr" },
-  { key: "IHERB_RCODE", retailer: "iHerb", label: "Rewards referral code", demo: "isupplement" },
+  { key: "IHERB_RCODE", retailer: "iHerb", label: "Rewards referral code", demo: "NBO7379" },
   { key: "MYPROTEIN_REF", retailer: "Myprotein", label: "Referral parameter", demo: "suppcheck" },
   { key: "BULKSUPPLEMENTS_REF", retailer: "Bulk Supplements", label: "Referral parameter", demo: "suppcheck" },
 ];
@@ -52,10 +52,6 @@ let overrides: Partial<Record<AffiliateProgrammeKey, string>> = {};
 let overridesLoadedAt = 0;
 const OVERRIDES_TTL_MS = 60_000;
 
-/**
- * Load admin-saved identifiers from app_settings into the in-process cache.
- * Call once at the start of a server handler before reading identifiers.
- */
 export async function loadAffiliateOverrides(force = false): Promise<void> {
   if (!force && Date.now() - overridesLoadedAt < OVERRIDES_TTL_MS) return;
   try {
@@ -76,10 +72,6 @@ export async function loadAffiliateOverrides(force = false): Promise<void> {
   }
 }
 
-/**
- * Configured identifier: admin-saved value, then environment variable, then the
- * demo default. Server-side only.
- */
 export function affiliateId(key: AffiliateProgrammeKey): string {
   const saved = overrides[key];
   if (saved && saved.trim()) return saved.trim();
@@ -87,14 +79,11 @@ export function affiliateId(key: AffiliateProgrammeKey): string {
   return configured && configured.trim() ? configured.trim() : programme(key).demo;
 }
 
-/** True while the programme still runs on its demo identifier. */
 export function isDemoIdentifier(key: AffiliateProgrammeKey): boolean {
   const value = affiliateId(key);
   return value === programme(key).demo;
 }
 
-
-/** Amazon Associates tag for a shopper country. */
 export function amazonTagFor(country: string): string {
   switch (country.toUpperCase()) {
     case "GB":
