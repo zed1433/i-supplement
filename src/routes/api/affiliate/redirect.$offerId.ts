@@ -19,7 +19,8 @@ function buildAffiliateUrl(network: string, target: string, offerId: string, tra
     const targetUrl = new URL(target);
     const targetHost = targetUrl.hostname.toLowerCase();
     if (targetHost === "iherb.com" || targetHost.endsWith(".iherb.com")) {
-      targetUrl.searchParams.set("rcode", affiliateId("IHERB_RCODE") || "NBO7379");
+      if (targetHost === "iherb.com") targetUrl.hostname = "www.iherb.com";
+      targetUrl.searchParams.set("rcode", "NBO7379");
       return targetUrl.toString();
     }
     switch (network) {
