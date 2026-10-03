@@ -264,6 +264,9 @@ const importRowSchema = z.object({
   currency: z.string().max(8).default("EUR"),
   url: z.string().url().max(2000),
   retailer_product_id: z.string().max(120).default(""),
+  image_url: z.string().max(2000).default(""),
+  certifications: z.array(z.string().max(80)).max(30).default([]),
+  verified: z.boolean().default(false),
 });
 
 function slugify(value: string): string {
@@ -276,7 +279,7 @@ function slugify(value: string): string {
 
 export const importCatalogRows = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.array(importRowSchema).min(1).max(2000).parse(data))
+  .inputValidator((data) => z.array(importRowSchema).min(1).max(300).parse(data))
   .handler(async ({ context, data }: { context: Ctx; data: z.infer<typeof importRowSchema>[] }) => {
     await assertAdmin(context);
     let created = 0;
@@ -323,6 +326,9 @@ export const importCatalogRows = createServerFn({ method: "POST" })
               serving_weight_grams: row.serving_weight_grams,
               catalog_group: row.catalog_group,
               primary_benefit: "",
+              image_url: row.image_url,
+              image_source: row.image_url ? row.merchant_name : "",
+              third_party_certifications: row.certifications,
             })
             .select("id")
             .single();
@@ -331,12 +337,27 @@ export const importCatalogRows = createServerFn({ method: "POST" })
           created += 1;
         }
 
-        const { data: existing } = await context.supabase
-          .from("merchant_offers")
-          .select("id")
-          .eq("product_id", product.id)
-          .eq("merchant_name", row.merchant_name)
-          .maybeSingle();
+        let existing: { id: string } | null = null;
+        if (row.retailer_product_id) {
+          const { data: byId } = await context.supabase
+            .from("merchant_offers")
+            .select("id")
+            .eq("merchant_name", row.merchant_name)
+            .eq("retailer_product_id", row.retailer_product_id)
+            .limit(1)
+            .maybeSingle();
+          existing = byId;
+        }
+        if (!existing) {
+          const { data: byProduct } = await context.supabase
+            .from("merchant_offers")
+            .select("id")
+            .eq("product_id", product.id)
+            .eq("merchant_name", row.merchant_name)
+            .limit(1)
+            .maybeSingle();
+          existing = byProduct;
+        }
 
         const offerPayload = {
           product_id: product.id,
@@ -348,8 +369,8 @@ export const importCatalogRows = createServerFn({ method: "POST" })
           affiliate_target_url: row.url,
           retailer_product_id: row.retailer_product_id,
           in_stock: true,
-          link_verified: false,
-          link_verified_at: null,
+          link_verified: row.verified,
+          link_verified_at: row.verified ? new Date().toISOString() : null,
           updated_at: new Date().toISOString(),
         };
         const { error } = existing
