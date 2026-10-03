@@ -23,6 +23,9 @@ export type ImportRow = {
   image_url: string;
   certifications: string[];
   verified: boolean;
+  overview: string;
+  suggested_use: string;
+  warnings: string;
 };
 
 export const EXPECTED = [
@@ -35,10 +38,11 @@ export const EXPECTED = [
 const ALIASES: Record<string, string> = {
   title: "product_name", name: "product_name", product: "product_name",
   product_url: "url", link: "url", affiliate_url: "url",
-  item_id: "retailer_product_id", asin: "retailer_product_id",
+  item_id: "retailer_product_id", asin: "retailer_product_id", sku: "retailer_product_id",
   portion_size: "serving_size", servings: "total_servings",
   source: "merchant_name", merchant: "merchant_name", retailer: "merchant_name",
   image: "image_url", image_link: "image_url",
+  overview: "overview", suggested_use: "suggested_use", warnings: "warnings",
 };
 
 const CATEGORY_RULES: [RegExp, string, CatalogGroup][] = [
@@ -91,13 +95,13 @@ export function guessForm(title: string): string {
   return "Capsules";
 }
 
-/** "Nutricost, L-Theanine, 200 mg, 120 Capsules" → "L-Theanine, 200 mg" */
+/** "Nutricost, L-Theanine, 200 mg, 120 Capsules" → "L-Theanine 200 mg" */
 export function cleanTitle(title: string, brand: string): string {
   let parts = title.replace(/(\d),\s(\d{3})\b/g, "$1,$2").split(/,\s+/).map((p) => p.trim()).filter(Boolean);
   if (brand && parts[0]?.toLowerCase() === brand.toLowerCase()) parts = parts.slice(1);
   if (parts.length > 1 && /^\d[\d.,]*\s*(capsules?|veg(gie|etarian)? ?caps|softgels?|tablets?|gummies|count|lozenges)/i.test(parts.at(-1) ?? ""))
     parts = parts.slice(0, -1);
-  return parts.join(", ") || title;
+  return parts.join(" ") || title;
 }
 
 function weightGrams(title: string): number | null {
@@ -120,7 +124,7 @@ export function parseImport(text: string): ParseResult {
   const table = parseCsv(text.replace(/^\ufeff/, ""));
   if (table.length < 2) return { rows: [], recognised: [], ignored: [], skipped: [] };
   const raw = (table[0] ?? []).map((h) => h.trim().toLowerCase().replace(/^\ufeff/, "").replace(/\s+/g, "_"));
-  const header = raw.map((h) => (EXPECTED.includes(h) ? h : ALIASES[h] ?? ""));
+  const header = raw.map((h) => (EXPECTED.includes(h) || h in { overview: 1, suggested_use: 1, warnings: 1 } ? h : ALIASES[h] ?? ""));
   const recognised = raw.filter((_, i) => header[i]);
   const ignored = raw.filter((_, i) => !header[i]);
   const rows: ImportRow[] = [];
@@ -145,6 +149,7 @@ export function parseImport(text: string): ParseResult {
     const form = get("form") || guessForm(rawTitle);
     const net = Number(get("net_weight_grams")) || (form === "Powder" ? weightGrams(rawTitle) : null);
     const group = get("catalog_group");
+    const retailerId = get("retailer_product_id");
     rows.push({
       brand: brand.slice(0, 120),
       product_name: cleanTitle(rawTitle, brand).slice(0, 200),
@@ -162,12 +167,14 @@ export function parseImport(text: string): ParseResult {
       price,
       currency: get("currency") || "EUR",
       url: withRcode(url),
-      retailer_product_id: get("retailer_product_id").slice(0, 120),
+      retailer_product_id: retailerId.slice(0, 120),
       image_url: get("image_url"),
-      // iHerb exports repeat generic badges (e.g. "Organic") on every row — not product-verified, so not imported.
       certifications: isIherb ? [] : get("certifications").split(",").map((c) => c.trim()).filter(Boolean)
         .filter((c, i, a) => a.findIndex((x) => x.toLowerCase().replace(/-/g, " ") === c.toLowerCase().replace(/-/g, " ")) === i).slice(0, 30),
       verified: isIherb,
+      overview: get("overview").slice(0, 4000),
+      suggested_use: get("suggested_use").slice(0, 2000),
+      warnings: get("warnings").slice(0, 2000),
     });
   });
   return { rows, recognised, ignored, skipped };
