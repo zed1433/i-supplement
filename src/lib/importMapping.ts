@@ -93,7 +93,7 @@ export function guessForm(title: string): string {
 
 /** "Nutricost, L-Theanine, 200 mg, 120 Capsules" → "L-Theanine, 200 mg" */
 export function cleanTitle(title: string, brand: string): string {
-  let parts = title.split(",").map((p) => p.trim()).filter(Boolean);
+  let parts = title.replace(/(\d),\s(\d{3})\b/g, "$1,$2").split(/,\s+/).map((p) => p.trim()).filter(Boolean);
   if (brand && parts[0]?.toLowerCase() === brand.toLowerCase()) parts = parts.slice(1);
   if (parts.length > 1 && /^\d[\d.,]*\s*(capsules?|veg(gie|etarian)? ?caps|softgels?|tablets?|gummies|count|lozenges)/i.test(parts.at(-1) ?? ""))
     parts = parts.slice(0, -1);
@@ -164,7 +164,8 @@ export function parseImport(text: string): ParseResult {
       url: withRcode(url),
       retailer_product_id: get("retailer_product_id").slice(0, 120),
       image_url: get("image_url"),
-      certifications: get("certifications").split(",").map((c) => c.trim()).filter(Boolean)
+      // iHerb exports repeat generic badges (e.g. "Organic") on every row — not product-verified, so not imported.
+      certifications: isIherb ? [] : get("certifications").split(",").map((c) => c.trim()).filter(Boolean)
         .filter((c, i, a) => a.findIndex((x) => x.toLowerCase().replace(/-/g, " ") === c.toLowerCase().replace(/-/g, " ")) === i).slice(0, 30),
       verified: isIherb,
     });
