@@ -1,12 +1,22 @@
 /** Minimal RFC4180-ish CSV parser (also handles semicolon/tab delimiters). */
 export function detectDelimiter(text: string): string {
-  const line = text.split(/\r?\n/, 1)[0] ?? "";
-  const counts: Record<string, number> = {
-    ",": (line.match(/,/g) ?? []).length,
-    ";": (line.match(/;/g) ?? []).length,
-    "\t": (line.match(/\t/g) ?? []).length,
-    "|": (line.match(/\|/g) ?? []).length,
-  };
+  const sample = text.slice(0, 12000);
+  const counts: Record<string, number> = { ",": 0, ";": 0, "\t": 0, "|": 0 };
+  let quoted = false;
+  for (let i = 0; i < sample.length; i += 1) {
+    const ch = sample[i];
+    if (ch === '"') {
+      if (quoted && sample[i + 1] === '"') {
+        i += 1;
+        continue;
+      }
+      quoted = !quoted;
+      continue;
+    }
+    if (quoted) continue;
+    if (ch === "\n") break;
+    if (ch in counts) counts[ch] += 1;
+  }
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? ",";
 }
 
