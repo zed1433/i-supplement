@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { marketAffiliateParams, useMarket } from "@/lib/market";
+import { shopperCountry, withIherbReferral } from "@/lib/iherb";
 
 export const CONSENT_STORAGE_KEY = "isupplement_consent_v1";
 /** Bump when the banner wording changes so visitors are asked again. */
@@ -144,7 +145,10 @@ export function useAffiliateHref() {
   const { market } = useMarket();
   const tracking = consent?.affiliate ?? false;
   return useCallback(
-    (offerId: string) => {
+    (offerId: string, targetUrl?: string) => {
+      if (targetUrl && /iherb\.com/i.test(targetUrl)) {
+        return withIherbReferral(targetUrl, shopperCountry(market.iherbCountry));
+      }
       const params = new URLSearchParams(marketAffiliateParams(market));
       if (!tracking) params.set("nt", "1");
       return `/api/affiliate/redirect/${offerId}?${params.toString()}`;
