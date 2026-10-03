@@ -22,9 +22,11 @@ You can see two problems in your screenshot:
 - **Large files:** 2,048 rows are sent in batches of about 200, with a progress counter. Products already in the catalogue get their iHerb offer updated instead of being added twice.
 - **Rows that need attention:** rows with no price or link are skipped and listed so you can see why. They never show up as €0.00.
 
-## Your file
+## Your file (checked)
 
-You don't have to send it, because the screenshot shows its layout. Uploading it here would still help: I could run all 2,048 rows through the importer as a test before you do it live.
+- There are 2,048 different products. Every one has a price in EUR and an iHerb link that already carries your NBO7379 code.
+- The brands with the most products are NOW Foods (362), California Gold Nutrition (194), Nutricost (116), Life Extension (96) and Swanson (95).
+- After the fix I'll run your file through the importer to test it, then you import it from the admin page. Each product's ingredients, directions and warnings text will be kept with it so it can be shown later.
 
 ## Technical details
 
