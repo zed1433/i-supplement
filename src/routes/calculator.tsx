@@ -218,15 +218,15 @@ function Dashboard({
   ];
 
   const nutrientKeys = Object.keys(data.targets);
-  const phos = totals.nutrients.phosphorus?.total ?? 0;
+  const phos = totals.nutrients["phosphorus"]?.total ?? 0;
   const pral =
     totals.protein > 0 || phos > 0
       ? calculatePral({
           proteinG: totals.protein,
           phosphorusMg: phos,
-          potassiumMg: totals.nutrients.potassium?.total ?? 0,
-          magnesiumMg: totals.nutrients.magnesium?.total ?? 0,
-          calciumMg: totals.nutrients.calcium?.total ?? 0,
+          potassiumMg: totals.nutrients["potassium"]?.total ?? 0,
+          magnesiumMg: totals.nutrients["magnesium"]?.total ?? 0,
+          calciumMg: totals.nutrients["calcium"]?.total ?? 0,
         })
       : null;
 
@@ -263,7 +263,7 @@ function Dashboard({
             const target = data.targets[key]!;
             const n = totals.nutrients[key];
             const actual = n?.total ?? 0;
-            const scale = progressScale(actual, target as Record<string, number | undefined>);
+            const scale = progressScale(actual, target as unknown as Record<string, number | undefined>);
             const link = nutrientCatalogueLink(key);
             const reference = target.rda ?? target.ai ?? target.optimalMin;
             const pct = reference ? Math.round((actual / reference) * 100) : null;

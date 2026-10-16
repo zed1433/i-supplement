@@ -215,7 +215,7 @@ export const CONDITION_STATE_OPTIONS: Record<string, [string, string][]> = {
 export function calculateMeal(
   items: MealItem[],
   nutrientForms: Record<string, NutrientForm>,
-  context: { gastricAcid?: string; conditions?: ConditionSelection[]; mealModifiers?: Record<string, unknown> },
+  context: { gastricAcid: string; conditions?: ConditionSelection[]; mealModifiers?: Record<string, unknown> },
   targets: Record<string, NutrientTarget>,
 ): MealTotals {
   return rawCalculateMeal(items, nutrientForms, context, targets) as MealTotals;
@@ -232,7 +232,13 @@ export function absorptionEstimate(
   total: { min: number; max: number };
   assumption: string;
 } | null {
-  return rawAbsorptionEstimate(key, value, gastricAcid);
+  return rawAbsorptionEstimate(key, value, gastricAcid) as {
+    status: string;
+    unit: string;
+    sources: [string, number, { min: number; max: number }][];
+    total: { min: number; max: number };
+    assumption: string;
+  } | null;
 }
 
 export const absorptionSummary = rawAbsorptionSummary as (key: string, value: NutrientTotal, unit: string) => string;
