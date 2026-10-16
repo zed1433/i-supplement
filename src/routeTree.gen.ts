@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BasketRouteImport } from './routes/basket'
+import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -68,6 +69,11 @@ const AuthRoute = AuthRouteImport.update({
 const BasketRoute = BasketRouteImport.update({
   id: '/basket',
   path: '/basket',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -211,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
+  '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRouteWithChildren
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
+  '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -275,6 +283,7 @@ export interface FileRoutesById {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/auth': typeof AuthRoute
   '/basket': typeof BasketRoute
+  '/calculator': typeof CalculatorRoute
   '/compare': typeof CompareRouteWithChildren
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
@@ -309,6 +318,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
+    | '/calculator'
     | '/compare'
     | '/contact'
     | '/privacy'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
+    | '/calculator'
     | '/contact'
     | '/privacy'
     | '/sitemap.xml'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/auth'
     | '/basket'
+    | '/calculator'
     | '/compare'
     | '/contact'
     | '/privacy'
@@ -406,6 +418,7 @@ export interface RootRouteChildren {
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   AuthRoute: typeof AuthRoute
   BasketRoute: typeof BasketRoute
+  CalculatorRoute: typeof CalculatorRoute
   CompareRoute: typeof CompareRouteWithChildren
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -461,6 +474,13 @@ declare module '@tanstack/react-router' {
       path: '/basket'
       fullPath: '/basket'
       preLoaderRoute: typeof BasketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -703,6 +723,7 @@ const rootRouteChildren: RootRouteChildren = {
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   AuthRoute: AuthRoute,
   BasketRoute: BasketRoute,
+  CalculatorRoute: CalculatorRoute,
   CompareRoute: CompareRouteWithChildren,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,

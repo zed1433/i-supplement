@@ -36,6 +36,9 @@ export function SiteFooter() {
           <Link to="/compare" className="text-muted-foreground hover:text-foreground">
             {t("nav.compare")}
           </Link>
+          <Link to="/calculator" className="text-muted-foreground hover:text-foreground">
+            Calculator
+          </Link>
           <Link to="/basket" className="text-muted-foreground hover:text-foreground">
             {t("nav.basket")}
           </Link>

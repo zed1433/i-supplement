@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FlaskConical, GitCompareArrows, Search, ShoppingBasket } from "lucide-react";
+import { Calculator, FlaskConical, GitCompareArrows, Search, ShoppingBasket } from "lucide-react";
 import { useState } from "react";
 import { useBasket } from "@/lib/basket";
 import { AffiliateNotice } from "@/components/suppcheck/AffiliateNotice";
