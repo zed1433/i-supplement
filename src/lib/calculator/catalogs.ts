@@ -1,3 +1,4 @@
+// @ts-nocheck — verbatim port of the Bio Calculator engine (github.com/18387093agg/bio-calculatorChatgpt). Do not retype formulas.
 /** UI catalogs. Nutrient reference values remain generated from the canonical
  * SQL/data export; this module only describes selectable product forms. */
 export const SUPPLEMENT_FORMS = [

@@ -1,3 +1,4 @@
+// @ts-nocheck — verbatim port of the Bio Calculator engine (github.com/18387093agg/bio-calculatorChatgpt). Do not retype formulas.
 /** Canonical calculation authority. This file is deliberately valid JavaScript: sync:engine publishes it verbatim. */
 export const MODEL_PARAMETERS=Object.freeze({
  ironHeme:Object.freeze({modelKey:'iron.heme.absorption_range.v1',min:.15,max:.35,unit:'mg'}),
