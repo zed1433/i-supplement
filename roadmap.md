@@ -30,3 +30,4 @@
 - [x] Add mobile/desktop product card carousels and full product-page galleries with zoom
 - [x] Add owner controls for reviewing, reordering, replacing, and removing product photos
 - [x] Bulk importer reads semicolon iHerb CSV exports (column aliases, auto category/form, batched import)
+- [x] Nutrition calculator at /calculator: verbatim engine port, meal builder, analysis, supplements, health context, targets, catalogue cross-links

@@ -11,3 +11,4 @@
 
 - Product photos live in `public.product_images` (public read, admin-only writes); keep `products.image_url` synchronized with the primary photo for legacy catalogue surfaces.
 - Store sourced product photography as Lovable asset pointers rather than external hotlinks so retailer image transforms do not degrade or disappear.
+- Calculator logic lives in `src/lib/calculator/`; the engine files are verbatim ports of the user's Bio Calculator repo — change formulas only in the source repo, then re-copy.
