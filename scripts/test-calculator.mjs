@@ -4,25 +4,30 @@
  * The engine files are verbatim ports; these tests pin the documented formulas.
  */
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import ts from "typescript";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const outDir = "/tmp/calc-test";
+mkdirSync(outDir, { recursive: true });
 
-/** Strip the TS header and evaluate the plain-JS engine ports in a sandbox. */
-async function loadModule(relPath, sandbox = {}) {
+/** Transpile a ported engine file to plain JS in /tmp so relative imports resolve. */
+async function loadModule(relPath, outName) {
   const source = readFileSync(join(root, relPath), "utf8").replace(/^\/\/ @ts-nocheck[^\n]*\n/, "");
-  const js = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },
-  }).outputText;
-  const blobUrl = `data:text/javascript;base64,${Buffer.from(js).toString("base64")}`;
-  return import(blobUrl);
+  const js = ts
+    .transpileModule(source, {
+      compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },
+    })
+    .outputText.replace(/from\s+['"]\.\/calculation-engine['"]/, "from './calculation-engine.js'");
+  const out = join(outDir, outName);
+  writeFileSync(out, js);
+  return import(pathToFileURL(out).href);
 }
 
-const engine = await loadModule("src/lib/calculator/calculation-engine.ts");
-const mealService = await loadModule("src/lib/calculator/meal-service.ts");
+const engine = await loadModule("src/lib/calculator/calculation-engine.ts", "calculation-engine.js");
+const mealService = await loadModule("src/lib/calculator/meal-service.ts", "meal-service.js");
 const data = JSON.parse(readFileSync(join(root, "src/lib/calculator/canonical-foods.json"), "utf8"));
 
 // 1. Dataset integrity
