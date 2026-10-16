@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
+  Calculator as CalculatorIcon,
   ChevronLeft,
   ChevronRight,
   Filter,
@@ -290,20 +291,27 @@ function HomePage() {
             Clinical transparency, clearer choices.
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.08] sm:text-6xl">
-            Find and buy the best lab-tested supplements.
+            Compare the cheapest, best supplements — and calculate what you need.
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
             One place for what actually works, at the best price we can find — real elemental doses,
-             published third-party testing, no marketing spin.
+             published third-party testing, no marketing spin. Then run your own food through the
+             nutrition calculator to see exactly where the gaps are.
           </p>
 
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <a
-              href="#catalogue"
+            <Link
+              to="/calculator"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Browse supplements
+              Open the calculator
               <ChevronRight className="size-4" />
+            </Link>
+            <a
+              href="#catalogue"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              Browse supplements
             </a>
             <Link
               to="/affiliate-disclosure"
@@ -312,6 +320,23 @@ function HomePage() {
               How we verify
             </Link>
           </div>
+
+          <Link
+            to="/calculator"
+            className="mt-6 flex w-full max-w-3xl items-center gap-4 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-left transition-colors hover:border-primary/60"
+          >
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <CalculatorIcon className="size-5" />
+            </span>
+            <span className="text-sm">
+              <span className="font-semibold text-foreground">Nutrition calculator</span>
+              <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
+                Build a meal from USDA reference foods — calories, macros and 20+ micronutrients against
+                official targets, with modeled iron, B12 and zinc absorption.
+              </span>
+            </span>
+            <ChevronRight className="ml-auto size-4 shrink-0 text-primary" />
+          </Link>
 
           <div className="relative mt-8 w-full max-w-3xl text-left">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FlaskConical, GitCompareArrows, Search, ShoppingBasket } from "lucide-react";
+import { Calculator, FlaskConical, GitCompareArrows, Search, ShoppingBasket } from "lucide-react";
 import { useState } from "react";
 import { useBasket } from "@/lib/basket";
 import { AffiliateNotice } from "@/components/suppcheck/AffiliateNotice";
@@ -38,6 +38,14 @@ export function SiteHeader() {
         </form>
         <nav className="ml-auto flex items-center gap-1 text-sm">
           <MarketSelector />
+          <Link
+            to="/calculator"
+            className="hidden min-h-11 items-center gap-1.5 rounded-md px-3 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary sm:flex"
+            activeProps={{ className: "text-primary border-primary/50" }}
+          >
+            <Calculator className="size-3.5" />
+            Calculator
+          </Link>
           <Link
             to="/compare"
             className="hidden min-h-11 items-center gap-1.5 rounded-md px-3 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary sm:flex"

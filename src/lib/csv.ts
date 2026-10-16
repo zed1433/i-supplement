@@ -15,7 +15,7 @@ export function detectDelimiter(text: string): string {
     }
     if (quoted) continue;
     if (ch === "\n") break;
-    if (ch in counts) counts[ch] += 1;
+    if (ch !== undefined && ch in counts) counts[ch] = (counts[ch] ?? 0) + 1;
   }
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? ",";
 }
