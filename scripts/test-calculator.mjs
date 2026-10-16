@@ -56,13 +56,16 @@ assert.ok(Object.keys(totals.nutrients).length > 10, "micronutrients computed");
 assert.ok(Array.isArray(totals.pipeline) && totals.pipeline.length > 0, "pipeline rows produced");
 
 // 5. Absorption — iron estimate is bounded and never exceeds intake
-const iron = totals.nutrients.iron;
-if (iron && iron.total > 0) {
-  const est = mealService.absorptionEstimate("iron", iron, "normal");
-  assert.ok(est, "iron absorption modeled");
-  assert.ok(est.total.min >= 0 && est.total.max >= est.total.min, "absorption range ordered");
-  assert.ok(est.total.max <= iron.total + 1e-9, "absorbed iron never exceeds intake");
-}
+const ironValue = { total: 10, animal: 4, plant: 6, supplement: 0, unknown: 0 };
+const est = mealService.absorptionEstimate("iron", ironValue, "normal");
+assert.ok(est, "iron absorption modeled for known heme/non-heme split");
+assert.ok(est.total.min >= 0 && est.total.max >= est.total.min, "absorption range ordered");
+assert.ok(est.total.max <= ironValue.total + 1e-9, "absorbed iron never exceeds intake");
+assert.equal(
+  mealService.absorptionEstimate("iron", { ...ironValue, unknown: 1 }, "normal"),
+  null,
+  "unknown-origin iron is not modeled",
+);
 
 // 6. Progress scale — markers land at 0..100
 const scale = mealService.progress(1.2, { rda: 1.2, ul: 100 });
