@@ -116,7 +116,11 @@ for p in sorted(glob.glob(f"{SRC}/o*.json")):
 out = {"schemaVersion": 1, "generated": "2026-10-17",
        "licences": {"USDA FoodData Central": "Public domain (CC0)", "ANSES-CIQUAL 2020": "Etalab Open Licence 2.0 — ANSES, Ciqual French food composition table",
                     "Open Food Facts": "Open Database License (ODbL) — label values entered by contributors"},
-       "foods": foods}
+       "units": UNITS,
+       # compact rows, expanded by app.js: [id, name, category, preparation, nutrients, source, region, country, type, measured, label, greek, fdcId]
+       "rows": [[f["id"], f["name"], f["category"], f["preparations"][0]["method"], f["nutrients"], f["source"]["name"],
+                 f["origin"]["region"], f["origin"]["country"], f["origin"]["type"], int(f["origin"]["measured"]), f["origin"]["label"],
+                 int(f["origin"]["greek"]), f.get("fdcId")] for f in foods]}
 json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
 from collections import Counter
 print(len(foods), Counter(f["origin"]["label"] for f in foods), sum(f["origin"]["greek"] for f in foods), os.path.getsize(OUT))
