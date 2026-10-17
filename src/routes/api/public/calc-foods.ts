@@ -10,13 +10,17 @@ export const Route = createFileRoute("/api/public/calc-foods")({
       GET: async ({ request }) => {
         const q = (new URL(request.url).searchParams.get("q") ?? "").trim().slice(0, 80);
         if (q.length < 2) return Response.json({ foods: [] });
+        let limited = false;
         const key = process.env["USDA_FDC_API_KEY"] || "DEMO_KEY";
         const usda = fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}`, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ query: q, pageSize: 15, dataType: ["Foundation", "SR Legacy", "Survey (FNDDS)", "Branded"] }),
         })
-          .then((r) => (r.ok ? r.json() : r.text().then((t) => { console.error("usda", r.status, t.slice(0, 200)); return { foods: [] }; })))
+          .then((r) => {
+            if (r.status === 429 || r.status === 403) limited = true;
+            return r.ok ? r.json() : { foods: [] };
+          })
           .then((d: { foods?: Parameters<typeof normalizeUsda>[0][] }) => (d.foods ?? []).map(normalizeUsda))
           .catch(() => []);
         const off = fetch(
@@ -27,7 +31,7 @@ export const Route = createFileRoute("/api/public/calc-foods")({
           .then((d: { products?: Parameters<typeof normalizeOff>[0][] }) => (d.products ?? []).map(normalizeOff))
           .catch((e) => { console.error("calc-foods", e); return []; });
         const foods = (await Promise.all([usda, off])).flat().filter((f): f is CalcFood => f !== null);
-        return Response.json({ foods }, { headers: { "cache-control": "public, max-age=3600" } });
+        return Response.json({ foods, limited }, { headers: { "cache-control": "public, max-age=3600" } });
       },
     },
   },
