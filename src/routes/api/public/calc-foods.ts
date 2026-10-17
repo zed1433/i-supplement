@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/public/calc-foods")({
         if (q.length < 2) return Response.json({ foods: [] });
         const key = process.env["USDA_FDC_API_KEY"] || "DEMO_KEY";
         const usda = fetch(
-          `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(q)}&pageSize=15&dataType=Foundation,SR%20Legacy,Survey%20(FNDDS),Branded`,
+          `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(q)}&pageSize=15&dataType=Foundation&dataType=SR%20Legacy&dataType=Survey%20%28FNDDS%29&dataType=Branded`,
         )
           .then((r) => (r.ok ? r.json() : (console.error("usda", r.status), { foods: [] })))
           .then((d: { foods?: Parameters<typeof normalizeUsda>[0][] }) => (d.foods ?? []).map(normalizeUsda))
