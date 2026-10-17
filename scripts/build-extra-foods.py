@@ -83,6 +83,9 @@ for _, row in df.iterrows():
     for k, (col, _) in CIQ.items():
         v = ciq_val(row[col])
         if v is not None: by[k] = v
+    if "energy" not in by:  # CIQUAL also publishes energy via N x Jones' factor with fibres
+        v = ciq_val(row["Energy, N x Jones' factor, with fibres (kcal/100g)"])
+        if v is not None: by["energy"] = v
     if not all(k in by for k in REQUIRED): continue
     name = str(row["alim_nom_eng"]).strip()
     sub = str(row["alim_ssgrp_nom_eng"]).strip()

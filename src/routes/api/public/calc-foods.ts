@@ -11,12 +11,14 @@ export const Route = createFileRoute("/api/public/calc-foods")({
         const q = (new URL(request.url).searchParams.get("q") ?? "").trim().slice(0, 80);
         if (q.length < 2) return Response.json({ foods: [] });
         const key = process.env["USDA_FDC_API_KEY"] || "DEMO_KEY";
-        const usda = fetch(
-          `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(q)}&pageSize=15&dataType=Foundation&dataType=SR%20Legacy&dataType=Survey%20%28FNDDS%29&dataType=Branded`,
-        )
-          .then((r) => (r.ok ? r.json() : (r.text().then((t) => console.error("usda", r.status, t.slice(0, 300))), { foods: [] })))
+        const usda = fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${encodeURIComponent(key)}`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ query: q, pageSize: 15, dataType: ["Foundation", "SR Legacy", "Survey (FNDDS)", "Branded"] }),
+        })
+          .then((r) => (r.ok ? r.json() : { foods: [] }))
           .then((d: { foods?: Parameters<typeof normalizeUsda>[0][] }) => (d.foods ?? []).map(normalizeUsda))
-          .catch((e) => { console.error("calc-foods", e); return []; });
+          .catch(() => []);
         const off = fetch(
           `https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&page_size=15&search_terms=${encodeURIComponent(q)}&fields=code,product_name,brands,countries_tags,nutriments`,
           { headers: { "User-Agent": "i-Supplement calculator/1.0 (contact@i-supplement.com)" } },
