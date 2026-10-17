@@ -16,7 +16,7 @@ export const Route = createFileRoute("/api/public/calc-foods")({
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ query: q, pageSize: 15, dataType: ["Foundation", "SR Legacy", "Survey (FNDDS)", "Branded"] }),
         })
-          .then((r) => (r.ok ? r.json() : { foods: [] }))
+          .then((r) => (r.ok ? r.json() : r.text().then((t) => { console.error("usda", r.status, t.slice(0, 200)); return { foods: [] }; })))
           .then((d: { foods?: Parameters<typeof normalizeUsda>[0][] }) => (d.foods ?? []).map(normalizeUsda))
           .catch(() => []);
         const off = fetch(
