@@ -33,7 +33,9 @@ assert.equal(prof.units.copper, 'µg');
 const data = { foods: [{ id: beef, name: 'Beef', nutrients: { zinc: 5 }, provenance: { zinc: { unit: 'mg' } } }], nutrientForms: { zinc: { nutrientKey: 'zinc', origin: 'unknown' } }, targets: { zinc: {}, magnesium: {} } };
 mergeFoodProfiles(data, prof);
 assert.equal(data.foods[0].nutrients.zinc, 5);
-assert.ok(data.foods[0].nutrients.magnesium > 0);
+assert.equal(data.foods[0].nutrients.magnesium, undefined); // CIQUAL did not measure it: stays unknown, not zero
+assert.equal(data.foods[0].nutrients.selenium, 6.64);
+assert.equal(data.foods[0].profile.status.magnesium, 'U');
 const forms = { ...data.nutrientForms };
 const routed = originItem({ grams: 100, food: data.foods[0] }, forms);
 assert.equal(forms['zinc@animal'].origin, 'animal');
