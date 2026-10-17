@@ -1,0 +1,75 @@
+id,nutrient_name,chemical_form,kingdom,category,default_unit,base_absorption_rate,notes,metabolic_conversion_factor,absorption_rate_min,absorption_rate_max
+0af186c4-0a16-4ef0-beb0-8042a67a708c,Chromium,Trivalent Chromium (Cr3+ Organic Complex),both,trace_mineral,mcg,0.02,Extremely poor intestinal absorption; passive paracellular route,1.0,0.10,0.30
+0f5c0f47-1e72-42fe-86b5-8c4e75cceeee,Vitamin A,Beta-Carotene,plant,fat_soluble_vitamin,mcg,0.14,1 RAE = 12 mcg dietary beta-carotene,0.0833,0.05,0.30
+11d80a64-ad39-4847-9227-e28972f574ae,Calcium,Plant Calcium Complex,plant,macro_mineral,mg,0.30,Subject to oxalate binding inhibition,1.00,0.25,0.40
+14951336-6413-4049-bc5b-235b124cff6b,Magnesium,Magnesium Phytate / Chelate,plant,macro_mineral,mg,0.30,Partial chelation in cereal grains and high-fiber matrices,1.00,0.30,0.45
+182f88ea-2bb3-4819-beb5-726cd69c6ac2,Molybdenum,Molybdate / Molybdopterin,both,trace_mineral,mcg,0.85,Carrier-mediated passive and active intestinal transit,1.0,0.10,0.30
+1b628b46-bdbc-484b-ae60-16f1d653fe16,Carnosine,Beta-Alanyl-L-Histidine,animal,zoochemical,mg,0.70,Histidine dipeptide antiglycation and pH-buffering agent in skeletal muscle,1.0,0.10,0.30
+1cc2fa70-74d6-456b-9790-14c058ed4f9f,Selenium,Selenocysteine,animal,trace_mineral,mcg,0.85,Directly utilized for endogenous selenoprotein synthesis,1.0,0.10,0.30
+22845e4c-be1f-4b07-bb4c-21ffd8d549e8,Manganese,Plant Manganese Complex,plant,trace_mineral,mg,0.04,Consistently low baseline human absorption rate,1.0,0.10,0.30
+240c4495-3a28-438b-a84f-bedf6c98894a,Vitamin E,d-alpha-Tocopherol,plant,fat_soluble_vitamin,mg,0.35,Natural plant RRR-alpha-tocopherol,1.0,0.10,0.30
+242076ad-f0e7-4fd2-b504-d3babf5914f6,Riboflavin (B2),Riboflavin Free/FAD/FMN,plant,water_soluble_vitamin,mg,0.70,"Bound coenzyme forms, released during digestion",1.0,0.10,0.30
+27e66c5e-3b42-42ae-b852-82d6466f4069,Calcium,Calcium Ion (Protein/Phosphate Bound),animal,macro_mineral,mg,0.35,"Solubilized in gastric acid, low inhibition",1.00,0.25,0.40
+2891976f-7e03-46ec-85fc-746ef3110fb9,Vitamin D,Ergocalciferol (D2),plant,fat_soluble_vitamin,mcg,0.35,"Faster clearance, lower conversion to 25(OH)D",1.00,0.50,0.80
+2aed6cb0-6655-4970-9867-d637da676b09,Vitamin B6,Pyridoxal 5-Phosphate (PLP) / Pyridoxamine,animal,water_soluble_vitamin,mg,0.80,"Hydrolyzed by intestinal alkaline phosphatase, readily absorbed",1.00,0.60,0.85
+2c0aae19-5a57-46d5-9da5-96fd25414024,Iron,Non-Heme Iron (Fe2+/Fe3+),plant,trace_mineral,mg,0.07,Highly susceptible to phytate/polyphenol inhibition,1.00,0.02,0.12
+2c4502a1-81d3-4c67-b533-23835086fe85,Phosphorus,Organic Cellular Orthophosphate,animal,macro_mineral,mg,0.70,Freely cleaved by intestinal alkaline phosphatases,1.0,0.10,0.30
+3132104b-c6b7-4f21-958e-c1a4d11fbd0d,Choline,Free Choline / Phosphocholine,plant,quasi_vitamin,mg,0.70,Absorbed via specific carrier-mediated transport,1.0,0.10,0.30
+362f8455-52a2-48d4-919d-f350cb4adaf1,Calcium,Ionic Calcium (Low Oxalate Matrix),plant,macro_mineral,mg,0.45,Highly absorbable form in low-oxalate cruciferous plants (e.g. kale),1.00,0.25,0.40
+36be7668-512f-4360-8478-0980fb310c7d,Thiamine (B1),Thiamine Pyrophosphate (TPP / Free),both,water_soluble_vitamin,mg,0.60,Requires alkaline phosphatase cleavage for uptake via ThTr-1/2,1.00,0.60,0.85
+392a931e-33e3-4508-9070-a66311fa445c,Zinc,Plant Zinc Complex,plant,trace_mineral,mg,0.18,Inhibited heavily by molar phytate:Zn ratio,1.00,0.10,0.20
+3a01face-69ef-446c-81dd-e66495dbe99b,Biotin (B7),Free Biotin,plant,water_soluble_vitamin,mcg,0.80,Readily absorbed via SMVT transporter,1.0,0.10,0.30
+3bd9f170-0868-4bb6-80f8-96d8e8ebe052,Vitamin C,L-Ascorbic Acid / Dehydroascorbic Acid,both,water_soluble_vitamin,mg,0.85,Active uptake via SVCT1/2 and facilitated diffusion through GLUT transporters,1.00,0.70,0.90
+4001f22b-c3c7-4887-a429-e12fc8ce5b5f,Potassium,Ionic Potassium (K+),plant,macro_mineral,mg,0.88,Readily bioavailable in small intestine,1.0,0.10,0.30
+4e9249c4-7b85-4e9b-af21-463ebae5ea63,Sodium,Sodium Ion (Na+),both,macro_mineral,mg,0.95,Virtually complete intestinal uptake via SGLT1 and NHE3,1.0,0.10,0.30
+5172cfe0-5a3b-40a0-90bd-b53ee395bff7,Riboflavin (B2),FAD / FMN Coenzyme Forms,both,water_soluble_vitamin,mg,0.65,Hydrolyzed to free riboflavin by brush-border FAD pyrophosphatase,1.0,0.10,0.30
+52aa5291-9301-44a6-923e-c3c564a21193,Magnesium,Plant Magnesium Complex,plant,macro_mineral,mg,0.35,Bioavailability modulated by phytates,1.00,0.30,0.45
+5c3bca93-8267-4de1-b663-35ea9794e49f,Iodine,Iodate / Free Iodide,plant,trace_mineral,mcg,0.80,Reduced to iodide prior to intestinal absorption,1.0,0.10,0.30
+634ad760-a359-4125-b822-b8c8c0c54e33,Vitamin K,Menaquinone (K2 - MK4/MK7),animal,fat_soluble_vitamin,mcg,0.75,"Longer half-life, systemic tissue distribution (bones/arteries)",1.00,0.80,0.95
+64c042fa-4821-42ef-ae90-c88628bab7c0,Selenium,Selenomethionine,plant,trace_mineral,mcg,0.90,Non-specifically incorporated into general body protein pool,1.0,0.10,0.30
+725b7b55-e08a-42d6-8543-89d21760a07b,Vitamin K1,Phylloquinone,plant,fat_soluble_vitamin,mcg,0.15,Low bioavailability without dietary lipids,1.00,0.10,0.30
+796e8b8a-c47a-46e0-b32a-8114045d3274,Copper,Plant Copper Complex,plant,trace_mineral,mg,0.40,Absorbed in stomach and duodenum,1.0,0.10,0.30
+7b028bd2-74b4-4a2a-b34c-68889d5ff2fa,Potassium,Potassium Ion (K+),both,macro_mineral,mg,0.90,High passive and active uptake across the entire small intestine,1.0,0.10,0.30
+7c8a7a60-57ae-46f4-b29b-c5acbdf423b4,Magnesium,Protein-Bound / Ionized Magnesium,animal,macro_mineral,mg,0.45,Absorbed via TRPM6 and paracellular claudin channels,1.00,0.30,0.45
+7caf0a80-97b1-4160-8138-b5d9772ffbb8,Niacin (B3),Niacytin (Hemicellulose-bound Nicotinic Acid),plant,water_soluble_vitamin,mg,0.20,Bound to carbohydrate complexes; chemically unavailable unless nixtamalized,1.0,0.10,0.30
+7eb2f9d8-c3b5-4af5-8d3a-d280d0da13d1,Choline,Phosphatidylcholine / Free Choline,plant,quasi_vitamin,mg,0.75,Constituent of plant cell membranes,1.0,0.10,0.30
+7f4976da-502a-46ba-830c-d67af45e1700,Omega-3 (DHA),Docosahexaenoic Acid (22:6n-3 Phospholipid/TAG),animal,fatty_acid,mg,0.95,Preformed structural brain and retinal polyunsaturated fatty acid,1.0,0.10,0.30
+84f0a306-bb3e-41e9-9cea-438e6d1d945d,Vitamin D,Cholecalciferol (D3),animal,fat_soluble_vitamin,mcg,0.70,High affinity for Vitamin D Binding Protein (VDBP),1.00,0.50,0.80
+867c5896-b11c-474f-a0ad-a14fedfa990b,Omega-3 (ALA),Alpha-Linolenic Acid (18:3n-3 Triacylglycerol),plant,fatty_acid,mg,0.90,Requires FADS2/ELOVL5 desaturation; systemic conversion to bioactive DHA is <0.5%,0.05,0.85,0.95
+88f94663-941b-465d-93bc-b0a198c9a91f,Carnitine,L-Carnitine (Free & Acylcarnitine),animal,zoochemical,mg,0.75,Essential cofactor for mitochondrial CPT-1 fatty acid beta-oxidation,1.0,0.10,0.30
+8e49dcd6-7ba8-42ba-936c-93f3f547a40e,Choline,Phosphatidylcholine / Sphingomyelin,animal,quasi_vitamin,mg,0.85,Digested via pancreatic phospholipase A2; incorporated into chylomicrons,1.0,0.10,0.30
+937cc2c8-09ed-4b1b-a6ea-f96d2688f6fa,Vitamin B6,Pyridoxine Glucoside,plant,water_soluble_vitamin,mg,0.58,Plant glucoside forms have reduced bioavailability,0.75,0.40,0.60
+93d59000-ee72-45d0-81f6-a2d01a2febd1,Vitamin A,Provitamin A Carotenoids (Beta-Carotene),plant,fat_soluble_vitamin,mcg,0.10,Requires central cleavage by BCMO1 enzyme; low conversion yield,0.0833,0.10,0.30
+959c3cd0-6996-48d1-b097-975b6dc36f0e,Taurine,2-Aminoethanesulfonic Acid,animal,zoochemical,mg,0.90,"Essential for bile acid conjugation, myocardial function, and osmoregulation",1.0,0.10,0.30
+977a47ca-307e-4b1b-8822-400a3ef1eefc,Phosphorus,Phytic Acid Bound Phosphate (Myo-inositol),plant,macro_mineral,mg,0.25,Indigestible without exogenous or microbial phytase,1.0,0.10,0.30
+9bee533b-4709-4e70-8d8c-a117c69b33fb,Copper,Phytate-Bound / Inorganic Copper,plant,trace_mineral,mg,0.30,Competitively displaced by high zinc or phytate levels,1.0,0.10,0.30
+9c185355-0c08-4577-a3e4-38eaf52ba418,Vitamin C,L-Ascorbic Acid,plant,water_soluble_vitamin,mg,0.80,Ascorbate pool contributor; enhancer of non-heme Fe,1.00,0.70,0.90
+9e18a94e-cff0-4653-8ce6-2f33b7a8d940,Vitamin A,Preformed Retinol / Retinyl Esters,animal,fat_soluble_vitamin,mcg,0.80,Direct bioavailable retinoid incorporated into mixed micelles,1.00,0.70,0.90
+9eb789b4-7afa-460e-a4d4-2fe7b3c43e22,Biotin (B7),Biotinyl-Lysine (Biocytin) / Protein-bound,animal,water_soluble_vitamin,mcg,0.60,Requires intestinal biotinidase cleavage for liberation,1.0,0.10,0.30
+a057fd6c-144b-45f5-8895-a7fe404b94a9,Thiamin (B1),Thiamine Hydrochloride,plant,water_soluble_vitamin,mg,0.75,Free thiamin and phosphates,1.00,0.60,0.85
+a437ba4a-3163-4066-be4b-a1f5cecdfee1,Anserine,Beta-Alanyl-N-Methylhistidine,animal,zoochemical,mg,0.70,Methylated histidine dipeptide dominant in avian and aquatic tissues,1.0,0.10,0.30
+a4952fa0-6697-4796-a9ee-8af110343ccf,Iron,Heme Iron (Porphyrin Bound),animal,trace_mineral,mg,0.25,Absorbed directly via HCP1 enterocyte transporter,1.00,0.15,0.35
+a7136c1e-8d3e-40a6-a1f5-a007710c8b4b,Iodine,Iodide / Iodinated Amino Acids,animal,trace_mineral,mcg,0.95,High bioavailability via NIS sodium/iodide symporter,1.0,0.10,0.30
+a7195680-b1e0-4cc9-90b9-25fe1b424066,Vitamin B12,Cobalamin (Adenosyl/Methyl/Hydroxo bound to protein),animal,water_soluble_vitamin,mcg,0.50,"Requires gastric acid, pepsin, haptocorrin, and Intrinsic Factor (IF)",1.0,0.10,0.30
+a757c4c8-e026-4cb0-8ed2-375c0a31afe9,Vitamin K,Phylloquinone (K1),plant,fat_soluble_vitamin,mcg,0.15,"Tightly thylakoid-bound in plants, routed mainly to liver for clotting factors",0.20,0.10,0.30
+a8194862-e5e8-4ce9-bdaa-d3e178a4601a,Manganese,Manganese Complex / Mn2+,both,trace_mineral,mg,0.05,Extremely low baseline bioavailability; excreted homeostatically in bile,1.0,0.10,0.30
+aa7206e0-c2c6-45c2-8585-387c3b37dccd,Niacin (B3),Nicotinic Acid,plant,water_soluble_vitamin,mg,0.60,Free and bound forms,1.0,0.10,0.30
+aa8e0579-7ac3-4340-9902-251a5a237529,Calcium,Calcium Oxalate / Phytate Complexes,plant,macro_mineral,mg,0.08,Insoluble crystalline lattice; heavily unabsorbable (e.g. spinach),1.00,0.25,0.40
+ad44e589-4fbb-4c7d-a8fe-bd74b95bc46b,Niacin (B3),Nicotinamide / NAD / NADP,animal,water_soluble_vitamin,mg,0.85,Directly accessible for uptake in intestinal enterocytes,1.0,0.10,0.30
+ae188e89-f732-4576-992e-a2acfd7bad2e,Chloride,Chloride Ion (Cl-),both,macro_mineral,mg,0.95,Electroneutral NaCl co-transport and Cl-/HCO3- exchanger uptake,1.0,0.10,0.30
+b9fa9e39-102e-4d52-a483-f1829b53ea62,Creatine,Creatine Monohydrate (Intracellular Phosphocreatine precursor),animal,zoochemical,mg,0.95,Direct high-energy phosphate buffer; bypasses hepatic methylation demand,1.0,0.10,0.30
+bb7293bc-4e23-4d45-9810-f88a6af46e6e,Phosphorus,Organic/Phytate Phosphorus,plant,macro_mineral,mg,0.40,Partially bound in phytate complexes in plants,1.0,0.10,0.30
+c2183aa4-5b3f-48f5-b2ff-3d35a557f87e,Folate (B9),Tetrahydrofolate / Polyglutamate,plant,water_soluble_vitamin,mcg,0.50,Food folate bioequivalence ~60% vs synthetic folic acid,0.60,0.10,0.30
+c778ac97-0a94-4729-a2bf-6f8dea6d7a2f,Omega-3 (EPA),Eicosapentaenoic Acid (20:5n-3 Phospholipid/TAG),animal,fatty_acid,mg,0.95,Preformed resolving anti-inflammatory eicosanoid precursor,1.0,0.10,0.30
+cb3431fd-9f36-4c28-bd5c-9597cd9e4003,Vitamin E,Alpha-Tocopherol,both,fat_soluble_vitamin,mg,0.40,Recognized by hepatic alpha-tocopherol transfer protein,1.0,0.10,0.30
+d2e0692f-2639-41a6-8b9a-7d0091d7a3b9,Coenzyme Q10,Ubiquinol (Reduced active form),animal,zoochemical,mg,0.60,Mitochondrial electron transport chain complex III carrier and lipid antioxidant,1.0,0.10,0.30
+d61a4acf-ff9f-4d50-a13c-0acd5131e097,Pantothenic Acid (B5),Coenzyme A / Phosphopantetheine,both,water_soluble_vitamin,mg,0.50,Hydrolyzed to pantetheine and absorbed via SMVT,1.0,0.10,0.30
+d67cdfec-a32f-475c-afb7-37695e76204c,Vitamin E,Gamma/Delta-Tocopherol & Tocotrienols,plant,fat_soluble_vitamin,mg,0.25,"Rapidly metabolized, predominantly plant seed oil forms",1.0,0.10,0.30
+d695fe1d-1d67-4950-92ae-77d0509cab67,Sodium,Ionic Sodium (Na+),plant,macro_mineral,mg,0.95,Free monovalent cation,1.0,0.10,0.30
+d6b5c50e-bf84-464a-9445-fb8045ad4cc3,Copper,Cuproprotein-Bound Copper,animal,trace_mineral,mg,0.55,High bioavailability from organ meats via CTR1,1.0,0.10,0.30
+d96a51c8-48f5-4537-be53-4e451dd8aa98,Folate (B9),Monoglutamyl Folate / Methylfolate,animal,water_soluble_vitamin,mcg,0.80,Does not require brush-border hydrolysis; direct PCFT uptake,1.0,0.10,0.30
+e1757652-6eb7-4142-9939-9f777c5b6c2c,Zinc,Zinc-Phytate Complex,plant,trace_mineral,mg,0.12,"Insoluble at neutral intestinal pH, severely impaired ZIP4 uptake",1.00,0.10,0.20
+e7e2e9f5-336b-4533-a78c-5a647c647e84,Vitamin B6,Pyridoxine-5-beta-D-Glucoside (PNG),plant,water_soluble_vitamin,mg,0.40,Glucosylated form; requires specific beta-glucosidase with variable yield,0.75,0.40,0.60
+eb5b7cae-8db0-4d44-b073-e36ebe191e84,Zinc,Zinc-Protein Complex,animal,trace_mineral,mg,0.35,Facilitated by amino acid co-transport (histidine/cysteine),1.00,0.20,0.40
+ebed2baf-6f8d-4f63-a31b-a02018e2d850,Iron,Non-Heme Iron (Fe2+/Fe3+ Salts),plant,trace_mineral,mg,0.05,"DMT1 transport, heavily bound by phytates and tannins",1.00,0.02,0.12
+ffd8197a-1484-4cc3-bdc2-25c9b1a35e86,Folate (B9),Polyglutamyl Folates,plant,water_soluble_vitamin,mcg,0.50,Requires cleavage by glutamate carboxypeptidase II (GCPII),1.0,0.10,0.30

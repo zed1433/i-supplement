@@ -1,0 +1,4 @@
+id,antagonist_type,target_mineral,inhibition_coefficient
+2a25e05c-d931-4222-8558-e425376c01b7,calcium_excess,iron,0.40
+312b06ee-9ab8-40c3-b76f-1e3ec09fbe67,phytate,zinc,0.65
+6fdad22c-c6da-439d-9d10-f2ff4e0cd34e,oxalate,magnesium,0.50

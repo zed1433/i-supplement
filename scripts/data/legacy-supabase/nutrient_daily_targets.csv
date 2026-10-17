@@ -1,0 +1,32 @@
+id,nutrient_name,unit,rda_minimum,optimal_target,upper_limit,notes,upper_tolerable_limit
+02332592-eb78-42bf-81c3-1de65d207ce3,Calcium,mg,1000.0,1200.0,,,2500.0
+1fc641da-39c9-486d-be18-8151fa75a8ad,Biotin (B7),mcg,30.0,100.0,,,
+344f84f1-64df-49e9-b12d-13ed809140c3,Thiamine (B1),mg,1.2,2.5,,,
+378cb0b5-adb6-4a0e-afdb-2cf9624b47dd,Vitamin A,mcg,900.0,1500.0,,,3000.0
+3803b25b-a086-494e-ad27-5b182d7e68ef,Creatine,mg,1000,3000,,,
+49ad6ee0-666b-4871-9cfa-7aa390de4e31,Carnitine,mg,20,100,,,
+4e448cec-5834-4259-9f62-b170da17b62e,Selenium,mcg,55.0,120.0,,,400.0
+5044d327-508f-4182-b469-eeb693108faf,Magnesium,mg,420.0,550.0,,,750.0
+566ae670-b05a-4145-94d5-8e222115870a,CoQ10,mg,30,100,,,
+605e568d-0d22-45ee-8ea8-417d705ca0a1,Vitamin B6,mg,1.7,3.5,,,100.0
+7203b130-9cd8-446d-89f6-6acdd01fa9d0,Vitamin K,mcg,120.0,300.0,,,
+7a40e69a-9baf-4330-adec-285c388f078f,Phosphorus,mg,700,1000,,,
+7b3d136f-313d-4997-8246-514e88a3d5c3,Vitamin C,mg,90.0,250.0,,,2000.0
+7b73e4f3-3bb4-4f85-8cb3-3ff805f3d679,Choline,mg,550.0,750.0,,,3500.0
+9666ced2-385d-4dc5-b408-85e4bdbcec0d,Iron,mg,8.0,18.0,,,45.0
+97382fa0-ce6a-4bc7-8e79-f7e997726c0c,Vitamin E,mg,15.0,30.0,,,1000.0
+a66b3f2b-9c84-47ea-b971-29452955079f,Copper,mg,0.9,2.0,,,10.0
+a6dc68ab-4a16-44eb-bd46-b0861a116fd2,Zinc,mg,11.0,20.0,,,40.0
+b4246011-2e85-46cb-a90d-386418ec9a27,Thiamin (B1),mg,1.2,2.5,,,
+b4d67bd5-6226-4853-b64c-e6f1d91d00f1,Iodine,mcg,150.0,250.0,,,1100.0
+ba88e8e5-229b-440a-8913-3d44b915ce1c,Folate (B9),mcg,400.0,600.0,,,1000.0
+c246fdde-24ef-4a69-a689-f822c8e333d1,Taurine,mg,50,200,,,
+c3e99060-b3e0-40d9-a4de-76602a7fdfe4,Carnosine,mg,200,500,,,
+c5e37151-77c9-4a77-9ecb-e82224438ddc,Vitamin D,mcg,20.0,75.0,,,100.0
+c71d5574-a630-4375-84d9-f254dfca0168,Riboflavin (B2),mg,1.3,2.2,,,
+cc1d0257-2f38-4c6a-8dc7-75a7ceb0807d,Vitamin B12,mcg,2.4,6.0,,,
+d38bb6a5-3490-40bc-b452-818dc2f125cd,Sodium,mg,1500.0,2500.0,,,5000.0
+e61d80b3-5939-48b0-bcdd-fe4a928549f1,Niacin (B3),mg,16.0,25.0,,,50.0
+ebbbafb6-40c6-4948-9cf8-32f0994aebd3,Potassium,mg,3400.0,4700.0,,,
+ef65f6d8-108f-4d5b-a282-1ea4272c3837,Manganese,mg,2.3,4.0,,,11.0
+fe63dc4a-f58b-43ed-b4e6-4f381b38ae44,Pantothenic Acid (B5),mg,5.0,8.0,,,

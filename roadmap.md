@@ -32,3 +32,12 @@
 - [x] Bulk importer reads semicolon iHerb CSV exports (column aliases, auto category/form, batched import)
 - [x] Nutrition calculator at /calculator: verbatim engine port, meal builder, analysis, supplements, health context, targets, catalogue cross-links
 - [x] Calculator: 4,000+ extra foods (USDA, CIQUAL, Open Food Facts), region/origin/type filters, live food search
+- [x] Full nutrient + anti-nutrient profile for every calculator food (status: measured / measured zero / absent by biology / estimated / unknown), animal/plant routing, phytate/oxalate/tannin effects live
+- [ ] Old-vs-current formula comparison report (legacy Supabase functions)
+- [ ] Add owner's 88 legacy foods as "My database" choices
+- [ ] Add legacy preparation methods (heat retention + anti-nutrient reduction)
+- [ ] Diet type setting (legacy dietary_modifier_rules)
+- [ ] Under-5 g fat warning + absorbed-calories figure
+- [ ] Import owner's old meal history (waiting on owner's yes/no)
+- [ ] Online saving for signed-in visitors (calculator_workspaces)
+- [ ] Widen anti-nutrient coverage with published phytate/oxalate/tannin tables (USDA proanthocyanidin DB, Phenol-Explorer)

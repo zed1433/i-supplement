@@ -1,0 +1,30 @@
+id,method_name,thermal_factor,anti_nutrient_reduction
+074644ea-17c6-4067-9c55-809d47401a9b,Pan Fried / Tallow Seared,0.88,0
+0bb5df3e-eb4f-4324-b0d7-ad9df65028fd,Boiled (Broth Discarded),0.60,0.5
+11d0d0eb-8c40-4b59-8b40-b9687315d6ca,Steamed,0.90,0.0
+14177156-4a85-4c92-ae75-018653938edc,Fermented (Sourdough / Lactic),0.90,0.60
+1f05185d-9ed4-48d2-bc2a-af8195faa8cd,Slow Cooked / Braised,0.90,0.0
+304666fc-075e-459e-a138-ed6479ac6136,boiled_drained,0.85,0.60
+3a7fec1a-278b-4d71-908e-bb89404350c0,Sprouted / Germinated,0.90,0.65
+4d5c1256-5499-46f4-9c1f-d79f23ea0e18,Pressure Cooked,0.85,0.75
+56baed5b-8d3d-4fdf-a397-9b7c42b8fe0b,Boiled / Stewed (Broth Retained),0.92,0.3
+58431d1d-f6b0-44e6-8068-f9dc28dde62f,Supplement Intake (Direct / Capsule),1.00,0.00
+5a3aeeab-12a9-469d-b200-58aab57f30aa,raw,1.0,0.0
+7d8eaeba-740f-491f-bcd3-8ca1d7b8e5d2,Sous-Vide / Poached,0.98,0
+801612d5-b714-4b8f-b1a7-eed36c197eb4,Medium (Standard Cook),0.90,0.0
+806f9ee0-12b9-4729-b145-5e9fa9debe1c,Deep Fried / Rendered High Heat,0.70,0.0
+8212b5e5-83fd-4ec3-807e-094eb7ecb4db,Air Fried,0.85,0.0
+94211bb9-fa9a-487c-b993-920762a8788a,Boiled / Broth Extracted,0.75,0.0
+9dd638a2-712f-4df7-b2f6-1083133b087c,Soaked (12-24h Water),0.95,0.35
+a39efa89-8ec2-4a93-af69-6cbdf7042f61,Raw,1.00,0
+a9152fb2-94f5-4227-a590-f158a3b6f057,Smoked (Low & Slow),0.80,0.0
+aadc9c92-1f9c-4a19-8b02-2e99f1afea94,Oven Roasted / Baked,0.82,0
+b0f4d4e5-e74d-4c72-8e3c-9fac01046807,Raw / Ωμό,1.00,0
+b516914b-530c-4031-8566-27910c285e74,Raw / Unprocessed (Plant),1.0,0.0
+b77d520c-b613-4878-bfbc-643e73961f11,Raw / Uncooked,1.0,0.0
+b9404914-0ab5-44c5-9988-4372d069f983,Boiled / Drained Water,0.80,0.50
+c728c13b-d996-40f5-bf62-dc5434f29c10,Grilled / Charred,0.75,0
+cbeb2b04-9864-4fb3-921f-2ff478c49f6f,Well-Done / High Heat,0.80,0.0
+e32301a0-adc3-415b-935b-acf61e6abf27,Rare (Seared / Light Heat),0.98,0.0
+e4e0a790-bd33-45e9-8e56-db45d14f9fc7,Boiled (Broth Consumed),0.95,0.3
+f303da8d-6460-4ea8-a5b6-19e1ae36d599,Slow-Roasted / Braised (Low & Slow 110C),0.85,0.0

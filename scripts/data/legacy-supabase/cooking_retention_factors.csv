@@ -1,0 +1,34 @@
+id,cooking_method_id,nutrient_category,retention_factor,notes
+012876dd-6497-4076-9892-b445c50d10a4,7c971090-4c88-457f-805b-7b5afba3ad62,fat_soluble_vitamin,1.00,Baseline
+01af60d4-aca0-4af9-869e-52ba72d2eba5,58854b37-0167-46e5-8fd7-ee0b583ad58a,trace_mineral,0.75,Mineral migration into water phase
+07972df3-b687-4aa5-919f-f9cda12a364a,cb907483-671c-4f35-b500-93e1df3f71e7,Water-Soluble Vitamin,0.70,Thermal degradation of thiamine/folate
+0a9cb2cd-6e2c-42ad-8b3f-e42d50e6e46e,cb907483-671c-4f35-b500-93e1df3f71e7,Mineral,0.95,Minimal mineral loss if juices retained
+0d945ccc-230c-4f6d-844c-765121b06542,2e147454-2981-440c-8846-d6b5d12ed844,fat_soluble_vitamin,0.85,Rendered fat loss unless collected
+1123dd3e-e2f4-4b03-a3fd-9498005a33cc,cb907483-671c-4f35-b500-93e1df3f71e7,macro_mineral,0.95,Minimal mineral loss if pan juices are retained
+20937d5a-8d68-4a86-bfd8-533d0abd26b2,2e147454-2981-440c-8846-d6b5d12ed844,water_soluble_vitamin,0.80,Short exposure limits thermal decay
+2996462d-205c-4100-920f-e12aad471d04,58854b37-0167-46e5-8fd7-ee0b583ad58a,Fat-Soluble Vitamin,0.90,High stability in hot water
+30e49071-aed2-4684-af40-7424390c98d6,2e147454-2981-440c-8846-d6b5d12ed844,zoochemical,0.80,"Surface pyrolysis loss, core preserved"
+3f21d159-0ec6-4172-891c-b4297d451e24,7c971090-4c88-457f-805b-7b5afba3ad62,fatty_acid,1.00,Baseline
+42e8816b-3d91-4b5c-bc92-7efaa47f92d4,cb907483-671c-4f35-b500-93e1df3f71e7,fat_soluble_vitamin,0.85,Mild oxidative loss
+4b157f3d-f292-42ff-bb50-807e85672a19,7c971090-4c88-457f-805b-7b5afba3ad62,water_soluble_vitamin,1.00,Baseline
+4e41c48d-fc3f-4858-bb1c-2b5c9d640948,2e147454-2981-440c-8846-d6b5d12ed844,macro_mineral,0.95,Retained in muscle matrix
+50fc219c-f010-42af-8499-c448ee67055a,2e147454-2981-440c-8846-d6b5d12ed844,trace_mineral,0.95,Retained in muscle matrix
+5b35d4a7-b1be-465d-a4f5-e6d4b5b96462,58854b37-0167-46e5-8fd7-ee0b583ad58a,Mineral,0.75,Mineral migration into water phase
+5e5beb6e-0843-463a-b7ab-097ea453cfca,58854b37-0167-46e5-8fd7-ee0b583ad58a,Water-Soluble Vitamin,0.55,Leaching of B-vitamins and vitamin C into liquid
+7260de4c-7d5f-4c70-a533-961d8bef9583,58854b37-0167-46e5-8fd7-ee0b583ad58a,fatty_acid,0.95,Stable under moist heat below boiling point
+76f22d13-e6bf-4529-a319-d3c46f108715,cb907483-671c-4f35-b500-93e1df3f71e7,fatty_acid,0.85,Mild thermal oxidation
+81e16489-ab9e-40e6-a4dd-2908a51917c5,58854b37-0167-46e5-8fd7-ee0b583ad58a,macro_mineral,0.75,Mineral migration into water phase
+880e9303-585a-4395-aeef-ad77f776e7ec,7c971090-4c88-457f-805b-7b5afba3ad62,macro_mineral,1.00,Baseline
+88d9caef-82b5-46e0-9486-76e6b0efe815,7c971090-4c88-457f-805b-7b5afba3ad62,zoochemical,1.00,Baseline
+94bcebd3-b87a-4fc2-bde5-091d4deef97b,7c971090-4c88-457f-805b-7b5afba3ad62,trace_mineral,1.00,Baseline
+9ce52d4f-4b10-47ae-b94c-ee92967cb5e0,7c971090-4c88-457f-805b-7b5afba3ad62,Mineral,1.00,Baseline
+a35169b1-9f54-4a8d-a342-8a122bf79bf1,cb907483-671c-4f35-b500-93e1df3f71e7,water_soluble_vitamin,0.70,Thermal degradation of thiamine/folate
+a57607d2-175c-4f9f-a531-de01710f2263,7c971090-4c88-457f-805b-7b5afba3ad62,Water-Soluble Vitamin,1.00,Baseline
+adf038ac-6a07-434c-926a-335fe3a4d295,58854b37-0167-46e5-8fd7-ee0b583ad58a,fat_soluble_vitamin,0.90,High stability in hot water
+ba398023-8431-4b0f-8355-0854b17d3920,58854b37-0167-46e5-8fd7-ee0b583ad58a,zoochemical,0.60,High leaching of creatine and carnitine into cooking broth
+cbf3f368-3f49-404d-b5ef-2aef16c48894,58854b37-0167-46e5-8fd7-ee0b583ad58a,water_soluble_vitamin,0.55,Leaching of B-vitamins and vitamin C into liquid
+dc46fe0b-a5e0-4c8c-89b9-fede450f9d98,cb907483-671c-4f35-b500-93e1df3f71e7,zoochemical,0.75,Moderate thermal degradation over extended time
+dcff8a54-c4a0-4c90-b70a-732f9d79b922,cb907483-671c-4f35-b500-93e1df3f71e7,Fat-Soluble Vitamin,0.85,Mild oxidative loss
+ebd28a9b-d383-4c94-a9fd-efa8d61552a7,cb907483-671c-4f35-b500-93e1df3f71e7,trace_mineral,0.95,Minimal mineral loss if pan juices are retained
+f02b8533-83ed-40a2-8021-dda7176e0dc8,2e147454-2981-440c-8846-d6b5d12ed844,fatty_acid,0.80,Fat rendering and lipid oxidation at high heat
+fb358cdf-ff3c-4640-8461-5a7b7494dd5a,7c971090-4c88-457f-805b-7b5afba3ad62,Fat-Soluble Vitamin,1.00,Baseline

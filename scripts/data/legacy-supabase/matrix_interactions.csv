@@ -1,0 +1,7 @@
+id,target_nutrient,target_chemical_form,effector_compound,interaction_type,modifier_multiplier,mechanism
+2d43164e-a630-40b2-8aed-3a8fdd203da6,Calcium,Calcium Oxalate / Phytate Complexes,Oxalic Acid,inhibition,0.20,Formation of highly insoluble calcium oxalate monohydrate crystals passing unabsorbed through feces
+4f7e0b5b-8496-4568-9e19-1016db33e5f3,Iron,Non-Heme Iron (Fe2+/Fe3+ Salts),Phytic Acid,inhibition,0.30,Formation of insoluble ferric phytate chelates in the duodenum preventing DMT1 transport
+963ac4dc-6109-4caa-a333-90e432c182a1,Magnesium,Magnesium Phytate / Chelate,Phytic Acid,inhibition,0.60,Binding of divalent magnesium ions to phytate polyanions reducing paracellular claudin transit
+d9f13a24-a5ee-453d-ae33-8ebf6ca3c449,Zinc,Zinc-Phytate Complex,Phytic Acid,inhibition,0.35,Stable coordination complex formation with inositol hexakisphosphate impairing ZIP4 uptake
+f19545f7-deb8-4304-8af7-ae610e270782,Iron,Non-Heme Iron (Fe2+/Fe3+ Salts),Oxalic Acid,inhibition,0.40,Precipitation of iron into insoluble ferrous/ferric oxalate salts
+fa4a52fc-5b40-4aa4-8b35-7643e65f2e55,Iron,Non-Heme Iron (Fe2+/Fe3+ Salts),Vitamin C,enhancement,3.00,Reduction of Fe3+ to soluble Fe2+ and formation of absorbable chelate complexes across brush-border

@@ -60,6 +60,8 @@ export function evaluateEntericBioavailability(nutrient,chemicalForm,category,pa
 
 // ---- Adapter (site-specific): maps this site's nutrient keys and settings onto the engine above ----
 export const ENGINE_NAMES={vitamin_a:'Vitamin A',vitamin_d:'Vitamin D',vitamin_e:'Vitamin E',vitamin_k:'Vitamin K',thiamine:'Thiamine (B1)',riboflavin:'Riboflavin (B2)',niacin:'Niacin (B3)',pantothenic_acid:'Pantothenic Acid (B5)',vitamin_b6:'Vitamin B6',biotin:'Biotin (B7)',folate:'Folate (B9)',vitamin_b12:'Vitamin B12',vitamin_c:'Vitamin C',choline:'Choline',iron:'Iron',zinc:'Zinc',copper:'Copper',magnesium:'Magnesium',calcium:'Calcium',selenium:'Selenium',iodine:'Iodine',manganese:'Manganese',molybdenum:'Molybdenum',chromium:'Chromium',phosphorus:'Phosphorus',potassium:'Potassium',sodium:'Sodium'};
+// Meal tannin load treated as 'co-ingested tannins' for non-heme iron (Brune et al., Eur J Clin Nutr 1989;43:547-57: dose-dependent inhibition from ~5-25 mg galloyl groups).
+export const TANNIN_IRON_THRESHOLD_MG=50;
 const FAT_SOLUBLE=new Set(['vitamin_a','vitamin_d','vitamin_e','vitamin_k']);
 export function pathologyFromSettings(settings={}){
   const ids=(settings.conditions??[]).map(c=>typeof c==='string'?c:c.id);
@@ -72,7 +74,7 @@ export function pathologyFromSettings(settings={}){
 export function clinicalEstimate(key,value,meal,settings){
   const name=ENGINE_NAMES[key];if(!name||!(value?.total>0))return null;
   const n=meal?.nutrients??{},amt=k=>n[k]?.total??0;
-  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c')};
+  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG};
   const p=pathologyFromSettings(settings),cat=FAT_SOLUBLE.has(key)?'fat_soluble_vitamin':'other';
   const parts=[['animal',value.animal??0,true,''],['plant',(value.plant??0)+(value.unknown??0),false,''],['supplement',value.supplement??0,false,'supplement']];
   let min=0,max=0,conv=0,notes=new Set();
