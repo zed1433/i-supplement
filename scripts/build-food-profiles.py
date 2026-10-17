@@ -131,6 +131,11 @@ for r in csv.DictReader(open(f"{LEG}/food_micronutrients.csv")):
   if r["nutrient_name"] == "Water":
     try: leg_water[r["food_id"]] = float(r["amount_per_100g"])
     except ValueError: pass
+leg_fat = {}
+for r in csv.DictReader(open(f"{LEG}/food_micronutrients.csv")):
+  if r["nutrient_name"] == "Total lipid (fat)":
+    try: leg_fat[r["food_id"]] = float(r["amount_per_100g"])
+    except ValueError: pass
 legacy = {}
 for r in csv.DictReader(open(f"{LEG}/foods.csv")):
   legacy[r["name"]] = r
@@ -153,7 +158,7 @@ PLANT_REF = [
   (r"strawberr", "Strawberries"), (r"blueberr", "Blueberries"),
 ]
 PLANT_REF = [(re.compile(r"^(" + p + r")", re.I), n) for p, n in PLANT_REF]
-MIXED = re.compile(r"\b(with|soup|sauce|salad|pie|cake|bread|juice|milk|oil|butter|flour|cookie|biscuit|chips|candied|jam|pudding|frozen dessert|baby|prepared|canned in syrup|sweetened|dessert|drink|beverage|spread|paste)\b", re.I)
+MIXED = re.compile(r"\b(with|soup|sauce|salad|pie|cake|bread|juice|milk|oil|butter|flour|cookie|biscuit|chips|candied|jam|pudding|frozen dessert|baby|prepared|canned in syrup|sweetened|dessert|drink|beverage|spread|paste|souffle|soufflé|pancake|crisps|fries|french fried|hash brown|puffs|mashed|au gratin|scalloped|stuffed|fritter|syrup|glazed|breaded|tots|dehydrated flakes with)\b", re.I)
 
 # ---------- Published animal-food values (raw muscle / milk) ----------
 # Creatine: Balsom PD, Söderlund K, Ekblom B. Sports Med 1994;18(4):268-280, Table I (g/kg raw) -> mg/100 g.
@@ -166,8 +171,8 @@ ANIMAL_LIT = [
   (r"tuna", None, 400, None, "tuna"),
   (r"\bcod\b|fish, cod", None, 300, 31.0, "cod"),
   (r"plaice", None, 200, None, "plaice"),
-  (r"mussel", None, None, 655.0, "mussels"),
-  (r"oyster", None, None, 396.0, "oysters"),
+  (r"^(mollusks, )?mussels?\b", None, None, 655.0, "mussels"),
+  (r"^(mollusks, )?oysters?\b", None, None, 396.0, "oysters"),
   (r"chicken.*(breast|light)|(breast|light).*chicken", None, None, 17.8, "chicken light meat"),
   (r"chicken.*(thigh|leg|drumstick|dark)|(thigh|leg|drumstick|dark).*chicken", None, None, 169.4, "chicken dark meat"),
   (r"turkey.*(breast|light)|(breast|light).*turkey", None, None, 29.6, "turkey light meat"),
@@ -178,7 +183,7 @@ ANIMAL_LIT = [
   (r"^milk, (whole|reduced|lowfat|nonfat|fluid)|^(whole|semi-skimmed|skimmed) milk|^cow milk|^milk,? (cow|whole|semi)", None, 10, None, "cow's milk"),
 ]
 ANIMAL_LIT = [(re.compile(a, re.I), re.compile(b, re.I) if b else None, c, t, l) for a, b, c, t, l in ANIMAL_LIT]
-ORGAN = re.compile(r"liver|kidney|heart|tongue|brain|tripe|sweetbread|marrow|lung|spleen|giblet|gizzard|blood|sausage|ham|bacon|salami|jerky|cured|smoked|dried|frankfurter|bologna|luncheon|nugget|breaded|patty", re.I)
+ORGAN = re.compile(r"skin|liver|kidney|heart|tongue|brain|tripe|sweetbread|marrow|lung|spleen|giblet|gizzard|blood|sausage|ham|bacon|salami|jerky|cured|smoked|dried|frankfurter|bologna|luncheon|nugget|breaded|patty", re.I)
 RAW = re.compile(r"\braw\b", re.I)
 
 # ---------- Food-kind classification ----------
@@ -236,12 +241,16 @@ def build(vals, st, name, k, measured_src):
     for rx, ref in PLANT_REF:
       if rx.search(name):
         lr = legacy[ref]; w_ref = leg_water.get(lr["id"]); w_t = vals.get("water")
-        if w_ref is None or w_t is None or w_ref >= 99: break
-        scale = (100 - w_t) / (100 - w_ref)
+        f_ref = leg_fat.get(lr["id"], 0.0); f_t = vals.get("fat", 0.0)
+        if w_ref is None or w_t is None: break
+        # Scale by fat-free dry matter so added water (boiling) or added frying fat do not distort the estimate.
+        d_ref, d_t = 100 - w_ref - f_ref, 100 - w_t - f_t
+        if d_ref <= 1 or d_t <= 0: break
+        scale = d_t / d_ref
         for key, col in (("phytate", "phytate_mg_per_100g"), ("oxalate", "oxalate_mg_per_100g"), ("tannin", "tannin_content"), ("lectin_load", "lectin_trypsin_load")):
           v = fnum(lr[col])
           # A zero for a plant in the legacy table means "not filled in", not "measured zero" -> stays unknown.
-          if v > 0 and key not in p: p[key] = [round(v * scale, 2), "E", f"My database: {ref} (scaled by dry matter ×{scale:.2f})"]
+          if v > 0 and key not in p: p[key] = [round(v * scale, 2), "E", f"My database: {ref} (scaled by fat-free dry matter ×{scale:.2f})"]
         break
   # Creatine / taurine: published raw-muscle values for the same food type
   if k in ("animal", "dairy_egg") and (RAW.search(name) or k == "dairy_egg") and not ORGAN.search(name):
