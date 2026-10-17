@@ -1,35 +1,30 @@
-# Your calculator's Supabase connection
+# Your calculator's Supabase project: what's in it and what to bring over
 
-## What the code shows
-Your calculator's code (the copy from GitHub) has never connected to Supabase. It saves meals, supplements, test results, history and settings only in the visitor's browser. The History page says this itself: "An authenticated Supabase adapter is required for cross-device private history". That online saving was planned but never built.
+## What your files show
+Your Supabase project is an older, separate version of your calculator with its own formulas. The GitHub app was never connected to it. It contains:
 
-If you set up a Supabase project for it outside GitHub, the calculator never used it, so it holds none of your calculator data.
+- **6 functions:**
+  - `calculate_meal_bioactive_profile`, in two versions. It works out what a meal gives you after absorption, adjusting for phytate, oxalate, fiber, tannins, fat (fat-soluble vitamins need at least 5 g), lectins left after cooking, competition between minerals (zinc/copper, calcium/magnesium), calorie absorption, and diet type.
+  - `calculate_cooked_plate` and `calculate_preparation_yield` estimate how much of each nutrient survives cooking.
+  - `get_metabolic_telemetry_history` and `bulk_insert_daily_logs` handle daily meal history.
+- **About 20 tables:** foods and nutrient values, cooking methods and how much of each nutrient survives them, how foods affect each other's absorption, diet rules, daily targets, supplements, blood test results, meal logs, saved meal presets and user settings.
 
-## Recommended: save calculator data in this site's backend
-Instead of a separate Supabase account, use the backend this site already has:
-1. Visitors who sign in get their meals, supplements, test results, history and settings saved online, so they appear on every device.
-2. Visitors who don't sign in keep working exactly as now, with saving only in their browser.
-3. The first time someone signs in, their browser data is copied to their account, so nothing is lost.
-4. Each person can only see their own data.
-5. The calculator's screens and formulas stay the same. The History page will say "Synced to your account" instead of "On this device".
+Only the table layouts and function code were exported, not the rows. The numbers inside (absorption rates, cooking factors, food values) are still in your Supabase project.
 
-## Your own Supabase project
-You sent a link to your Supabase project. Its dashboard needs your login, so I can't open it from here. To check what it holds:
-1. In that project, open Project Settings, then API. Send me the Project URL and the publishable (anon) key. That key is safe to share.
-2. Also tell me which tables hold your calculator data, or send a screenshot of the Tables page.
-3. I'll read those tables and report what's there, such as foods, meals or anything else.
-4. Then you decide: import that data here, or keep your calculator connected to that project. Importing is simpler, because sign-in and the rest of the site already live here.
+## What I recommend
+1. **Get the data.** Export the rows of the tables that hold numbers: `foods`, `food_micronutrients`, `food_nutrients`, `nutrients_definition`, `preparation_methods`, `cooking_methods`, `cooking_retention_factors`, `nutrient_interactions`, `food_matrix_interactions`, `matrix_interactions`, `dietary_modifier_rules`, `nutrient_forms`, `nutrient_daily_targets`, `supplements`. In Table Editor, open each table and use Export, then CSV. Upload the files here.
+2. **Compare before changing anything.** I'll put the old formulas next to your current calculator's (the rebuilt GitHub version) and show you, nutrient by nutrient, where they agree and where they differ. Your current formulas stay unless you choose otherwise.
+3. **Add only what's missing,** with your approval. Likely candidates the current calculator lacks:
+   - lectins left after cooking
+   - the calorie-absorption figure
+   - the "under 5 g fat" warning for fat-soluble vitamins
+   - diet-type rules (carnivore, standard and others)
+4. **Online saving for signed-in visitors.** Their meal history, presets, blood tests and settings get saved in this site's backend, replacing your old `daily_meal_logs`, `saved_meal_presets`, `blood_biomarkers` and `user_settings` tables. Visitors who don't sign in keep saving in their browser. Each person sees only their own data.
 
-Your secret (service role) key and your password aren't needed. Don't send them.
-
-## Your project's functions
-Dashboard links need your login, so I can't open them. To share the functions' code:
-1. In your Supabase project, open the SQL Editor.
-2. Paste and run: `select p.proname, pg_get_functiondef(p.oid) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public';`
-3. Copy the results here, or download them as a CSV and upload it.
-4. I'll explain what each function does. Any worth keeping, like food or nutrient calculations, I'll rebuild in this site's backend or in the calculator. Each one is checked against your calculator's existing formulas first.
+Your personal rows (meal logs, blood tests) can be imported into your account here too, if you want them.
 
 ## Technical details
-- New table `calculator_workspaces` (user_id uuid primary key, data jsonb, updated_at), with RLS so users can read and write only their own row, plus the required grants.
-- Add a cloud repository next to `application/repository.js` with the same load/replace/reset interface. The iframe gets the session from the parent page through postMessage, and the parent does the reads and writes with the site's client.
-- Merge rule on first sign-in: if the account has no saved data, upload the local data. Otherwise keep the newer copy, based on updated_at.
+- Reference data goes into a static JSON file under `public/bio-calculator/` (same pattern as `extra-foods.json`). It's public, read-only and needs no database writes.
+- New formulas go in a separate module next to `clinical-absorption.js`, with tests, and are never mixed into the verbatim engine files.
+- User data: one table `calculator_workspaces` (user_id uuid primary key, data jsonb, updated_at) with grants, RLS limited to own row, and a merge rule where the newer copy wins on first sign-in. The iframe talks to the parent page via postMessage, and the parent reads and writes with the site's client.
+- Old SECURITY DEFINER functions with no user checks (`bulk_insert_daily_logs`) are not copied as-is.
