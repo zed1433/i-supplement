@@ -9,7 +9,7 @@ export const Route = createFileRoute("/calculator")({
       {
         name: "description",
         content:
-          "Build a meal from USDA reference foods and see calories, macros, micronutrients against official targets, plus modeled iron, B12 and zinc absorption — then compare supplements that fill the gaps.",
+          "Build a meal from 4,000+ lab-measured foods (USDA, CIQUAL) and packaged foods, see calories, macros and micronutrients against official targets, plus modeled iron, B12 and zinc absorption.",
       },
       { property: "og:title", content: "Nutrition Calculator | i-Supplement" },
       {
@@ -33,6 +33,11 @@ function CalculatorPage() {
         title="Bio Calculator"
         className="block h-[calc(100vh-4rem)] w-full border-0"
       />
+      <p className="px-4 py-3 text-xs text-muted-foreground">
+        Food data: USDA FoodData Central (public domain) · ANSES-CIQUAL 2020 French food composition
+        table (Etalab Open Licence) · Open Food Facts packaged-food label data (ODbL).
+      </p>
+
     </div>
   );
 }

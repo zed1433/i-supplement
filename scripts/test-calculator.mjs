@@ -72,3 +72,23 @@ const scale = mealService.progress(1.2, { rda: 1.2, ul: 100 });
 assert.ok(scale.actual >= 0 && scale.actual <= 100, "progress position clamped");
 
 console.log("calculator engine tests passed");
+
+// 7. Source normalizers — unit conversion and required macros
+const src = await loadModule("src/lib/calculator/food-sources.ts", "food-sources.js");
+const off = src.normalizeOff({ code: "1", product_name: "Feta", countries_tags: ["en:greece"], nutriments: { "energy-kcal_100g": 264, proteins_100g: 14, fat_100g: 21, carbohydrates_100g: 4, calcium_100g: 0.49, "vitamin-b12_100g": 0.0000017 } });
+assert.equal(off.nutrients.calcium, 490, "OFF calcium g -> mg");
+assert.equal(off.nutrients.vitamin_b12_food, 1.7, "OFF B12 g -> µg");
+assert.equal(off.origin.region, "GR");
+assert.equal(off.origin.measured, false, "label data is never marked lab measured");
+assert.equal(src.normalizeOff({ code: "2", product_name: "X", nutriments: { "energy-kcal_100g": 10 } }), null, "missing macros are skipped");
+const us = src.normalizeUsda({ fdcId: 171477, description: "Chicken breast", dataType: "SR Legacy", foodNutrients: [
+  { nutrientId: 1008, value: 165, unitName: "KCAL" }, { nutrientId: 1003, value: 31, unitName: "G" }, { nutrientId: 1004, value: 3.57, unitName: "G" }, { nutrientId: 1005, value: 0, unitName: "G" }] });
+assert.equal(us.nutrients.energy, 165); assert.equal(us.nutrients.protein, 31);
+
+// 8. Expanded dataset — three sources present, every food has energy + macros
+const extra = JSON.parse(readFileSync(join(root, "public/bio-calculator/extra-foods.json"), "utf8"));
+const labels = new Set(extra.rows.map((r) => r[10]));
+for (const l of ["CIQUAL 2020", "USDA SR Legacy", "Label data"]) assert.ok(labels.has(l), `${l} present`);
+assert.ok(extra.rows.every((r) => ["energy", "protein", "fat", "carbohydrate"].every((k) => Number.isFinite(r[4][k]))), "complete macros");
+assert.ok(extra.rows.every((r) => r[10] !== "Label data" || r[9] === 0), "label rows not marked measured");
+console.log("food source tests passed");

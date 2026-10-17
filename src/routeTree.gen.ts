@@ -36,6 +36,7 @@ import { Route as AuthenticatedAdminImportRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminPeopleRouteImport } from './routes/_authenticated/admin.people'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as ApiAffiliateCartRouteImport } from './routes/api/affiliate/cart'
+import { Route as ApiPublicCalcFoodsRouteImport } from './routes/api/public/calc-foods'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 import { Route as AuthenticatedAdminProductSlugRouteImport } from './routes/_authenticated/admin.product.$slug'
 import { Route as ApiAffiliateRedirectOfferIdRouteImport } from './routes/api/affiliate/redirect.$offerId'
@@ -183,6 +184,11 @@ const ApiAffiliateCartRoute = ApiAffiliateCartRouteImport.update({
   path: '/api/affiliate/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCalcFoodsRoute = ApiPublicCalcFoodsRouteImport.update({
+  id: '/api/public/calc-foods',
+  path: '/api/public/calc-foods',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
   id: '/api/public/unsubscribe',
   path: '/api/public/unsubscribe',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
+  '/api/public/calc-foods': typeof ApiPublicCalcFoodsRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -268,6 +275,7 @@ export interface FileRoutesByTo {
   '/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
+  '/api/public/calc-foods': typeof ApiPublicCalcFoodsRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -303,6 +311,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/people': typeof AuthenticatedAdminPeopleRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/affiliate/cart': typeof ApiAffiliateCartRoute
+  '/api/public/calc-foods': typeof ApiPublicCalcFoodsRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/product/$slug': typeof AuthenticatedAdminProductSlugRoute
@@ -338,6 +347,7 @@ export interface FileRouteTypes {
     | '/admin/people'
     | '/admin/settings'
     | '/api/affiliate/cart'
+    | '/api/public/calc-foods'
     | '/api/public/unsubscribe'
     | '/admin/'
     | '/admin/product/$slug'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/admin/people'
     | '/admin/settings'
     | '/api/affiliate/cart'
+    | '/api/public/calc-foods'
     | '/api/public/unsubscribe'
     | '/admin'
     | '/admin/product/$slug'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/people'
     | '/_authenticated/admin/settings'
     | '/api/affiliate/cart'
+    | '/api/public/calc-foods'
     | '/api/public/unsubscribe'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/product/$slug'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ApiAffiliateCartRoute: typeof ApiAffiliateCartRoute
+  ApiPublicCalcFoodsRoute: typeof ApiPublicCalcFoodsRoute
   ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
   ApiAffiliateRedirectOfferIdRoute: typeof ApiAffiliateRedirectOfferIdRoute
   ApiPublicCronFeedsRoute: typeof ApiPublicCronFeedsRoute
@@ -623,6 +636,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAffiliateCartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/calc-foods': {
+      id: '/api/public/calc-foods'
+      path: '/api/public/calc-foods'
+      fullPath: '/api/public/calc-foods'
+      preLoaderRoute: typeof ApiPublicCalcFoodsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/unsubscribe': {
       id: '/api/public/unsubscribe'
       path: '/api/public/unsubscribe'
@@ -731,6 +751,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ApiAffiliateCartRoute: ApiAffiliateCartRoute,
+  ApiPublicCalcFoodsRoute: ApiPublicCalcFoodsRoute,
   ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
   ApiAffiliateRedirectOfferIdRoute: ApiAffiliateRedirectOfferIdRoute,
   ApiPublicCronFeedsRoute: ApiPublicCronFeedsRoute,
