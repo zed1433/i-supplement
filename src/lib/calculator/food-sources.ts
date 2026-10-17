@@ -14,7 +14,7 @@ export type FoodOrigin = {
 
 export type CalcFood = {
   id: string;
-  fdcId?: number;
+  fdcId?: number | undefined;
   name: string;
   category: string;
   preparations: { method: string }[];
