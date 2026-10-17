@@ -22,7 +22,7 @@ const beef = byName('Beef, neck, raw');
 assert.deepEqual(at(beef, 'phytate'), [0, 'B']);
 assert.deepEqual(at(beef, 'creatine'), [450, 'E']); // Balsom 1994: beef 4.5 g/kg
 assert.deepEqual(at(beef, 'taurine'), [43.1, 'E']); // Laidlaw 1990
-const lentils = byName('Lentils, mature seeds, cooked, boiled, without salt');
+const lentils = byName('Lentil, green, boiled/cooked in water');
 assert.deepEqual(at(lentils, 'creatine'), [0, 'B']);
 assert.equal(at(lentils, 'phytate')[1], 'E');
 assert.ok(at(lentils, 'phytate')[0] < 600 && at(lentils, 'phytate')[0] > 100); // cooked lentils are diluted vs dry (600 mg)
