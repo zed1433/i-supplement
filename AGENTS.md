@@ -11,6 +11,6 @@
 
 - Product photos live in `public.product_images` (public read, admin-only writes); keep `products.image_url` synchronized with the primary photo for legacy catalogue surfaces.
 - Store sourced product photography as Lovable asset pointers rather than external hotlinks so retailer image transforms do not degrade or disappear.
-- Calculator logic lives in `src/lib/calculator/`; the engine files are verbatim ports of the user's Bio Calculator repo — change formulas only in the source repo, then re-copy.
+- Calculator logic lives in `src/lib/calculator/`; the engine files are verbatim ports of the user's Bio Calculator repo — change formulas only in the source repo, then re-copy. Absorption/bioactive estimates come from `clinical-absorption.js`, a verbatim port of the rebuilt repo's `lib/clinicalAbsorptionEngine.ts`; change formulas only in the source repo.
 - The /calculator page embeds the user's original Bio Calculator app verbatim from public/bio-calculator/ (iframe) so its layout and screens match the source repo; only colors and import paths are adapted.
 - Extra calculator foods are a static file `public/bio-calculator/extra-foods.json` built by `scripts/build-extra-foods.py` from USDA, CIQUAL and Open Food Facts; each food keeps its source/country (no merging across countries). Live search uses `/api/public/calc-foods` and saves picks only in the visitor's browser — no public database writes.
