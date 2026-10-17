@@ -22,6 +22,13 @@ You sent a link to your Supabase project. Its dashboard needs your login, so I c
 
 Your secret (service role) key and your password aren't needed. Don't send them.
 
+## Your project's functions
+Dashboard links need your login, so I can't open them. To share the functions' code:
+1. In your Supabase project, open the SQL Editor.
+2. Paste and run: `select p.proname, pg_get_functiondef(p.oid) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public';`
+3. Copy the results here, or download them as a CSV and upload it.
+4. I'll explain what each function does. Any worth keeping, like food or nutrient calculations, I'll rebuild in this site's backend or in the calculator. Each one is checked against your calculator's existing formulas first.
+
 ## Technical details
 - New table `calculator_workspaces` (user_id uuid primary key, data jsonb, updated_at), with RLS so users can read and write only their own row, plus the required grants.
 - Add a cloud repository next to `application/repository.js` with the same load/replace/reset interface. The iframe gets the session from the parent page through postMessage, and the parent does the reads and writes with the site's client.
