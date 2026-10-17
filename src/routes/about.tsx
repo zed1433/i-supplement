@@ -83,6 +83,17 @@ function AboutPage() {
           </section>
 
           <section>
+            <h2 className="text-base font-semibold text-foreground">Where calculator food data comes from</h2>
+            <p className="mt-2">
+              Lab-measured values come from USDA FoodData Central (USA, public domain) and the
+              ANSES-CIQUAL 2020 French food composition table (Etalab Open Licence). Packaged foods
+              use label values from Open Food Facts (Open Database License). Each food keeps its
+              source and country, because soil and farming change nutrient levels.
+            </p>
+          </section>
+
+
+          <section>
             <h2 className="text-base font-semibold text-foreground">How we make money</h2>
             <p className="mt-2">
               We may earn an affiliate commission when you buy through a link on this site, at no
