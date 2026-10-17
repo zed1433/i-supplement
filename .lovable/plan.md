@@ -23,9 +23,30 @@ Your current calculator already has phytate and oxalate rules. They never take e
 7. **Your history,** if you want it: your 1,461 meal entries and your saved meal imported into your account, so they show up on the History page.
 8. **Online saving for anyone who signs in,** so meals, blood tests and settings follow them across devices. Visitors who don't sign in keep saving in their browser.
 
+## Full profile for every food (all ~4,400)
+Every food gets the same full list: about 37 nutrients from your old database, including creatine, taurine, carnosine, CoQ10, carnitine and EPA/DHA/ALA, plus phytate, oxalate, tannins, lectins/trypsin inhibitors, fiber and the heme share of iron.
+
+To keep this accurate, each value carries one of four labels:
+- **Measured:** a lab value from USDA, CIQUAL or a published food-composition study.
+- **Measured zero:** the source tested it and found none, or it's absent for a scientific reason. For example, plants contain no B12, creatine or heme iron, and animal foods contain no phytate or oxalate.
+- **Estimated:** a value borrowed from the closest lab-measured food. For example, cooked lentils take phytate from published lentil studies. The calculator shows which food it was borrowed from.
+- **Unknown:** no reliable value exists. The calculator counts it as 0 but marks it "not measured", so a missing number is never shown as a real zero.
+
+Why this matters: USDA and CIQUAL measure vitamins and minerals well, but they rarely measure phytate, oxalate, tannins, lectins, creatine, taurine or carnosine. Those values have to come from extra scientific sources:
+- USDA databases for flavonoids and proanthocyanidins (tannins)
+- published phytate and oxalate tables and studies
+- Phenol-Explorer
+- published values for creatine, taurine and carnosine in meat and fish
+- your own 88-food database
+
+Every value keeps its source citation.
+
+Some numbers are impossible to get, for example tannins in branded cereal bars. Those stay "Unknown" rather than getting a made-up number. I'll send you a coverage report showing, for each nutrient, how many foods are measured, estimated or unknown.
+
 ## Your call
 - Should items 2 to 6 change results right away, or only after you've seen the comparison? By default they wait for the comparison.
 - Should your old meal history be imported (item 7)?
+- For foods with no lab value, should the calculator use the closest-food estimate (labeled), or leave the value as unknown? By default it uses the labeled estimate.
 
 ## Technical details
 - Reference data gets converted into static JSON under `public/bio-calculator/` (`legacy-db.json`) by a build script, in the same pattern as `extra-foods.json`. It's public and read-only, with no database tables.
