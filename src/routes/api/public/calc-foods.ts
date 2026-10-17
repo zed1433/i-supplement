@@ -16,14 +16,14 @@ export const Route = createFileRoute("/api/public/calc-foods")({
         )
           .then((r) => (r.ok ? r.json() : { foods: [] }))
           .then((d: { foods?: Parameters<typeof normalizeUsda>[0][] }) => (d.foods ?? []).map(normalizeUsda))
-          .catch(() => []);
+          .catch((e) => { console.error("calc-foods", e); return []; });
         const off = fetch(
           `https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&page_size=15&search_terms=${encodeURIComponent(q)}&fields=code,product_name,brands,countries_tags,nutriments`,
           { headers: { "User-Agent": "i-Supplement calculator/1.0 (contact@i-supplement.com)" } },
         )
           .then((r) => (r.ok ? r.json() : { products: [] }))
           .then((d: { products?: Parameters<typeof normalizeOff>[0][] }) => (d.products ?? []).map(normalizeOff))
-          .catch(() => []);
+          .catch((e) => { console.error("calc-foods", e); return []; });
         const foods = (await Promise.all([usda, off])).flat().filter((f): f is CalcFood => f !== null);
         return Response.json({ foods }, { headers: { "cache-control": "public, max-age=3600" } });
       },
