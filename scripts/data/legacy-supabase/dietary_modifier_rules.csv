@@ -1,0 +1,9 @@
+id,diet_type,target_nutrient,demand_multiplier,reason
+07ed244a-973f-4aee-bd33-6e057b7090f5,high_protein,Magnesium,1.20,ATP-Mg chelate requirement for ribosomal protein synthesis
+0baa2e9c-131a-4e50-90f3-74585feb6b87,high_protein,Vitamin B6,1.40,Elevated protein turnover scales transaminase enzyme needs
+0d77c454-fab6-4b03-a168-377ad5496ccf,high_carb,Thiamin (B1),1.40,Elevated pyruvate dehydrogenase turnover requires higher TDP
+87b95b6e-17f6-4526-91eb-c0515f18ee5e,carnivore,Potassium,1.25,Lower basal insulin drives higher urinary electrolyte excretion
+a6622c0d-8c58-4600-a4b4-d644a46fa45b,carnivore,Magnesium,1.15,Higher protein assimilation and ATP utilization
+b395e2a3-9b8d-4cce-b387-35b066258da9,ketogenic,Sodium,1.40,Natriuresis of ketosis requires elevated sodium floor
+b762e067-e9a2-41aa-9833-858f5773d598,carnivore,Vitamin B6,1.35,Heavy amino acid transamination increases pyridoxal-5-phosphate demand
+d8a2d12b-691a-4d41-af7a-8c8a38a96498,carnivore,Vitamin C,0.50,Reduced glucose competition at GLUT-4 transporters lowers ascorbic requirements
