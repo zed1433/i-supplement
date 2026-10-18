@@ -1,0 +1,242 @@
+[
+ {
+  "food": "Spinach, baby",
+  "id": "usda-1999632",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 970.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Asia Pac J Clin Nutr 8:64-74, Table 1 (spinach mean, range 320-1260)"
+ },
+ {
+  "food": "Spinach, mature",
+  "id": "usda-1999633",
+  "nutrient": "oxalate",
+  "old": 826.57,
+  "oldStatus": "E",
+  "new": 970.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Asia Pac J Clin Nutr 8:64-74, Table 1 (spinach mean, range 320-1260)"
+ },
+ {
+  "food": "Spinach, raw",
+  "id": "usda-168462",
+  "nutrient": "oxalate",
+  "old": 970.0,
+  "oldStatus": "E",
+  "new": 970.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Asia Pac J Clin Nutr 8:64-74, Table 1 (spinach mean, range 320-1260)"
+ },
+ {
+  "food": "New Zealand spinach, raw",
+  "id": "usda-168440",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 890.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (NZ spinach)"
+ },
+ {
+  "food": "Purslane, raw",
+  "id": "usda-169274",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1294.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (purslane mean, range 910-1679)"
+ },
+ {
+  "food": "Amaranth leaves, raw",
+  "id": "usda-168385",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1087.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (Amaranthus tricolor)"
+ },
+ {
+  "food": "Parsley, fresh",
+  "id": "usda-170416",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 170.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (parsley mean, range 140-200)"
+ },
+ {
+  "food": "Parsley, fresh",
+  "id": "ciqual-11014",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 170.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (parsley mean, range 140-200)"
+ },
+ {
+  "food": "Beet greens, raw",
+  "id": "usda-170375",
+  "nutrient": "oxalate",
+  "old": 610.0,
+  "oldStatus": "E",
+  "new": 610.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (beet leaves mean, range 300-920)"
+ },
+ {
+  "food": "Beets, raw",
+  "id": "usda-2685576",
+  "nutrient": "oxalate",
+  "old": 75.09,
+  "oldStatus": "E",
+  "new": 275.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (red beetroot mean, range 121-450)"
+ },
+ {
+  "food": "Beets, raw",
+  "id": "usda-169145",
+  "nutrient": "oxalate",
+  "old": 79.87,
+  "oldStatus": "E",
+  "new": 275.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (red beetroot mean, range 121-450)"
+ },
+ {
+  "food": "Rhubarb, raw",
+  "id": "usda-167758",
+  "nutrient": "oxalate",
+  "old": 805.0,
+  "oldStatus": "E",
+  "new": 805.0,
+  "status": "M",
+  "source": "Noonan & Savage 1999, Table 1 (raw rhubarb mean, range 275-1336)"
+ },
+ {
+  "food": "Cashews, NFS",
+  "id": "fdc-2707493",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 231.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999, Table 1 (cashew)"
+ },
+ {
+  "food": "Cashew nut, grilled, unsalted",
+  "id": "ciqual-15054",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 231.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999, Table 1 (cashew)"
+ },
+ {
+  "food": "Cashew nut, dry-grilled, unsalted",
+  "id": "ciqual-15055",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 231.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999, Table 1 (cashew)"
+ },
+ {
+  "food": "Cashews roasted & salted · Alesto",
+  "id": "off-4056489105381",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 231.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999, Table 1 (cashew)"
+ },
+ {
+  "food": "Cocoa powder, without sugar, powder, instant",
+  "id": "ciqual-18100",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 700.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999, Table 1 (cocoa mean, range 500-900)"
+ },
+ {
+  "food": "Seeds, sesame seeds, whole, dried",
+  "id": "fdc-170150",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1050.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999 text: sesame seeds 350-1750 mg/100 g FW (midpoint used)"
+ },
+ {
+  "food": "Seeds, sesame seeds, whole, roasted and toasted",
+  "id": "usda-170151",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1050.0,
+  "status": "E",
+  "source": "Noonan & Savage 1999 text: sesame seeds 350-1750 mg/100 g FW (midpoint used)"
+ },
+ {
+  "food": "Soybeans, mature seeds, roasted, salted",
+  "id": "usda-172440",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2044.34,
+  "status": "E",
+  "source": "Massey et al. 2001, J Agric Food Chem 49:4262, 11 cultivars 0.67-3.5 g/100 g dry weight (midpoint, scaled to the food's water)"
+ },
+ {
+  "food": "Soybeans, mature seeds, dry roasted",
+  "id": "usda-172441",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2068.32,
+  "status": "E",
+  "source": "Massey et al. 2001, J Agric Food Chem 49:4262, 11 cultivars 0.67-3.5 g/100 g dry weight (midpoint, scaled to the food's water)"
+ },
+ {
+  "food": "Soybeans, mature seeds, raw",
+  "id": "usda-174270",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1906.94,
+  "status": "E",
+  "source": "Massey et al. 2001, J Agric Food Chem 49:4262, 11 cultivars 0.67-3.5 g/100 g dry weight (midpoint, scaled to the food's water)"
+ },
+ {
+  "food": "Soybeans, mature seeds, roasted, no salt added",
+  "id": "usda-174300",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2044.34,
+  "status": "E",
+  "source": "Massey et al. 2001, J Agric Food Chem 49:4262, 11 cultivars 0.67-3.5 g/100 g dry weight (midpoint, scaled to the food's water)"
+ },
+ {
+  "food": "Soybean, whole grain",
+  "id": "ciqual-20901",
+  "nutrient": "oxalate",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1923.0,
+  "status": "E",
+  "source": "Massey et al. 2001, J Agric Food Chem 49:4262, 11 cultivars 0.67-3.5 g/100 g dry weight (midpoint, scaled to the food's water)"
+ }
+]
