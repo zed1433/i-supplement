@@ -12,7 +12,7 @@ r=clinicalEstimate('vitamin_b6',{total:10,plant:10},{nutrients:{}},{});ok(r.conv
 r=evaluateEntericBioavailability('Manganese','','other',p,ctx);ok(r.rateMin,.01);ok(r.rateMax,.05);
 r=evaluateEntericBioavailability('Copper','','other',p,ctx);ok(r.rateMin,.3);ok(r.rateMax,.6);
 r=evaluateEntericBioavailability('Vitamin K','','fat_soluble_vitamin',p,ctx);ok(r.rateMin,.05);ok(r.rateMax,.15);
-r=evaluateEntericBioavailability('Vitamin E','','fat_soluble_vitamin',p,ctx);ok(r.rateMin,.1);ok(r.rateMax,.35);
+r=evaluateEntericBioavailability('Vitamin E','','fat_soluble_vitamin',p,{...ctx,totalFatGrams:3});ok(r.rateMin,.1);ok(r.rateMax,.35);r=evaluateEntericBioavailability('Vitamin E','','fat_soluble_vitamin',p,ctx);ok(r.rateMax,.2);
 r=evaluateEntericBioavailability('Vitamin E','','fat_soluble_vitamin',p,{...ctx,totalFatGrams:10});ok(r.rateMin,.5);
 r=evaluateEntericBioavailability('Calcium','','other',p,{...ctx,totalOxalatesMg:400});ok(r.rateMin,.25*.2);ok(r.rateMax,.4*.35);
 r=evaluateEntericBioavailability('Calcium','','other',p,{...ctx,totalOxalatesMg:100});ok(r.rateMin,.25*.8);

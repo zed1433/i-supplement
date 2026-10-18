@@ -91,3 +91,30 @@ Implemented in `public/bio-calculator/personal-model.js`; tested by `scripts/tes
 - **Health context by state:** treated celiac disease, Crohn's in remission, non-cholestatic liver disease, suspected hypochlorhydria, ulcerative colitis and chronic kidney disease get no absorption penalty. PEI ×0.6-0.75 fat-soluble (×0.85-0.95 with enzymes). Gastric bypass: non-heme iron ×0.33-0.45, heme ×0.5-0.6 (Ruz 2012); calcium ×0.6-0.7 (Schafer 2015); food B12 ×0.3-0.4. Total gastrectomy and ileal loss: no intrinsic factor, so only ~1% passive B12. Ileal loss also cuts fat-soluble vitamins ×0.5-0.7.
 - **Highest possible:** the same engine with a healthy gut, no inhibitors, vitamin C and fat present, and the upper rate.
 - **Interactions listed but not applied (no reliable number):** beta-carotene conversion vs vitamin A status, tryptophan → niacin (60:1, no tryptophan data in the profiles), ALA → EPA/DHA, riboflavin → B6 activation, magnesium → vitamin D activation, protein → zinc/calcium.
+
+## Target model (owner-approved 2026-10-18)
+Rule: the RDA never changes (sex/age pick the row). Absorption moves the bars; only needs move the optimal range. Code: `public/bio-calculator/target-model.js`.
+
+| Item | Value | Source |
+|---|---|---|
+| Optimal range | Owner's old-database optimum ÷ legacy RDA, applied to the personal RDA (low = min(ratio,1.4), high = max(ratio,2)); otherwise 1.4–2× RDA; capped at 95% of a full-intake UL | Owner |
+| Vitamin D optimum | 37.5–75 µg | Endocrine Society 2011 |
+| Vitamin C optimum | 200–400 mg | Levine 1996 |
+| Iron optimum | 1–1.5× RDA | IOM 2001 (no benefit above needs) |
+| Sodium optimum | 1500–2300 mg | NASEM 2019 CDRR |
+| Absorbed RDA/optimal | intake × DRI reference rate: Fe 18%, Zn 41%, Ca 30%, P 62.5%, B12 50%, folate 50%, Mg 35%; others = engine healthy mixed-meal estimate | IOM 1997–2011; EFSA 2015 |
+| Bioactive targets | absorbed × engine conversion factor | engine |
+| Energy | Mifflin-St Jeor × activity factor 1.2–1.9 | Mifflin 1990; FAO/WHO |
+| Protein | 0.8 g/kg; active 1.2–1.6 g/kg | IOM 2005; ACSM 2016 |
+| B1 / B2 / B3 floors | 0.5 / 0.6 / 6.6 per 1000 kcal | NRC 1989 |
+| B6 floor | 0.016 mg per g protein eaten | NRC 1989 |
+| Magnesium floor | 6 mg/kg | Durlach 1989 |
+| Very active iron | ×1.3 | IOM 2001 (30–70% higher) |
+| Diet (vegetarian/vegan) | iron ×1.8, zinc ×1.5 on the optimal range, not the RDA | IOM 2001 |
+| 25(OH)D < 50 nmol/L | vitamin D optimum 50–100 µg | Endocrine Society 2011 |
+| Not applied (no number) | carbs→B1 beyond calories, fat→biotin, PUFA→vitamin E (PUFA not tracked), sweat Na/K/Zn/Mg, ferritin→intake | — |
+
+## Absorption additions (2026-10-18)
+- Suspected low stomach acid: non-heme iron ×0.70–0.75, food B12 ×0.6–0.7 (half the confirmed effect; model assumption). Confirmed/achlorhydria unchanged.
+- Fibre is an inhibitor, not a target: ≥15 g fibre → carotenoids ×0.7 (Riedl 1999). Fibre's mineral effect comes through phytate, which is already counted, so it isn't counted twice.
+- Graded fat: <1.5 g fat → vitamin E 10–20% (Bruno 2006), vitamin D ×0.76 (Dawson-Hughes 2015); vitamin K1 effect noted, no number.

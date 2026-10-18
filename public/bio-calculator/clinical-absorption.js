@@ -40,11 +40,23 @@ function base(n,c,f){
 export function evaluateEntericBioavailability(nutrient,chemicalForm,category,pathology,context){
   const f=(chemicalForm||'').toLowerCase();let [min,max,phi,formName]=base(nutrient,context,f);const notes=[];
   const h=nutrient==='Iron'?hemeFraction(context,f):0,nonHeme=1-h;
+  const fat=context.totalFatGrams??0;
+  // Graded fat effect on fat-soluble vitamins (single-meal studies).
+  if(nutrient==='Vitamin E'&&fat<1.5){min=.1;max=.2;notes.push('Almost no fat in the meal: vitamin E absorption ~10–20% (Bruno 2006).');}
+  if(nutrient==='Vitamin D'&&fat<1.5){min*=.76;max*=.76;notes.push('Almost no fat in the meal: vitamin D absorption ~24% lower than with a fat-containing meal (Dawson-Hughes 2015).');}
+  if(nutrient==='Vitamin K'&&!context.isPureAnimalFood&&fat<1.5)notes.push('Low fat lowers vitamin K1 uptake (Gijsbers 1996), but no reliable number, not applied.');
+  // Fibre: pectin/soluble fibre lowers carotenoid uptake (Riedl 1999, ~30–40%). Mineral effects of fibre run mainly through phytate, counted separately.
+  if(nutrient==='Vitamin A'&&!context.isPureAnimalFood&&(context.totalFiberGrams??0)>=15){min*=.7;max*=.7;notes.push('High meal fibre (≥15 g) reduces carotenoid absorption (Riedl 1999).');}
+  if((context.totalFiberGrams??0)>=15&&['Iron','Zinc','Calcium','Magnesium'].includes(nutrient))notes.push('High fibre: the mineral-binding effect comes mostly from its phytate, which is counted separately (not double-counted).');
   if((context.totalOxalatesMg||0)>50&&!context.isPureAnimalFood&&nutrient==='Calcium'){if(context.totalOxalatesMg>300){min*=.2;max*=.35;notes.push('High meal oxalate (spinach-level) binds most calcium (Heaney 1988).');}else{min*=.8;max*=.9;notes.push('Meal oxalate load reduces calcium availability in the model.');}}
   if((context.totalPhytatesMg||0)>100&&!context.isPureAnimalFood){if(nutrient==='Zinc'){min*=.7;max*=.8;notes.push('Meal phytate load reduces zinc availability in the model.');}if(nutrient==='Iron'&&nonHeme>0){min*=.5;max*=.6;notes.push('Meal phytate load reduces non-heme iron availability in the model.');}if(nutrient==='Calcium'){min*=.85;max*=.9;}}
   if(context.coingestedTannins&&nutrient==='Iron'&&nonHeme>0){min*=.35;max*=.45;notes.push('Co-ingested tannins reduce non-heme iron absorption.');}
   if(nutrient==='Iron'&&nonHeme>0){if(context.totalCalciumMg>350){min*=.65;max*=.75;}if(context.totalVitaminCMg>=50){min*=2;max*=3;notes.push('Vitamin C enhances non-heme iron absorption.');}}
   if(nutrient==='Copper'&&context.totalCopperMg>0&&context.totalZincMg/context.totalCopperMg>20){min*=.4;max*=.5;notes.push('High meal zinc:copper ratio is modeled as reducing copper absorption.');}
+  if(pathology.gastricAcid==='suspected_low'){
+    if(nutrient==='Iron'&&nonHeme>0){min*=h+nonHeme*.7;max*=h+nonHeme*.75;notes.push('Suspected low stomach acid: non-heme iron reduced by about a quarter (half the confirmed effect, model).');}
+    if(nutrient==='Vitamin B12'&&!/supplement|crystalline|cyanocobalamin|methylcobalamin|hydroxo/.test(f)){min*=.6;max*=.7;notes.push('Suspected low stomach acid: less food-bound B12 released (half the confirmed effect, model).');}
+  }
   if(lowAcid(pathology)){
     if(nutrient==='Iron'){min*=h+nonHeme*.4;max*=h+nonHeme*.5;if(nonHeme>0)notes.push('Low stomach acid reduces the non-heme fraction; heme iron is not given the same penalty.');}
     if(nutrient==='Vitamin B12'){const free=/supplement|crystalline|cyanocobalamin|methylcobalamin|hydroxo/.test(f);if(!free){min*=.3;max*=.4;notes.push('Low stomach acid reduces release of food-bound B12 from dietary protein.');}else notes.push('Free/crystalline supplemental B12 does not require gastric protein release.');}
@@ -72,7 +84,7 @@ export function pathologyFromSettings(settings={}){
   const list=(settings.conditions??[]).map(c=>typeof c==='string'?{id:c,state:null}:c);const st=id=>list.find(c=>c.id===id);
   const ids=list.map(c=>c.id);const g=String(settings.gastricAcid??'normal').toLowerCase();
   const hypo=st('hypochlorhydria'),gast=st('gastrectomy'),bar=st('bariatric_bypass');
-  let gastricAcid=g.includes('achlor')||hypo?.state==='achlorhydria'?'achlorhydria':g!=='normal'||(hypo&&hypo.state!=='suspected')||gast||bar?'hypochlorhydria':'normal';
+  let gastricAcid=g.includes('achlor')||hypo?.state==='achlorhydria'?'achlorhydria':(g!=='normal'&&g!=='suspected_low')||(hypo&&hypo.state!=='suspected')||gast||bar?'hypochlorhydria':hypo||g==='suspected_low'?'suspected_low':'normal';
   const factors={},applied=[],noNumber=[];let noIntrinsicFactor=false;
   const cel=st('celiac_disease');if(cel){if(cel.state==='treated_adherent')noNumber.push('Celiac disease (treated): mucosa recovers on a gluten-free diet, no penalty applied.');else{factors.all={f:[.6,.7],why:'Active celiac disease: villous atrophy reduces absorption (model factor ×0.6–0.7).'};applied.push('celiac')}}
   const cr=st('crohn_disease');if(cr){if(String(cr.state||'active').startsWith('active')){factors.all={f:[.6,.7],why:'Active Crohn\u2019s disease: inflamed mucosa reduces absorption (model factor ×0.6–0.7).'};applied.push('crohn')}else noNumber.push('Crohn\u2019s disease in remission: no general penalty applied.');if(String(cr.state||'').includes('ileal')&&!String(cr.state).includes('nonileal'))factors.b12Food={f:[.5,.7],why:'Crohn\u2019s with ileal involvement: B12 uptake in the terminal ileum is impaired (Battat 2014).'}}
@@ -92,7 +104,7 @@ const b12Split=a=>({active:Math.min(a,B12_ACTIVE_CAP_UG),passive:Math.max(0,a-B1
 export function clinicalEstimate(key,value,meal,settings={}){
   const name=ENGINE_NAMES[key];if(!name||!(value?.total>0))return null;
   const n=meal?.nutrients??{},amt=k=>n[k]?.total??0;
-  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG,biomarkerFx:settings.biomarkerFx??null};
+  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:meal?.fiber??0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG,biomarkerFx:settings.biomarkerFx??null};
   const ideal={totalFatGrams:20,totalCarbsGrams:0,totalFiberGrams:0,totalZincMg:0,totalCopperMg:1,totalIronMg:0,totalCalciumMg:0,totalVitaminCMg:100,totalPhytatesMg:0,totalOxalatesMg:0,coingestedTannins:false,carotenoidMatrixCooked:true};
   const p=pathologyFromSettings(settings),healthy={gastricAcid:'normal',pathology:'none',factors:{},noIntrinsicFactor:false},cat=FAT_SOLUBLE.has(key)?'fat_soluble_vitamin':'other';
   const parts=[['animal',value.animal??0,true,''],['plant',(value.plant??0)+(value.unknown??0),false,''],['supplement',value.supplement??0,false,'supplement']];

@@ -19,3 +19,5 @@
 - Calculator logic lives in src/lib/calculator/; calculation-engine, meal-service and catalogs are verbatim ports of the user's Bio Calculator repo — change those formulas only in the source repo, then re-copy.
 - Published composition values are overlaid by scripts/apply-published-values.py from cited CSVs in scripts/data/published/ (one file per profile key); it never overwrites source-measured values and logs every change to public/bio-calculator/corrections.json. Re-run it after build-food-profiles.py.
 - Signed-in calculator saving: src/routes/calculator.tsx syncs the iframe's localStorage workspace with public.calculator_workspaces (own-row RLS) via src/lib/calculator/workspace-sync.ts; newer copy wins, saves arrive by same-origin postMessage. Why: the embedded app stays storage-agnostic.
+
+- Calculator targets come from public/bio-calculator/target-model.js: RDA stays fixed, absorption only moves bars, and needs-based inputs only move the optimal range. Why: the intake, absorbed and bioactive bars stay comparable.
