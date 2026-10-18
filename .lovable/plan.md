@@ -10,7 +10,13 @@
    - inhibitors: phytate, oxalate, tannins, calcium on iron, high zinc on copper, fibre on carotenoids, a low-fat meal for vitamins A, D, E and K, low stomach acid, gut conditions, biomarkers (ferritin);
    - enhancers: vitamin C on iron, fat on fat-soluble vitamins.
    
-   Exceptions are kept only where research shows the form is protected, each cited, for example: iron bisglycinate is less affected by phytate (Layrisse 2000); calcium citrate doesn't need stomach acid (Recker 1985); free (crystalline) B12 doesn't need stomach acid to be released; liposomal or fat-free-ready forms only where a study gives a number. Without evidence, the form gets the full meal effect.
+   **Each form reacts to the meal in its own way.** The same meal can block one form, boost another, and leave a third alone. So every meal effect gets its own size for each form, in a form-by-effect table, for example:
+   - non-heme iron salts (sulfate, fumarate, gluconate): fully blocked by coffee/tea, phytate and calcium, and boosted by vitamin C; iron bisglycinate is partly protected from phytate (Layrisse 2000), and heme iron polypeptide is barely affected by these;
+   - calcium carbonate needs stomach acid and food; calcium citrate doesn't (Recker 1985);
+   - free (crystalline) B12 doesn't need stomach acid to be released, while food B12 does;
+   - magnesium oxide vs organic salts, zinc oxide vs gluconate/picolinate with phytate, and the fat-soluble forms (oil, dry, micellised, liposomal) against meal fat get researched too.
+   
+   Each cell is either a cited number, "same as the base nutrient" when the study shows no difference, or "no form-specific data". With no data, the form gets the base nutrient's meal effect, with a visible note. A boost is never invented (for example vitamin C on magnesium) without a study.
 3. **Shared limits are shared.** Limits that apply to the whole meal are worked out across food and all supplements together, not per line: the ~1.5 µg intrinsic-factor B12 cap per meal, iron and calcium dose saturation, and the per-meal fat effect. Each line then gets its share.
 4. **Conversion per form.** Each line keeps its own conversion to the active form (folic acid vs 5-MTHF, D2 vs D3, natural vs synthetic vitamin E, beta-carotene vs retinol, K1 vs MK-7), still reduced by the meal and conditions.
 5. **Highest possible bar:** the faded bar uses the same per-line maths with no inhibitors and a healthy gut.
@@ -20,6 +26,7 @@
 - Magnesium oxide 200 mg + glycinate 100 mg gives oxide part + glycinate part, not 300 mg at one rate.
 - Benfotiamine with a high-tannin, high-phytate meal and low stomach acid absorbs less than benfotiamine alone, but still more than plain B1 in the same meal.
 - Iron sulfate loses more to phytate than iron bisglycinate.
+- Coffee/tea in the meal lowers iron sulfate but not heme iron polypeptide.
 - Two B12 supplements together still share one 1.5 µg active-uptake cap.
 - Calcium carbonate drops with low stomach acid; calcium citrate doesn't.
 - Browser check of the detail popup listing each supplement line.
