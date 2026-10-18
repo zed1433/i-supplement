@@ -4,10 +4,8 @@ import { dietAdjustment, absorbedCalories, lowFatWarning, applyProcessing } from
 
 assert.equal(dietAdjustment('potassium', 'carnivore'), null);
 assert.equal(dietAdjustment('magnesium', 'high_protein'), null);
-assert.equal(dietAdjustment('vitamin_b6', 'carnivore').multiplier, 1.35);
-assert.equal(dietAdjustment('sodium', 'ketogenic').multiplier, 1.4);
-assert.equal(dietAdjustment('vitamin_b6', 'high_protein').multiplier, 1.4);
-assert.equal(dietAdjustment('thiamine', 'high_carb').multiplier, 1.4);
+assert.equal(dietAdjustment('vitamin_b6', 'carnivore'), null); // removed: no human evidence
+assert.equal(dietAdjustment('sodium', 'ketogenic'), null);
 assert.equal(dietAdjustment('vitamin_c', 'carnivore'), null);
 assert.equal(dietAdjustment('potassium', 'standard'), null);
 assert.equal(absorbedCalories(500, 20).kcal, 460);

@@ -53,3 +53,5 @@
 - [x] 88 legacy foods as 'My database' — dropped by owner
 - [x] Published phytate values (Schlemmer 2009) for 91 grains, legumes, nuts and seeds
 - [ ] Tannins from USDA proanthocyanidin DB / Phenol-Explorer
+- [x] Calculator: biomarkers drive absorption (ferritin, vitamin D), unit handling, new bars (band, RDA, UL zone, best-case ghost bars), state-aware health context, sex/age targets, evidence-only diet rules
+- [ ] More tannin sources beyond USDA (Phenol-Explorer, cereal/legume tables) — still to search
