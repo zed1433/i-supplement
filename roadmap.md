@@ -66,3 +66,5 @@
 - [x] Supplements: each form line calculated on its own; meal effects per form; shared B12 cap
 - [x] Supplement → other-nutrient need rules (per form, cited)
 - [x] "Perfect day" generator with infeasible / condition-blocked reporting
+- [x] Calculator: range numbers under bars, visible lines, hide fluoride/chromium/molybdenum, salt-covered sodium/iodine, smarter Perfect day, Staggs 2004 biotin values
+- [ ] More biotin food sources (e.g. Japanese food composition tables) — next batch
