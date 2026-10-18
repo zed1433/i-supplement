@@ -1,14 +1,9 @@
 // Rules taken from the owner's old Supabase calculator (calculate_meal_bioactive_profile + dietary_modifier_rules).
 // Added alongside the GitHub engine; they never change the engine's absorption formulas.
-export const DIET_TYPES=['standard','carnivore','ketogenic','high_protein','high_carb'];
-export const DIET_LABELS={standard:'Standard',carnivore:'Carnivore',ketogenic:'Keto',high_protein:'High-protein',high_carb:'High-carb'};
-export const DIET_RULES={
-  high_protein:{vitamin_b6:[1.4,'Elevated protein turnover scales transaminase enzyme needs']},
-  high_carb:{thiamine:[1.4,'Elevated pyruvate dehydrogenase turnover requires higher TDP']},
-  carnivore:{vitamin_b6:[1.35,'Heavy amino acid transamination increases pyridoxal-5-phosphate demand']},
-  // Removed per docs/formula-review.md (no human evidence): carnivore potassium/magnesium/vitamin C, high-protein magnesium.
-  ketogenic:{sodium:[1.4,'Natriuresis of ketosis requires elevated sodium floor']},
-};
+export const DIET_TYPES=['standard','vegetarian','vegan','carnivore','ketogenic','high_protein','high_carb'];
+export const DIET_LABELS={standard:'Standard',vegetarian:'Vegetarian',vegan:'Vegan',carnivore:'Carnivore',ketogenic:'Keto',high_protein:'High-protein',high_carb:'High-carb'};
+// Old-database multipliers removed (no published human evidence; thiamine already scales with energy). Published IOM diet rules live in personal-model.js.
+export const DIET_RULES={};
 export function dietAdjustment(key,diet){const r=DIET_RULES[diet]?.[key];return r?{multiplier:r[0],reason:r[1]}:null}
 export const FAT_SOLUBLE_KEYS=['vitamin_a','vitamin_d','vitamin_e','vitamin_k'];
 export const LOW_FAT_GRAMS=5;
