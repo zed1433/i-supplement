@@ -17,3 +17,4 @@
 
 - Absorption formulas in clinical-absorption.js (public + src mirror) and legacy-rules.js follow the owner-approved evidence review in docs/formula-review.md and deliberately diverge from the GitHub repo; change values only with a cited reason and update the review. Keep both clinical-absorption.js copies identical apart from the @ts-nocheck line.
 - Calculator logic lives in src/lib/calculator/; calculation-engine, meal-service and catalogs are verbatim ports of the user's Bio Calculator repo — change those formulas only in the source repo, then re-copy.
+- Published composition values are overlaid by scripts/apply-published-values.py from cited CSVs in scripts/data/published/ (one file per profile key); it never overwrites source-measured values and logs every change to public/bio-calculator/corrections.json. Re-run it after build-food-profiles.py.
