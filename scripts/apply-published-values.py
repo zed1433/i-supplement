@@ -28,7 +28,7 @@ for path in sorted(glob.glob(os.path.join(ROOT, "scripts/data/published/*.csv"))
       if not rx.search(nm) or f["k"] == "animal" or (ex and ex.search(nm)): continue
       st = f["s"][ki]
       if only_u and st != "U" and f["r"][ki] != ref: continue
-      if st in ("M", "Z", "B") and not (st == "M" and f["r"][ki] >= 0 and "Noonan" in prof["refs"][f["r"][ki]]): continue
+      if st in ("M", "Z", "B") and f["r"][ki] != ref and not (st == "M" and f["r"][ki] >= 0 and "Noonan" in prof["refs"][f["r"][ki]]): continue
       val = float(row["mg_per_100g"])
       if row["basis"] == "dry":
         w = f["v"][wi]

@@ -1148,5 +1148,1475 @@
   "new": 5285.44,
   "status": "E",
   "source": "Schlemmer et al. 2009, Mol Nutr Food Res 53:S330, Table 1 (Rice bran: 2.56-8.7 g/100 g dry weight; midpoint, scaled to the food's water)"
+ },
+ {
+  "food": "Spices, parsley, dried",
+  "id": "usda-170930",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 02029: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Spices, pepper, black",
+  "id": "usda-170931",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 02030: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Spices, poppy seed",
+  "id": "usda-171330",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 02033: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Spices, turmeric, ground",
+  "id": "usda-172231",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 02043: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Apples, raw, golden delicious, with skin",
+  "id": "usda-168202",
+  "nutrient": "tannin",
+  "old": 79.1,
+  "oldStatus": "M",
+  "new": 79.1,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09501: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Apples, raw, without skin",
+  "id": "usda-171689",
+  "nutrient": "tannin",
+  "old": 86.0,
+  "oldStatus": "M",
+  "new": 86.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09004: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Apricots, raw",
+  "id": "usda-171697",
+  "nutrient": "tannin",
+  "old": 29.7,
+  "oldStatus": "M",
+  "new": 29.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09021: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Avocados, raw, all commercial varieties",
+  "id": "usda-171705",
+  "nutrient": "tannin",
+  "old": 6.2,
+  "oldStatus": "M",
+  "new": 6.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09037: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Bananas, raw",
+  "id": "usda-173944",
+  "nutrient": "tannin",
+  "old": 2.7,
+  "oldStatus": "M",
+  "new": 2.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09040: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Blackberries, raw",
+  "id": "usda-173946",
+  "nutrient": "tannin",
+  "old": 19.6,
+  "oldStatus": "M",
+  "new": 19.6,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09042: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Blueberries, canned, heavy syrup, solids and liquids",
+  "id": "usda-173948",
+  "nutrient": "tannin",
+  "old": 10.6,
+  "oldStatus": "M",
+  "new": 10.6,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09052: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Blueberries, raw",
+  "id": "fdc-2346411",
+  "nutrient": "tannin",
+  "old": 182.2,
+  "oldStatus": "M",
+  "new": 182.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09050: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Blueberries, raw",
+  "id": "usda-171711",
+  "nutrient": "tannin",
+  "old": 182.2,
+  "oldStatus": "M",
+  "new": 182.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09050: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cherries, sweet, raw",
+  "id": "usda-171719",
+  "nutrient": "tannin",
+  "old": 14.6,
+  "oldStatus": "M",
+  "new": 14.6,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09070: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cranberries, raw",
+  "id": "usda-171722",
+  "nutrient": "tannin",
+  "old": 354.8,
+  "oldStatus": "M",
+  "new": 354.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09078: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cranberry sauce, canned, sweetened",
+  "id": "usda-173961",
+  "nutrient": "tannin",
+  "old": 4.4,
+  "oldStatus": "M",
+  "new": 4.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09081: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Currants, european black, raw",
+  "id": "usda-173963",
+  "nutrient": "tannin",
+  "old": 155.1,
+  "oldStatus": "M",
+  "new": 155.1,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09083: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Dates, deglet noor",
+  "id": "usda-171726",
+  "nutrient": "tannin",
+  "old": 10.7,
+  "oldStatus": "M",
+  "new": 10.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09087: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Elderberries, raw",
+  "id": "usda-171727",
+  "nutrient": "tannin",
+  "old": 21.4,
+  "oldStatus": "M",
+  "new": 21.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09088: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Figs, raw",
+  "id": "usda-173021",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09089: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Gooseberries, raw",
+  "id": "usda-173030",
+  "nutrient": "tannin",
+  "old": 81.5,
+  "oldStatus": "M",
+  "new": 81.5,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09107: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Grape juice, canned or bottled, unsweetened, without added ascorbic acid",
+  "id": "usda-173042",
+  "nutrient": "tannin",
+  "old": 46.7,
+  "oldStatus": "M",
+  "new": 46.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09135: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Grapefruit juice, white, canned, sweetened",
+  "id": "usda-174679",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09124: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Grapefruit, raw, pink and red, all areas",
+  "id": "usda-174673",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09112: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Kiwifruit, green, raw",
+  "id": "fdc-327046",
+  "nutrient": "tannin",
+  "old": 2.6,
+  "oldStatus": "M",
+  "new": 2.6,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09148: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Kiwifruit, green, raw",
+  "id": "usda-168153",
+  "nutrient": "tannin",
+  "old": 2.6,
+  "oldStatus": "M",
+  "new": 2.6,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09148: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Limes, raw",
+  "id": "usda-168155",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09159: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Mangos, raw",
+  "id": "usda-169910",
+  "nutrient": "tannin",
+  "old": 10.4,
+  "oldStatus": "M",
+  "new": 10.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09176: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Melons, cantaloupe, raw",
+  "id": "fdc-746770",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09181: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Melons, cantaloupe, raw",
+  "id": "usda-169092",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09181: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Melons, honeydew, raw",
+  "id": "usda-2710816",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09184: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Melons, honeydew, raw",
+  "id": "usda-169911",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09184: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Orange juice, chilled, includes from concentrate",
+  "id": "usda-169100",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09209: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Oranges, raw, all commercial varieties",
+  "id": "usda-169097",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09200: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Oranges, raw, navels",
+  "id": "usda-746771",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09202: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peaches, canned, heavy syrup pack, solids and liquids",
+  "id": "usda-169112",
+  "nutrient": "tannin",
+  "old": 3.8,
+  "oldStatus": "M",
+  "new": 3.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09241: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pears, raw",
+  "id": "usda-169118",
+  "nutrient": "tannin",
+  "old": 32.7,
+  "oldStatus": "M",
+  "new": 32.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09252: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pears, raw, red anjou",
+  "id": "usda-167777",
+  "nutrient": "tannin",
+  "old": 29.2,
+  "oldStatus": "M",
+  "new": 29.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09413: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pineapple, raw, all varieties",
+  "id": "usda-169124",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09266: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pineapple, raw, extra sweet variety",
+  "id": "usda-168194",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09430: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Plums, dried (prunes), stewed, without added sugar",
+  "id": "usda-167751",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09291: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Plums, dried (prunes), stewed, with added sugar",
+  "id": "usda-167752",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09291: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Plums, dried (prunes), uncooked",
+  "id": "usda-168162",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09291: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Plums, raw",
+  "id": "usda-169949",
+  "nutrient": "tannin",
+  "old": 196.9,
+  "oldStatus": "M",
+  "new": 196.9,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09279: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pomegranate juice, bottled",
+  "id": "usda-167787",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09442: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Pomegranates, raw",
+  "id": "usda-169134",
+  "nutrient": "tannin",
+  "old": 0.3,
+  "oldStatus": "M",
+  "new": 0.3,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09286: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Quinces, raw",
+  "id": "usda-168163",
+  "nutrient": "tannin",
+  "old": 3.8,
+  "oldStatus": "M",
+  "new": 3.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09296: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Raspberries, raw",
+  "id": "fdc-2346410",
+  "nutrient": "tannin",
+  "old": 26.9,
+  "oldStatus": "M",
+  "new": 26.9,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09302: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Raspberries, raw",
+  "id": "usda-167755",
+  "nutrient": "tannin",
+  "old": 26.9,
+  "oldStatus": "M",
+  "new": 26.9,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09302: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Rhubarb, raw",
+  "id": "usda-167758",
+  "nutrient": "tannin",
+  "old": 87.8,
+  "oldStatus": "M",
+  "new": 87.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09307: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Strawberries, raw",
+  "id": "fdc-2346409",
+  "nutrient": "tannin",
+  "old": 105.2,
+  "oldStatus": "M",
+  "new": 105.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09316: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Strawberries, raw",
+  "id": "usda-167762",
+  "nutrient": "tannin",
+  "old": 105.2,
+  "oldStatus": "M",
+  "new": 105.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09316: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Watermelon, raw",
+  "id": "fdc-167765",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 09326: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Asparagus, cooked, boiled, drained",
+  "id": "fdc-168390",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11012: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, snap, green, raw",
+  "id": "usda-2346400",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11052: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, snap, green, raw",
+  "id": "usda-169961",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11052: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beets, raw",
+  "id": "usda-2685576",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11080: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beets, raw",
+  "id": "usda-169145",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11080: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broadbeans, immature seeds, raw",
+  "id": "usda-170377",
+  "nutrient": "tannin",
+  "old": 113.5,
+  "oldStatus": "M",
+  "new": 113.5,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11088: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broccoli raab, cooked",
+  "id": "usda-170382",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11097: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broccoli raab, raw",
+  "id": "usda-170381",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11096: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broccoli, raw",
+  "id": "usda-747447",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11090: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broccoli, raw",
+  "id": "usda-170379",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11090: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cabbage, chinese (pe-tsai), raw",
+  "id": "usda-169979",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11116: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cabbage, chinese (pak-choi), raw",
+  "id": "usda-170390",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11116: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cabbage, raw",
+  "id": "usda-169975",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11109: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cabbage, red, raw",
+  "id": "usda-2346408",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11112: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cabbage, red, raw",
+  "id": "usda-169977",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11112: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Carrots, baby, raw",
+  "id": "usda-2258587",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11960: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Carrots, baby, raw",
+  "id": "usda-168568",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11960: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Carrots, raw",
+  "id": "usda-170393",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11124: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cauliflower, raw",
+  "id": "usda-2685573",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11135: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cauliflower, raw",
+  "id": "usda-169986",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11135: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cauliflower, raw",
+  "id": "ciqual-20016",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11135: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Celeriac, raw",
+  "id": "usda-170400",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11141: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Celery, raw",
+  "id": "usda-2346405",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11143: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Celery, raw",
+  "id": "usda-169988",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11143: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Corn, sweet, yellow, raw",
+  "id": "usda-169998",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11167: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cucumber, peeled, raw",
+  "id": "usda-169225",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11206: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cucumber, with peel, raw",
+  "id": "usda-2346406",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11205: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Cucumber, with peel, raw",
+  "id": "usda-168409",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11205: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Eggplant, raw",
+  "id": "usda-2685577",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11209: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Eggplant, raw",
+  "id": "usda-169228",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11209: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Garlic, raw",
+  "id": "fdc-1104647",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11215: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Garlic, raw",
+  "id": "usda-169230",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11215: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Jerusalem-artichokes, raw",
+  "id": "usda-169236",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11226: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lentils, sprouted, raw",
+  "id": "usda-168427",
+  "nutrient": "tannin",
+  "old": 2.0,
+  "oldStatus": "M",
+  "new": 2.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11248: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lettuce, cos or romaine, raw",
+  "id": "usda-746769",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11251: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lettuce, cos or romaine, raw",
+  "id": "usda-169247",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11251: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lettuce, green leaf, raw",
+  "id": "usda-169249",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11253: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lettuce, iceberg (includes crisphead types), raw",
+  "id": "usda-169248",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11252: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lettuce, red leaf, raw",
+  "id": "usda-168431",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11257: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Onions, raw",
+  "id": "fdc-170000",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11282: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Onions, red, raw",
+  "id": "usda-790577",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 99055: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Onions, sweet, raw",
+  "id": "usda-170008",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11294: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Parsnips, raw",
+  "id": "usda-170417",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11298: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peas, green, raw",
+  "id": "usda-170419",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11304: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peppers, sweet, green, raw",
+  "id": "usda-170427",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11333: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peppers, sweet, red, raw",
+  "id": "usda-170108",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11821: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Potatoes, red, flesh and skin, baked",
+  "id": "usda-170435",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11358: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Potatoes, red, flesh and skin, raw",
+  "id": "usda-170029",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11355: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Potatoes, Russet, flesh and skin, baked",
+  "id": "usda-170030",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11356: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Potatoes, white, flesh and skin, baked",
+  "id": "usda-170434",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11357: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Potatoes, white, flesh and skin, raw",
+  "id": "usda-170028",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11354: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Radishes, raw",
+  "id": "usda-169276",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11429: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Rutabagas, raw",
+  "id": "usda-168454",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11435: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Spinach, raw",
+  "id": "usda-168462",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11457: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Squash, zucchini, baby, raw",
+  "id": "usda-168565",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11953: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Sweet potato, cooked, boiled, without skin",
+  "id": "usda-168484",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11510: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Tomatoes, red, ripe, cooked",
+  "id": "usda-170050",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11530: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Turnips, raw",
+  "id": "usda-170465",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 11564: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, almonds",
+  "id": "usda-170567",
+  "nutrient": "tannin",
+  "old": 152.7,
+  "oldStatus": "M",
+  "new": 152.7,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12061: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, brazilnuts, dried, unblanched",
+  "id": "usda-170569",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12078: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, cashew nuts, raw",
+  "id": "usda-2515374",
+  "nutrient": "tannin",
+  "old": 2.0,
+  "oldStatus": "M",
+  "new": 2.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12087: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, cashew nuts, raw",
+  "id": "usda-170162",
+  "nutrient": "tannin",
+  "old": 2.0,
+  "oldStatus": "M",
+  "new": 2.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12087: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, hazelnuts or filberts",
+  "id": "usda-170581",
+  "nutrient": "tannin",
+  "old": 490.8,
+  "oldStatus": "M",
+  "new": 490.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12120: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, macadamia nuts, dry roasted, without salt added",
+  "id": "usda-170179",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12132: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, pecans",
+  "id": "usda-170182",
+  "nutrient": "tannin",
+  "old": 476.8,
+  "oldStatus": "M",
+  "new": 476.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12142: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, pine nuts, dried",
+  "id": "usda-170591",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12147: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, pistachio nuts, raw",
+  "id": "fdc-2515379",
+  "nutrient": "tannin",
+  "old": 226.4,
+  "oldStatus": "M",
+  "new": 226.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12151: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, pistachio nuts, raw",
+  "id": "usda-170184",
+  "nutrient": "tannin",
+  "old": 226.4,
+  "oldStatus": "M",
+  "new": 226.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12151: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Nuts, walnuts, english",
+  "id": "usda-170187",
+  "nutrient": "tannin",
+  "old": 60.3,
+  "oldStatus": "M",
+  "new": 60.3,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 12155: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, adzuki, mature seeds, raw",
+  "id": "usda-173727",
+  "nutrient": "tannin",
+  "old": 428.0,
+  "oldStatus": "M",
+  "new": 428.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16001: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, black, mature seeds, raw",
+  "id": "usda-173734",
+  "nutrient": "tannin",
+  "old": 5.2,
+  "oldStatus": "M",
+  "new": 5.2,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16014: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, navy, mature seeds, raw",
+  "id": "usda-173745",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16037: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Beans, white, mature seeds, raw",
+  "id": "usda-175202",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16049: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broadbeans (fava beans), mature seeds, canned",
+  "id": "usda-173754",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16052: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Broadbeans (fava beans), mature seeds, raw",
+  "id": "usda-175205",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16052: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+  "id": "fdc-173757",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16056: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Chickpeas (garbanzo beans, bengal gram), canned, sodium added, drained and rinsed",
+  "id": "usda-2644288",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16056: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+  "id": "usda-173756",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16056: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Lentils, raw",
+  "id": "usda-172420",
+  "nutrient": "tannin",
+  "old": 1.3,
+  "oldStatus": "M",
+  "new": 1.3,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16069: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peanuts, all types, oil-roasted, with salt",
+  "id": "usda-174261",
+  "nutrient": "tannin",
+  "old": 10.5,
+  "oldStatus": "M",
+  "new": 10.5,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16089: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Peanuts, all types, raw",
+  "id": "usda-172430",
+  "nutrient": "tannin",
+  "old": 130.1,
+  "oldStatus": "M",
+  "new": 130.1,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16087: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Soybeans, mature seeds, raw",
+  "id": "usda-174270",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 16108: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Barley flour or meal",
+  "id": "usda-169739",
+  "nutrient": "tannin",
+  "old": 43.1,
+  "oldStatus": "M",
+  "new": 43.1,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20130: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Barley, hulled",
+  "id": "usda-170283",
+  "nutrient": "tannin",
+  "old": 91.4,
+  "oldStatus": "M",
+  "new": 91.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20004: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Buckwheat",
+  "id": "usda-170286",
+  "nutrient": "tannin",
+  "old": 7.4,
+  "oldStatus": "M",
+  "new": 7.4,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20008: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Buckwheat flour, whole-groat",
+  "id": "usda-170687",
+  "nutrient": "tannin",
+  "old": 46.5,
+  "oldStatus": "M",
+  "new": 46.5,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20011: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Millet, raw",
+  "id": "usda-169702",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20031: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Oat bran, raw",
+  "id": "usda-168872",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20033: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Rice, red, raw",
+  "id": "ciqual-9109",
+  "nutrient": "tannin",
+  "old": 87.0,
+  "oldStatus": "M",
+  "new": 87.0,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 99682: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Rye flour, medium",
+  "id": "usda-168886",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20064: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Sorghum grain",
+  "id": "usda-169716",
+  "nutrient": "tannin",
+  "old": 1950.5,
+  "oldStatus": "M",
+  "new": 1950.5,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20067: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Wheat bran, crude",
+  "id": "usda-169722",
+  "nutrient": "tannin",
+  "old": 0.0,
+  "oldStatus": "Z",
+  "new": 0.0,
+  "status": "Z",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20077: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Wild rice, raw",
+  "id": "usda-169726",
+  "nutrient": "tannin",
+  "old": 10.8,
+  "oldStatus": "M",
+  "new": 10.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20088: sum of dimers to polymers (proxy for iron-binding tannins)"
+ },
+ {
+  "food": "Wild rice, raw",
+  "id": "ciqual-9108",
+  "nutrient": "tannin",
+  "old": 10.8,
+  "oldStatus": "M",
+  "new": 10.8,
+  "status": "M",
+  "source": "USDA Database for the Proanthocyanidin Content of Selected Foods, Release 2 (2015), NDB 20088: sum of dimers to polymers (proxy for iron-binding tannins)"
  }
 ]

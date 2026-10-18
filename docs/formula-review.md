@@ -78,3 +78,6 @@ No formula has been changed. GitHub (`clinicalAbsorptionEngine.ts`) remains the 
 ## Applied (2026-10-18, owner-approved)
 Changed in the calculator: vitamin C on iron ×2–3; oxalate on calcium ×0.2–0.35 above 300 mg (×0.8–0.9 for 50–300 mg); oxalate→magnesium, zinc→iron and calcium→magnesium rules removed; manganese 1–5%; copper 30–60%; plant vitamin K 5–15%; carotenoid maximum 65%; vitamin E 10–35% when meal fat <5 g; B12 active uptake capped at 1.5 µg per meal + 1% passive; calories absorbed = kcal − 2 × fiber g (no lectin penalty); diet rules for carnivore potassium/magnesium/vitamin C and high-protein magnesium removed.
 Not changed (no better number): celiac/Crohn's single factor, cereal niacin, 50 mg tannin trigger, calcium on iron.
+
+## Data update: tannin values (Oct 2026)
+147 plant foods now carry tannin values from the USDA Proanthocyanidin Database, Release 2 (2015), via `scripts/data/published/tannin.csv` (sum of dimers through polymers per NDB food; monomers excluded because they bind iron weakly). Proanthocyanidins are a proxy for the galloyl-containing tannins in Brune 1989. Tea and coffee are deliberately excluded: their iron inhibitors (theaflavins, galloyl catechins, chlorogenic acid) are not proanthocyanidins, so the PA figure would understate them; their earlier estimates are kept.
