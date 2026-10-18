@@ -22,6 +22,13 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  // Visitors arriving from the calculator return there; everyone else goes to the admin area.
+  const goNext = () => {
+    const next = sessionStorage.getItem("postAuthRedirect");
+    sessionStorage.removeItem("postAuthRedirect");
+    if (next === "/calculator") navigate({ to: "/calculator" });
+    else navigate({ to: "/admin" });
+  };
   const [busy, setBusy] = useState(false);
   const [emailBusy, setEmailBusy] = useState(false);
   const [email, setEmail] = useState("");
@@ -31,15 +38,15 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      if (data.session) goNext();
     });
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") navigate({ to: "/admin" });
+      if (event === "SIGNED_IN") goNext();
     });
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function signIn() {
     setBusy(true);
@@ -53,7 +60,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/admin" });
+    goNext();
   }
 
   async function signInWithEmail(event: React.FormEvent) {
@@ -63,7 +70,7 @@ function AuthPage() {
     setNotice(null);
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     if (!signInError) {
-      navigate({ to: "/admin" });
+      goNext();
       setEmailBusy(false);
       return;
     }
@@ -75,7 +82,7 @@ function AuthPage() {
       });
       if (signUpError) setError(signUpError.message);
       else if (!data.session) setNotice("Check your email to confirm the account, then sign in.");
-      else navigate({ to: "/admin" });
+      else goNext();
     } else {
       setError(signInError.message);
     }
