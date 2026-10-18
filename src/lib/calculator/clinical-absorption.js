@@ -41,7 +41,12 @@ function base(n,c,f){
 
 export function evaluateEntericBioavailability(nutrient,chemicalForm,category,pathology,context){
   const f=(chemicalForm||'').toLowerCase();let [min,max,phi,formName]=base(nutrient,context,f);const notes=[];
-  const fo=context.formOverride;if(fo){if(fo.abs){[min,max]=fo.abs}if(fo.rel){min*=fo.rel;max*=fo.rel}if(fo.phi!=null)phi=fo.phi;if(fo.why)notes.push('Form: '+fo.why)}
+  const fo=context.formOverride,me=fo?.me??{};
+  // Per-form meal effects: me[effect] = [min,max] replaces the base factor, 0 = this form is not affected (cited in supplement-forms.js).
+  const eff=(k,a,b,why,whyNo)=>{const o=me[k];if(o===0){if(whyNo)notes.push(whyNo);return}const [x,y]=Array.isArray(o)?o:[a,b];min*=x;max*=y;if(why)notes.push(Array.isArray(o)?why+' (form-specific size)':why)};
+  if(fo){if(fo.abs){[min,max]=fo.abs}if(fo.rel){min*=fo.rel;max*=fo.rel}if(fo.phi!=null)phi=fo.phi;if(fo.why)notes.push('Form: '+fo.why)}
+  // A form's advantage can't push uptake past 100% before the meal acts on it, so meal/gut effects still lower it.
+  min=Math.min(min,1);max=Math.min(max,1);
   const h=nutrient==='Iron'?hemeFraction(context,f):0,nonHeme=1-h;
   const fat=context.totalFatGrams??0;
   // Graded fat effect on fat-soluble vitamins (single-meal studies).
@@ -52,9 +57,9 @@ export function evaluateEntericBioavailability(nutrient,chemicalForm,category,pa
   if(nutrient==='Vitamin A'&&!context.isPureAnimalFood&&(context.totalFiberGrams??0)>=15){min*=.7;max*=.7;notes.push('High meal fibre (≥15 g) reduces carotenoid absorption (Riedl 1999).');}
   if((context.totalFiberGrams??0)>=15&&['Iron','Zinc','Calcium','Magnesium'].includes(nutrient))notes.push('High fibre: the mineral-binding effect comes mostly from its phytate, which is counted separately (not double-counted).');
   if((context.totalOxalatesMg||0)>50&&!context.isPureAnimalFood&&nutrient==='Calcium'){if(context.totalOxalatesMg>300){min*=.2;max*=.35;notes.push('High meal oxalate (spinach-level) binds most calcium (Heaney 1988).');}else{min*=.8;max*=.9;notes.push('Meal oxalate load reduces calcium availability in the model.');}}
-  if((context.totalPhytatesMg||0)>100&&!context.isPureAnimalFood){if(nutrient==='Zinc'){min*=.7;max*=.8;notes.push('Meal phytate load reduces zinc availability in the model.');}if(nutrient==='Iron'&&nonHeme>0){min*=.5;max*=.6;notes.push('Meal phytate load reduces non-heme iron availability in the model.');}if(nutrient==='Calcium'){min*=.85;max*=.9;}}
-  if(context.coingestedTannins&&nutrient==='Iron'&&nonHeme>0){min*=.35;max*=.45;notes.push('Co-ingested tannins reduce non-heme iron absorption.');}
-  if(nutrient==='Iron'&&nonHeme>0){if(context.totalCalciumMg>350){min*=.65;max*=.75;}if(context.totalVitaminCMg>=50){min*=2;max*=3;notes.push('Vitamin C enhances non-heme iron absorption.');}}
+  if((context.totalPhytatesMg||0)>100&&!context.isPureAnimalFood){if(nutrient==='Zinc')eff('phytate',.7,.8,'Meal phytate load reduces zinc availability in the model.','This zinc form is not affected by phytate.');if(nutrient==='Iron'&&nonHeme>0)eff('phytate',.5,.6,'Meal phytate load reduces non-heme iron availability in the model.','This iron form is largely protected from phytate.');if(nutrient==='Calcium'){min*=.85;max*=.9;}}
+  if(context.coingestedTannins&&nutrient==='Iron'&&nonHeme>0)eff('tannin',.35,.45,'Co-ingested tannins (tea, coffee, cocoa, red wine) reduce non-heme iron absorption.','This iron form is not affected by tannins.');
+  if(nutrient==='Iron'&&nonHeme>0){if(context.totalCalciumMg>350)eff('calcium',.65,.75,'Meal calcium (>350 mg) reduces iron absorption.','This iron form is not affected by meal calcium.');if(context.totalVitaminCMg>=50)eff('vitC',2,3,'Vitamin C enhances non-heme iron absorption.','Vitamin C does not change absorption of this iron form.');}
   if(nutrient==='Copper'&&context.totalCopperMg>0&&context.totalZincMg/context.totalCopperMg>20){min*=.4;max*=.5;notes.push('High meal zinc:copper ratio is modeled as reducing copper absorption.');}
   if(pathology.gastricAcid==='suspected_low'){
     if(nutrient==='Iron'&&nonHeme>0){min*=h+nonHeme*.7;max*=h+nonHeme*.75;notes.push('Suspected low stomach acid: non-heme iron reduced by about a quarter (half the confirmed effect, model).');}
@@ -110,6 +115,8 @@ export function pathologyFromSettings(settings={}){
 // B12: intrinsic-factor uptake saturates at ~1.5 µg per meal; ~1% of the rest by passive diffusion (IOM 1998).
 export const B12_ACTIVE_CAP_UG=1.5,B12_PASSIVE=0.01;
 const b12Split=a=>({active:Math.min(a,B12_ACTIVE_CAP_UG),passive:Math.max(0,a-B12_ACTIVE_CAP_UG)});
+// The ~1.5 µg intrinsic-factor cap is shared by all B12 in the meal (food + every supplement), split pro rata.
+const b12Share=(a,total)=>{const s=b12Split(total),k=total>0?a/total:0;return{active:s.active*k,passive:s.passive*k}};
 // value: {total, animal, plant, supplement, unknown}; meal: calculateMeal() result
 // ideal: highest theoretical uptake — healthy gut, no inhibitors, enhancers present, upper rate.
 export function clinicalEstimate(key,value,meal,settings={}){
@@ -118,17 +125,19 @@ export function clinicalEstimate(key,value,meal,settings={}){
   const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:meal?.fiber??0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG,biomarkerFx:settings.biomarkerFx??null};
   const ideal={totalFatGrams:20,totalCarbsGrams:0,totalFiberGrams:0,totalZincMg:0,totalCopperMg:1,totalIronMg:0,totalCalciumMg:0,totalVitaminCMg:100,totalPhytatesMg:0,totalOxalatesMg:0,coingestedTannins:false,carotenoidMatrixCooked:true};
   const p=pathologyFromSettings(settings),healthy={gastricAcid:'normal',pathology:'none',factors:{},noIntrinsicFactor:false},cat=FAT_SOLUBLE.has(key)?'fat_soluble_vitamin':'other';
-  const parts=[['animal',value.animal??0,true,''],['plant',(value.plant??0)+(value.unknown??0),false,''],['supplement',value.supplement??0,false,'supplement']];
-  let min=0,max=0,conv=0,best=0,bestConv=0,notes=new Set();
-  const sf=settings.suppForms?.[key];
-  for(const [,amount,animal,form0] of parts){if(!(amount>0))continue;const isSupp=form0==='supplement',form=isSupp&&sf?.form?'supplement '+sf.form:form0,fo=isSupp?sf?.bio:null;
+  // Every supplement line (form + dose) is calculated on its own, inside the same meal context as the food.
+  const lines=(settings.suppLines?.[key]??[]).filter(l=>l.amount>0),named=lines.reduce((a,l)=>a+l.amount,0),generic=Math.max(0,(value.supplement??0)-named);
+  const parts=[['Food (animal)',value.animal??0,true,'',null],['Food (plant/other)',(value.plant??0)+(value.unknown??0),false,'',null],...lines.map(l=>[l.name,l.amount,false,'supplement '+(l.form??''),l.bio??null]),['Supplement (unspecified form)',generic,false,'supplement',null]];
+  const b12Total=parts.reduce((a,x)=>a+(x[1]>0?x[1]:0),0);
+  let min=0,max=0,conv=0,best=0,bestConv=0,notes=new Set();const out=[];
+  for(const [label,amount,animal,form,fo] of parts){if(!(amount>0))continue;
     const r=evaluateEntericBioavailability(name,form,cat,p,{...ctx,isPureAnimalFood:animal,formOverride:fo});
     const ri=evaluateEntericBioavailability(name,form,cat,healthy,{...ideal,isPureAnimalFood:animal,formOverride:fo});
-    const sat=key==='vitamin_b12'?b12Split(amount):null,activeOk=!(sat&&p.noIntrinsicFactor);
+    const sat=key==='vitamin_b12'?b12Share(amount,b12Total):null,activeOk=!(sat&&p.noIntrinsicFactor);
     const up=(rate,useActive)=>sat?(useActive?sat.active*rate:0)+(useActive?sat.passive:amount)*B12_PASSIVE:amount*rate;
     const aMin=up(r.rateMin,activeOk),aMax=up(r.rateMax,activeOk),aBest=up(ri.rateMax,true);
-    min+=aMin;max+=aMax;conv+=(aMin+aMax)/2*r.conversionPhi;best+=aBest;bestConv+=aBest*ri.conversionPhi;r.clinicalMechanismNotes.forEach(x=>notes.add(x))}
+    min+=aMin;max+=aMax;conv+=(aMin+aMax)/2*r.conversionPhi;best+=aBest;bestConv+=aBest*ri.conversionPhi;r.clinicalMechanismNotes.forEach(x=>notes.add(x));out.push({label,amount,min:aMin,max:aMax,converted:(aMin+aMax)/2*r.conversionPhi,supplement:!!form})}
   if(key==='vitamin_b12'&&p.noIntrinsicFactor)notes.add('No intrinsic factor (total gastrectomy / ileal loss): only ~1% passive B12 uptake (IOM 1998).');
   p.noNumber.forEach(x=>notes.add(x));
-  return {min,max,converted:conv,maxAbsorbed:Math.max(best,max),maxConverted:Math.max(bestConv,conv),notes:[...notes]};
+  return {min,max,converted:conv,maxAbsorbed:Math.max(best,max),maxConverted:Math.max(bestConv,conv),notes:[...notes],lines:out};
 }

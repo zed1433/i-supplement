@@ -22,3 +22,4 @@
 
 - Calculator targets come from public/bio-calculator/target-model.js: RDA stays fixed, absorption only moves bars, and needs-based inputs only move the optimal range. Why: the intake, absorbed and bioactive bars stay comparable.
 - Calculator supplement forms live in public/bio-calculator/supplement-forms.js (one cited row per form, consumed via catalogs.js); need-changing conditions and menstruation in need-conditions.js; bar geometry in bar-scale.js; display order in nutrient-order.js. Why: one place to add forms/conditions without touching the engine.
+- Calculator supplements are passed to the absorption engine as separate lines per form (`suppLines`); per-form meal effects live on the form row (`me`), supplement→need rules in public/bio-calculator/supplement-needs.js, and the "perfect day" search in day-planner.js (search only; app.js supplies evaluation). Why: forms react differently to the same meal and must never be merged.
