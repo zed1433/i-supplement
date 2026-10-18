@@ -74,6 +74,24 @@ export type Database = {
         }
         Relationships: []
       }
+      calculator_workspaces: {
+        Row: {
+          data: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       campaign_sends: {
         Row: {
           campaign_id: string
