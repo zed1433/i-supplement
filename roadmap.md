@@ -36,8 +36,8 @@
 - [ ] Formula review report: GitHub formulas (source of truth) vs published research, legacy Supabase alongside
 - [ ] Add owner's 88 legacy foods as "My database" choices
 - [ ] Add legacy preparation methods (heat retention + anti-nutrient reduction)
-- [ ] Diet type setting (legacy dietary_modifier_rules)
-- [ ] Under-5 g fat warning + absorbed-calories figure
+- [x] Diet type setting (legacy dietary_modifier_rules)
+- [x] Under-5 g fat warning + absorbed-calories figure
 - [x] Import owner's old meal history — owner said no, skipped
 - [ ] Online saving for signed-in visitors (calculator_workspaces)
 - [ ] Widen anti-nutrient coverage with published phytate/oxalate/tannin tables (USDA proanthocyanidin DB, Phenol-Explorer)
@@ -45,4 +45,4 @@
 - [ ] Verify creatine/taurine values; cooked-meat values only from published cooked measurements
 - [ ] Chromium/molybdenum/biotin from published composition studies
 - [ ] Meat mineral gaps filled only from same-cut lab tables
-- [ ] Full calculator feature check (desktop + phone), fix breakages
+- [x] Full calculator feature check (desktop + phone), fix breakages
