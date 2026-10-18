@@ -63,3 +63,6 @@
 - [x] Fixed bar scale (RDA 35%, opt 49/70%, UL 95%), values on bars, derived UL on absorbed/bioactive, nutrient order, zero instead of "Not modeled", chloride
 - [x] Supplement forms: every published form incl. patented/branded, with cited rates
 - [x] Disease audit (needs + absorption), menstruation iron
+- [ ] Supplements: each form line calculated on its own; meal effects per form; shared B12 cap
+- [ ] Supplement → other-nutrient need rules (per form, cited)
+- [ ] "Perfect day" generator with infeasible / condition-blocked reporting
