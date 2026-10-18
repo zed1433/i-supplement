@@ -44,6 +44,8 @@ export function evaluateEntericBioavailability(nutrient,chemicalForm,category,pa
   // Per-form meal effects: me[effect] = [min,max] replaces the base factor, 0 = this form is not affected (cited in supplement-forms.js).
   const eff=(k,a,b,why,whyNo)=>{const o=me[k];if(o===0){if(whyNo)notes.push(whyNo);return}const [x,y]=Array.isArray(o)?o:[a,b];min*=x;max*=y;if(why)notes.push(Array.isArray(o)?why+' (form-specific size)':why)};
   if(fo){if(fo.abs){[min,max]=fo.abs}if(fo.rel){min*=fo.rel;max*=fo.rel}if(fo.phi!=null)phi=fo.phi;if(fo.why)notes.push('Form: '+fo.why)}
+  // A form's advantage can't push uptake past 100% before the meal acts on it, so meal/gut effects still lower it.
+  min=Math.min(min,1);max=Math.min(max,1);
   const h=nutrient==='Iron'?hemeFraction(context,f):0,nonHeme=1-h;
   const fat=context.totalFatGrams??0;
   // Graded fat effect on fat-soluble vitamins (single-meal studies).
