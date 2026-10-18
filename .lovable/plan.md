@@ -34,5 +34,5 @@
 ## Technical details
 - `app.js`: replace `suppForms()` (max-dose pick) with a per-line list `suppLines[key] = [{name, form, bio, amount}]`; the engine's `value.supplement` total stays for display.
 - `clinicalEstimate()` (both copies, kept identical): loop over food parts plus each supplement line; run `evaluateEntericBioavailability` per line with the full meal context; B12 saturation computed once on the meal total and split pro rata; returns `lines[]` for the popup.
-- `evaluateEntericBioavailability`: `formOverride.abs` replaced by `rel` (relative to base), applied before meal modifiers; new `formOverride.protect` flags (`phytate`, `acid`, `fat`) skip only the cited modifiers.
-- `supplement-forms.js`: convert `abs` rows to `rel` with citations; add `protect` flags where cited. Update `docs/formula-review.md` and `scripts/test-bar-scale-forms.mjs`.
+- `evaluateEntericBioavailability`: `formOverride.abs` replaced by `rel` (relative to base), applied before meal modifiers; each meal modifier reads a per-form factor from a `mealEffects` map on the form row (e.g. `{phytate:0.5, caffeine:1, vitC:1}`), falling back to the base nutrient factor with a note. Caffeine/coffee gets tracked as a meal input for iron.
+- `supplement-forms.js`: convert `abs` rows to `rel` with citations; add cited `mealEffects` per form. Update `docs/formula-review.md` and `scripts/test-bar-scale-forms.mjs`.
