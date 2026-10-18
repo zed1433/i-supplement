@@ -15,7 +15,7 @@ names.update({r[0]: r[1] for r in json.load(open(os.path.join(BC, "extra-foods.j
 keys = prof["keys"]; wi = keys.index("water")
 log = []
 for path in sorted(glob.glob(os.path.join(ROOT, "scripts/data/published/*.csv"))):
-  key = os.path.splitext(os.path.basename(path))[0]
+  key = os.path.splitext(os.path.basename(path))[0].split("__")[0]
   ki = keys.index(key)
   for row in csv.DictReader(open(path)):
     rx = re.compile(row["name_regex"], re.I)
