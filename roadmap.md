@@ -55,3 +55,8 @@
 - [ ] Tannins from USDA proanthocyanidin DB / Phenol-Explorer
 - [x] Calculator: biomarkers drive absorption (ferritin, vitamin D), unit handling, new bars (band, RDA, UL zone, best-case ghost bars), state-aware health context, sex/age targets, evidence-only diet rules
 - [ ] More tannin sources beyond USDA (Phenol-Explorer, cereal/legume tables) — still to search
+
+- [x] Restore owner optimal ranges; fixed RDA; absorbed/bioactive targets; needs-based optimal (kcal, macros, weight, activity, diet, biomarkers)
+- [x] Suspected low stomach acid affects iron/B12; fibre as inhibitor; graded low-fat effect
+- [ ] Track PUFA per food so vitamin E need can follow polyunsaturated fat
+- [ ] Wider physiology audit (all interaction combinations, conversion steps) — owner to review list
