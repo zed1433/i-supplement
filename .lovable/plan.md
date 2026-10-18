@@ -21,6 +21,15 @@
 4. **Conversion per form.** Each line keeps its own conversion to the active form (folic acid vs 5-MTHF, D2 vs D3, natural vs synthetic vitamin E, beta-carotene vs retinol, K1 vs MK-7), still reduced by the meal and conditions.
 5. **Highest possible bar:** the faded bar uses the same per-line maths with no inhibitors and a healthy gut.
 6. **Form table review:** forms currently stored as fixed absolute rates are converted to relative factors against the base nutrient, with the source noted. Any whose source only gives a fasting figure says so.
+7. **Supplements change the needs for other nutrients, per form.** Taking a supplement can raise or lower what you need of other nutrients. This moves only the optimal range of the affected nutrient, never the RDA, scaled to the dose taken, and the card says why. A research pass covers every form, for example:
+   - vitamin D3/D2 → magnesium (used to activate vitamin D) and vitamin K2 context;
+   - high-dose zinc → copper (zinc over ~40–50 mg/day causes copper deficiency);
+   - folic acid vs 5-MTHF → B12 (folic acid can hide B12 deficiency);
+   - high-dose calcium → magnesium balance; high-dose iron → zinc;
+   - niacin (nicotinic acid vs niacinamide) → methyl donors (choline, folate);
+   - high-dose B6 forms, vitamin E → vitamin K, creatine → methylation load, and others found in the research.
+   
+   Each effect is a cited number, or listed as "known effect, no reliable number, not applied". Forms of the same nutrient can differ (for example nicotinic acid vs niacinamide). These rules live in one table so new forms can be added later.
 
 ## Checks
 - Magnesium oxide 200 mg + glycinate 100 mg gives oxide part + glycinate part, not 300 mg at one rate.
