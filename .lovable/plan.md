@@ -30,8 +30,15 @@
    - high-dose B6 forms, vitamin E → vitamin K, creatine → methylation load, and others found in the research.
    
    Each effect is a cited number, or listed as "known effect, no reliable number, not applied". Forms of the same nutrient can differ (for example nicotinic acid vs niacinamide). These rules live in one table so new forms can be added later.
+8. **"Perfect day" button.** In the Meal builder, pick a calorie amount and press the button. It fills in a random full day of foods where every nutrient's absorbed and bioactive amount lands in its optimal range. It takes into account your sex, age, weight, activity, diet type, conditions, biomarkers and the meal effects above. Each press gives a different day.
+   - Portions are realistic sizes, spread across meals, using whole foods by default.
+   - If no combination of foods can hit every range at that calorie amount, it says so plainly. It names the nutrients that fell short or went over, and shows the closest day it found.
+   - If a condition makes a target impossible to reach from food (for example folate in thalassemia, or B12 with no intrinsic factor), it names the condition and the nutrient it blocks, and links to the supplement comparison.
+   - Supplements are only added if you tick "allow supplements".
 
 ## Checks
+- Perfect day: a normal 2,000 kcal profile gets a day within range; 800 kcal reports what falls short; total stomach removal reports B12 as blocked.
+- D3 dose raises the magnesium optimum, and zinc 50 mg raises the copper optimum (where a cited number exists).
 - Magnesium oxide 200 mg + glycinate 100 mg gives oxide part + glycinate part, not 300 mg at one rate.
 - Benfotiamine with a high-tannin, high-phytate meal and low stomach acid absorbs less than benfotiamine alone, but still more than plain B1 in the same meal.
 - Iron sulfate loses more to phytate than iron bisglycinate.
@@ -45,3 +52,6 @@
 - `clinicalEstimate()` (both copies, kept identical): loop over food parts plus each supplement line; run `evaluateEntericBioavailability` per line with the full meal context; B12 saturation computed once on the meal total and split pro rata; returns `lines[]` for the popup.
 - `evaluateEntericBioavailability`: `formOverride.abs` replaced by `rel` (relative to base), applied before meal modifiers; each meal modifier reads a per-form factor from a `mealEffects` map on the form row (e.g. `{phytate:0.5, caffeine:1, vitC:1}`), falling back to the base nutrient factor with a note. Caffeine/coffee gets tracked as a meal input for iron.
 - `supplement-forms.js`: convert `abs` rows to `rel` with citations; add cited `mealEffects` per form. Update `docs/formula-review.md` and `scripts/test-bar-scale-forms.mjs`.
+- Supplement → need rules: `SUPPLEMENT_NEED_RULES` in `need-conditions.js` (per form, dose-scaled, cited), applied in `optimalRange()` of `target-model.js`.
+- Perfect day: new `day-planner.js` running in a Web Worker. It starts from a random greedy fill, then does a local search over foods and portions, scoring distance from each absorbed/bioactive optimal range at ±5% calories. It reports infeasible and condition-blocked nutrients separately.
+- `roadmap.md` gets these tasks on approval.
