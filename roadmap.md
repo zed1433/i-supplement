@@ -47,3 +47,5 @@
 - [ ] Meat mineral gaps filled only from same-cut lab tables
 - [x] Full calculator feature check (desktop + phone), fix breakages
 - [x] Phone menu closes after picking a section (was covering the page)
+- [x] Apply evidence-review corrections to absorption formulas and legacy extras
+- [ ] Spinach (USDA 100 g) shows no oxalate effect on calcium — its oxalate value is missing; fill during the food-gap work
