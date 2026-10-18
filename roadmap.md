@@ -60,3 +60,6 @@
 - [x] Suspected low stomach acid affects iron/B12; fibre as inhibitor; graded low-fat effect
 - [ ] Track PUFA per food so vitamin E need can follow polyunsaturated fat
 - [ ] Wider physiology audit (all interaction combinations, conversion steps) — owner to review list
+- [ ] Fixed bar scale (RDA 35%, opt 49/70%, UL 95%), values on bars, derived UL on absorbed/bioactive, nutrient order, zero instead of "Not modeled", chloride
+- [ ] Supplement forms: every published form incl. patented/branded, with cited rates
+- [ ] Disease audit (needs + absorption), menstruation iron
