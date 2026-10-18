@@ -14,7 +14,11 @@ export function createWorkspaceRepository(storage = globalThis.localStorage) {
     if (saved) current = { ...current, ...JSON.parse(saved), settings: { ...current.settings, ...JSON.parse(saved).settings } };
   } catch { /* A blocked/corrupt storage area remains a usable in-memory workspace. */ }
 
-  const save = () => { try { storage?.setItem(KEY, JSON.stringify(current)); } catch { /* keep the in-memory workspace */ } };
+  const save = () => {
+    try { storage?.setItem(KEY, JSON.stringify(current)); storage?.setItem(KEY + '.updatedAt', new Date().toISOString()); } catch { /* keep the in-memory workspace */ }
+    // Lets the host page copy the workspace to the signed-in user's account (same-origin only).
+    try { if (globalThis.parent && globalThis.parent !== globalThis) globalThis.parent.postMessage({ type: 'bio-calculator:saved' }, globalThis.location.origin); } catch { /* standalone */ }
+  };
   return {
     kind: 'local',
     load: () => clone(current),
