@@ -8,29 +8,33 @@
 - **Absorbed and bioactive bars** have no targets of their own. They are compared with the intake RDA, which is wrong.
 
 ## How targets will work
+Two separate things:
+- **The bars move with what you ate and how well you absorbed it.** Inhibitors (low stomach acid, phytate, fibre, tannins, low fat, celiac) shorten the absorbed and bioactive bars. Enhancers (vitamin C, fat, heme iron) lengthen them. So 10 mg of iron eaten might show only 1 mg absorbed.
+- **The ranges move only when your needs change:** sex, age, weight, activity, calories, macros eaten (protein, carbs, fat), diet type and certain blood markers. Absorption problems never move the ranges.
+
 ```text
                 Intake bar        Absorbed bar           Bioactive bar
 RDA line        official, fixed   RDA x reference rate   absorbed RDA x conversion
-Optimal band    moves with you    research optimum       research optimum
-                (see below)       (fixed per person)     (fixed per person)
+Optimal band    needs-based       needs-based            needs-based
+Bar length      what you ate      what you absorbed      what became active
 ```
-- **RDA never changes** because of health, meals or biomarkers. Only sex and age pick which official row applies.
-- **Absorbed RDA = RDA × the absorption rate the RDA committee assumed.** For example, the iron RDA assumes about 18% absorption from a mixed diet (IOM 2001), so 8 mg → about 1.4 mg absorbed (matching the ~1 mg/day men lose plus a margin). Zinc, calcium, magnesium, B12, folate (DFE), vitamin A (RAE) and so on each get their own published reference rate. Where the committee states no rate, the absorbed line is hidden with a note instead of guessed.
-- **Optimal absorbed and bioactive range** comes from research optimums (status-based studies such as ferritin, 25(OH)D, RBC folate, homocysteine, Mg balance), plus your old values. Where no research optimum exists, your rule is used: 1.4–2× the RDA, kept below the UL.
-- **The intake optimal range moves.** It is worked out backwards: "how much do I need to eat, with my gut, my meal and my status, to land in the absorbed optimum?" Low stomach acid, phytate, low fat, celiac and so on push the intake band up. The absorbed and bioactive bands stay where they are. So a full intake bar can still show a short absorbed bar.
+- **RDA never changes.** Only sex and age choose the official row.
+- **Absorbed RDA = RDA × the absorption rate the RDA committee assumed.** For example, the iron RDA assumes about 18% absorption from a mixed diet (IOM 2001), so 8 mg → about 1.4 mg absorbed. Each nutrient gets its published reference rate. Where none is stated, the absorbed RDA line is hidden with a note, not guessed.
+- **Optimal range** comes from research optimums (ferritin, 25(OH)D, RBC folate, homocysteine, Mg balance studies), plus your old values, or your 1.4–2× RDA rule where no research exists, kept below the UL. It is shown on all three bars using the same reference rates, then adjusted by needs.
 
 ## Changes
 1. **Bring back your optimal values** and add researched optimums with citations, nutrient by nutrient.
-2. **Three target sets per nutrient** (intake, absorbed, bioactive) as above, with the RDA and optimal markers on each bar.
-3. **Low stomach acid lowers B12 and iron in every state:** suspected = a smaller cut, confirmed or on acid blockers = full cut, no acid = strongest. It applies to food B12 (not supplement B12) and to plant iron.
-4. **Body inputs:** weight, height and activity level. Calories are estimated (Mifflin-St Jeor × activity factor), and you can still type your own. Only research-backed scaling is used:
-   - Energy-linked B vitamins (B1, B2, B3) per 1000 kcal.
-   - B6 per gram of protein.
-   - Vitamin E per gram of polyunsaturated fat.
-   - Protein per kg of body weight (higher when active).
-   - Magnesium per kg for the optimal range.
-   - Sweat losses for sodium and potassium as a note.
-   Everything else is labelled "no evidence of size or activity effect". These change the optimal range only, never the RDA.
+2. **Three target sets per nutrient** (intake, absorbed, bioactive), with the RDA and optimal markers on each bar.
+3. **Low stomach acid lowers B12 and iron in every state:** suspected = a smaller cut, confirmed or on acid blockers = full cut, no acid = strongest. It applies to food B12 (not supplement B12) and to plant iron. It shortens the absorbed bar and leaves the ranges alone.
+4. **Needs that change the optimal range** (never the RDA). New inputs: weight, height and activity level. Calories are estimated (Mifflin-St Jeor × activity factor), and you can still type your own. Each is applied only with a cited number:
+   - **Calories:** B1, B2 and B3 per 1000 kcal.
+   - **Carbohydrate eaten:** B1. Thiamine is the cofactor for carbohydrate metabolism, so I'll look for a per-gram figure, otherwise it is covered through calories.
+   - **Protein eaten:** B6 per gram of protein (IOM 0.016 mg/g). Protein target per kg of body weight, higher when active.
+   - **Fat eaten:** vitamin E per gram of polyunsaturated fat. Biotin's role in fat metabolism will be researched, and applied only if a number exists.
+   - **Weight:** magnesium per kg (optimal range only).
+   - **Activity:** sweat losses for sodium, potassium, magnesium, zinc and iron, where studies give amounts.
+   - **Blood markers:** for example, low ferritin raises the iron optimum, and low 25(OH)D raises the vitamin D optimum to a repletion dose.
+   Anything without evidence is labelled "no evidence of a change".
 5. **Fibre becomes an antinutrient.** No "eat more fibre" target. Meal fibre reduces mineral absorption only where human studies give a number (mainly through bound phytate, and some effect on zinc, iron, calcium and carotenoids). It isn't double-counted with phytate. Shown as an inhibitor in the detail.
 6. **Low-fat meals:** the existing under-5 g fat rule for vitamins A, D, E and K is re-checked, made graded (e.g. 0, 3, 10+ g) where studies support it, and shown on all three bars.
 7. **A full interaction and physiology audit.** A research pass, nutrient by nutrient, covering:
