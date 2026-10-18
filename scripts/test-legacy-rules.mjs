@@ -20,5 +20,5 @@ let pr=applyProcessing(lentil).food.nutrients;
 assert.equal(pr.phytate,350); assert.equal(pr['vitamin_c@plant'],9); assert.equal(pr.iron_total,7);
 pr=applyProcessing({...lentil,processing:'pressure',food:{...lentil.food,name:'Lentils, boiled'}}).food.nutrients;
 assert.equal(pr.phytate,250); assert.equal(pr['vitamin_c@plant'],10);
-assert.equal(applyProcessing({...lentil,processing:'none'}),{...lentil,processing:'none'}.food?applyProcessing({...lentil,processing:'none'}):null);
+const none={...lentil,processing:'none'}; assert.equal(applyProcessing(none), none);
 console.log('legacy rules: all checks passed');
