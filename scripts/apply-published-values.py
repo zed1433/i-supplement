@@ -19,11 +19,15 @@ for path in sorted(glob.glob(os.path.join(ROOT, "scripts/data/published/*.csv"))
   ki = keys.index(key)
   for row in csv.DictReader(open(path)):
     rx = re.compile(row["name_regex"], re.I)
+    ex = re.compile(row["exclude"], re.I) if row.get("exclude") else None
+    only_u = row.get("mode") == "only_unknown"
     if row["source"] not in prof["refs"]: prof["refs"].append(row["source"])
     ref = prof["refs"].index(row["source"])
     for fid, f in prof["foods"].items():
-      if not rx.search(names.get(fid, "")) or f["k"] == "animal": continue
+      nm = names.get(fid, "")
+      if not rx.search(nm) or f["k"] == "animal" or (ex and ex.search(nm)): continue
       st = f["s"][ki]
+      if only_u and st != "U": continue
       if st in ("M", "Z", "B") and not (st == "M" and f["r"][ki] >= 0 and "Noonan" in prof["refs"][f["r"][ki]]): continue
       val = float(row["mg_per_100g"])
       if row["basis"] == "dry":
