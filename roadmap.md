@@ -35,14 +35,14 @@
 - [x] Full nutrient + anti-nutrient profile for every calculator food (status: measured / measured zero / absent by biology / estimated / unknown), animal/plant routing, phytate/oxalate/tannin effects live
 - [x] Formula review report (docs/formula-review.md): GitHub formulas (source of truth) vs published research, legacy Supabase alongside
 - [x] 88 legacy foods — owner dropped this
-- [ ] Add legacy preparation methods (heat retention + anti-nutrient reduction)
+- [x] Add legacy preparation methods (heat retention + anti-nutrient reduction)
 - [x] Diet type setting (legacy dietary_modifier_rules)
 - [x] Under-5 g fat warning + absorbed-calories figure
 - [x] Import owner's old meal history — owner said no, skipped
-- [ ] Online saving for signed-in visitors (calculator_workspaces)
+- [x] Online saving for signed-in visitors (calculator_workspaces)
 - [ ] Widen anti-nutrient coverage with published phytate/oxalate/tannin tables (USDA proanthocyanidin DB, Phenol-Explorer)
-- [ ] Fix wrong legacy plant zeros (e.g. soybean/sesame oxalate) with published values
-- [ ] Verify creatine/taurine values; cooked-meat values only from published cooked measurements
+- [x] Fix wrong legacy plant zeros (e.g. soybean/sesame oxalate) with published values
+- [x] Verify creatine/taurine values; cooked-meat values only from published cooked measurements
 - [ ] Chromium/molybdenum/biotin from published composition studies
 - [ ] Meat mineral gaps filled only from same-cut lab tables
 - [x] Full calculator feature check (desktop + phone), fix breakages
@@ -51,3 +51,5 @@
 - [x] Spinach oxalate filled
 - [x] Published oxalate values (Noonan & Savage 1999; Massey 2001) — spinach, soy, sesame, beets, purslane, amaranth, parsley, cashew, cocoa
 - [x] 88 legacy foods as 'My database' — dropped by owner
+- [x] Published phytate values (Schlemmer 2009) for 91 grains, legumes, nuts and seeds
+- [ ] Tannins from USDA proanthocyanidin DB / Phenol-Explorer
