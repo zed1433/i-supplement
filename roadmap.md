@@ -48,4 +48,5 @@
 - [x] Full calculator feature check (desktop + phone), fix breakages
 - [x] Phone menu closes after picking a section (was covering the page)
 - [x] Apply evidence-review corrections to absorption formulas and legacy extras
-- [ ] Spinach (USDA 100 g) shows no oxalate effect on calcium — its oxalate value is missing; fill during the food-gap work
+- [x] Spinach oxalate filled
+- [x] Published oxalate values (Noonan & Savage 1999; Massey 2001) — spinach, soy, sesame, beets, purslane, amaranth, parsley, cashew, cocoa
