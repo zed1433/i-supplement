@@ -14,3 +14,4 @@
 .nb-labels{min-height:34px}.nb-marks{height:34px}.nb-tag{font-size:10px}.nb-tag.row1{bottom:16px}
 .nb-over{position:absolute;right:-2px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:800;color:var(--red)}
 .supplement-row small.muted{display:block;font-size:11px;line-height:1.35;margin-top:2px}
+.nb-labels{min-height:48px}.nb-marks{height:48px}.nb-tag.row2{bottom:32px}

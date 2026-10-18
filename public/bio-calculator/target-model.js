@@ -80,7 +80,7 @@ export function optimalRange(key,t,s={},meal={},markers={},dietRule=null){
 // Targets for the three bars. Absorbed/bioactive = intake targets × reference rate × conversion.
 export function barTargets(key,t,opt){
   const rda=t.rda??t.ai,ref=referenceRates(key);
-  const intake={rda,lo:opt?.lo,hi:opt?.hi,ul:t.ul};
+  const intake={rda,lo:opt?.lo,hi:opt?.hi,ul:t.ulScope?null:t.ul};
   if(ref.rate==null)return{intake,absorbed:null,bioactive:null,ref};
   const a=v=>v==null?null:v*ref.rate,b=v=>v==null?null:v*ref.rate*ref.phi;
   const ul=t.ul!=null&&!t.ulScope?t.ul:null;
