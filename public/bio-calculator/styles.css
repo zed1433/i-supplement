@@ -15,3 +15,5 @@
 .nb-over{position:absolute;right:-2px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:800;color:var(--red)}
 .supplement-row small.muted{display:block;font-size:11px;line-height:1.35;margin-top:2px}
 .nb-labels{min-height:48px}.nb-marks{height:48px}.nb-tag.row2{bottom:32px}
+.nb-below{margin-top:-4px}.nb-below .nb-marks .nb-tag{bottom:auto}.nb-below .nb-tag.row0{top:2px}.nb-below .nb-tag.row1{top:17px}.nb-below .nb-tag.row2{top:32px}
+.nb-track .nb-bar,.nb-track .nb-ghost{z-index:1}.nb-track .z-line{z-index:3;width:3px;margin-left:-1.5px;box-shadow:0 0 0 1px var(--paper)}

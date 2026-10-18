@@ -25,7 +25,7 @@ for path in sorted(glob.glob(os.path.join(ROOT, "scripts/data/published/*.csv"))
     ref = prof["refs"].index(row["source"])
     for fid, f in prof["foods"].items():
       nm = names.get(fid, "")
-      if not rx.search(nm) or f["k"] == "animal" or (ex and ex.search(nm)): continue
+      if not rx.search(nm) or (f["k"] == "animal" and key in ("phytate","oxalate","tannin")) or (ex and ex.search(nm)): continue
       st = f["s"][ki]
       if only_u and st != "U" and f["r"][ki] != ref: continue
       if st in ("M", "Z", "B") and f["r"][ki] != ref and not (st == "M" and f["r"][ki] >= 0 and "Noonan" in prof["refs"][f["r"][ki]]): continue

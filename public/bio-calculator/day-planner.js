@@ -4,7 +4,7 @@
 // stays responsive.
 const PORTION={min:20,max:400};
 export function dayScore(ev,kcal){let s=0;const miss=[];
-  for(const r of ev.rows){const d=(v,lo,hi)=>lo==null||!(lo>0)?0:v<lo?(lo-v)/lo:hi!=null&&v>hi?Math.min(3,(v-hi)/hi):0;
+  for(const r of ev.rows){const d=(v,lo,hi)=>lo==null||!(lo>0)?0:v<lo?2*(lo-v)/lo:hi!=null&&v>hi?Math.min(3,(v-hi)/hi):0;
     const e=Math.max(d(r.absorbed,r.lo,r.hi),d(r.bioactive,r.bioLo,r.bioHi));if(e>0)miss.push(r);s+=e*e}
   const ce=Math.abs(ev.kcal-kcal)/kcal;s+=ce>.05?(ce*10)**2:0;return{score:s,miss}}
 const rand=(r,n)=>Math.floor(r()*n);
@@ -17,7 +17,7 @@ export async function planDay({pool,evaluate,kcal,iterations=500,rng=Math.random
   for(let i=0;i<iterations;i++){
     const next=cur.map(x=>({...x})),m=rng();
     const short=curS.miss.filter(r=>r.absorbed<r.lo||(r.bioLo>0&&r.bioactive<r.bioLo));
-    if(suggest&&short.length&&m<.3){const f=suggest(short[rand(rng,short.length)].key);if(f&&!next.some(x=>x.food.id===f.id)){if(next.length<14)next.push({food:f,grams:80});else next[rand(rng,next.length)]={food:f,grams:80}}}
+    if(suggest&&short.length&&m<.45){const f=suggest(short[rand(rng,short.length)].key);if(f&&!next.some(x=>x.food.id===f.id)){if(next.length<14)next.push({food:f,grams:80});else next[rand(rng,next.length)]={food:f,grams:80}}}
     else if(m<.5&&next.length){const j=rand(rng,next.length),f=pick();if(!next.some(x=>x.food.id===f.id))next[j]={food:f,grams:next[j].grams}}
     else if(m<.75&&next.length){const j=rand(rng,next.length);next[j].grams=Math.round(Math.min(PORTION.max,Math.max(PORTION.min,next[j].grams*(.6+rng()*.8))))}
     else if(m<.88&&next.length<14){const f=pick();if(!next.some(x=>x.food.id===f.id))next.push({food:f,grams:80})}
@@ -27,4 +27,6 @@ export async function planDay({pool,evaluate,kcal,iterations=500,rng=Math.random
     if(curS.score<bestS.score){best=cur;bestS=curS}
     if(bestS.score===0)break;
     if(i%25===0){onProgress?.(i/iterations);await new Promise(r=>setTimeout(r,0))}}
+  // Final portion fine-tuning: nudge each food up/down and keep any change that lowers the score.
+  for(let pass=0;pass<3;pass++){let improved=false;for(let j=0;j<best.length;j++)for(const k of[1.3,.75,1.1,.9]){const cand=best.map((x,i)=>i===j?{...x,grams:Math.round(Math.min(PORTION.max,Math.max(PORTION.min,x.grams*k)))}:x),s=dayScore(evaluate(cand),kcal);if(s.score<bestS.score){best=cand;bestS=s;improved=true}}if(!improved||bestS.score===0)break;await new Promise(r=>setTimeout(r,0))}
   const ev=evaluate(best);return{items:best,kcal:ev.kcal,miss:dayScore(ev,kcal).miss,rows:ev.rows}}
