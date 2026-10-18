@@ -10,13 +10,15 @@ export function dayScore(ev,kcal){let s=0;const miss=[];
 const rand=(r,n)=>Math.floor(r()*n);
 // Scale portions so the day hits the calorie amount.
 function scaleTo(items,kcalOf,kcal){const now=items.reduce((a,x)=>a+kcalOf(x.food)*x.grams/100,0);if(!(now>0))return items;const k=kcal/now;return items.map(x=>({...x,grams:Math.round(Math.min(PORTION.max,Math.max(PORTION.min,x.grams*k)))}))}
-export async function planDay({pool,evaluate,kcal,iterations=500,rng=Math.random,size=9,onProgress}){
+export async function planDay({pool,evaluate,kcal,iterations=500,rng=Math.random,size=9,onProgress,suggest}){
   const kcalOf=f=>f.nutrients?.energy??0,pick=()=>pool[rand(rng,pool.length)];
   let cur=[];const used=new Set();while(cur.length<Math.min(size,pool.length)){const f=pick();if(used.has(f.id))continue;used.add(f.id);cur.push({food:f,grams:50+rand(rng,150)})}
   cur=scaleTo(cur,kcalOf,kcal);let curS=dayScore(evaluate(cur),kcal),best=cur,bestS=curS;
   for(let i=0;i<iterations;i++){
     const next=cur.map(x=>({...x})),m=rng();
-    if(m<.35&&next.length){const j=rand(rng,next.length),f=pick();if(!next.some(x=>x.food.id===f.id))next[j]={food:f,grams:next[j].grams}}
+    const short=curS.miss.filter(r=>r.absorbed<r.lo||(r.bioLo>0&&r.bioactive<r.bioLo));
+    if(suggest&&short.length&&m<.3){const f=suggest(short[rand(rng,short.length)].key);if(f&&!next.some(x=>x.food.id===f.id)){if(next.length<14)next.push({food:f,grams:80});else next[rand(rng,next.length)]={food:f,grams:80}}}
+    else if(m<.5&&next.length){const j=rand(rng,next.length),f=pick();if(!next.some(x=>x.food.id===f.id))next[j]={food:f,grams:next[j].grams}}
     else if(m<.75&&next.length){const j=rand(rng,next.length);next[j].grams=Math.round(Math.min(PORTION.max,Math.max(PORTION.min,next[j].grams*(.6+rng()*.8))))}
     else if(m<.88&&next.length<14){const f=pick();if(!next.some(x=>x.food.id===f.id))next.push({food:f,grams:80})}
     else if(next.length>4)next.splice(rand(rng,next.length),1);
