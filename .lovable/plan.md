@@ -4,6 +4,8 @@
 
 **What the tannin threshold means.** Your formula only has a yes/no switch, "tannins eaten with this meal". It has no amount. Your foods now carry tannin amounts in milligrams, so I had to pick the amount where the switch turns on. I picked 50 mg, because a published iron study (Brune, 1989) found that even small amounts of tannins (about 5 to 25 mg of their active part) clearly reduce iron absorption. A cup of tea has about 100 to 200 mg. Your formula itself stays the same.
 
+**Which formulas are correct?** I agree with you: your GitHub formulas are the newer, more complete ones, so they stay as the calculator's formulas. No formula is simply "correct" or "wrong", though. Each one is an estimate built from studies. So the report (item 6) checks every GitHub rule against published research and marks it "supported", "roughly supported" or "questionable", with sources. Anything flagged stays as it is until you decide. A few old Supabase rules have nothing to match in GitHub, like lectins left after cooking, the under 5 g fat warning, calories absorbed and diet types. Those only get added as extras (items 9 and 10).
+
 **Did I change your formulas?** No. The absorption math is copied exactly from your GitHub calculator. I only changed what gets fed into it:
 - Meat portions are now treated as meat. Before, they were treated as plant food.
 - Phytate, oxalate and tannin amounts from the foods now reach your existing rules.
