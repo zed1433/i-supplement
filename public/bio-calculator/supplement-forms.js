@@ -2,6 +2,8 @@
 // form-specific human data use the base nutrient rate and say so. Includes branded/patented ingredients whether or not
 // the store sells them. Add rows freely: [nutrient, name, chemical form, category, unit, dose min, dose max, bio].
 // bio: {abs:[min,max]} replaces the fractional absorption, {rel:x} multiplies the base supplement rate,
+// {me:{phytate|tannin|calcium|vitC:[min,max] or 0}} replaces a meal effect for this form (0 = not affected); unlisted effects act as on the base nutrient.
+// Every supplement still goes through the same meal, gut and biomarker effects as food.
 // {phi:x} sets conversion to the active/counted form, {why} is the citation. A plain string = note only (base rate).
 const WV='Water-soluble vitamins',FV='Fat-soluble vitamins',MM='Major minerals',TM='Trace minerals',OT='Other nutrients';
 const NO='No form-specific human absorption data; base nutrient rate used.';
@@ -131,8 +133,8 @@ const R=[
 ['iron','Ferrous sulfate','ferrous sulfate',TM,'mg',8,65,{abs:[.1,.15],why:'Reference iron salt; ~10–15% in iron-replete adults, more when stores are low (Hallberg 1997; ferritin rule applies).'}],
 ['iron','Ferrous fumarate','ferrous fumarate',TM,'mg',8,65,{abs:[.1,.15],why:'Similar to sulfate (Harrington 2011).'}],
 ['iron','Ferrous gluconate','ferrous gluconate',TM,'mg',8,65,{abs:[.1,.15],why:'Similar to sulfate per mg elemental iron (Santiago 2012).'}],
-['iron','Iron bisglycinate','bisglycinate',TM,'mg',8,65,{abs:[.1,.15],why:'Similar to sulfate in water, but less inhibited by phytate (~3.5×, Bovell-Benjamin 2000; inhibitor resistance not separately modeled).'}],
-['iron','Ferrochel (Albion iron bisglycinate)','bisglycinate ferrochel',TM,'mg',8,65,{abs:[.1,.15],why:'Branded bisglycinate (Bovell-Benjamin 2000).'}],
+['iron','Iron bisglycinate','bisglycinate',TM,'mg',8,65,{abs:[.1,.15],me:{phytate:[.9,1]},why:'Similar to sulfate in water; in a high-phytate maize meal 6.0% vs 1.7% for sulfate (Bovell-Benjamin 2000), so the phytate penalty is mostly lifted. Tannins, calcium and vitamin C still act as on other non-heme iron (no form-specific data).'}],
+['iron','Ferrochel (Albion iron bisglycinate)','bisglycinate ferrochel',TM,'mg',8,65,{abs:[.1,.15],me:{phytate:[.9,1]},why:'Branded bisglycinate; phytate penalty mostly lifted (Bovell-Benjamin 2000).'}],
 ['iron','Carbonyl iron','carbonyl',TM,'mg',8,65,{rel:.7,why:'~70% of ferrous sulfate bioavailability (Gordeuk 1987).'}],
 ['iron','Ferric salts (citrate, pyrophosphate)','ferric',TM,'mg',8,65,{rel:.3,why:'Ferric iron is 3–4× less absorbed than ferrous (Santiago 2012).'}],
 ['iron','Polysaccharide iron complex','polysaccharide iron',TM,'mg',50,150,{rel:.3,why:'Ferric complex; lower than sulfate (Santiago 2012).'}],
