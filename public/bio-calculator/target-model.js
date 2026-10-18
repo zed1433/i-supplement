@@ -3,6 +3,7 @@
 // Ranges move only with needs: energy, macros eaten, weight, activity, diet type and some blood markers.
 // Every number is cited; see docs/formula-review.md ("Target model").
 import {clinicalEstimate} from './clinical-absorption.js';
+import {applyNeedConditions} from './need-conditions.js';
 
 // Owner's optimal targets from the old database (nutrient_daily_targets.csv): [legacy RDA, legacy optimal].
 // Used as a ratio on the personal RDA. Missing nutrients use the owner's rule: 1.4–2× RDA.
@@ -70,6 +71,7 @@ export function optimalRange(key,t,s={},meal={},markers={},dietRule=null){
   if(dietRule){lo*=dietRule[0];hi*=dietRule[0];notes.push(`Diet: ×${dietRule[0]} — ${dietRule[1]}`)}
   const d=markers.vitamin_d?.value;if(key==='vitamin_d'&&d&&d<50){lo=Math.max(lo,50);hi=Math.max(hi,100);notes.push(`25(OH)D ${Math.round(d)} nmol/L (<50): repletion range 50–100 µg/day (Endocrine Society 2011), within the UL.`)}
   const fer=markers.ferritin?.value;if(key==='iron'&&fer&&fer<30)notes.push(`Ferritin ${Math.round(fer)} µg/L: low stores. Your body already absorbs more (shown on the absorbed bar); repletion dosing is a clinical decision.`);
+  ({lo,hi}=applyNeedConditions(key,lo,hi,rda,s,notes));
   if(hi<lo*1.2)hi=lo*1.2;
   if(t.ul!=null&&!t.ulScope){hi=Math.min(hi,t.ul*0.95);lo=Math.min(lo,hi)}
   return{lo,hi,notes};
@@ -81,5 +83,6 @@ export function barTargets(key,t,opt){
   const intake={rda,lo:opt?.lo,hi:opt?.hi,ul:t.ul};
   if(ref.rate==null)return{intake,absorbed:null,bioactive:null,ref};
   const a=v=>v==null?null:v*ref.rate,b=v=>v==null?null:v*ref.rate*ref.phi;
-  return{intake,absorbed:{rda:a(rda),lo:a(opt?.lo),hi:a(opt?.hi)},bioactive:{rda:b(rda),lo:b(opt?.lo),hi:b(opt?.hi)},ref};
+  const ul=t.ul!=null&&!t.ulScope?t.ul:null;
+  return{intake,absorbed:{rda:a(rda),lo:a(opt?.lo),hi:a(opt?.hi),ul:a(ul),derived:true},bioactive:{rda:b(rda),lo:b(opt?.lo),hi:b(opt?.hi),ul:b(ul),derived:true},ref};
 }
