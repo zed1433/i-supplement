@@ -81,3 +81,13 @@ Not changed (no better number): celiac/Crohn's single factor, cereal niacin, 50 
 
 ## Data update: tannin values (Oct 2026)
 147 plant foods now carry tannin values from the USDA Proanthocyanidin Database, Release 2 (2015), via `scripts/data/published/tannin.csv` (sum of dimers through polymers per NDB food; monomers excluded because they bind iron weakly). Proanthocyanidins are a proxy for the galloyl-containing tannins in Brune 1989. Tea and coffee are deliberately excluded: their iron inhibitors (theaflavins, galloyl catechins, chlorogenic acid) are not proanthocyanidins, so the PA figure would understate them; their earlier estimates are kept.
+
+## Personal model (Oct 2026)
+Implemented in `public/bio-calculator/personal-model.js`; tested by `scripts/test-personal-model.mjs`.
+- **Sex/age targets:** RDA/AI and age-dependent ULs from the US National Academies DRI tables (IOM 1997-2001, NASEM 2011, 2019) for adults 19-30, 31-50, 51-70 and 71+.
+- **UL scope:** magnesium, niacin, folate (folic acid) and vitamin E ULs apply only to supplements; the vitamin A UL applies only to preformed vitamin A. Food intake no longer triggers "Above UL" for these.
+- **Diet:** old-database diet multipliers removed (no human evidence; thiamine already scales with energy). Vegetarian/vegan: iron ×1.8 and zinc ×1.5 (IOM 2001). Vegans get a B12 note.
+- **Biomarkers:** ferritin → iron uses Hallberg 1997's log-log relation (non-heme exponent 0.53, heme 0.30, reference 40 µg/L, clamped ×0.4-2.5). The heme exponent is an approximation of the weaker heme regulation. 25(OH)D <25 nmol/L → calcium ×0.8 (Need 2008). Hemoglobin, B12, folate, zinc and magnesium are context only, because no reliable absorption factor exists.
+- **Health context by state:** treated celiac disease, Crohn's in remission, non-cholestatic liver disease, suspected hypochlorhydria, ulcerative colitis and chronic kidney disease get no absorption penalty. PEI ×0.6-0.75 fat-soluble (×0.85-0.95 with enzymes). Gastric bypass: non-heme iron ×0.33-0.45, heme ×0.5-0.6 (Ruz 2012); calcium ×0.6-0.7 (Schafer 2015); food B12 ×0.3-0.4. Total gastrectomy and ileal loss: no intrinsic factor, so only ~1% passive B12. Ileal loss also cuts fat-soluble vitamins ×0.5-0.7.
+- **Highest possible:** the same engine with a healthy gut, no inhibitors, vitamin C and fat present, and the upper rate.
+- **Interactions listed but not applied (no reliable number):** beta-carotene conversion vs vitamin A status, tryptophan → niacin (60:1, no tryptophan data in the profiles), ALA → EPA/DHA, riboflavin → B6 activation, magnesium → vitamin D activation, protein → zinc/calcium.
