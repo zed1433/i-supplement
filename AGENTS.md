@@ -16,3 +16,4 @@
 - Calculator food profiles live in `public/bio-calculator/food-profiles.json`, built by `scripts/build-food-profiles.py`; every value carries a status (M/Z/B/E/U) so unmeasured values are never shown as real zeros, and `food-profiles.js` merges them without overwriting source values. Why: absorption estimates must not treat missing data as zero.
 
 - Absorption formulas in clinical-absorption.js (public + src mirror) and legacy-rules.js follow the owner-approved evidence review in docs/formula-review.md and deliberately diverge from the GitHub repo; change values only with a cited reason and update the review. Keep both clinical-absorption.js copies identical apart from the @ts-nocheck line.
+- Calculator logic lives in src/lib/calculator/; calculation-engine, meal-service and catalogs are verbatim ports of the user's Bio Calculator repo — change those formulas only in the source repo, then re-copy.
