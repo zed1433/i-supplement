@@ -1,3 +1,4 @@
+import{applySupplementNeeds}from'./supplement-needs.js';
 // Target model: fixed RDA, needs-based optimal range, and absorbed / bioactive reference targets.
 // Rule: the RDA never changes (only sex/age pick the official row). Absorption changes the bars, not the ranges.
 // Ranges move only with needs: energy, macros eaten, weight, activity, diet type and some blood markers.
@@ -72,6 +73,7 @@ export function optimalRange(key,t,s={},meal={},markers={},dietRule=null){
   const d=markers.vitamin_d?.value;if(key==='vitamin_d'&&d&&d<50){lo=Math.max(lo,50);hi=Math.max(hi,100);notes.push(`25(OH)D ${Math.round(d)} nmol/L (<50): repletion range 50–100 µg/day (Endocrine Society 2011), within the UL.`)}
   const fer=markers.ferritin?.value;if(key==='iron'&&fer&&fer<30)notes.push(`Ferritin ${Math.round(fer)} µg/L: low stores. Your body already absorbs more (shown on the absorbed bar); repletion dosing is a clinical decision.`);
   ({lo,hi}=applyNeedConditions(key,lo,hi,rda,s,notes));
+  ({lo,hi}=applySupplementNeeds(key,lo,hi,s.supplementLines,notes));
   if(hi<lo*1.2)hi=lo*1.2;
   if(t.ul!=null&&!t.ulScope){hi=Math.min(hi,t.ul*0.95);lo=Math.min(lo,hi)}
   return{lo,hi,notes};
