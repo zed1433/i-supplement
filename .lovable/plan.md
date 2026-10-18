@@ -33,7 +33,13 @@
    
    Forms without a published figure use the plain nutrient rate, with a note.
 
-   **Covering every form:** the calculator currently lists only 33 forms. It will be expanded to all forms sold in your store's catalogue: every chemical form of each vitamin and mineral, liposomal and chelated forms, multivitamins (split into their ingredients), plus creatine, omega-3 (triglyceride vs ethyl ester), CoQ10 (ubiquinol vs ubiquinone), etc. Each form gets a cited rate, or is marked "same as the base nutrient, no form-specific data".
+   **Covering every form:** the calculator lists only 33 forms today. It will cover every form with published human data, whether or not your store sells it. That includes:
+   - every chemical form of each vitamin and mineral, plus liposomal and chelated forms;
+   - patented and branded ingredients (e.g. Albion bisglycinates, Magtein/magnesium L-threonate, Quatrefolic/Metafolin 5-MTHF, Ferrochel, Sucrosomial iron, Creapure, Meriva/BCM-95 curcumin, Kaneka ubiquinol, MenaQ7, Benfotiamine, Sulbutiamine, OptiZinc, Chromax);
+   - omega-3 (triglyceride vs ethyl ester vs phospholipid/krill), creatine and other non-vitamin supplements;
+   - multivitamins, split into their ingredients.
+
+   Each form gets a cited rate, or is marked "same as the base nutrient, no form-specific data". The list is kept in its own file so you can add forms later.
 8. **Full nutrient audit, one nutrient at a time** (all 27 plus chloride): base absorption rate by food type and supplement form, inhibitors and enhancers, saturation, conversion to the active form, how stomach acid and conditions affect it, the reference absorption rate behind the RDA, and the UL scope. Each value is cited in the evidence review or marked "no reliable number, not applied". Where the evidence supports it, the current gaps get filled (for example the vitamin D, B5, B7, iodine, manganese, chromium and molybdenum rates are checked against sources).
 9. **Disease audit, covering needs as well as absorption.** Each condition gets two separate effects: (a) absorption, which moves the bars, and (b) need, which moves the optimal range, up or down. Both are cited, or labelled "no number". The list grows well beyond the current 10 conditions, for example:
    - **Higher need:** beta-thalassemia minor/major and sickle cell (folate, from faster red-cell turnover; thalassemia major also shown with an iron-overload warning), hemolytic anemias, pregnancy and breastfeeding, hypothyroidism (selenium, iodine context), type 2 diabetes on metformin (B12), PPI/H2 users (B12, iron, magnesium), MTHFR variants (as context only, since the evidence is weak), alcohol use disorder (B1, folate, magnesium, zinc), heavy menstrual bleeding.
