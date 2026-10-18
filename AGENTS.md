@@ -21,3 +21,4 @@
 - Signed-in calculator saving: src/routes/calculator.tsx syncs the iframe's localStorage workspace with public.calculator_workspaces (own-row RLS) via src/lib/calculator/workspace-sync.ts; newer copy wins, saves arrive by same-origin postMessage. Why: the embedded app stays storage-agnostic.
 
 - Calculator targets come from public/bio-calculator/target-model.js: RDA stays fixed, absorption only moves bars, and needs-based inputs only move the optimal range. Why: the intake, absorbed and bioactive bars stay comparable.
+- Calculator supplement forms live in public/bio-calculator/supplement-forms.js (one cited row per form, consumed via catalogs.js); need-changing conditions and menstruation in need-conditions.js; bar geometry in bar-scale.js; display order in nutrient-order.js. Why: one place to add forms/conditions without touching the engine.
