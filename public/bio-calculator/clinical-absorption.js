@@ -84,7 +84,7 @@ export function pathologyFromSettings(settings={}){
   const list=(settings.conditions??[]).map(c=>typeof c==='string'?{id:c,state:null}:c);const st=id=>list.find(c=>c.id===id);
   const ids=list.map(c=>c.id);const g=String(settings.gastricAcid??'normal').toLowerCase();
   const hypo=st('hypochlorhydria'),gast=st('gastrectomy'),bar=st('bariatric_bypass');
-  let gastricAcid=g.includes('achlor')||hypo?.state==='achlorhydria'?'achlorhydria':g!=='normal'||(hypo&&hypo.state!=='suspected')||gast||bar?'hypochlorhydria':'normal';
+  let gastricAcid=g.includes('achlor')||hypo?.state==='achlorhydria'?'achlorhydria':(g!=='normal'&&g!=='suspected_low')||(hypo&&hypo.state!=='suspected')||gast||bar?'hypochlorhydria':hypo||g==='suspected_low'?'suspected_low':'normal';
   const factors={},applied=[],noNumber=[];let noIntrinsicFactor=false;
   const cel=st('celiac_disease');if(cel){if(cel.state==='treated_adherent')noNumber.push('Celiac disease (treated): mucosa recovers on a gluten-free diet, no penalty applied.');else{factors.all={f:[.6,.7],why:'Active celiac disease: villous atrophy reduces absorption (model factor ×0.6–0.7).'};applied.push('celiac')}}
   const cr=st('crohn_disease');if(cr){if(String(cr.state||'active').startsWith('active')){factors.all={f:[.6,.7],why:'Active Crohn\u2019s disease: inflamed mucosa reduces absorption (model factor ×0.6–0.7).'};applied.push('crohn')}else noNumber.push('Crohn\u2019s disease in remission: no general penalty applied.');if(String(cr.state||'').includes('ileal')&&!String(cr.state).includes('nonileal'))factors.b12Food={f:[.5,.7],why:'Crohn\u2019s with ileal involvement: B12 uptake in the terminal ileum is impaired (Battat 2014).'}}
@@ -104,7 +104,7 @@ const b12Split=a=>({active:Math.min(a,B12_ACTIVE_CAP_UG),passive:Math.max(0,a-B1
 export function clinicalEstimate(key,value,meal,settings={}){
   const name=ENGINE_NAMES[key];if(!name||!(value?.total>0))return null;
   const n=meal?.nutrients??{},amt=k=>n[k]?.total??0;
-  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG,biomarkerFx:settings.biomarkerFx??null};
+  const ctx={totalFatGrams:meal?.fat??0,totalCarbsGrams:meal?.carbohydrate??0,totalFiberGrams:meal?.fiber??0,totalZincMg:amt('zinc'),totalCopperMg:amt('copper'),totalIronMg:amt('iron'),totalCalciumMg:amt('calcium'),totalVitaminCMg:amt('vitamin_c'),totalPhytatesMg:meal?.antinutrients?.phytate?.total??0,totalOxalatesMg:meal?.antinutrients?.oxalate?.total??0,coingestedTannins:(meal?.antinutrients?.tannin?.total??0)>=TANNIN_IRON_THRESHOLD_MG,biomarkerFx:settings.biomarkerFx??null};
   const ideal={totalFatGrams:20,totalCarbsGrams:0,totalFiberGrams:0,totalZincMg:0,totalCopperMg:1,totalIronMg:0,totalCalciumMg:0,totalVitaminCMg:100,totalPhytatesMg:0,totalOxalatesMg:0,coingestedTannins:false,carotenoidMatrixCooked:true};
   const p=pathologyFromSettings(settings),healthy={gastricAcid:'normal',pathology:'none',factors:{},noIntrinsicFactor:false},cat=FAT_SOLUBLE.has(key)?'fat_soluble_vitamin':'other';
   const parts=[['animal',value.animal??0,true,''],['plant',(value.plant??0)+(value.unknown??0),false,''],['supplement',value.supplement??0,false,'supplement']];
