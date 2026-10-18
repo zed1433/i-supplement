@@ -34,7 +34,7 @@
 - [x] Calculator: 4,000+ extra foods (USDA, CIQUAL, Open Food Facts), region/origin/type filters, live food search
 - [x] Full nutrient + anti-nutrient profile for every calculator food (status: measured / measured zero / absent by biology / estimated / unknown), animal/plant routing, phytate/oxalate/tannin effects live
 - [x] Formula review report (docs/formula-review.md): GitHub formulas (source of truth) vs published research, legacy Supabase alongside
-- [ ] Add owner's 88 legacy foods as "My database" choices
+- [x] 88 legacy foods — owner dropped this
 - [ ] Add legacy preparation methods (heat retention + anti-nutrient reduction)
 - [x] Diet type setting (legacy dietary_modifier_rules)
 - [x] Under-5 g fat warning + absorbed-calories figure
@@ -50,3 +50,4 @@
 - [x] Apply evidence-review corrections to absorption formulas and legacy extras
 - [x] Spinach oxalate filled
 - [x] Published oxalate values (Noonan & Savage 1999; Massey 2001) — spinach, soy, sesame, beets, purslane, amaranth, parsley, cashew, cocoa
+- [x] 88 legacy foods as 'My database' — dropped by owner
