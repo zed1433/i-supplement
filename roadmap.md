@@ -67,4 +67,5 @@
 - [x] Supplement → other-nutrient need rules (per form, cited)
 - [x] "Perfect day" generator with infeasible / condition-blocked reporting
 - [x] Calculator: range numbers under bars, visible lines, hide fluoride/chromium/molybdenum, salt-covered sodium/iodine, smarter Perfect day, Staggs 2004 biotin values
-- [ ] More biotin food sources (e.g. Japanese food composition tables) — next batch
+- [x] Japanese biotin values added; 3-meal Perfect day + per-meal analysis
+- [ ] Further biotin sources (UK, Danish, German tables) — not yet reviewed
