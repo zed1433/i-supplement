@@ -33,11 +33,16 @@
 - [x] Nutrition calculator at /calculator: verbatim engine port, meal builder, analysis, supplements, health context, targets, catalogue cross-links
 - [x] Calculator: 4,000+ extra foods (USDA, CIQUAL, Open Food Facts), region/origin/type filters, live food search
 - [x] Full nutrient + anti-nutrient profile for every calculator food (status: measured / measured zero / absent by biology / estimated / unknown), animal/plant routing, phytate/oxalate/tannin effects live
-- [ ] Old-vs-current formula comparison report (legacy Supabase functions)
+- [ ] Formula review report: GitHub formulas (source of truth) vs published research, legacy Supabase alongside
 - [ ] Add owner's 88 legacy foods as "My database" choices
 - [ ] Add legacy preparation methods (heat retention + anti-nutrient reduction)
 - [ ] Diet type setting (legacy dietary_modifier_rules)
 - [ ] Under-5 g fat warning + absorbed-calories figure
-- [ ] Import owner's old meal history (waiting on owner's yes/no)
+- [x] Import owner's old meal history — owner said no, skipped
 - [ ] Online saving for signed-in visitors (calculator_workspaces)
 - [ ] Widen anti-nutrient coverage with published phytate/oxalate/tannin tables (USDA proanthocyanidin DB, Phenol-Explorer)
+- [ ] Fix wrong legacy plant zeros (e.g. soybean/sesame oxalate) with published values
+- [ ] Verify creatine/taurine values; cooked-meat values only from published cooked measurements
+- [ ] Chromium/molybdenum/biotin from published composition studies
+- [ ] Meat mineral gaps filled only from same-cut lab tables
+- [ ] Full calculator feature check (desktop + phone), fix breakages
