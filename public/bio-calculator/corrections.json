@@ -2270,6 +2270,706 @@
   "source": "MEXT Standard Tables of Food Composition in Japan 2020 (8th ed.), biotin (µg/100 g) for food 16045 — measured in Japan; applied to the same food from other countries as an estimate"
  },
  {
+  "food": "Grapefruit, raw",
+  "id": "fdc-2758977",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.68,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 14-384 \"Grapefruit, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Pineapple, raw",
+  "id": "fdc-2346398",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.5,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 14-376 \"Pineapple, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cabbage, green, raw",
+  "id": "usda-2346407",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-510 \"Cabbage, green, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cabbage, red, raw",
+  "id": "usda-2346408",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-190 \"Cabbage, red, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cabbage, red, raw",
+  "id": "usda-169977",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-190 \"Cabbage, red, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Brussels sprouts, raw",
+  "id": "usda-2685575",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-177 \"Brussels sprouts, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Brussels sprouts, raw",
+  "id": "usda-170383",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-177 \"Brussels sprouts, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Endive, raw",
+  "id": "usda-168412",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.7,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-240 \"Endive, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Pears, raw",
+  "id": "usda-169118",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 14-365 \"Pears, average, raw, flesh only\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Couscous, cooked",
+  "id": "usda-169700",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-902 \"Couscous, plain, cooked\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Wild rice, raw",
+  "id": "usda-169726",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-872 \"Rice, wild, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Wild rice, raw",
+  "id": "ciqual-9108",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-872 \"Rice, wild, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Watercress, raw",
+  "id": "usda-170068",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-669 \"Watercress, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Parsley, fresh",
+  "id": "usda-170416",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-844 \"Parsley, fresh\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Parsley, fresh",
+  "id": "ciqual-11014",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-844 \"Parsley, fresh\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Shallots, raw",
+  "id": "usda-170499",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.9,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-342 \"Shallots, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cheese, gouda",
+  "id": "usda-171241",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-358 \"Cheese, Gouda\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cheese, gruyere",
+  "id": "usda-171242",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.5,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-164 \"Cheese, Gruyere\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cheese, roquefort",
+  "id": "usda-171250",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-177 \"Cheese, Roquefort\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Duck, domesticated, meat only, raw",
+  "id": "usda-172410",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 6.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-489 \"Duck, meat only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Butter, salted",
+  "id": "usda-173410",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.2,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 17-685 \"Butter, salted\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cheese, edam",
+  "id": "usda-173419",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.8,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-355 \"Cheese, Edam\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cheese, feta",
+  "id": "usda-173420",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-525 \"Cheese, Feta\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Blackberries, raw",
+  "id": "usda-173946",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 14-388 \"Blackberries, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Tempeh",
+  "id": "usda-174272",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 53.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-118 \"Tempeh\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Tempeh",
+  "id": "ciqual-20917",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 53.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-118 \"Tempeh\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "White cabbage, raw",
+  "id": "ciqual-20116",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-509 \"Cabbage, white, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Parsnip, raw",
+  "id": "ciqual-20181",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-312 \"Parsnip, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Rice, red, raw",
+  "id": "ciqual-9109",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 3.8,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-876 \"Rice, red, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Wheat bulgur, raw",
+  "id": "ciqual-9690",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 5.4,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-904 \"Wheat, bulgur, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Fresh egg pasta, raw",
+  "id": "ciqual-9815",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-726 \"Pasta, egg, fresh, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Veal, escalope, raw",
+  "id": "ciqual-6521",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-486 \"Veal, escalope, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Chicken, meat, raw",
+  "id": "ciqual-36003",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-488 \"Chicken, meat, average, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Turkey, meat, raw",
+  "id": "ciqual-36301",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-350 \"Turkey, meat, average, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Rabbit, meat, raw",
+  "id": "ciqual-34001",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-387 \"Rabbit, raw, meat only\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Duck, meat, raw",
+  "id": "ciqual-36201",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 6.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-489 \"Duck, meat only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Heart, lamb, raw",
+  "id": "ciqual-40058",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 4.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-396 \"Heart, lamb, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Liver, lamb, raw",
+  "id": "ciqual-40102",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 41.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-413 \"Liver, lamb, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Liver, calf, raw",
+  "id": "ciqual-40106",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 39.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-409 \"Liver, calf, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Liver, chicken, raw",
+  "id": "ciqual-40111",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 210.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-411 \"Liver, chicken, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Tongue, lamb, raw",
+  "id": "ciqual-40207",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-423 \"Tongue, lamb, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Sweetbread, lamb, raw",
+  "id": "ciqual-40302",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 3.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-421 \"Sweetbread, lamb, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Kidney, lamb, raw",
+  "id": "ciqual-40407",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 37.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-402 \"Kidney, lamb, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Liver sausage",
+  "id": "ciqual-30176",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 7.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 19-106 \"Liver sausage\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Salami",
+  "id": "ciqual-30350",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 7.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 19-517 \"Salami\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Haddock, steamed",
+  "id": "ciqual-26008",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.6,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-377 \"Haddock, flesh only, steamed\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Lemon sole, steamed",
+  "id": "ciqual-26017",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 5.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-478 \"Lemon sole, flesh only, steamed\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Whiting, steamed",
+  "id": "ciqual-26022",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-160 \"Whiting, flesh only, steamed\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cod, steamed",
+  "id": "ciqual-26025",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.5,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-467 \"Cod, flesh only, steamed\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Salmon, steamed",
+  "id": "ciqual-26038",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-358 \"Salmon, farmed, flesh only, steamed\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Mackerel, smoked",
+  "id": "ciqual-26087",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 4.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-414 \"Mackerel, flesh only, smoked\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Salmon, raw, farmed",
+  "id": "ciqual-26036",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-356 \"Salmon, farmed, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Cod, raw",
+  "id": "ciqual-26043",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-372 \"Cod, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Mackerel, raw",
+  "id": "ciqual-26051",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 5.8,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-393 \"Mackerel, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Tuna, raw",
+  "id": "ciqual-26053",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.8,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-399 \"Tuna, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Whiting, raw",
+  "id": "ciqual-26095",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-159 \"Whiting, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Haddock, raw",
+  "id": "ciqual-26122",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-375 \"Haddock, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Ling, raw",
+  "id": "ciqual-26130",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-091 \"Ling, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Lemon sole, raw",
+  "id": "ciqual-26135",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 4.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-379 \"Lemon sole, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Salmon, raw, wild",
+  "id": "ciqual-26161",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-360 \"Salmon, wild, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Rainbow trout, raw, farmed",
+  "id": "ciqual-27009",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 3.2,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 16-395 \"Trout, rainbow, flesh only, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Milk, semi-skimmed, UHT",
+  "id": "ciqual-19041",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 1.8,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-314 \"Milk, semi-skimmed, UHT\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Milk, semi-skimmed, pasteurised",
+  "id": "ciqual-19042",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 3.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-313 \"Milk, semi-skimmed, pasteurised, average\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Hard cheese (average)",
+  "id": "ciqual-12100",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 3.5,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 12-604 \"Cheese, hard, average\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Coffee, powder, instant",
+  "id": "ciqual-18005",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 67.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 17-158 \"Coffee, powder, instant\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Wine, red",
+  "id": "ciqual-5214",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 17-752 \"Wine, red\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Pork fat, raw",
+  "id": "ciqual-16530",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 5.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 18-600 \"Pork, fat, average, raw\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Vinegar",
+  "id": "ciqual-11018",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 0.0,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 17-339 \"Vinegar\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Parsley, dried",
+  "id": "ciqual-11024",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 2.1,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 13-845 \"Parsley, dried\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
+  "food": "Wheat bran",
+  "id": "ciqual-9621",
+  "nutrient": "biotin",
+  "old": null,
+  "oldStatus": "U",
+  "new": 32.3,
+  "status": "E",
+  "source": "McCance & Widdowson CoFID 2021 (UK, Open Government Licence v3.0), biotin µg/100 g, food 11-906 \"Bran, wheat\" — measured in the UK; applied as an estimate to the same food from other countries"
+ },
+ {
   "food": "Spinach, baby",
   "id": "usda-1999632",
   "nutrient": "oxalate",
